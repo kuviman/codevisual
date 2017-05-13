@@ -1,5 +1,5 @@
 #[cfg(target_os = "emscripten")]
 #[path="emscripten/mod.rs"]
-mod platform;
+pub mod implementation;
 
-pub use self::platform::*;
+pub use self::implementation::*;

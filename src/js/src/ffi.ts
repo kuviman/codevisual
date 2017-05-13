@@ -2,6 +2,18 @@ declare var GLctx: WebGLRenderingContext;
 declare var GL: { textures: WebGLTexture[] };
 declare var ENV: { [name: string]: any };
 
+declare namespace Module {
+    export let canvas: HTMLCanvasElement;
+    export function printErr(s: string): void;
+}
+
+Module.printErr = function (s: string) {
+    if (s.indexOf("bad name in getProcAddress: ") == 0) {
+        return;
+    }
+    console.error(s);
+}
+
 namespace CodeVisual.ffi {
     export function init_css(css: string) {
         $(document.head).append($("<style>" + css + "</style>"));
@@ -15,6 +27,8 @@ namespace CodeVisual.ffi {
 
         $canvas = $placeholder.find("canvas");
         canvas = $canvas[0] as HTMLCanvasElement;
+
+        Module.canvas = canvas;
     }
     export function before_main_loop() {
         $loadingScreen.hide();

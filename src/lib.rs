@@ -3,6 +3,7 @@ extern crate serde_json;
 extern crate gl;
 
 pub mod platform;
+pub mod draw;
 
 pub struct Application {
     platform: platform::Platform,
