@@ -1,0 +1,28 @@
+div.codevisual-player
+    div.loading-screen.centered
+        h3 Please, wait
+        h4 loading
+        div.progress
+            div.resource-loading-progress-bar.progress-bar.progress-bar-stripped.active( role="progressbar" style="width:0;" )
+    div.game-screen( style="display:none;" )
+        canvas#codevisual
+        div.controls
+            div.control-button.play-stop-button.vertical-align
+                span.glyphicon.glyphicon-play
+            div.control-button.fullscreen-button.vertical-align
+                span.glyphicon.glyphicon-fullscreen
+            div.control-button.settings-button.vertical-align
+                span.glyphicon.glyphicon-cog
+            div.tick-info
+                span.current-tick 0
+                | /
+                span.tick-count 0
+            div.timeline
+                div.timeline-background
+                div.timeline-loaded
+                div.timeline-position
+            div.settings( style="display:none;" )
+                div.container-fluid
+                    table.table
+    div.failed-screen.centered( style="display:none;" )
+        h3 Whoops...
