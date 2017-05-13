@@ -1,3 +1,5 @@
-pub mod emscripten;
+#[cfg(target_os = "emscripten")]
+#[path="emscripten/mod.rs"]
+mod platform;
 
-pub use self::emscripten::*;
+pub use self::platform::*;
