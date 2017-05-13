@@ -12,7 +12,7 @@ pub fn init() -> Result<Platform, String> {
 }
 
 impl Platform {
-    pub fn run_main_loop<F: FnMut() -> bool>(self, callback: F) {
+    pub fn run_main_loop<F: FnMut() -> bool>(&self, callback: F) {
         use std::cell::RefCell;
         use std::ptr::null_mut;
         use std::os::raw::c_void;

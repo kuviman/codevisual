@@ -20,6 +20,6 @@ impl codevisual::Game for Test {
 }
 
 fn main() {
-    let app = codevisual::init().unwrap();
-    app.run(Test::new());
+    codevisual::init().unwrap();
+    codevisual::run(Test::new());
 }
