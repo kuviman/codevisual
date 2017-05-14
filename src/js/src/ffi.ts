@@ -40,7 +40,7 @@ namespace CodeVisual.ffi {
         setInterval(() => {
             canvas.width = $canvas.width() / canvasScaling;
             canvas.height = $canvas.height() / canvasScaling;
-            // GLctx.viewport(0, 0, canvas.width, canvas.height);
+            GLctx.viewport(0, 0, canvas.width, canvas.height);
         }, 500);
     }
 }

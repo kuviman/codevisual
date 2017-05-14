@@ -14,12 +14,8 @@ static mut APPLICATION_INSTANCE: Option<Application> = None;
 
 impl Application {
     fn get_instance() -> &'static Self {
-        unsafe {
-            if let None = APPLICATION_INSTANCE {
-                init().unwrap();
-            }
-            APPLICATION_INSTANCE.as_ref().unwrap()
-        }
+        init().unwrap();
+        unsafe { APPLICATION_INSTANCE.as_ref().unwrap() }
     }
 }
 
@@ -46,6 +42,11 @@ pub fn run<G: Game>(mut game: G) {
 }
 
 pub fn init() -> Result<(), String> {
+    unsafe {
+        if let Some(_) = APPLICATION_INSTANCE {
+            return Ok(());
+        }
+    }
     let platform = try!(platform::init());
     unsafe {
         APPLICATION_INSTANCE = Some(Application { platform });
