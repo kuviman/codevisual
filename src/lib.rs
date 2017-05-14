@@ -47,6 +47,7 @@ pub fn init() -> Result<(), String> {
             return Ok(());
         }
     }
+    std::panic::set_hook(Box::new(platform::panic_hook));
     let platform = try!(platform::init());
     unsafe {
         APPLICATION_INSTANCE = Some(Application { platform });

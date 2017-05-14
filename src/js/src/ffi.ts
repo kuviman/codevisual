@@ -32,7 +32,7 @@ namespace CodeVisual.ffi {
 
         Module.canvas = canvas;
 
-        $player.append(stats.dom);
+        $gameScreen.append(stats.dom);
     }
     export function before_main_loop() {
         $loadingScreen.hide();
@@ -42,5 +42,17 @@ namespace CodeVisual.ffi {
             canvas.height = $canvas.height() / canvasScaling;
             GLctx.viewport(0, 0, canvas.width, canvas.height);
         }, 500);
+    }
+    export function error(json: any) {
+        console.error(json);
+        $player.addClass("error");
+        $loadingScreen.hide();
+        $gameScreen.hide();
+        $failedScreen.show();
+        let message = json.error;
+        if (json.location) {
+            message = "@" + json.location.file + "(line " + json.location.line + "): " + message;
+        }
+        $failedScreen.find(".error-message").text(message);
     }
 }

@@ -1,8 +1,29 @@
+use serde_json;
 use gl;
+use std;
 
 pub mod ffi;
 
 pub struct Platform {}
+
+pub fn panic_hook(info: &std::panic::PanicInfo) {
+    use std::string::ToString;
+    let mut json_info = serde_json::Value::Object(serde_json::Map::new());
+    if let Some(location) = info.location() {
+        let mut json_location = serde_json::Value::Object(serde_json::Map::new());
+        json_location["file"] = serde_json::Value::String(location.file().to_string());
+        json_location["line"] = serde_json::Value::String(location.line().to_string());
+        json_info["location"] = json_location;
+    }
+    if let Some(error) = info.payload().downcast_ref::<String>() {
+        json_info["error"] = serde_json::Value::String(error.clone());
+    } else if let Some(error) = info.payload().downcast_ref::<&str>() {
+        json_info["error"] = serde_json::Value::String(error.to_string());
+    } else {
+        json_info["error"] = serde_json::Value::String(String::from("Something went wrong"));
+    }
+    ffi::call_js("CodeVisual.ffi.error", json_info);
+}
 
 pub fn init() -> Result<Platform, String> {
     ffi::eval_js(include_str!(concat!(env!("OUT_DIR"), "/codevisual-lib.js")));
