@@ -4,6 +4,7 @@ extern crate gl;
 
 pub mod platform;
 pub mod draw;
+pub mod common;
 
 pub struct Application {
     platform: platform::Platform,
@@ -24,7 +25,7 @@ impl Application {
 
 pub trait Game {
     fn update(&mut self, delta_time: f32);
-    fn render(&mut self);
+    fn render(&mut self) -> Vec<draw::Command>;
 }
 
 pub fn run<G: Game>(mut game: G) {
@@ -33,13 +34,15 @@ pub fn run<G: Game>(mut game: G) {
     let mut prev_time = time::precise_time_s();
     app.platform
         .run_main_loop(|| {
-                           let now_time = time::precise_time_s();
-                           let delta_time = (now_time - prev_time) as f32;
-                           prev_time = now_time;
-                           game.update(delta_time);
-                           game.render();
-                           true
-                       });
+            let now_time = time::precise_time_s();
+            let delta_time = (now_time - prev_time) as f32;
+            prev_time = now_time;
+            game.update(delta_time);
+            for command in game.render() {
+                draw::immediate(command);
+            }
+            true
+        });
 }
 
 pub fn init() -> Result<(), String> {

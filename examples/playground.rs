@@ -1,5 +1,8 @@
 pub extern crate codevisual;
 
+use codevisual::common::*;
+use codevisual::draw;
+
 struct Test {
     current_time: f32,
 }
@@ -14,8 +17,8 @@ impl codevisual::Game for Test {
     fn update(&mut self, delta_time: f32) {
         self.current_time += delta_time;
     }
-    fn render(&mut self) {
-        codevisual::draw::clear(self.current_time.fract(), 0.8, 1.0);
+    fn render(&mut self) -> Vec<draw::Command> {
+        vec![draw::Command::Clear { color: Color::rgb(self.current_time.fract(), 0.8, 1.0) }]
     }
 }
 
