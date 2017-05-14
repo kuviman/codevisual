@@ -34,6 +34,7 @@ impl Platform {
             MAIN_LOOP_CALLBACK.with(|z| {
                                         let closure = *z.borrow_mut() as *mut F;
                                         (*closure)();
+                                        ffi::eval_js("CodeVisual.stats.update()");
                                     });
         }
     }

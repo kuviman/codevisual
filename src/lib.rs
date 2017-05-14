@@ -28,9 +28,10 @@ pub trait Game {
 }
 
 pub fn run<G: Game>(mut game: G) {
+    let app = Application::get_instance();
+
     let mut prev_time = time::precise_time_s();
-    Application::get_instance()
-        .platform
+    app.platform
         .run_main_loop(|| {
                            let now_time = time::precise_time_s();
                            let delta_time = (now_time - prev_time) as f32;

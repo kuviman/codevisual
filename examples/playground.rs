@@ -20,7 +20,6 @@ impl codevisual::Game for Test {
 }
 
 fn main() {
-    codevisual::init().unwrap();
     codevisual::run(Test::new());
 
     // Hack (WTF??)

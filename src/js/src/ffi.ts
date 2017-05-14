@@ -21,14 +21,18 @@ namespace CodeVisual.ffi {
     export function init_html(html: string) {
         $placeholder.html(html);
 
-        $loadingScreen = $placeholder.find(".loading-screen");
-        $gameScreen = $placeholder.find(".game-screen");
-        $failedScreen = $placeholder.find(".failed-screen");
+        $player = $placeholder.find(".codevisual-player");
 
-        $canvas = $placeholder.find("canvas");
+        $loadingScreen = $player.find(".loading-screen");
+        $gameScreen = $player.find(".game-screen");
+        $failedScreen = $player.find(".failed-screen");
+
+        $canvas = $player.find("canvas");
         canvas = $canvas[0] as HTMLCanvasElement;
 
         Module.canvas = canvas;
+
+        $player.append(stats.dom);
     }
     export function before_main_loop() {
         $loadingScreen.hide();

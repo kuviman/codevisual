@@ -1,3 +1,4 @@
+/// <reference path="src/stats.ts" />
 /// <reference path="src/ffi.ts" />
 /// <reference path="src/core.ts" />
 

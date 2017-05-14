@@ -1,6 +1,8 @@
 namespace CodeVisual {
     export const $placeholder = $("#codevisual");
 
+    export let $player: JQuery;
+
     export let $loadingScreen: JQuery;
     export let $gameScreen: JQuery;
     export let $failedScreen: JQuery;
@@ -9,4 +11,6 @@ namespace CodeVisual {
     export let canvas: HTMLCanvasElement;
 
     export let canvasScaling = 1;
+
+    export const stats = new Stats();
 }
