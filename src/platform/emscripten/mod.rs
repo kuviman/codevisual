@@ -25,13 +25,13 @@ pub fn panic_hook(info: &std::panic::PanicInfo) {
     ffi::call_js("CodeVisual.ffi.error", json_info);
 }
 
-pub fn init() -> Result<Platform, String> {
+pub fn init() -> Result<Platform, ::Error> {
     ffi::eval_js(include_str!(concat!(env!("OUT_DIR"), "/codevisual-lib.js")));
     ffi::call_js("CodeVisual.ffi.init_css",
                  include_str!(concat!(env!("OUT_DIR"), "/codevisual-lib.css")));
     ffi::call_js("CodeVisual.ffi.init_html",
                  include_str!(concat!(env!("OUT_DIR"), "/codevisual-lib.html")));
-    try!(ffi::create_gl_context());
+    ffi::create_gl_context()?;
     gl::load_with(ffi::get_proc_address);
     Ok(Platform {})
 }

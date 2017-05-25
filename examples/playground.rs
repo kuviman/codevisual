@@ -3,55 +3,60 @@ pub extern crate codevisual;
 use codevisual::common::*;
 use codevisual::draw;
 
-struct Test {
-    current_time: f32,
-    geometry: draw::GeometryBuffer,
-    shader: draw::Shader,
+struct Vertex {
+    a_pos: Vec2,
+    a_color: Color,
 }
 
-#[repr(C)]
-struct Vertex(f32, f32);
-
-extern crate gl;
-use gl::types::*;
-
-impl draw::Vertex for Vertex {
-    fn get_attributes() -> Vec<draw::VertexAttribute> {
-        vec![draw::VertexAttribute {
-                 name: std::ffi::CString::new("a_pos").unwrap(),
-                 size: 2,
-                 raw_size: std::mem::size_of::<GLfloat>() as GLsizei * 2,
-                 gl_type: gl::FLOAT,
-                 normalized: gl::FALSE,
-             }]
+impl draw::vertex::Data for Vertex {
+    fn walk_attributes<F: draw::vertex::AttributeConsumer>(&self, f: &mut F) {
+        f.consume("a_pos", &self.a_pos);
+        f.consume("a_color", &self.a_color);
     }
+}
+
+impl Vertex {
+    fn new(x: f32, y: f32, c: f32) -> Self {
+        Self {
+            a_pos: Vec2::new(x, y),
+            a_color: Color::rgb(c, c / 2.0, 0.0),
+        }
+    }
+}
+
+struct Test {
+    current_time: f32,
+    geometry: draw::Geometry<Vertex>,
+    shader: draw::Shader,
 }
 
 impl Test {
     fn new() -> Self {
+        let r = 1e-1;
         Self {
             current_time: 0.0,
             shader: codevisual::draw::Shader::compile(include_str!("vertex.glsl"),
                                                       include_str!("fragment.glsl"))
                     .unwrap(),
-            geometry: codevisual::draw::GeometryBuffer::new(&[Vertex(0.0, 0.0),
-                                                              Vertex(1.0, 0.0),
-                                                              Vertex(1.0, 1.0),
-                                                              Vertex(0.0, 1.0)]),
+            geometry: codevisual::draw::Geometry::new(draw::geometry::Mode::TriangleFan,
+                                                      &[Vertex::new(-r, -r, 0.0),
+                                                        Vertex::new(r, -r, 0.25),
+                                                        Vertex::new(r, r, 0.5),
+                                                        Vertex::new(-r, r, 0.75)])
+                    .unwrap(),
         }
     }
 }
+
+use draw::Target as DrawTarget;
 
 impl codevisual::Game for Test {
     fn update(&mut self, delta_time: f32) {
         self.current_time += delta_time;
     }
-    fn render(&mut self) -> Vec<draw::Command> {
-        vec![draw::Command::Clear { color: Color::rgb(self.current_time.fract(), 0.8, 1.0) },
-             draw::Command::Object {
-                 geometry: &self.geometry,
-                 shader: &self.shader,
-             }]
+    fn render<T: DrawTarget>(&mut self, target: &mut T) {
+        target.clear(Color::rgb(self.current_time.fract(), 0.8, 1.0));
+        target.draw(&self.geometry, &self.shader);
     }
 }
 

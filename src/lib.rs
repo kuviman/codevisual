@@ -12,6 +12,8 @@ pub struct Application {
 
 static mut APPLICATION_INSTANCE: Option<Application> = None;
 
+pub type Error = String;
+
 impl Application {
     fn get_instance() -> &'static Self {
         init().unwrap();
@@ -21,7 +23,7 @@ impl Application {
 
 pub trait Game {
     fn update(&mut self, delta_time: f32);
-    fn render(&mut self) -> Vec<draw::Command>;
+    fn render<T: draw::Target>(&mut self, target: &mut T);
 }
 
 pub fn run<G: Game>(mut game: G) {
@@ -34,21 +36,20 @@ pub fn run<G: Game>(mut game: G) {
             let delta_time = (now_time - prev_time) as f32;
             prev_time = now_time;
             game.update(delta_time);
-            for command in game.render() {
-                draw::immediate(command);
-            }
+            let mut screen = draw::Screen;
+            game.render(&mut screen);
             true
         });
 }
 
-pub fn init() -> Result<(), String> {
+pub fn init() -> Result<(), ::Error> {
     unsafe {
         if let Some(_) = APPLICATION_INSTANCE {
             return Ok(());
         }
     }
     std::panic::set_hook(Box::new(platform::panic_hook));
-    let platform = try!(platform::init());
+    let platform = platform::init()?;
     unsafe {
         APPLICATION_INSTANCE = Some(Application { platform });
     }

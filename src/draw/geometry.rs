@@ -2,46 +2,54 @@ use gl;
 use gl::types::*;
 use std;
 use std::os::raw::c_void;
+use std::marker::PhantomData;
 
-pub trait Vertex
-    where Self: Sized
-{
-    fn get_attributes() -> Vec<VertexAttribute>;
+use super::vertex;
+
+#[derive(Debug, Copy, Clone)]
+pub enum Mode {
+    Points,
+    Lines,
+    LineStrip,
+    Triangles,
+    TriangleFan,
+    TriangleStrip,
 }
 
-#[derive(Debug)]
-pub struct VertexAttribute {
-    pub name: std::ffi::CString,
-    pub size: GLint,
-    pub raw_size: GLsizei,
-    pub gl_type: GLenum,
-    pub normalized: GLboolean,
+pub struct Geometry<V: vertex::Data> {
+    handle: GLuint,
+    pub mode: Mode,
+    element_count: usize,
+    data: PhantomData<V>,
 }
 
-pub struct GeometryBuffer {
-    pub mode: GLenum,
-    pub handle: GLuint,
-    pub element_count: GLsizei,
-    pub attributes: Vec<VertexAttribute>,
-}
-
-impl GeometryBuffer {
-    pub fn new<T: Vertex>(data: &[T]) -> Self {
-        ::init().unwrap();
-        unsafe {
+impl<V: vertex::Data> Geometry<V> {
+    pub fn new(mode: Mode, vertices: &[V]) -> Result<Self, ::Error> {
+        // TODO: check element count for mode
+        ::init()?;
+        let handle = unsafe {
             let mut handle: GLuint = std::mem::uninitialized();
             gl::GenBuffers(1, &mut handle);
             gl::BindBuffer(gl::ARRAY_BUFFER, handle);
             gl::BufferData(gl::ARRAY_BUFFER,
-                           std::mem::size_of_val(data) as GLsizeiptr,
-                           data.as_ptr() as *const c_void,
+                           std::mem::size_of_val(vertices) as GLsizeiptr,
+                           vertices.as_ptr() as *const c_void,
                            gl::STATIC_DRAW);
-            Self {
-                mode: gl::TRIANGLE_FAN,
-                element_count: 4,
-                handle,
-                attributes: T::get_attributes(),
-            }
-        }
+            handle
+        };
+        Ok(Self {
+               handle,
+               mode,
+               element_count: vertices.len(),
+               data: PhantomData,
+           })
+    }
+
+    pub fn len(&self) -> usize {
+        self.element_count
+    }
+
+    pub fn get_handle(&self) -> GLuint {
+        self.handle
     }
 }

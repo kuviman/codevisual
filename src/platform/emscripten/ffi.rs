@@ -17,13 +17,13 @@ pub fn get_proc_address(name: &str) -> *const c_void {
     unsafe { emscripten_GetProcAddress(name.into_raw() as *const _) as *const _ }
 }
 
-pub fn create_gl_context() -> Result<(), String> {
+pub fn create_gl_context() -> Result<(), ::Error> {
     unsafe {
         let mut attributes: EmscriptenWebGLContextAttributes = std::mem::uninitialized();
         emscripten_webgl_init_context_attributes(&mut attributes);
         let context = emscripten_webgl_create_context(std::ptr::null(), &attributes);
         if context <= 0 {
-            return Err(String::from("Could not create WebGL context"));
+            return Err(::Error::from("Could not create WebGL context"));
         }
         emscripten_webgl_make_context_current(context);
     }
