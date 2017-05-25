@@ -29,6 +29,6 @@ pub trait AttributeConsumer {
     fn consume<A: Attribute>(&mut self, name: &str, value: &A);
 }
 
-pub trait Data {
+pub trait Data: Sized {
     fn walk_attributes<F: AttributeConsumer>(&self, f: &mut F);
 }

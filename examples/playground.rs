@@ -1,4 +1,5 @@
 pub extern crate codevisual;
+extern crate rand;
 
 use codevisual::common::*;
 use codevisual::draw;
@@ -24,15 +25,33 @@ impl Vertex {
     }
 }
 
+struct Uniforms {
+    u_pos: Vec2,
+}
+
+impl draw::uniform::Data for Uniforms {
+    fn walk<F: draw::uniform::ValueConsumer>(&self, f: &mut F) {
+        f.consume("u_pos", &self.u_pos);
+    }
+}
+
 struct Test {
     current_time: f32,
     geometry: draw::Geometry<Vertex>,
     shader: draw::Shader,
+    uniforms: Vec<Uniforms>,
 }
 
 impl Test {
     fn new() -> Self {
-        let r = 1e-1;
+        let r = 1e-2;
+        let mut uniforms = Vec::new();
+        for _ in 0..10000 {
+            uniforms.push(Uniforms {
+                              u_pos: Vec2::new(rand::random::<f32>() * 2.0 - 1.0,
+                                               rand::random::<f32>() * 2.0 - 1.0),
+                          });
+        }
         Self {
             current_time: 0.0,
             shader: codevisual::draw::Shader::compile(include_str!("vertex.glsl"),
@@ -44,6 +63,7 @@ impl Test {
                                                         Vertex::new(r, r, 0.5),
                                                         Vertex::new(-r, r, 0.75)])
                     .unwrap(),
+            uniforms,
         }
     }
 }
@@ -56,7 +76,9 @@ impl codevisual::Game for Test {
     }
     fn render<T: DrawTarget>(&mut self, target: &mut T) {
         target.clear(Color::rgb(self.current_time.fract(), 0.8, 1.0));
-        target.draw(&self.geometry, &self.shader);
+        for uniform in &self.uniforms {
+            target.draw(&self.geometry, &self.shader, uniform);
+        }
     }
 }
 

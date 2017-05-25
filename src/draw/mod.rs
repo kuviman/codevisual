@@ -3,6 +3,7 @@ use gl::types::*;
 use std;
 
 pub mod vertex;
+pub mod uniform;
 
 pub mod geometry;
 pub use self::geometry::Geometry;
@@ -24,10 +25,13 @@ fn check_gl_error() {
 
 pub trait Target {
     fn clear(&mut self, color: Color);
-    fn draw<V: vertex::Data>(&mut self, geometry: &Geometry<V>, shader: &Shader);
+    fn draw<V: vertex::Data, U: uniform::Data>(&mut self,
+                                               geometry: &Geometry<V>,
+                                               shader: &Shader,
+                                               uniforms: &U);
 }
 
-unsafe fn prepare_attributes<V: vertex::Data>(shader: GLuint) {
+unsafe fn prepare_attributes<V: vertex::Data>(shader: &Shader) {
     use std::marker::PhantomData;
     struct Walker<V: vertex::Data>(GLuint, usize, PhantomData<V>);
     impl<V: vertex::Data> vertex::AttributeConsumer for Walker<V> {
@@ -48,9 +52,25 @@ unsafe fn prepare_attributes<V: vertex::Data>(shader: GLuint) {
         }
     }
     let fake_value = std::mem::uninitialized();
-    let mut walker = Walker::<V>(shader, &fake_value as *const _ as usize, PhantomData);
+    let mut walker = Walker::<V>(shader.handle, &fake_value as *const _ as usize, PhantomData);
     V::walk_attributes(&fake_value, &mut walker);
     std::mem::forget(fake_value);
+}
+
+fn apply_uniforms<U: uniform::Data>(shader: &Shader, uniforms: &U) {
+    use std::marker::PhantomData;
+    struct Walker<U: uniform::Data>(GLuint, usize, PhantomData<U>);
+    impl<U: uniform::Data> uniform::ValueConsumer for Walker<U> {
+        fn consume<V: uniform::Value>(&mut self, name: &str, value: &V) {
+            unsafe {
+                let location =
+                    gl::GetUniformLocation(self.0, std::ffi::CString::new(name).unwrap().as_ptr());
+                value.apply(location, &mut self.1);
+            }
+        }
+    }
+    let mut walker = Walker::<U>(shader.handle, 0, PhantomData);
+    uniforms.walk(&mut walker);
 }
 
 pub struct Screen;
@@ -62,12 +82,16 @@ impl Target for Screen {
             gl::Clear(gl::COLOR_BUFFER_BIT);
         }
     }
-    fn draw<V: vertex::Data>(&mut self, geometry: &Geometry<V>, shader: &Shader) {
+    fn draw<V: vertex::Data, U: uniform::Data>(&mut self,
+                                               geometry: &Geometry<V>,
+                                               shader: &Shader,
+                                               uniforms: &U) {
         use draw::geometry::Mode::*;
         unsafe {
             gl::BindBuffer(gl::ARRAY_BUFFER, geometry.get_handle());
             gl::UseProgram(shader.handle);
-            prepare_attributes::<V>(shader.handle);
+            prepare_attributes::<V>(shader);
+            apply_uniforms(shader, uniforms);
             gl::DrawArrays(match geometry.mode {
                                Points => gl::POINTS,
                                Lines => gl::LINES,

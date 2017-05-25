@@ -4,6 +4,7 @@ version = "0.1.0"
 authors = ["kuviman <kuviman@gmail.com>"]
 
 [dependencies]
+rand = "*"
 time = "*"
 serde_json = "*"
 gl = "*"
