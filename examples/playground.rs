@@ -58,7 +58,7 @@ impl Test {
     fn new() -> Self {
         let r = 1e-2;
         let mut instances = Vec::new();
-        for _ in 0..100000 {
+        for _ in 0..10000 {
             instances.push(Instance {
                                i_pos: Vec2::new(rand::random::<f32>() * 2.0 - 1.0,
                                                 rand::random::<f32>() * 2.0 - 1.0),

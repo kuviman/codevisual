@@ -33,6 +33,9 @@ namespace CodeVisual.ffi {
         Module.canvas = canvas;
 
         $gameScreen.append(stats.dom);
+        $gameScreen.find(".fullscreen-button").click(function () {
+            toggleFullscreen();
+        });
     }
     export function before_main_loop() {
         $loadingScreen.hide();
