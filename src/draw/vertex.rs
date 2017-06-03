@@ -8,6 +8,14 @@ pub trait Attribute: Sized {
     fn get_gl_type() -> GLenum;
 }
 
+impl Attribute for f32 {
+    fn get_gl_size() -> GLsizei {
+        1
+    }
+    fn get_gl_type() -> GLenum {
+        gl::FLOAT
+    }
+}
 impl Attribute for Vec2 {
     fn get_gl_size() -> GLsizei {
         2
@@ -31,4 +39,9 @@ pub trait AttributeConsumer {
 
 pub trait Data: Sized {
     fn walk_attributes<F: AttributeConsumer>(&self, f: &mut F);
+}
+
+pub struct EmptyData;
+impl Data for EmptyData {
+    fn walk_attributes<F: AttributeConsumer>(&self, _: &mut F) {}
 }

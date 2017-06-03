@@ -6,6 +6,14 @@ pub trait Value: Sized {
     fn apply(&self, location: GLint, texture_count: &mut usize);
 }
 
+impl Value for f32 {
+    fn apply(&self, location: GLint, _: &mut usize) {
+        unsafe {
+            gl::Uniform1f(location, *self);
+        }
+    }
+}
+
 impl Value for Vec2 {
     fn apply(&self, location: GLint, _: &mut usize) {
         unsafe {

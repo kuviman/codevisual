@@ -9,10 +9,22 @@ struct Vertex {
     a_color: Color,
 }
 
+struct Instance {
+    i_pos: Vec2,
+    i_speed: f32,
+}
+
 impl draw::vertex::Data for Vertex {
     fn walk_attributes<F: draw::vertex::AttributeConsumer>(&self, f: &mut F) {
         f.consume("a_pos", &self.a_pos);
         f.consume("a_color", &self.a_color);
+    }
+}
+
+impl draw::vertex::Data for Instance {
+    fn walk_attributes<F: draw::vertex::AttributeConsumer>(&self, f: &mut F) {
+        f.consume("i_pos", &self.i_pos);
+        f.consume("i_speed", &self.i_speed);
     }
 }
 
@@ -26,44 +38,46 @@ impl Vertex {
 }
 
 struct Uniforms {
-    u_pos: Vec2,
+    u_time: f32,
 }
 
 impl draw::uniform::Data for Uniforms {
     fn walk<F: draw::uniform::ValueConsumer>(&self, f: &mut F) {
-        f.consume("u_pos", &self.u_pos);
+        f.consume("u_time", &self.u_time);
     }
 }
 
 struct Test {
     current_time: f32,
-    geometry: draw::Geometry<Vertex>,
+    geometry: draw::Geometry<Vertex, Instance>,
     shader: draw::Shader,
-    uniforms: Vec<Uniforms>,
+    uniforms: Uniforms,
 }
 
 impl Test {
     fn new() -> Self {
         let r = 1e-2;
-        let mut uniforms = Vec::new();
-        for _ in 0..10000 {
-            uniforms.push(Uniforms {
-                              u_pos: Vec2::new(rand::random::<f32>() * 2.0 - 1.0,
-                                               rand::random::<f32>() * 2.0 - 1.0),
-                          });
+        let mut instances = Vec::new();
+        for _ in 0..100000 {
+            instances.push(Instance {
+                               i_pos: Vec2::new(rand::random::<f32>() * 2.0 - 1.0,
+                                                rand::random::<f32>() * 2.0 - 1.0),
+                               i_speed: rand::random::<f32>() * 4.0 - 2.0,
+                           });
         }
         Self {
             current_time: 0.0,
             shader: codevisual::draw::Shader::compile(include_str!("vertex.glsl"),
                                                       include_str!("fragment.glsl"))
                     .unwrap(),
-            geometry: codevisual::draw::Geometry::new(draw::geometry::Mode::TriangleFan,
-                                                      &[Vertex::new(-r, -r, 0.0),
-                                                        Vertex::new(r, -r, 0.25),
-                                                        Vertex::new(r, r, 0.5),
-                                                        Vertex::new(-r, r, 0.75)])
+            geometry: codevisual::draw::Geometry::new_instanced(draw::geometry::Mode::TriangleFan,
+                                                                &[Vertex::new(-r, -r, 0.0),
+                                                                  Vertex::new(r, -r, 0.25),
+                                                                  Vertex::new(r, r, 0.5),
+                                                                  Vertex::new(-r, r, 0.75)],
+                                                                &instances)
                     .unwrap(),
-            uniforms,
+            uniforms: Uniforms { u_time: 0.0 },
         }
     }
 }
@@ -76,9 +90,8 @@ impl codevisual::Game for Test {
     }
     fn render<T: DrawTarget>(&mut self, target: &mut T) {
         target.clear(Color::rgb(self.current_time.fract(), 0.8, 1.0));
-        for uniform in &self.uniforms {
-            target.draw(&self.geometry, &self.shader, uniform);
-        }
+        self.uniforms.u_time = self.current_time;
+        target.draw(&self.geometry, &self.shader, &self.uniforms);
     }
 }
 
