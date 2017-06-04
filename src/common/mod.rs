@@ -1,8 +1,6 @@
 pub mod color;
 pub use self::color::*;
 
-use cgmath;
-
 pub use cgmath::Vector2 as Vec2;
 pub use cgmath::Matrix4 as Mat4;
 

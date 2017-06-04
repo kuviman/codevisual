@@ -35,12 +35,14 @@ impl draw::vertex::Data for Instance {
 struct Uniforms {
     u_time: f32,
     u_matrix: Mat4<f32>,
+    u_texture: codevisual::draw::Texture,
 }
 
 impl draw::uniform::Data for Uniforms {
     fn walk<F: draw::uniform::ValueConsumer>(&self, f: &mut F) {
         f.consume("u_time", &self.u_time);
         f.consume("u_matrix", &self.u_matrix);
+        f.consume("u_texture", &self.u_texture);
     }
 }
 
@@ -73,6 +75,7 @@ impl Test {
                                i_color: Color::rgb(1.0, rand::random::<f32>(), 0.0),
                            });
         }
+        let texture = codevisual::draw::Texture::load("textures/test.png").unwrap();
         Self {
             current_time: 0.0,
             shader: codevisual::draw::Shader::compile(include_str!("vertex.glsl"),
@@ -96,6 +99,7 @@ impl Test {
             uniforms: Uniforms {
                 u_time: 0.0,
                 u_matrix: Mat4::identity(),
+                u_texture: texture,
             },
             instances,
             next_action: 0.0,

@@ -1,4 +1,5 @@
 use serde_json;
+use gl::types::*;
 use gl;
 use std;
 
@@ -37,6 +38,26 @@ pub fn init() -> Result<Platform, ::Error> {
 }
 
 impl Platform {
+    pub fn load_texture(&self, path: &str, texture_handle: GLuint) -> Result<(), ::Error> {
+        unsafe {
+            gl::BindTexture(gl::TEXTURE_2D, texture_handle);
+            gl::TexImage2D(gl::TEXTURE_2D,
+                           0,
+                           gl::RGBA as GLint,
+                           1,
+                           1,
+                           0,
+                           gl::RGBA as GLenum,
+                           gl::UNSIGNED_BYTE,
+                           std::ptr::null());
+        }
+        let mut args = serde_json::Value::Object(serde_json::Map::new());
+        args["path"] = serde_json::Value::String(String::from(path));
+        args["texture_handle"] =
+            serde_json::Value::Number(serde_json::Number::from_f64(texture_handle as f64).unwrap());
+        ffi::call_js("CodeVisual.ffi.load_texture", args);
+        Ok(())
+    }
     pub fn get_size(&self) -> (u32, u32) {
         use std::os::raw::c_int;
         unsafe {

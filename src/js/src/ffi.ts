@@ -58,4 +58,17 @@ namespace CodeVisual.ffi {
         }
         $failedScreen.find(".error-message").text(message);
     }
+    export function load_texture(args: { path: string, texture_handle: number }) {
+        let texture = GL.textures[args.texture_handle];
+        let image = new Image();
+        image.onload = function () {
+            var cur = GLctx.getParameter(GLctx.TEXTURE_BINDING_2D);
+            GLctx.bindTexture(GLctx.TEXTURE_2D, texture);
+            GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, image);
+            GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MIN_FILTER, GLctx.NEAREST);
+            GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MAG_FILTER, GLctx.NEAREST);
+            GLctx.bindTexture(GLctx.TEXTURE_2D, cur);
+        };
+        image.src = args.path;
+    }
 }

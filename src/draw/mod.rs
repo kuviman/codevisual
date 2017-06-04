@@ -11,6 +11,9 @@ pub use self::geometry::Geometry;
 pub mod shader;
 pub use self::shader::*;
 
+pub mod texture;
+pub use self::texture::*;
+
 use common::*;
 
 #[allow(dead_code)]
@@ -38,8 +41,11 @@ unsafe fn prepare_attributes<V: vertex::Data>(shader: &Shader) {
         fn consume<A: vertex::Attribute>(&mut self, name: &str, value: &A) {
             unsafe {
                 let location =
-                    gl::GetAttribLocation(self.0, std::ffi::CString::new(name).unwrap().as_ptr()) as
-                    GLuint; // TODO: cache
+                    gl::GetAttribLocation(self.0, std::ffi::CString::new(name).unwrap().as_ptr()); // TODO: cache
+                if location == -1 {
+                    return;
+                }
+                let location = location as GLuint;
                 gl::EnableVertexAttribArray(location);
                 let offset = value as *const _ as usize - self.1;
                 gl::VertexAttribPointer(location,
@@ -62,13 +68,16 @@ unsafe fn prepare_instanced_attributes<V, I>(geometry: &Geometry<V, I>, shader: 
           I: vertex::Data
 {
     use std::marker::PhantomData;
-    struct Walker<I: vertex::Data>(GLuint, usize, PhantomData<I>, usize, usize);
+    struct Walker<I: vertex::Data>(GLuint, usize, PhantomData<I>, usize);
     impl<I: vertex::Data> vertex::AttributeConsumer for Walker<I> {
         fn consume<A: vertex::Attribute>(&mut self, name: &str, value: &A) {
             unsafe {
                 let location =
-                    gl::GetAttribLocation(self.0, std::ffi::CString::new(name).unwrap().as_ptr()) as
-                    GLuint; // TODO: cache
+                    gl::GetAttribLocation(self.0, std::ffi::CString::new(name).unwrap().as_ptr()); // TODO: cache
+                if location == -1 {
+                    return;
+                }
+                let location = location as GLuint;
                 gl::EnableVertexAttribArray(location);
                 let offset = value as *const _ as usize - self.1;
                 gl::VertexAttribPointer(location,
@@ -76,8 +85,8 @@ unsafe fn prepare_instanced_attributes<V, I>(geometry: &Geometry<V, I>, shader: 
                                         A::get_gl_type(),
                                         gl::FALSE,
                                         std::mem::size_of::<I>() as GLsizei,
-                                        (offset + self.4) as *const GLvoid);
-                gl::VertexAttribDivisor(location, self.3 as GLuint);
+                                        (offset + self.3) as *const GLvoid);
+                gl::VertexAttribDivisor(location, 1);
             }
         }
     }
@@ -85,8 +94,7 @@ unsafe fn prepare_instanced_attributes<V, I>(geometry: &Geometry<V, I>, shader: 
     let mut walker = Walker::<I>(shader.handle,
                                  &fake_value as *const _ as usize,
                                  PhantomData,
-                                 geometry.len(),
-                                 geometry.len() * std::mem::size_of::<V>());
+                                 geometry.get_vertex_count() * std::mem::size_of::<V>());
     I::walk_attributes(&fake_value, &mut walker);
     std::mem::forget(fake_value);
 }
@@ -135,12 +143,12 @@ impl Target for Screen {
                 TriangleFan => gl::TRIANGLE_FAN,
             };
             if geometry.get_instance_count() == 0 {
-                gl::DrawArrays(gl_mode, 0, geometry.len() as GLsizei);
+                gl::DrawArrays(gl_mode, 0, geometry.get_vertex_count() as GLsizei);
             } else {
                 prepare_instanced_attributes(geometry, shader);
                 gl::DrawArraysInstanced(gl_mode,
                                         0,
-                                        geometry.len() as GLsizei,
+                                        geometry.get_vertex_count() as GLsizei,
                                         geometry.get_instance_count() as GLsizei);
             }
         }

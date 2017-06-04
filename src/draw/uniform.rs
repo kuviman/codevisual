@@ -38,6 +38,17 @@ impl Value for Color {
     }
 }
 
+impl Value for super::Texture {
+    fn apply(&self, location: GLint, texture_count: &mut usize) {
+        unsafe {
+            gl::ActiveTexture(gl::TEXTURE0 + (*texture_count) as GLenum);
+            gl::BindTexture(gl::TEXTURE_2D, self.get_handle());
+            gl::Uniform1i(location, (*texture_count) as GLint);
+            (*texture_count) += 1;
+        }
+    }
+}
+
 pub trait ValueConsumer {
     fn consume<V: Value>(&mut self, name: &str, value: &V);
 }

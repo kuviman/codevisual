@@ -19,7 +19,7 @@ pub enum Mode {
 pub struct Geometry<V: vertex::Data, I: vertex::Data = vertex::EmptyData> {
     handle: GLuint,
     pub mode: Mode,
-    element_count: usize,
+    vertex_count: usize,
     instance_count: usize,
     data: PhantomData<V>,
     idata: PhantomData<I>,
@@ -27,7 +27,7 @@ pub struct Geometry<V: vertex::Data, I: vertex::Data = vertex::EmptyData> {
 
 impl<V: vertex::Data, I: vertex::Data> Geometry<V, I> {
     pub fn new(mode: Mode, vertices: &[V]) -> Result<Self, ::Error> {
-        Self::check_element_count(mode, vertices)?;
+        Self::check_vertex_count(mode, vertices)?;
         ::init()?;
         let handle = unsafe {
             let mut handle: GLuint = std::mem::uninitialized();
@@ -42,7 +42,7 @@ impl<V: vertex::Data, I: vertex::Data> Geometry<V, I> {
         Ok(Self {
                handle,
                mode,
-               element_count: vertices.len(),
+               vertex_count: vertices.len(),
                instance_count: 0,
                data: PhantomData,
                idata: PhantomData,
@@ -50,7 +50,7 @@ impl<V: vertex::Data, I: vertex::Data> Geometry<V, I> {
     }
 
     pub fn new_instanced(mode: Mode, vertices: &[V], instances: &[I]) -> Result<Self, ::Error> {
-        Self::check_element_count(mode, vertices)?;
+        Self::check_vertex_count(mode, vertices)?;
         ::init()?;
         let handle = unsafe {
             let mut handle: GLuint = std::mem::uninitialized();
@@ -74,7 +74,7 @@ impl<V: vertex::Data, I: vertex::Data> Geometry<V, I> {
         Ok(Self {
                handle,
                mode,
-               element_count: vertices.len(),
+               vertex_count: vertices.len(),
                instance_count: instances.len(),
                data: PhantomData,
                idata: PhantomData,
@@ -85,7 +85,7 @@ impl<V: vertex::Data, I: vertex::Data> Geometry<V, I> {
         unsafe {
             gl::BindBuffer(gl::ARRAY_BUFFER, self.handle);
             gl::BufferSubData(gl::ARRAY_BUFFER,
-                              (std::mem::size_of::<V>() * self.element_count +
+                              (std::mem::size_of::<V>() * self.vertex_count +
                                std::mem::size_of::<I>() * index) as
                               GLsizeiptr,
                               std::mem::size_of::<I>() as GLsizeiptr,
@@ -93,7 +93,7 @@ impl<V: vertex::Data, I: vertex::Data> Geometry<V, I> {
         }
     }
 
-    fn check_element_count(mode: Mode, vertices: &[V]) -> Result<(), ::Error> {
+    fn check_vertex_count(mode: Mode, vertices: &[V]) -> Result<(), ::Error> {
         let ok: bool = match mode {
             Mode::Points => true,
             Mode::Lines => vertices.len() % 2 == 0,
@@ -105,12 +105,23 @@ impl<V: vertex::Data, I: vertex::Data> Geometry<V, I> {
         if ok {
             Ok(())
         } else {
-            Err(::Error::from("Wrong element count"))
+            Err(::Error::from("Wrong vertex count"))
         }
     }
 
-    pub fn len(&self) -> usize {
-        self.element_count
+    pub fn get_vertex_count(&self) -> usize {
+        self.vertex_count
+    }
+
+    pub fn get_primitive_count(&self) -> usize {
+        match self.mode {
+            Mode::Points => self.vertex_count,
+            Mode::Lines => self.vertex_count / 2,
+            Mode::LineStrip => self.vertex_count - 1,
+            Mode::Triangles => self.vertex_count / 3,
+            Mode::TriangleFan => self.vertex_count - 2,
+            Mode::TriangleStrip => self.vertex_count - 2,
+        }
     }
 
     pub fn get_instance_count(&self) -> usize {
