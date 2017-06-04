@@ -81,8 +81,32 @@ impl<V: vertex::Data, I: vertex::Data> Geometry<V, I> {
            })
     }
 
+    pub fn set_instance(&mut self, index: usize, instance: &I) {
+        unsafe {
+            gl::BindBuffer(gl::ARRAY_BUFFER, self.handle);
+            gl::BufferSubData(gl::ARRAY_BUFFER,
+                              (std::mem::size_of::<V>() * self.element_count +
+                               std::mem::size_of::<I>() * index) as
+                              GLsizeiptr,
+                              std::mem::size_of::<I>() as GLsizeiptr,
+                              instance as *const _ as *const c_void);
+        }
+    }
+
     fn check_element_count(mode: Mode, vertices: &[V]) -> Result<(), ::Error> {
-        Ok(()) // TODO: todo
+        let ok: bool = match mode {
+            Mode::Points => true,
+            Mode::Lines => vertices.len() % 2 == 0,
+            Mode::LineStrip => vertices.len() >= 2,
+            Mode::TriangleFan => vertices.len() >= 3,
+            Mode::Triangles => vertices.len() % 3 == 0,
+            Mode::TriangleStrip => vertices.len() >= 3,
+        };
+        if ok {
+            Ok(())
+        } else {
+            Err(::Error::from("Wrong element count"))
+        }
     }
 
     pub fn len(&self) -> usize {

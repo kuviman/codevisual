@@ -1,6 +1,7 @@
 extern crate time;
 extern crate serde_json;
 extern crate gl;
+extern crate cgmath;
 
 pub mod platform;
 pub mod draw;
@@ -35,8 +36,13 @@ pub fn run<G: Game>(mut game: G) {
             let now_time = time::precise_time_s();
             let delta_time = (now_time - prev_time) as f32;
             prev_time = now_time;
-            game.update(delta_time);
+            game.update(delta_time.min(0.1)); // TODO: configure
             let mut screen = draw::Screen;
+            unsafe {
+                // TODO: find place for it
+                gl::Enable(gl::BLEND);
+                gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
+            }
             game.render(&mut screen);
             true
         });
