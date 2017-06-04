@@ -37,6 +37,16 @@ pub fn init() -> Result<Platform, ::Error> {
 }
 
 impl Platform {
+    pub fn get_size(&self) -> (u32, u32) {
+        use std::os::raw::c_int;
+        unsafe {
+            let mut width: c_int = std::mem::uninitialized();
+            let mut height: c_int = std::mem::uninitialized();
+            let mut is_fullscreen: c_int = std::mem::uninitialized();
+            ffi::emscripten_get_canvas_size(&mut width, &mut height, &mut is_fullscreen);
+            (width as u32, height as u32)
+        }
+    }
     pub fn run_main_loop<F: FnMut() -> bool>(&self, callback: F) {
         use std::cell::RefCell;
         use std::ptr::null_mut;

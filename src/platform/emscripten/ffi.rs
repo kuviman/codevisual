@@ -57,4 +57,7 @@ extern "C" {
                                            attributes: *const EmscriptenWebGLContextAttributes)
                                            -> c_int;
     pub fn emscripten_webgl_make_context_current(context: c_int) -> c_int;
+    pub fn emscripten_get_canvas_size(width: *mut c_int,
+                                      height: *mut c_int,
+                                      is_fullscreen: *mut c_int);
 }

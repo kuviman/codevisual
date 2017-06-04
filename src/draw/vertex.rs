@@ -16,7 +16,7 @@ impl Attribute for f32 {
         gl::FLOAT
     }
 }
-impl Attribute for Vec2 {
+impl<S> Attribute for Vec2<S> {
     fn get_gl_size() -> GLsizei {
         2
     }

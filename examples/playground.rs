@@ -5,7 +5,7 @@ use codevisual::common::*;
 use codevisual::draw;
 
 struct Vertex {
-    a_pos: Vec2,
+    a_pos: Vec2<f32>,
 }
 
 impl draw::vertex::Data for Vertex {
@@ -15,8 +15,8 @@ impl draw::vertex::Data for Vertex {
 }
 
 struct Instance {
-    i_start_pos: Vec2,
-    i_speed: Vec2,
+    i_start_pos: Vec2<f32>,
+    i_speed: Vec2<f32>,
     i_start_time: f32,
     i_color: Color,
     i_size: f32,
@@ -34,11 +34,13 @@ impl draw::vertex::Data for Instance {
 
 struct Uniforms {
     u_time: f32,
+    u_matrix: Mat4<f32>,
 }
 
 impl draw::uniform::Data for Uniforms {
     fn walk<F: draw::uniform::ValueConsumer>(&self, f: &mut F) {
         f.consume("u_time", &self.u_time);
+        f.consume("u_matrix", &self.u_matrix);
     }
 }
 
@@ -91,7 +93,10 @@ impl Test {
                                                                   }],
                                                                 &instances)
                     .unwrap(),
-            uniforms: Uniforms { u_time: 0.0 },
+            uniforms: Uniforms {
+                u_time: 0.0,
+                u_matrix: Mat4::identity(),
+            },
             instances,
             next_action: 0.0,
         }
@@ -123,6 +128,10 @@ impl codevisual::Game for Test {
     fn render<T: DrawTarget>(&mut self, target: &mut T) {
         target.clear(Color::rgb(0.0, 0.0, 0.0));
         self.uniforms.u_time = self.current_time;
+        self.uniforms.u_matrix = {
+            let (w, h) = codevisual::Application::get_instance().get_size();
+            perspective(Deg(90.0), w as f32 / h as f32, 0.1, 1000.0)
+        };
         target.draw(&self.geometry, &self.shader, &self.uniforms);
     }
 }

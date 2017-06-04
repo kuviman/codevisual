@@ -14,10 +14,18 @@ impl Value for f32 {
     }
 }
 
-impl Value for Vec2 {
+impl Value for Vec2<f32> {
     fn apply(&self, location: GLint, _: &mut usize) {
         unsafe {
             gl::Uniform2f(location, self.x, self.y);
+        }
+    }
+}
+
+impl Value for Mat4<f32> {
+    fn apply(&self, location: GLint, _: &mut usize) {
+        unsafe {
+            gl::UniformMatrix4fv(location, 1, gl::FALSE, self as *const Self as *const _);
         }
     }
 }

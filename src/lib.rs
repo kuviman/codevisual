@@ -16,9 +16,12 @@ static mut APPLICATION_INSTANCE: Option<Application> = None;
 pub type Error = String;
 
 impl Application {
-    fn get_instance() -> &'static Self {
+    pub fn get_instance() -> &'static Self {
         init().unwrap();
         unsafe { APPLICATION_INSTANCE.as_ref().unwrap() }
+    }
+    pub fn get_size(&self) -> (u32, u32) {
+        self.platform.get_size()
     }
 }
 
