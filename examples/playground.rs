@@ -36,6 +36,7 @@ struct Uniforms {
     u_time: f32,
     u_matrix: Mat4<f32>,
     u_texture: codevisual::draw::Texture,
+    u_scale: f32,
 }
 
 impl draw::uniform::Data for Uniforms {
@@ -43,6 +44,7 @@ impl draw::uniform::Data for Uniforms {
         f.consume("u_time", &self.u_time);
         f.consume("u_matrix", &self.u_matrix);
         f.consume("u_texture", &self.u_texture);
+        f.consume("u_scale", &self.u_scale);
     }
 }
 
@@ -57,18 +59,16 @@ struct Test {
 
 const COUNT: usize = 10000;
 const SLOW_DOWN: f32 = 20.0;
-const MAX_SIZE: f32 = 0.003;
-const MIN_SIZE: f32 = 0.001;
+const MAX_SIZE: f32 = 0.0003;
+const MIN_SIZE: f32 = 0.0001;
 const ACTION_TICK: f32 = 0.01666666;
 
 impl Test {
     fn new() -> Self {
         let mut instances = Vec::new();
         for _ in 0..COUNT {
-            let start_pos = Vec2::new(rand::random::<f32>() * 2.0 - 1.0,
-                                      rand::random::<f32>() * 2.0 - 1.0);
             instances.push(Instance {
-                               i_start_pos: start_pos,
+                               i_start_pos: vec2(0.0, 0.0),
                                i_speed: Vec2::new(0.0, 0.0),
                                i_start_time: 0.0,
                                i_size: rand::random::<f32>() * (MAX_SIZE - MIN_SIZE) + MAX_SIZE,
@@ -100,6 +100,7 @@ impl Test {
                 u_time: 0.0,
                 u_matrix: Mat4::identity(),
                 u_texture: texture,
+                u_scale: 1.0,
             },
             instances,
             next_action: 0.0,
@@ -110,7 +111,8 @@ impl Test {
 use draw::Target as DrawTarget;
 
 impl codevisual::Game for Test {
-    fn update(&mut self, delta_time: f32) {
+    fn update(&mut self, mut delta_time: f32) {
+        delta_time /= self.uniforms.u_scale;
         self.current_time += delta_time;
         self.next_action -= delta_time;
         while self.next_action < 0.0 {
@@ -126,6 +128,16 @@ impl codevisual::Game for Test {
                 cur.i_speed = (target - cur_pos).normalize() / SLOW_DOWN;
                 cur.i_start_time = self.current_time;
                 self.geometry.set_instance(i, cur);
+            }
+        }
+        unsafe {
+            if let Some(e) = codevisual::platform::lastMouseEvent {
+                if e.button == 0 {
+                    self.uniforms.u_scale *= 1.2;
+                } else {
+                    self.uniforms.u_scale /= 1.2;
+                }
+                codevisual::platform::lastMouseEvent = None;
             }
         }
     }

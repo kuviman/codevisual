@@ -26,6 +26,24 @@ pub fn panic_hook(info: &std::panic::PanicInfo) {
     ffi::call_js("CodeVisual.ffi.error", json_info);
 }
 
+pub static mut lastMouseEvent: Option<ffi::EmscriptenMouseEvent> = None;
+
+extern "C" fn mousedown_callback(eventType: std::os::raw::c_int,
+                                 mouseEvent: *const ffi::EmscriptenMouseEvent,
+                                 userData: *mut std::os::raw::c_void)
+                                 -> ffi::EM_BOOL {
+    unsafe {
+        lastMouseEvent = Some(*mouseEvent);
+    }
+    1
+}
+extern "C" fn mouseup_callback(eventType: std::os::raw::c_int,
+                               mouseEvent: *const ffi::EmscriptenMouseEvent,
+                               userData: *mut std::os::raw::c_void)
+                               -> ffi::EM_BOOL {
+    1
+}
+
 pub fn init() -> Result<Platform, ::Error> {
     ffi::eval_js(include_str!(concat!(env!("OUT_DIR"), "/codevisual-lib.js")));
     ffi::call_js("CodeVisual.ffi.init_css",
@@ -34,6 +52,16 @@ pub fn init() -> Result<Platform, ::Error> {
                  include_str!(concat!(env!("OUT_DIR"), "/codevisual-lib.html")));
     ffi::create_gl_context()?;
     gl::load_with(ffi::get_proc_address);
+    unsafe {
+        ffi::emscripten_set_mousedown_callback(std::ffi::CString::new("#canvas").unwrap().as_ptr(),
+                                               std::ptr::null_mut(),
+                                               1,
+                                               mousedown_callback);
+        ffi::emscripten_set_mouseup_callback(std::ffi::CString::new("#canvas").unwrap().as_ptr(),
+                                             std::ptr::null_mut(),
+                                             1,
+                                             mouseup_callback);
+    }
     Ok(Platform {})
 }
 

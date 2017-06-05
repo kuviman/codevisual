@@ -4,8 +4,12 @@ version = "0.1.0"
 authors = ["kuviman <kuviman@gmail.com>"]
 
 [dependencies]
-cgmath = "*"
+cgmath = "*" # TODO: remove
 rand = "*"
 time = "*"
 serde_json = "*"
 gl = "*"
+
+# TODO: get fixed
+# [target.'cfg(target_os="emscripten")'.dependencies]
+# emscripten-sys = "*"

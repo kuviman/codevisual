@@ -28,6 +28,7 @@ namespace CodeVisual.ffi {
         $failedScreen = $player.find(".failed-screen");
 
         $canvas = $player.find("canvas");
+        $canvas.on("contextmenu", () => false);
         canvas = $canvas[0] as HTMLCanvasElement;
 
         Module.canvas = canvas;
