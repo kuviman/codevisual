@@ -10,5 +10,9 @@ set cargoArgs=
 if "%config%" == "release" (
     set cargoArgs=--release
 )
+
+call emsdk_env
+set LIBCLANG_PATH=C:/Programs/Emscripten/clang/e1.37.9_64bit
+
 cargo build %cargoArgs% --target=%cargoTarget% --example playground
 copy target\%cargoTarget%\%config%\examples\playground.js examples\public\code.js

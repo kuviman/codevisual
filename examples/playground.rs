@@ -131,14 +131,10 @@ impl codevisual::Game for Test {
             }
         }
         unsafe {
-            if let Some(e) = codevisual::platform::lastMouseEvent {
-                if e.button == 0 {
-                    self.uniforms.u_scale *= 1.2;
-                } else {
-                    self.uniforms.u_scale /= 1.2;
-                }
-                codevisual::platform::lastMouseEvent = None;
-            }
+            // codevisual::platform::totalWheel = codevisual::platform::totalWheel
+            //     .max(-50000.0)
+            //     .min(1000.0);
+            self.uniforms.u_scale = f32::powf(1.2, -codevisual::platform::totalWheel / 300.0);
         }
     }
     fn render<T: DrawTarget>(&mut self, target: &mut T) {
@@ -154,12 +150,4 @@ impl codevisual::Game for Test {
 
 fn main() {
     codevisual::run(Test::new());
-
-    // Hack (WTF??)
-    unsafe {
-        codevisual::platform::ffi::emscripten_GetProcAddress(std::ffi::CString::new("abacaba")
-                                                                 .unwrap()
-                                                                 .into_raw() as
-                                                             *const _);
-    }
 }

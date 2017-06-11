@@ -1,5 +1,5 @@
 use std;
-use std::os::raw::{c_int, c_char, c_void, c_double, c_long, c_ushort};
+use std::os::raw::{c_int, c_char, c_void, c_double, c_long, c_ushort, c_ulong};
 use std::ffi::CString;
 use serde_json;
 
@@ -30,27 +30,29 @@ pub fn create_gl_context() -> Result<(), ::Error> {
     Ok(())
 }
 
-#[allow(non_snake_case)]
-#[repr(C)]
-pub struct EmscriptenWebGLContextAttributes {
-    pub alpha: c_int,
-    pub depth: c_int,
-    pub stencil: c_int,
-    pub antialias: c_int,
-    pub premultipliedAlpha: c_int,
-    pub preserveDrawingBuffer: c_int,
-    pub preferLowPowerToHighPerformance: c_int,
-    pub failIfMajorPerformanceCaveat: c_int,
-    pub majorVersion: c_int,
-    pub minorVersion: c_int,
-    pub enableExtensionsByDefault: c_int,
-}
+use std::os::raw::*;
 
 #[allow(non_camel_case_types)]
 pub type EM_BOOL = c_int;
 
 #[allow(non_camel_case_types)]
 pub type EMSCRIPTEN_RESULT = c_int;
+
+#[allow(non_snake_case)]
+#[repr(C)]
+pub struct EmscriptenWebGLContextAttributes {
+    pub alpha: EM_BOOL,
+    pub depth: EM_BOOL,
+    pub stencil: EM_BOOL,
+    pub antialias: EM_BOOL,
+    pub premultipliedAlpha: EM_BOOL,
+    pub preserveDrawingBuffer: EM_BOOL,
+    pub preferLowPowerToHighPerformance: EM_BOOL,
+    pub failIfMajorPerformanceCaveat: EM_BOOL,
+    pub majorVersion: c_int,
+    pub minorVersion: c_int,
+    pub enableExtensionsByDefault: EM_BOOL,
+}
 
 #[allow(non_snake_case)]
 #[repr(C)]
@@ -76,9 +78,25 @@ pub struct EmscriptenMouseEvent {
     pub padding: c_long,
 }
 
+#[allow(non_snake_case)]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct EmscriptenWheelEvent {
+    pub mouse: EmscriptenMouseEvent,
+    pub deltaX: c_double,
+    pub deltaY: c_double,
+    pub deltaZ: c_double,
+    pub deltaMode: c_ulong,
+}
+
 #[allow(non_camel_case_types)]
 pub type em_mouse_callback_func = extern "C" fn(eventType: c_int,
                                                 mouseEvent: *const EmscriptenMouseEvent,
+                                                userData: *mut c_void)
+                                                -> EM_BOOL;
+#[allow(non_camel_case_types)]
+pub type em_wheel_callback_func = extern "C" fn(eventType: c_int,
+                                                wheelEvent: *const EmscriptenWheelEvent,
                                                 userData: *mut c_void)
                                                 -> EM_BOOL;
 
@@ -107,4 +125,9 @@ extern "C" {
                                            useCapture: EM_BOOL,
                                            callback: em_mouse_callback_func)
                                            -> EMSCRIPTEN_RESULT;
+    pub fn emscripten_set_wheel_callback(target: *const c_char,
+                                         userData: *mut c_void,
+                                         useCapture: EM_BOOL,
+                                         callback: em_wheel_callback_func)
+                                         -> EMSCRIPTEN_RESULT;
 }

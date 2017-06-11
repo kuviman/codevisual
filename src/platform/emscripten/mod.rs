@@ -44,6 +44,19 @@ extern "C" fn mouseup_callback(eventType: std::os::raw::c_int,
     1
 }
 
+pub static mut totalWheel: f32 = 0.0;
+
+extern "C" fn wheel_callback(eventType: std::os::raw::c_int,
+                             wheelEvent: *const ffi::EmscriptenWheelEvent,
+                             userData: *mut std::os::raw::c_void)
+                             -> ffi::EM_BOOL {
+    unsafe {
+        let ref wheelEvent = *wheelEvent;
+        totalWheel += wheelEvent.deltaY as f32;
+    }
+    1
+}
+
 pub fn init() -> Result<Platform, ::Error> {
     ffi::eval_js(include_str!(concat!(env!("OUT_DIR"), "/codevisual-lib.js")));
     ffi::call_js("CodeVisual.ffi.init_css",
@@ -61,6 +74,10 @@ pub fn init() -> Result<Platform, ::Error> {
                                              std::ptr::null_mut(),
                                              1,
                                              mouseup_callback);
+        ffi::emscripten_set_wheel_callback(std::ffi::CString::new("#canvas").unwrap().as_ptr(),
+                                           std::ptr::null_mut(),
+                                           1,
+                                           wheel_callback);
     }
     Ok(Platform {})
 }
