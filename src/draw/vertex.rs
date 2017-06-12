@@ -3,7 +3,7 @@ use common::*;
 use gl::types::*;
 use gl;
 
-pub trait Attribute: Sized {
+pub trait Attribute: Copy + Sized {
     fn get_gl_size() -> GLsizei;
     fn get_gl_type() -> GLenum;
 }
@@ -16,7 +16,7 @@ impl Attribute for f32 {
         gl::FLOAT
     }
 }
-impl<S> Attribute for Vec2<S> {
+impl Attribute for Vec2<f32> {
     fn get_gl_size() -> GLsizei {
         2
     }

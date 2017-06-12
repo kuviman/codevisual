@@ -68,7 +68,7 @@ impl Test {
         for _ in 0..COUNT {
             instances.push(Instance {
                                i_start_pos: vec2(0.0, 0.0),
-                               i_speed: Vec2::new(0.0, 0.0),
+                               i_speed: vec2(0.0, 0.0),
                                i_start_time: 0.0,
                                i_size: random::<f32>() * (MAX_SIZE - MIN_SIZE) + MAX_SIZE,
                                i_color: Color::rgb(1.0, random::<f32>(), 0.0),
@@ -82,17 +82,17 @@ impl Test {
                     .unwrap(),
             geometry: codevisual::draw::Geometry::new_instanced(draw::geometry::Mode::TriangleFan,
                                                                 &[Vertex {
-                                                                      a_pos: Vec2::new(-1.0, -1.0),
-                                                                  },
-                                                                  Vertex {
-                                                                      a_pos: Vec2::new(-1.0, 1.0),
-                                                                  },
-                                                                  Vertex {
-                                                                      a_pos: Vec2::new(1.0, 1.0),
-                                                                  },
-                                                                  Vertex {
-                                                                      a_pos: Vec2::new(1.0, -1.0),
-                                                                  }],
+                                                                     a_pos: vec2(-1.0, -1.0),
+                                                                 },
+                                                                 Vertex {
+                                                                     a_pos: vec2(-1.0, 1.0),
+                                                                 },
+                                                                 Vertex {
+                                                                     a_pos: vec2(1.0, 1.0),
+                                                                 },
+                                                                 Vertex {
+                                                                     a_pos: vec2(1.0, -1.0),
+                                                                 }],
                                                                 &instances)
                     .unwrap(),
             uniforms: Uniforms {
@@ -119,8 +119,7 @@ impl codevisual::Game for Test {
             for _ in 0..1000 {
                 let i = random::<usize>() % self.instances.len();
                 let cur = &mut self.instances[i];
-                let target = Vec2::new(random::<f32>() * 2.0 - 1.0,
-                                       random::<f32>() * 2.0 - 1.0);
+                let target = vec2(random::<f32>() * 2.0 - 1.0, random::<f32>() * 2.0 - 1.0);
                 let cur_pos = cur.i_start_pos +
                               cur.i_speed * (self.current_time - cur.i_start_time);
                 cur.i_start_pos = cur_pos;
@@ -135,7 +134,7 @@ impl codevisual::Game for Test {
         self.uniforms.u_time = self.current_time;
         self.uniforms.u_matrix = {
             let (w, h) = codevisual::Application::get_instance().get_size();
-            perspective(Deg(90.0), w as f32 / h as f32, 0.1, 1000.0)
+            Mat4::perspective(std::f32::consts::PI / 2.0, w as f32 / h as f32, 0.1, 1000.0)
         };
         target.draw(&self.geometry, &self.shader, &self.uniforms);
     }

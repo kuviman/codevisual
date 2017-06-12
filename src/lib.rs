@@ -3,7 +3,6 @@ extern crate emscripten_sys;
 
 extern crate serde_json;
 extern crate gl;
-extern crate cgmath;
 
 #[cfg(target_os = "emscripten")]
 pub mod emscripten;
