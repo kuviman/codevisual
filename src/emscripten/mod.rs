@@ -1,5 +1,9 @@
 use std;
 
+pub fn get_now() -> f64 {
+    unsafe { ::emscripten_sys::emscripten_get_now() / 1000.0 as f64 }
+}
+
 pub fn get_proc_address(name: &str) -> *const std::os::raw::c_void {
     unsafe {
         ::emscripten_sys::emscripten_GetProcAddress(std::ffi::CString::new(name)

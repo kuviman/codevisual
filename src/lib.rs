@@ -1,7 +1,6 @@
 #[cfg(target_os = "emscripten")]
 extern crate emscripten_sys;
 
-extern crate time;
 extern crate serde_json;
 extern crate gl;
 extern crate cgmath;
@@ -79,20 +78,21 @@ pub trait Game {
 pub fn run<G: Game>(mut game: G) {
     Application::get_instance();
 
-    let mut prev_time = time::precise_time_s();
-
     #[cfg(target_os = "emscripten")]
-    emscripten::set_main_loop(|| {
-        let now_time = time::precise_time_s();
-        let delta_time = (now_time - prev_time) as f32;
-        prev_time = now_time;
-        game.update(delta_time.min(0.1)); // TODO: configure
-        let mut screen = draw::Screen;
-        unsafe {
-            // TODO: find place for it
-            gl::Enable(gl::BLEND);
-            gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
-        }
-        game.render(&mut screen);
-    });
+    {
+        let mut prev_time = emscripten::get_now();
+        emscripten::set_main_loop(|| {
+            let now_time = emscripten::get_now();
+            let delta_time = now_time - prev_time;
+            prev_time = now_time;
+            game.update(delta_time.min(0.1) as f32); // TODO: configure
+            let mut screen = draw::Screen;
+            unsafe {
+                // TODO: find place for it
+                gl::Enable(gl::BLEND);
+                gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
+            }
+            game.render(&mut screen);
+        });
+    }
 }
