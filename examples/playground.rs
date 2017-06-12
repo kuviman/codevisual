@@ -1,5 +1,4 @@
-pub extern crate codevisual;
-extern crate rand;
+extern crate codevisual;
 
 use codevisual::common::*;
 use codevisual::draw;
@@ -71,8 +70,8 @@ impl Test {
                                i_start_pos: vec2(0.0, 0.0),
                                i_speed: Vec2::new(0.0, 0.0),
                                i_start_time: 0.0,
-                               i_size: rand::random::<f32>() * (MAX_SIZE - MIN_SIZE) + MAX_SIZE,
-                               i_color: Color::rgb(1.0, rand::random::<f32>(), 0.0),
+                               i_size: random::<f32>() * (MAX_SIZE - MIN_SIZE) + MAX_SIZE,
+                               i_color: Color::rgb(1.0, random::<f32>(), 0.0),
                            });
         }
         let texture = codevisual::draw::Texture::load("textures/test.png").unwrap();
@@ -118,10 +117,10 @@ impl codevisual::Game for Test {
         while self.next_action < 0.0 {
             self.next_action += ACTION_TICK;
             for _ in 0..1000 {
-                let i = rand::random::<usize>() % self.instances.len();
+                let i = random::<usize>() % self.instances.len();
                 let cur = &mut self.instances[i];
-                let target = Vec2::new(rand::random::<f32>() * 2.0 - 1.0,
-                                       rand::random::<f32>() * 2.0 - 1.0);
+                let target = Vec2::new(random::<f32>() * 2.0 - 1.0,
+                                       random::<f32>() * 2.0 - 1.0);
                 let cur_pos = cur.i_start_pos +
                               cur.i_speed * (self.current_time - cur.i_start_time);
                 cur.i_start_pos = cur_pos;

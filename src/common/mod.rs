@@ -1,6 +1,9 @@
 pub mod color;
 pub use self::color::*;
 
+mod random;
+pub use self::random::*;
+
 pub use cgmath::Vector2 as Vec2;
 pub use cgmath::Matrix4 as Mat4;
 

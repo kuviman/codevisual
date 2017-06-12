@@ -5,7 +5,6 @@ authors = ["kuviman <kuviman@gmail.com>"]
 
 [dependencies]
 cgmath = "*" # TODO: remove
-rand = "*"
 serde_json = "*"
 gl = "*"
 

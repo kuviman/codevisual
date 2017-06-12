@@ -1,5 +1,9 @@
 use std;
 
+pub fn random() -> f64 {
+    unsafe { ::emscripten_sys::emscripten_random() as f64 }
+}
+
 pub fn get_now() -> f64 {
     unsafe { ::emscripten_sys::emscripten_get_now() / 1000.0 as f64 }
 }
