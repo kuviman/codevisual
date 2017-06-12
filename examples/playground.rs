@@ -130,12 +130,6 @@ impl codevisual::Game for Test {
                 self.geometry.set_instance(i, cur);
             }
         }
-        unsafe {
-            // codevisual::platform::totalWheel = codevisual::platform::totalWheel
-            //     .max(-50000.0)
-            //     .min(1000.0);
-            self.uniforms.u_scale = f32::powf(1.2, -codevisual::platform::totalWheel / 300.0);
-        }
     }
     fn render<T: DrawTarget>(&mut self, target: &mut T) {
         target.clear(Color::rgb(0.0, 0.0, 0.0));

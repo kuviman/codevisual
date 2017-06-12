@@ -11,7 +11,8 @@ if [ "$config" == "release" ]; then
     cargoArgs=--release
 fi
 
-PATH="`python -c "execfile('$HOME/.emscripten'); print(EMSCRIPTEN_ROOT)"`:$PATH"
+export EMSCRIPTEN=`python -c "execfile('$HOME/.emscripten'); print(EMSCRIPTEN_ROOT)"`
+PATH="$EMSCRIPTEN:$PATH"
 
 cargo build $cargoArgs --target=$cargoTarget --example playground
 cp target/$cargoTarget/$config/examples/playground.js examples/public/code.js

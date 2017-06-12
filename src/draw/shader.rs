@@ -8,7 +8,7 @@ pub struct Shader {
 
 impl Shader {
     pub fn compile(vertex_shader: &str, fragment_shader: &str) -> Result<Self, String> {
-        ::init().unwrap();
+        ::Application::get_instance();
 
         unsafe fn compile_shader(shader_type: GLuint, source: &str) -> Result<GLuint, String> {
             let handle = gl::CreateShader(shader_type);

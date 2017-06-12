@@ -12,13 +12,16 @@ fn compile_js(source: &Path, out: &Path) {
         .current_dir(source)
         .status()
         .expect("Could not compile TypeScript");
-    let js = Command::new("java")
-        .arg("-jar")
-        .arg("C:\\Programs\\bin\\closure-compiler.jar")
-        .arg(&full_js_file)
-        .output()
-        .expect("Could not minify JavaScript")
-        .stdout;
+    let js = {
+        let result = Command::new("java")
+            .arg("-jar")
+            .arg("C:\\Programs\\bin\\closure-compiler.jar")
+            .arg(&full_js_file)
+            .output()
+            .expect("Could not minify JavaScript");
+        assert!(result.status.success(), "Could not minify JavaScript");
+        result.stdout
+    };
     File::create(out)
         .expect("Could not create js file")
         .write_all(&js)
@@ -34,11 +37,14 @@ fn compile_js(source: &Path, out: &Path) {
         .current_dir(source)
         .status()
         .expect("Could not compile TypeScript");
-    let js = Command::new("google-closure-compiler-js")
-        .arg(&full_js_file)
-        .output()
-        .expect("Could not minify JavaScript")
-        .stdout;
+    let js = {
+        let result = Command::new("google-closure-compiler-js")
+            .arg(&full_js_file)
+            .output()
+            .expect("Could not minify JavaScript");
+        assert!(result.status.success(), "Could not minify JavaScript");
+        result.stdout
+    };
     File::create(out)
         .expect("Could not create js file")
         .write_all(&js)

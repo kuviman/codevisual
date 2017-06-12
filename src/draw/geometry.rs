@@ -28,7 +28,7 @@ pub struct Geometry<V: vertex::Data, I: vertex::Data = vertex::EmptyData> {
 impl<V: vertex::Data, I: vertex::Data> Geometry<V, I> {
     pub fn new(mode: Mode, vertices: &[V]) -> Result<Self, ::Error> {
         Self::check_vertex_count(mode, vertices)?;
-        ::init()?;
+        ::Application::get_instance();
         let handle = unsafe {
             let mut handle: GLuint = std::mem::uninitialized();
             gl::GenBuffers(1, &mut handle);
@@ -51,7 +51,7 @@ impl<V: vertex::Data, I: vertex::Data> Geometry<V, I> {
 
     pub fn new_instanced(mode: Mode, vertices: &[V], instances: &[I]) -> Result<Self, ::Error> {
         Self::check_vertex_count(mode, vertices)?;
-        ::init()?;
+        ::Application::get_instance();
         let handle = unsafe {
             let mut handle: GLuint = std::mem::uninitialized();
             gl::GenBuffers(1, &mut handle);
