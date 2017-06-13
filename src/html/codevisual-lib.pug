@@ -23,7 +23,13 @@ div.codevisual-player
                 div.timeline-position
             div.settings( style="display:none;" )
                 div.container-fluid
-                    table.table
+                    table
     div.failed-screen( style="display:none;" )
         h3 Whoops...
         p.error-message Something went wrong
+
+    table.setting-templates( style="display:none;" )
+        tr.setting-template-boolean
+            td.name Setting name
+            td.input
+                input( type="checkbox" )

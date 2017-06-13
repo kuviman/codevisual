@@ -6,12 +6,14 @@ use std::process::Command;
 #[cfg(windows)]
 fn compile_js(source: &Path, out: &Path) {
     let full_js_file = Path::new(&std::env::var("OUT_DIR").unwrap()).join("codevisual-lib-full.js");
-    Command::new("tsc.cmd")
-        .arg("--outFile")
-        .arg(&full_js_file)
-        .current_dir(source)
-        .status()
-        .expect("Could not compile TypeScript");
+    assert!(Command::new("tsc.cmd")
+                .arg("--outFile")
+                .arg(&full_js_file)
+                .current_dir(source)
+                .status()
+                .expect("Could not compile TypeScript")
+                .success(),
+            "TypeScript compiler exited with error");
     let js = {
         let result = Command::new("java")
             .arg("-jar")
@@ -31,12 +33,14 @@ fn compile_js(source: &Path, out: &Path) {
 #[cfg(not(windows))]
 fn compile_js(source: &Path, out: &Path) {
     let full_js_file = Path::new(&std::env::var("OUT_DIR").unwrap()).join("codevisual-lib-full.js");
-    Command::new("tsc")
-        .arg("--outFile")
-        .arg(&full_js_file)
-        .current_dir(source)
-        .status()
-        .expect("Could not compile TypeScript");
+    assert!(Command::new("tsc")
+                .arg("--outFile")
+                .arg(&full_js_file)
+                .current_dir(source)
+                .status()
+                .expect("Could not compile TypeScript")
+                .success(),
+            "TypeScript compiler exited with error");
     let js = {
         let result = Command::new("google-closure-compiler-js")
             .arg(&full_js_file)

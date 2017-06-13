@@ -66,7 +66,7 @@ namespace CodeVisual {
     }
 
     internal.on_init.push(() => {
-        $gameScreen.find(".fullscreen-button").click(function () {
+        $player.find(".fullscreen-button").click(function () {
             toggleFullscreen();
         });
     });

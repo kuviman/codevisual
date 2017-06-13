@@ -13,8 +13,9 @@ namespace CodeVisual {
 
         constructor() {
             let container = document.createElement('div');
+            container.className = "stats";
             this.container = container;
-            container.style.cssText = 'position:absolute;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000';
+            container.style.cssText = 'position:absolute;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000;display:none;';
             container.addEventListener('click', event => {
                 event.preventDefault();
                 this.showPanel(++this.mode % container.children.length);
@@ -130,11 +131,19 @@ namespace CodeVisual {
 
     export namespace internal {
         const stats = new Stats();
+        let $stats: JQuery;
         export function update_stats() {
             stats.update();
         }
         on_init.push(() => {
-            $gameScreen.append(stats.dom);
+            $player.find(".game-screen").append(stats.dom);
+            $stats = $player.find(".stats");
+            settings.add(new BooleanSetting("Show stats", true, (show) => {
+                if (show)
+                    $stats.fadeIn();
+                else
+                    $stats.fadeOut();
+            }));
         });
     }
 }
