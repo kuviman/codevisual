@@ -7,6 +7,18 @@ extern crate gl;
 #[cfg(target_os = "emscripten")]
 pub mod emscripten;
 
+#[cfg(target_os = "emscripten")]
+macro_rules! run_js {
+    ($($($f:ident).+ ( $($args:expr),* );)*) => (
+        macro_rules! format_placeholder(($arg:expr) => ("{}"));
+        $(
+            ::emscripten::run_script(&format!(
+                concat!(stringify!($($f).+), concat!("(", $(format_placeholder!($args)),*), ")"),
+                $(::serde_json::to_string($args).expect("Could not convert a value into json")),*));
+        )*
+    )
+}
+
 pub mod draw;
 pub mod common;
 
@@ -41,19 +53,18 @@ impl Application {
                         } else {
                             json_info["error"] = serde_json::Value::String(String::from("Something went wrong",),);
                         }
-                        emscripten::run_script(&format!("CodeVisual.internal.show_error({})",
-                                                       json_info));
+                        run_js!{
+                            CodeVisual.internal.show_error(&json_info);
+                        }
                     }
                     std::panic::set_hook(Box::new(panic_hook));
 
                     ::emscripten::run_script(include_str!(concat!(env!("OUT_DIR"),
                                                                   "/codevisual-lib.js")));
-                    ::emscripten::run_script(&format!("CodeVisual.internal.init_css({})",
-                                                     serde_json::Value::String(String::from(include_str!(concat!(env!("OUT_DIR"),
-                                                                          "/codevisual-lib.css"))))));
-                    ::emscripten::run_script(&format!("CodeVisual.internal.init_html({})",
-                                                     serde_json::Value::String(String::from(include_str!(concat!(env!("OUT_DIR"),
-                                                                          "/codevisual-lib.html"))))));
+                    run_js!{
+                        CodeVisual.internal.init_css(include_str!(concat!(env!("OUT_DIR"), "/codevisual-lib.css")));
+                        CodeVisual.internal.init_html(include_str!(concat!(env!("OUT_DIR"), "/codevisual-lib.html")));
+                    }
                     ::emscripten::create_gl_context().expect("Could not create OpenGL context");
                     gl::load_with(emscripten::get_proc_address);
                 }
@@ -80,7 +91,9 @@ pub fn run<G: Game>(mut game: G) {
 
     #[cfg(target_os = "emscripten")]
     {
-        emscripten::run_script("CodeVisual.internal.before_main_loop()");
+        run_js!{
+            CodeVisual.internal.before_main_loop();
+        }
         let mut prev_time = emscripten::get_now();
         emscripten::set_main_loop(|| {
             let now_time = emscripten::get_now();
@@ -94,7 +107,9 @@ pub fn run<G: Game>(mut game: G) {
                 gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
             }
             game.render(&mut screen);
-            emscripten::run_script("CodeVisual.internal.update_stats()");
+            run_js!{
+                CodeVisual.internal.update_stats();
+            }
         });
     }
 }
