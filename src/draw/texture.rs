@@ -30,7 +30,7 @@ impl Texture {
                 args["path"] = serde_json::Value::String(String::from(path));
                 args["texture_handle"] =
                     serde_json::Value::Number(serde_json::Number::from_f64(handle as f64).unwrap());
-                ::emscripten::run_script(&format!("CodeVisual.ffi.load_texture({})", args));
+                ::emscripten::run_script(&format!("CodeVisual.internal.load_texture({})", args));
             }
 
             Ok(Texture { handle })

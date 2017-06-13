@@ -127,4 +127,12 @@ namespace CodeVisual {
             }
         }
     }
+
+    export const stats = new Stats();
+
+    export namespace internal {
+        export function update_stats() {
+            stats.update();
+        }
+    }
 }
