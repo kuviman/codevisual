@@ -1,5 +1,5 @@
 div.codevisual-player
-    div.loading-screen.centered
+    div.loading-screen
         h3 Please, wait
         h4 loading
         div.progress
@@ -7,11 +7,11 @@ div.codevisual-player
     div.game-screen( style="display:none;" )
         canvas
         div.controls
-            div.control-button.play-stop-button.vertical-align
+            div.control-button.play-stop-button
                 span.glyphicon.glyphicon-play
-            div.control-button.fullscreen-button.vertical-align
+            div.control-button.fullscreen-button
                 span.glyphicon.glyphicon-fullscreen
-            div.control-button.settings-button.vertical-align
+            div.control-button.settings-button
                 span.glyphicon.glyphicon-cog
             div.tick-info
                 span.current-tick 0
@@ -24,6 +24,6 @@ div.codevisual-player
             div.settings( style="display:none;" )
                 div.container-fluid
                     table.table
-    div.failed-screen.centered( style="display:none;" )
+    div.failed-screen( style="display:none;" )
         h3 Whoops...
         p.error-message Something went wrong

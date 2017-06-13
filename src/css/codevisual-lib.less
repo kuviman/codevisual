@@ -1,195 +1,170 @@
 .codevisual-player {
     width: 100%;
     height: 100%;
-    background: blueviolet url("art.png") center;
-    background-size: cover;
+    background: skyblue center;
     border: 1px solid black;
     position: relative;
-}
-
-.codevisual-player.error {
-    background: black;
-}
-
-.codevisual-player.game-running {
-    background: none;
-}
-
-.codevisual-player .centered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
-
-.codevisual-player .vertical-align {
-    position: absolute;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
-    transform: translateY(-50%);
-}
-
-.codevisual-player .loading-screen {
-    width: 80%;
-    background-color: rgba(0, 0, 0, 0.75);
-    padding: 0 2em;
-    border-radius: 2em;
-    border: 2px solid midnightblue;
-    box-shadow: 0 0 1em blue;
-    color: white;
-}
-
-.codevisual-player .failed-screen {
-    width: 80%;
-    background-color: rgba(0, 0, 0, 0.75);
-    padding: 0 2em;
-    border-radius: 2em;
-    border: 2px solid darkred;
-    box-shadow: 0 0 2em red;
-    color: white;
-}
-
-.codevisual-player .game-screen {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
-.codevisual-player canvas {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-}
-
-.codevisual-player .controls {
-    position: absolute;
-    width: 100%;
-    height: 32px;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.2);
-}
-
-.codevisual-player .timeline {
-    position: absolute;
-    bottom: 100%;
-    height: 14px;
-    width: 100%;
-    cursor: pointer;
-    padding-top: 10px;
-}
-
-.codevisual-player .timeline .timeline-background {
-    position: absolute;
-    width: 100%;
-    height: 4px;
-    background-color: rgba(255, 0, 0, 0.2);
-}
-
-.codevisual-player .timeline:hover .timeline-background {
-    box-shadow: 0 0 10px red;
-}
-
-.codevisual-player .timeline.downloaded .timeline-background {
-    background-color: rgba(255, 0, 0, 0.5);
-}
-
-.codevisual-player .timeline .timeline-loaded {
-    position: absolute;
-    left: 0;
-    height: 4px;
-    background-color: red;
-}
-
-.codevisual-player .timeline .timeline-position {
-    position: absolute;
-    left: 0;
-    width: 10px;
-    height: 10px;
-    bottom: -3px;
-    border-radius: 5px;
-    background-color: red;
-    border: 1px solid red;
-    margin-left: -5px;
-}
-
-.codevisual-player .timeline:hover .timeline-position {
-    box-shadow: 0 0 10px red;
-}
-
-.codevisual-player .tick-info {
-    position: absolute;
-    bottom: 100%;
-    right: 0;
-    padding: 10px;
-    font-size: 75%;
-    color: white;
-    text-shadow: 1px 1px black;
-}
-
-.codevisual-player .control-button {
-    text-align: center;
-    width: 24px;
-    height: 16px;
-    font-size: 16px;
-    color: white;
-    cursor: pointer;
-    line-height: 16px;
-}
-
-.codevisual-player .control-button .glyphicon {
-    line-height: 13px;
-}
-
-.codevisual-player .control-button:hover {
-    height: 24px;
-    font-size: 24px;
-    line-height: 24px;
-}
-
-.codevisual-player .control-button:hover .glyphicon {
-    line-height: 22px;
-}
-
-.codevisual-player .play-stop-button {
-    left: 10px;
-}
-
-.codevisual-player .fullscreen-button {
-    right: 10px;
-}
-
-.codevisual-player .settings-button {
-    right: 34px;
-}
-
-.codevisual-player .settings {
-    position: absolute;
-    right: 0;
-    bottom: 35px;
-    background-color: rgba(0, 0, 0, 0.9);
-    padding: 0 1em;
-    border-top-left-radius: 1em;
-    border: 2px solid dimgray;
-    box-shadow: 0 0 1em gray;
-    color: white;
-    width: 15em;
-}
-
-.codevisual-player .settings table {
-    width: 100%;
-}
-
-.codevisual-player input[type=checkbox] {
-    position: relative;
-    top: -2px;
+    &.game-running {
+        background: none;
+    }
+    &.error {
+        background: black;
+    }
+    .centered {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+    .vertical-align {
+        position: absolute;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+    .loading-screen {
+        width: 80%;
+        background-color: rgba(0, 0, 0, 0.75);
+        padding: 0 2em;
+        border-radius: 2em;
+        border: 2px solid midnightblue;
+        box-shadow: 0 0 1em blue;
+        color: white;
+        .centered;
+    }
+    .failed-screen {
+        width: 80%;
+        background-color: rgba(0, 0, 0, 0.75);
+        padding: 0 2em;
+        border-radius: 2em;
+        border: 2px solid darkred;
+        box-shadow: 0 0 2em red;
+        color: white;
+        .centered;
+    }
+    .game-screen {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        canvas {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+        }
+        .controls {
+            position: absolute;
+            width: 100%;
+            height: 32px;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        .timeline {
+            position: absolute;
+            bottom: 100%;
+            height: 14px;
+            width: 100%;
+            cursor: pointer;
+            padding-top: 10px;
+            .timeline-background {
+                position: absolute;
+                width: 100%;
+                height: 4px;
+                background-color: rgba(255, 0, 0, 0.2);
+            }
+            &:hover .timeline-background {
+                box-shadow: 0 0 10px red;
+            }
+            &.downloaded .timeline-background {
+                background-color: rgba(255, 0, 0, 0.5);
+            }
+            .timeline-loaded {
+                position: absolute;
+                left: 0;
+                height: 4px;
+                background-color: red;
+            }
+            .timeline-position {
+                position: absolute;
+                left: 0;
+                width: 10px;
+                height: 10px;
+                bottom: -3px;
+                border-radius: 5px;
+                background-color: red;
+                border: 1px solid red;
+                margin-left: -5px;
+            }
+            &:hover .timeline-position {
+                box-shadow: 0 0 10px red;
+            }
+        }
+        .tick-info {
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+            padding: 10px;
+            font-size: 75%;
+            color: white;
+            text-shadow: 1px 1px black;
+        }
+        .control-button {
+            text-align: center;
+            width: 24px;
+            height: 16px;
+            font-size: 16px;
+            color: white;
+            cursor: pointer;
+            line-height: 16px;
+            .vertical-align;
+            .glyphicon {
+                line-height: 13px;
+            }
+            &:hover {
+                height: 24px;
+                font-size: 24px;
+                line-height: 24px;
+            }
+            &:hover .glyphicon {
+                line-height: 22px;
+            }
+        }
+        .play-stop-button {
+            left: 10px;
+        }
+        .fullscreen-button {
+            right: 10px;
+        }
+        .settings-button {
+            right: 34px;
+        }
+        .settings {
+            position: absolute;
+            right: 0;
+            bottom: 35px;
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 0 1em;
+            border-top-left-radius: 1em;
+            border: 2px solid dimgray;
+            box-shadow: 0 0 1em gray;
+            color: white;
+            width: 15em;
+            table {
+                width: 100%;
+            }
+            input[type=checkbox] {
+                position: relative;
+                top: -2px;
+            }
+        }
+    }
 }
