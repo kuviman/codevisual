@@ -79,6 +79,7 @@ pub fn run<G: Game>(mut game: G) {
 
     #[cfg(target_os = "emscripten")]
     {
+        emscripten::run_script("CodeVisual.ffi.before_main_loop()");
         let mut prev_time = emscripten::get_now();
         emscripten::set_main_loop(|| {
             let now_time = emscripten::get_now();
@@ -92,6 +93,7 @@ pub fn run<G: Game>(mut game: G) {
                 gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
             }
             game.render(&mut screen);
+            emscripten::run_script("CodeVisual.stats.update()");
         });
     }
 }

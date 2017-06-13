@@ -1,4 +1,6 @@
 use std;
+use std::os::raw::c_void;
+use std::ffi::CString;
 
 pub fn random() -> f64 {
     unsafe { ::emscripten_sys::emscripten_random() as f64 }
@@ -10,14 +12,13 @@ pub fn get_now() -> f64 {
 
 pub fn get_proc_address(name: &str) -> *const std::os::raw::c_void {
     unsafe {
-        ::emscripten_sys::emscripten_GetProcAddress(std::ffi::CString::new(name)
+        ::emscripten_sys::emscripten_GetProcAddress(CString::new(name)
                                       .expect("Could not convert name to C string")
                                       .as_ptr()) as *const _
     }
 }
 
 pub fn run_script(script: &str) {
-    use std::ffi::CString;
     unsafe {
         ::emscripten_sys::emscripten_run_script(CString::new(script)
                                                     .expect("Could not convert script to C string",)
@@ -52,25 +53,18 @@ pub fn create_gl_context() -> Result<(), ::Error> {
 }
 
 pub fn set_main_loop<F: FnMut()>(callback: F) {
-    use std::cell::RefCell;
-    use std::ptr::null_mut;
-    use std::os::raw::c_void;
-
-    thread_local!(static MAIN_LOOP_CALLBACK: RefCell<*mut c_void> = RefCell::new(null_mut()));
-    MAIN_LOOP_CALLBACK.with(|log| { *log.borrow_mut() = &callback as *const _ as *mut c_void; });
-
-    run_script("CodeVisual.ffi.before_main_loop()");
+    let callback = Box::new(Box::new(callback));
     unsafe {
-        ::emscripten_sys::emscripten_set_main_loop(Some(wrapper::<F>), 0, 1);
+        ::emscripten_sys::emscripten_set_main_loop_arg(Some(wrapper::<F>),
+                                                       Box::into_raw(callback) as *mut _,
+                                                       0,
+                                                       1);
     }
-
-    unsafe extern "C" fn wrapper<F>()
+    unsafe extern "C" fn wrapper<F>(arg: *mut c_void)
         where F: FnMut()
     {
-        MAIN_LOOP_CALLBACK.with(|z| {
-                                    let closure = *z.borrow_mut() as *mut F;
-                                    (*closure)();
-                                    run_script("CodeVisual.stats.update()");
-                                });
+        let mut callback = Box::<Box<F>>::from_raw(arg as *mut _);
+        callback();
+        std::mem::forget(callback);
     }
 }
