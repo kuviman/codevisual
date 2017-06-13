@@ -7,13 +7,20 @@ extern crate gl;
 #[cfg(target_os = "emscripten")]
 pub mod emscripten;
 
+macro_rules! format_placeholders {
+    () => ("");
+    ($arg:expr) => ("{}");
+    ($head:expr, $($tail:expr),+) => (
+        concat!("{},", format_placeholders!($($tail),+))
+    )
+}
+
 #[cfg(target_os = "emscripten")]
 macro_rules! run_js {
     ($($($f:ident).+ ( $($args:expr),* );)*) => (
-        macro_rules! format_placeholder(($arg:expr) => ("{}"));
         $(
             ::emscripten::run_script(&format!(
-                concat!(stringify!($($f).+), concat!("(", $(format_placeholder!($args)),*), ")"),
+                concat!(stringify!($($f).+), "(", format_placeholders!($($args),*), ")"),
                 $(::serde_json::to_string($args).expect("Could not convert a value into json")),*));
         )*
     )
@@ -62,8 +69,9 @@ impl Application {
                     ::emscripten::run_script(include_str!(concat!(env!("OUT_DIR"),
                                                                   "/codevisual-lib.js")));
                     run_js!{
-                        CodeVisual.internal.init_css(include_str!(concat!(env!("OUT_DIR"), "/codevisual-lib.css")));
-                        CodeVisual.internal.init_html(include_str!(concat!(env!("OUT_DIR"), "/codevisual-lib.html")));
+                        CodeVisual.internal.init(
+                            include_str!(concat!(env!("OUT_DIR"), "/codevisual-lib.html")),
+                            include_str!(concat!(env!("OUT_DIR"), "/codevisual-lib.css")));
                     }
                     ::emscripten::create_gl_context().expect("Could not create OpenGL context");
                     gl::load_with(emscripten::get_proc_address);

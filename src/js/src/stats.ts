@@ -1,7 +1,7 @@
 // Original at https://github.com/mrdoob/stats.js/blob/master/src/Stats.js
 
 namespace CodeVisual {
-    export class Stats {
+    class Stats {
         dom: HTMLDivElement;
         private container: HTMLDivElement;
         private beginTime: number;
@@ -66,7 +66,7 @@ namespace CodeVisual {
         }
     }
 
-    export namespace Stats {
+    namespace Stats {
         let PR = Math.round(window.devicePixelRatio || 1);
         let WIDTH = 80 * PR, HEIGHT = 48 * PR,
             TEXT_X = 3 * PR, TEXT_Y = 2 * PR,
@@ -128,11 +128,13 @@ namespace CodeVisual {
         }
     }
 
-    export const stats = new Stats();
-
     export namespace internal {
+        const stats = new Stats();
         export function update_stats() {
             stats.update();
         }
+        on_init.push(() => {
+            $gameScreen.append(stats.dom);
+        });
     }
 }
