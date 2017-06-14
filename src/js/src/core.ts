@@ -23,11 +23,6 @@ namespace CodeVisual {
     let $gameScreen: JQuery;
     let $failedScreen: JQuery;
 
-    let $canvas: JQuery;
-    export let canvas: HTMLCanvasElement;
-
-    export let canvasScaling = 1;
-
     export namespace internal {
         export const on_init = [] as [() => void];
         export function init(html: string, css: string) {
@@ -40,11 +35,6 @@ namespace CodeVisual {
             $gameScreen = $player.find(".game-screen");
             $failedScreen = $player.find(".failed-screen");
 
-            $canvas = $player.find("canvas");
-            $canvas.on("contextmenu", () => false);
-            canvas = $canvas[0] as HTMLCanvasElement;
-            Module.canvas = canvas;
-
             for (let f of on_init) {
                 f();
             }
@@ -52,11 +42,6 @@ namespace CodeVisual {
         export function before_main_loop() {
             $loadingScreen.hide();
             $gameScreen.show();
-            setInterval(() => {
-                canvas.width = $canvas.width() / canvasScaling;
-                canvas.height = $canvas.height() / canvasScaling;
-                GLctx.viewport(0, 0, canvas.width, canvas.height);
-            }, 300);
         }
         export function show_error(json: any) {
             console.error(json);

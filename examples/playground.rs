@@ -60,7 +60,7 @@ const COUNT: usize = 10000;
 const SLOW_DOWN: f32 = 20.0;
 const MAX_SIZE: f32 = 0.0003;
 const MIN_SIZE: f32 = 0.0001;
-const ACTION_TICK: f32 = 0.01666666;
+const ACTION_TICK: f32 = 0.05;
 
 impl Test {
     fn new() -> Self {
