@@ -141,5 +141,19 @@ impl codevisual::Game for Test {
 }
 
 fn main() {
-    codevisual::run(Test::new());
+    codevisual::run({
+                        let mut test = Test::new();
+                        codevisual::Application::get_instance()
+                            .add_setting(codevisual::Setting::I32 {
+                                             name: "abacaba",
+                                             min_value: 1,
+                                             max_value: COUNT as i32,
+                                             default_value: 1,
+                                             setter: &mut |new_value| {
+                                                              println!("Setting updated: {}",
+                                                                       new_value);
+                                                          },
+                                         });
+                        test
+                    });
 }

@@ -1,11 +1,22 @@
 #[cfg(target_os = "emscripten")]
 extern crate emscripten_sys;
 
+extern crate serde;
 extern crate serde_json;
 extern crate gl;
 
 #[cfg(target_os = "emscripten")]
 pub mod emscripten;
+
+trait IntoJson {
+    fn into(self) -> String;
+}
+
+impl<'a, T: ?Sized + serde::Serialize> IntoJson for &'a T {
+    fn into(self) -> String {
+        ::serde_json::to_string(self).expect("Could not convert to JSON")
+    }
+}
 
 macro_rules! format_placeholders {
     () => ("");
@@ -21,13 +32,16 @@ macro_rules! run_js {
         $(
             ::emscripten::run_script(&format!(
                 concat!(stringify!($($f).+), "(", format_placeholders!($($args),*), ")"),
-                $(::serde_json::to_string($args).expect("Could not convert a value into json")),*));
+                $(::IntoJson::into($args)),*));
         )*
     )
 }
 
 pub mod draw;
 pub mod common;
+pub mod settings;
+
+pub use settings::*;
 
 pub struct Application {}
 
