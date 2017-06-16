@@ -50,17 +50,18 @@ impl draw::uniform::Data for Uniforms {
 struct Test {
     current_time: f32,
     next_action: f32,
-    geometry: draw::Geometry<Vertex, Instance>,
+    geometry: draw::InstancedGeometry<Instance, draw::PlainGeometry<Vertex>>,
     shader: draw::Shader,
     uniforms: Uniforms,
-    instances: Vec<Instance>,
+    draw_count: i32,
+    actions_per_tick: i32,
 }
 
 const COUNT: usize = 10000;
 const SLOW_DOWN: f32 = 20.0;
 const MAX_SIZE: f32 = 0.0003;
 const MIN_SIZE: f32 = 0.0001;
-const ACTION_TICK: f32 = 0.05;
+const ACTION_TICK: f32 = 0.016666;
 
 impl Test {
     fn new() -> Self {
@@ -80,29 +81,21 @@ impl Test {
             shader: codevisual::draw::Shader::compile(include_str!("vertex.glsl"),
                                                       include_str!("fragment.glsl"))
                     .unwrap(),
-            geometry: codevisual::draw::Geometry::new_instanced(draw::geometry::Mode::TriangleFan,
-                                                                &[Vertex {
-                                                                     a_pos: vec2(-1.0, -1.0),
-                                                                 },
-                                                                 Vertex {
-                                                                     a_pos: vec2(-1.0, 1.0),
-                                                                 },
-                                                                 Vertex {
-                                                                     a_pos: vec2(1.0, 1.0),
-                                                                 },
-                                                                 Vertex {
-                                                                     a_pos: vec2(1.0, -1.0),
-                                                                 }],
-                                                                &instances)
-                    .unwrap(),
+            geometry: draw::InstancedGeometry::new(std::rc::Rc::new(draw::PlainGeometry::new(draw::geometry::Mode::TriangleFan,
+                                                   vec![Vertex { a_pos: vec2(-1.0, -1.0) },
+                                                        Vertex { a_pos: vec2(-1.0, 1.0) },
+                                                        Vertex { a_pos: vec2(1.0, 1.0) },
+                                                        Vertex { a_pos: vec2(1.0, -1.0) }])),
+                                                   instances),
             uniforms: Uniforms {
                 u_time: 0.0,
                 u_matrix: Mat4::identity(),
                 u_texture: texture,
                 u_scale: 1.0,
             },
-            instances,
             next_action: 0.0,
+            draw_count: COUNT as i32,
+            actions_per_tick: 1000,
         }
     }
 }
@@ -116,16 +109,15 @@ impl codevisual::Game for Test {
         self.next_action -= delta_time;
         while self.next_action < 0.0 {
             self.next_action += ACTION_TICK;
-            for _ in 0..1000 {
-                let i = random::<usize>() % self.instances.len();
-                let cur = &mut self.instances[i];
+            for _ in 0..self.actions_per_tick {
+                let i = random::<usize>() % self.geometry.get_instance_data().len();
+                let ref mut cur = *self.geometry.get_instance_data_mut().index_mut(i);
                 let target = vec2(random::<f32>() * 2.0 - 1.0, random::<f32>() * 2.0 - 1.0);
                 let cur_pos = cur.i_start_pos +
                               cur.i_speed * (self.current_time - cur.i_start_time);
                 cur.i_start_pos = cur_pos;
                 cur.i_speed = (target - cur_pos).normalize() / SLOW_DOWN;
                 cur.i_start_time = self.current_time;
-                self.geometry.set_instance(i, cur);
             }
         }
     }
@@ -136,24 +128,41 @@ impl codevisual::Game for Test {
             let (w, h) = codevisual::Application::get_instance().get_size();
             Mat4::perspective(std::f32::consts::PI / 2.0, w as f32 / h as f32, 0.1, 1000.0)
         };
-        target.draw(&self.geometry, &self.shader, &self.uniforms);
+        target.draw(&self.geometry.slice(0..self.draw_count as usize),
+                    &self.shader,
+                    &self.uniforms);
     }
 }
 
 fn main() {
-    codevisual::run({
-                        let mut test = Test::new();
-                        codevisual::Application::get_instance()
-                            .add_setting(codevisual::Setting::I32 {
-                                             name: "abacaba",
-                                             min_value: 1,
-                                             max_value: COUNT as i32,
-                                             default_value: 1,
-                                             setter: &mut |new_value| {
-                                                              println!("Setting updated: {}",
-                                                                       new_value);
-                                                          },
-                                         });
-                        test
-                    });
+    let mut test = Test::new();
+    codevisual::Application::get_instance().add_setting(codevisual::Setting::I32 {
+                                                            name: "Particle count",
+                                                            min_value: 1,
+                                                            max_value: COUNT as i32,
+                                                            default_value: test.draw_count,
+                                                            setter: &mut |new_value| {
+                                                                             test.draw_count =
+                                                                                 new_value;
+                                                                         },
+                                                        });
+    codevisual::Application::get_instance().add_setting(codevisual::Setting::I32 {
+                                                            name: "Actions per tick",
+                                                            min_value: 0,
+                                                            max_value: 1000,
+                                                            default_value: test.actions_per_tick,
+                                                            setter: &mut |new_value| {
+        test.actions_per_tick = new_value;
+    },
+                                                        });
+    codevisual::Application::get_instance().add_setting(codevisual::Setting::I32 {
+                                                            name: "Scale",
+                                                            min_value: 10,
+                                                            max_value: 1000,
+                                                            default_value: 10,
+                                                            setter: &mut |new_value| {
+        test.uniforms.u_scale = new_value as f32 / 10.0;
+    },
+                                                        });
+    codevisual::run(&mut test);
 }

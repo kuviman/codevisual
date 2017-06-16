@@ -108,7 +108,7 @@ pub trait Game {
     fn render<T: draw::Target>(&mut self, target: &mut T);
 }
 
-pub fn run<G: Game>(mut game: G) {
+pub fn run<G: Game>(game: &mut G) {
     Application::get_instance();
 
     #[cfg(target_os = "emscripten")]
