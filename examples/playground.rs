@@ -36,6 +36,7 @@ struct Uniforms {
     u_matrix: Mat4<f32>,
     u_texture: codevisual::draw::Texture,
     u_scale: f32,
+    u_pos: Vec2<f32>,
 }
 
 impl draw::uniform::Data for Uniforms {
@@ -44,6 +45,7 @@ impl draw::uniform::Data for Uniforms {
         f.consume("u_matrix", &self.u_matrix);
         f.consume("u_texture", &self.u_texture);
         f.consume("u_scale", &self.u_scale);
+        f.consume("u_pos", &self.u_pos);
     }
 }
 
@@ -55,6 +57,7 @@ struct Test {
     uniforms: Uniforms,
     draw_count: i32,
     actions_per_tick: i32,
+    start_drag: Option<Vec2<i32>>,
 }
 
 const COUNT: usize = 10000;
@@ -92,10 +95,12 @@ impl Test {
                 u_matrix: Mat4::identity(),
                 u_texture: texture,
                 u_scale: 1.0,
+                u_pos: vec2(0.0, 0.0),
             },
             next_action: 0.0,
             draw_count: COUNT as i32,
             actions_per_tick: 1000,
+            start_drag: None,
         }
     }
 }
@@ -133,7 +138,27 @@ impl codevisual::Game for Test {
                     &self.uniforms);
     }
     fn handle_event(&mut self, event: codevisual::Event) {
-        println!("{:?}", event);
+        use codevisual::Event::*;
+        match event {
+            MouseDown {
+                x,
+                y,
+                button: codevisual::MouseButton::Left,
+            } => self.start_drag = Some(vec2(x, y)),
+            MouseMove { x, y } => {
+                if let Some(Vec2 {
+                                x: prev_x,
+                                y: prev_y,
+                            }) = self.start_drag {
+                    self.uniforms.u_pos += vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
+                                           1000.0 /
+                                           self.uniforms.u_scale;
+                    self.start_drag = Some(vec2(x, y));
+                }
+            }
+            MouseUp { button: codevisual::MouseButton::Left, .. } => self.start_drag = None,
+            _ => (),
+        }
     }
 }
 

@@ -10,13 +10,20 @@ pub fn vec2<T>(x: T, y: T) -> Vec2<T> {
     Vec2 { x, y }
 }
 
-impl<T: std::ops::Add<T, Output = T>> std::ops::Add<Vec2<T>> for Vec2<T> {
+impl<T: std::ops::Add<T, Output = T>> std::ops::Add for Vec2<T> {
     type Output = Self;
     fn add(self, rhs: Self) -> Self {
         Self {
             x: self.x + rhs.x,
             y: self.y + rhs.y,
         }
+    }
+}
+
+impl<T: std::ops::AddAssign<T>> std::ops::AddAssign for Vec2<T> {
+    fn add_assign(&mut self, rhs: Self) {
+        self.x += rhs.x;
+        self.y += rhs.y;
     }
 }
 
