@@ -132,6 +132,9 @@ impl codevisual::Game for Test {
                     &self.shader,
                     &self.uniforms);
     }
+    fn handle_event(&mut self, event: codevisual::Event) {
+        println!("{:?}", event);
+    }
 }
 
 fn main() {

@@ -7,6 +7,7 @@ authors = ["kuviman <kuviman@gmail.com>"]
 serde = "*"
 serde_json = "*"
 gl = "*"
+lazy_static = "*"
 
 [target.'cfg(target_os="emscripten")'.dependencies]
 emscripten-sys = "*"

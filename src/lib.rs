@@ -1,12 +1,21 @@
 #[cfg(target_os = "emscripten")]
 extern crate emscripten_sys;
-
 extern crate serde;
 extern crate serde_json;
 extern crate gl;
+#[macro_use]
+extern crate lazy_static;
 
 #[cfg(target_os = "emscripten")]
-pub mod emscripten;
+#[macro_use]
+mod emscripten;
+pub mod draw;
+pub mod common;
+mod settings;
+mod events;
+
+pub use settings::*;
+pub use events::*;
 
 trait IntoJson {
     fn into(self) -> String;
@@ -18,31 +27,6 @@ impl<'a, T: ?Sized + serde::Serialize> IntoJson for &'a T {
     }
 }
 
-macro_rules! format_placeholders {
-    () => ("");
-    ($arg:expr) => ("{}");
-    ($head:expr, $($tail:expr),+) => (
-        concat!("{},", format_placeholders!($($tail),+))
-    )
-}
-
-#[cfg(target_os = "emscripten")]
-macro_rules! run_js {
-    ($($($f:ident).+ ( $($args:expr),* );)*) => (
-        $(
-            ::emscripten::run_script(&format!(
-                concat!(stringify!($($f).+), "(", format_placeholders!($($args),*), ")"),
-                $(::IntoJson::into($args)),*));
-        )*
-    )
-}
-
-pub mod draw;
-pub mod common;
-pub mod settings;
-
-pub use settings::*;
-
 pub struct Application {}
 
 static mut APPLICATION_INSTANCE: Option<Application> = None;
@@ -51,6 +35,9 @@ pub type Error = String;
 
 impl Application {
     pub fn get_instance() -> &'static Self {
+        Self::get_instance_mut()
+    }
+    pub(crate) fn get_instance_mut() -> &'static mut Self {
         unsafe {
             if let None = APPLICATION_INSTANCE {
                 #[cfg(target_os = "emscripten")]
@@ -90,10 +77,11 @@ impl Application {
                     ::emscripten::create_gl_context().expect("Could not create OpenGL context");
                     gl::load_with(emscripten::get_proc_address);
                 }
+                events::init();
 
                 APPLICATION_INSTANCE = Some(Application {});
             }
-            APPLICATION_INSTANCE.as_ref().unwrap()
+            APPLICATION_INSTANCE.as_mut().unwrap()
         }
     }
 
@@ -106,6 +94,7 @@ impl Application {
 pub trait Game {
     fn update(&mut self, delta_time: f32);
     fn render<T: draw::Target>(&mut self, target: &mut T);
+    fn handle_event(&mut self, event: Event);
 }
 
 pub fn run<G: Game>(game: &mut G) {
@@ -118,6 +107,10 @@ pub fn run<G: Game>(game: &mut G) {
         }
         let mut prev_time = emscripten::get_now();
         emscripten::set_main_loop(|| {
+            for event in events::get() {
+                game.handle_event(event);
+            }
+
             let now_time = emscripten::get_now();
             let delta_time = now_time - prev_time;
             prev_time = now_time;

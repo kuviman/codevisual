@@ -1,6 +1,25 @@
 use std;
-use std::os::raw::c_void;
+use std::os::raw::{c_int, c_void};
 use std::ffi::CString;
+
+macro_rules! format_placeholders {
+    () => ("");
+    ($arg:expr) => ("{}");
+    ($head:expr, $($tail:expr),+) => (
+        concat!("{},", format_placeholders!($($tail),+))
+    )
+}
+
+#[cfg(target_os = "emscripten")]
+macro_rules! run_js {
+    ($($($f:ident).+ ( $($args:expr),* );)*) => (
+        $(
+            ::emscripten::run_script(&format!(
+                concat!(stringify!($($f).+), "(", format_placeholders!($($args),*), ")"),
+                $(::IntoJson::into($args)),*));
+        )*
+    )
+}
 
 pub fn random() -> f64 {
     unsafe { ::emscripten_sys::emscripten_random() as f64 }
@@ -66,5 +85,121 @@ pub fn set_main_loop<F: FnMut()>(callback: F) {
         let mut callback = Box::<Box<F>>::from_raw(arg as *mut _);
         callback();
         std::mem::forget(callback);
+    }
+}
+
+pub enum MouseButton {
+    Left,
+    Middle,
+    Right,
+}
+
+pub struct MouseDownEvent {
+    pub canvas_x: i32,
+    pub canvas_y: i32,
+    pub button: MouseButton,
+}
+
+pub fn set_mousedown_callback<F: FnMut(MouseDownEvent)>(callback: F) {
+    let callback = Box::new(Box::new(callback));
+    unsafe {
+        ::emscripten_sys::emscripten_set_mousedown_callback(CString::new("#canvas")
+                                                                .unwrap()
+                                                                .as_ptr(),
+                                                            Box::into_raw(callback) as *mut _,
+                                                            1,
+                                                            Some(wrapper::<F>));
+    }
+    unsafe extern "C" fn wrapper<F>(_: c_int,
+                                    event: *const ::emscripten_sys::EmscriptenMouseEvent,
+                                    arg: *mut c_void)
+                                    -> c_int
+        where F: FnMut(MouseDownEvent)
+    {
+        let event = *event;
+        let mut callback = Box::<Box<F>>::from_raw(arg as *mut _);
+        callback(MouseDownEvent {
+                     canvas_x: event.canvasX as i32,
+                     canvas_y: event.canvasY as i32,
+                     button: match event.button {
+                         0 => MouseButton::Left,
+                         1 => MouseButton::Middle,
+                         2 => MouseButton::Right,
+                         _ => panic!("Unexpected mouse button pressed"),
+                     },
+                 });
+        std::mem::forget(callback);
+        1
+    }
+}
+
+pub struct MouseUpEvent {
+    pub canvas_x: i32,
+    pub canvas_y: i32,
+    pub button: MouseButton,
+}
+
+pub fn set_mouseup_callback<F: FnMut(MouseUpEvent)>(callback: F) {
+    let callback = Box::new(Box::new(callback));
+    unsafe {
+        ::emscripten_sys::emscripten_set_mouseup_callback(CString::new("#canvas")
+                                                              .unwrap()
+                                                              .as_ptr(),
+                                                          Box::into_raw(callback) as *mut _,
+                                                          1,
+                                                          Some(wrapper::<F>));
+    }
+    unsafe extern "C" fn wrapper<F>(_: c_int,
+                                    event: *const ::emscripten_sys::EmscriptenMouseEvent,
+                                    arg: *mut c_void)
+                                    -> c_int
+        where F: FnMut(MouseUpEvent)
+    {
+        let event = *event;
+        let mut callback = Box::<Box<F>>::from_raw(arg as *mut _);
+        callback(MouseUpEvent {
+                     canvas_x: event.canvasX as i32,
+                     canvas_y: event.canvasY as i32,
+                     button: match event.button {
+                         0 => MouseButton::Left,
+                         1 => MouseButton::Middle,
+                         2 => MouseButton::Right,
+                         _ => panic!("Unexpected mouse button pressed"),
+                     },
+                 });
+        std::mem::forget(callback);
+        1
+    }
+}
+
+pub struct MouseMoveEvent {
+    pub canvas_x: i32,
+    pub canvas_y: i32,
+}
+
+pub fn set_mousemove_callback<F: FnMut(MouseMoveEvent)>(callback: F) {
+    let callback = Box::new(Box::new(callback));
+    unsafe {
+        ::emscripten_sys::emscripten_set_mousemove_callback(CString::new("#canvas")
+                                                                .unwrap()
+                                                                .as_ptr(),
+                                                            Box::into_raw(callback) as *mut _,
+                                                            1,
+                                                            Some(wrapper::<F>));
+    }
+    unsafe extern "C" fn wrapper<F>(_: c_int,
+                                    event: *const ::emscripten_sys::EmscriptenMouseEvent,
+                                    arg: *mut c_void)
+                                    -> c_int
+        where F: FnMut(MouseMoveEvent)
+    {
+        let event = *event;
+        let mut callback = Box::<Box<F>>::from_raw(arg as *mut _);
+        callback(MouseMoveEvent {
+                     canvas_x: event.canvasX as i32,
+                     canvas_y: event.canvasY as i32,
+                 });
+        std::mem::forget(callback);
+        1
     }
 }
