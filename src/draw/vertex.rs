@@ -27,6 +27,14 @@ impl Attribute for Vec2<f32> {
         gl::FLOAT
     }
 }
+impl Attribute for Vec3<f32> {
+    fn get_gl_size() -> GLsizei {
+        3
+    }
+    fn get_gl_type() -> GLenum {
+        gl::FLOAT
+    }
+}
 impl Attribute for Color {
     fn get_gl_size() -> GLsizei {
         4

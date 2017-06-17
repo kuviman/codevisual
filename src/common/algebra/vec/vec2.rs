@@ -1,16 +1,16 @@
 use std;
 
 #[derive(Debug, Copy, Clone)]
-pub struct Vec2<T = f64> {
+pub struct Vec2<T: Copy = f64> {
     pub x: T,
     pub y: T,
 }
 
-pub fn vec2<T>(x: T, y: T) -> Vec2<T> {
+pub fn vec2<T: Copy>(x: T, y: T) -> Vec2<T> {
     Vec2 { x, y }
 }
 
-impl<T: std::ops::Add<T, Output = T>> std::ops::Add for Vec2<T> {
+impl<T: Copy + std::ops::Add<T, Output = T>> std::ops::Add for Vec2<T> {
     type Output = Self;
     fn add(self, rhs: Self) -> Self {
         Self {
@@ -20,14 +20,14 @@ impl<T: std::ops::Add<T, Output = T>> std::ops::Add for Vec2<T> {
     }
 }
 
-impl<T: std::ops::AddAssign<T>> std::ops::AddAssign for Vec2<T> {
+impl<T: Copy + std::ops::AddAssign<T>> std::ops::AddAssign for Vec2<T> {
     fn add_assign(&mut self, rhs: Self) {
         self.x += rhs.x;
         self.y += rhs.y;
     }
 }
 
-impl<T: std::ops::Sub<T, Output = T>> std::ops::Sub<Vec2<T>> for Vec2<T> {
+impl<T: Copy + std::ops::Sub<T, Output = T>> std::ops::Sub<Vec2<T>> for Vec2<T> {
     type Output = Self;
     fn sub(self, rhs: Self) -> Self {
         Self {

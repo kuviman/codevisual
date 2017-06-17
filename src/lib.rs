@@ -118,8 +118,9 @@ pub fn run<G: Game>(game: &mut G) {
             let mut screen = draw::Screen;
             unsafe {
                 // TODO: find place for it
-                gl::Enable(gl::BLEND);
-                gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
+                gl::Enable(gl::DEPTH_TEST);
+                // gl::Enable(gl::BLEND);
+                // gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
             }
             game.render(&mut screen);
             run_js!{

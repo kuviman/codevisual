@@ -125,7 +125,7 @@ impl Target for Screen {
     fn clear(&mut self, color: Color) {
         unsafe {
             gl::ClearColor(color.red, color.green, color.blue, color.alpha);
-            gl::Clear(gl::COLOR_BUFFER_BIT);
+            gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
         }
     }
     fn draw<G: Geometry, U: uniform::Data>(&mut self,

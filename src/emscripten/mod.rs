@@ -203,3 +203,41 @@ pub fn set_mousemove_callback<F: FnMut(MouseMoveEvent)>(callback: F) {
         1
     }
 }
+
+pub struct WheelEvent {
+    pub canvas_x: i32,
+    pub canvas_y: i32,
+    pub delta: f64,
+}
+
+pub fn set_wheel_callback<F: FnMut(WheelEvent)>(callback: F) {
+    let callback = Box::new(Box::new(callback));
+    unsafe {
+        ::emscripten_sys::emscripten_set_wheel_callback(CString::new("#canvas").unwrap().as_ptr(),
+                                                        Box::into_raw(callback) as *mut _,
+                                                        1,
+                                                        Some(wrapper::<F>));
+    }
+    unsafe extern "C" fn wrapper<F>(_: c_int,
+                                    event: *const ::emscripten_sys::EmscriptenWheelEvent,
+                                    arg: *mut c_void)
+                                    -> c_int
+        where F: FnMut(WheelEvent)
+    {
+        let event = *event;
+        let mut callback = Box::<Box<F>>::from_raw(arg as *mut _);
+        callback(WheelEvent {
+                     canvas_x: event.mouse.canvasX as i32,
+                     canvas_y: event.mouse.canvasY as i32,
+                     delta: event.deltaY as f64 *
+                            match event.deltaMode {
+                                0x00 => 1.0,
+                                0x01 => 16.0,
+                                0x02 => 800.0,
+                                _ => panic!("Unexpected event.deltaMode"),
+                            },
+                 });
+        std::mem::forget(callback);
+        1
+    }
+}

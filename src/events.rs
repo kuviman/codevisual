@@ -12,6 +12,7 @@ pub enum Event {
     MouseDown { x: i32, y: i32, button: MouseButton },
     MouseUp { x: i32, y: i32, button: MouseButton },
     MouseMove { x: i32, y: i32 },
+    Wheel { delta: f64 },
 }
 
 lazy_static!{
@@ -63,6 +64,12 @@ impl EmscriptenEvent for ::emscripten::MouseMoveEvent {
     }
 }
 
+impl EmscriptenEvent for ::emscripten::WheelEvent {
+    fn into_event(self) -> Event {
+        Event::Wheel { delta: self.delta }
+    }
+}
+
 pub(crate) fn init() {
     ::emscripten::set_mousedown_callback(|event| {
                                              EVENTS.lock().unwrap().push(event.into_event());
@@ -73,6 +80,9 @@ pub(crate) fn init() {
     ::emscripten::set_mousemove_callback(|event| {
                                              EVENTS.lock().unwrap().push(event.into_event());
                                          });
+    ::emscripten::set_wheel_callback(|event| {
+                                         EVENTS.lock().unwrap().push(event.into_event());
+                                     });
 }
 
 pub(crate) struct EventIterator;
