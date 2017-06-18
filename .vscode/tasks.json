@@ -1,7 +1,13 @@
 {
     "version": "0.1.0",
     "windows": {
-        "tasks": []
+        "tasks": [
+            {
+                "taskName": "Make Web",
+                "command": "make-web",
+                "isShellCommand": true
+            }
+        ]
     },
     "linux": {
         "tasks": [
@@ -12,20 +18,22 @@
                     "make-web.sh"
                 ],
                 "isShellCommand": true
-            },
-            {
-                "taskName": "Run",
-                "command": "cargo",
-                "args": [
-                    "run",
-                    "--example",
-                    "playground"
-                ],
-                "isShellCommand": true,
-                "options": {
-                    "cwd": "${workspaceRoot}/examples/public"
-                }
             }
         ]
-    }
+    },
+    "tasks": [
+        {
+            "taskName": "Run",
+            "command": "cargo",
+            "args": [
+                "run",
+                "--example",
+                "playground"
+            ],
+            "isShellCommand": true,
+            "options": {
+                "cwd": "${workspaceRoot}/examples/public"
+            }
+        }
+    ]
 }
