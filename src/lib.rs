@@ -2,12 +2,12 @@ extern crate gl;
 #[macro_use]
 extern crate lazy_static;
 
+pub extern crate codevisual_common as common;
 #[cfg(target_os = "emscripten")]
 #[macro_use]
 extern crate emscripten;
 
 pub mod draw;
-pub mod common;
 mod settings;
 mod events;
 

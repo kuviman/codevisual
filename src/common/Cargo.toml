@@ -1,0 +1,7 @@
+[package]
+name = "codevisual_common"
+version = "0.1.0"
+authors = ["kuviman <kuviman@gmail.com>"]
+
+[target.'cfg(target_os="emscripten")'.dependencies]
+emscripten = { path = "../emscripten" }
