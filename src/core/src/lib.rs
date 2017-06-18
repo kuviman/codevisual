@@ -5,7 +5,7 @@ extern crate lazy_static;
 #[cfg(not(target_os = "emscripten"))]
 extern crate glutin;
 
-pub extern crate codevisual_common as common;
+pub extern crate codevisual_commons as commons;
 
 #[cfg(target_os = "emscripten")]
 #[macro_use]

@@ -1,7 +1,7 @@
 use std;
 use std::os::raw::c_void;
 
-use common::*;
+use commons::*;
 
 use gl::types::*;
 use gl;

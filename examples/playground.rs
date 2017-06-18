@@ -2,7 +2,7 @@ extern crate codevisual;
 #[macro_use]
 extern crate codevisual_derive;
 
-use codevisual::common::*;
+use codevisual::commons::*;
 use codevisual::draw;
 
 #[derive(Vertex, Debug, Copy, Clone)]

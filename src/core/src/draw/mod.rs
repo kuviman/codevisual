@@ -14,7 +14,7 @@ pub use self::shader::*;
 pub mod texture;
 pub use self::texture::*;
 
-use common::*;
+use commons::*;
 
 pub trait Target {
     fn clear(&mut self, color: Color);

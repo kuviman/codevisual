@@ -4,6 +4,6 @@ version = "0.1.0"
 authors = ["kuviman <kuviman@gmail.com>"]
 
 [dependencies]
-codevisual_common = { path = "src/common" }
+codevisual_commons = { path = "src/commons" }
 codevisual_core = { path = "src/core" }
 codevisual_derive = { path = "src/core/derive" }

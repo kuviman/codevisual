@@ -1,4 +1,4 @@
-use common::*;
+use commons::*;
 use gl::types::*;
 use gl;
 

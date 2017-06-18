@@ -7,7 +7,7 @@ authors = ["kuviman <kuviman@gmail.com>"]
 gl = "*"
 lazy_static = "*"
 
-codevisual_common = { path = "../common" }
+codevisual_commons = { path = "../commons" }
 codevisual_derive = { path = "derive" }
 
 [target.'cfg(not(target_os = "emscripten"))'.dependencies]
