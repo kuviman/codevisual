@@ -5,6 +5,9 @@ extern crate lazy_static;
 #[cfg(not(target_os = "emscripten"))]
 extern crate glutin;
 
+#[cfg(not(target_os = "emscripten"))]
+extern crate image;
+
 pub extern crate codevisual_commons as commons;
 
 #[cfg(target_os = "emscripten")]
@@ -110,7 +113,7 @@ impl Application {
 
     #[cfg(not(target_os = "emscripten"))]
     pub fn get_size(&self) -> (u32, u32) {
-        (640, 480) // TODO
+        self.window.get_inner_size_pixels().unwrap()
     }
 }
 

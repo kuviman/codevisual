@@ -155,6 +155,14 @@ mod implementation {
                                         });
                         }
                     }
+                    ::glutin::WindowEvent::Resized(..) => {
+                        use gl;
+                        use gl::types::*;
+                        let (w, h) = ::Application::get_instance().get_size();
+                        unsafe {
+                            gl::Viewport(0, 0, w as GLsizei, h as GLsizei);
+                        }
+                    }
                     _ => {}
                 }
             });

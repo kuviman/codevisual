@@ -12,6 +12,7 @@ codevisual_derive = { path = "derive" }
 
 [target.'cfg(not(target_os = "emscripten"))'.dependencies]
 glutin = "*"
+image = "*"
 
 [target.'cfg(target_os = "emscripten")'.dependencies]
 emscripten = { path = "../bindings/emscripten" }
