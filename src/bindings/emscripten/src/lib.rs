@@ -100,9 +100,6 @@ pub fn set_main_loop<F: FnMut()>(callback: F) {
         let mut callback = Box::<Box<F>>::from_raw(arg as *mut _);
         callback();
         std::mem::forget(callback);
-        run_js!{
-            console.log("abacaba");
-        }
     }
 }
 

@@ -10,6 +10,9 @@ lazy_static = "*"
 codevisual_common = { path = "../common" }
 codevisual_derive = { path = "derive" }
 
+[target.'cfg(not(target_os = "emscripten"))'.dependencies]
+glutin = "*"
+
 [target.'cfg(target_os = "emscripten")'.dependencies]
 emscripten = { path = "../bindings/emscripten" }
 codevisual_html = { path = "web/html" }

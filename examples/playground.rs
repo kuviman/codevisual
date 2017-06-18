@@ -180,7 +180,7 @@ impl codevisual::Game for Test {
         while self.next_action < 0.0 {
             self.next_action += ACTION_TICK;
             for _ in 0..self.actions_per_tick {
-                let i = random::<usize>() % self.geometry.get_instance_data().len();
+                let i = random_range(0..self.geometry.get_instance_data().len());
                 let ref mut cur = *self.geometry.get_instance_data_mut().index_mut(i);
                 let mut target = cur.i_start_pos +
                                  vec2(random::<f32>() * 2.0 - 1.0, random::<f32>() * 2.0 - 1.0) *
@@ -212,7 +212,7 @@ impl codevisual::Game for Test {
         }
     }
     fn render<T: DrawTarget>(&mut self, target: &mut T) {
-        target.clear(Color::rgb(0.0, 0.0, 0.0));
+        target.clear(Color::rgb(1.0, 1.0, 1.0));
         self.uniforms.u_time = self.current_time;
         self.uniforms.u_matrix = {
             let (w, h) = codevisual::Application::get_instance().get_size();

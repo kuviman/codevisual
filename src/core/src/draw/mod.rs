@@ -16,16 +16,6 @@ pub use self::texture::*;
 
 use common::*;
 
-#[allow(dead_code)]
-fn check_gl_error() {
-    unsafe {
-        let error = gl::GetError();
-        if error != gl::NO_ERROR {
-            panic!("OpenGL error: {}", error);
-        }
-    }
-}
-
 pub trait Target {
     fn clear(&mut self, color: Color);
     fn draw<G: Geometry, U: uniform::Data>(&mut self,
@@ -135,6 +125,9 @@ impl Target for Screen {
         use draw::geometry::Mode::*;
         unsafe {
             gl::UseProgram(shader.handle);
+            let mut vao: GLuint = std::mem::uninitialized();
+            gl::GenVertexArrays(1, &mut vao as *mut _);
+            gl::BindVertexArray(vao);
             prepare_geometry_attributes(shader, geometry);
             apply_uniforms(shader, uniforms);
             let gl_mode = match geometry.get_mode() {
@@ -168,6 +161,7 @@ impl Target for Screen {
                                     0,
                                     counter_walker.vertex_count.unwrap(),
                                     counter_walker.instance_count);
+            gl::DeleteVertexArrays(1, &vao as *const _);
         }
     }
 }

@@ -5,3 +5,6 @@ authors = ["kuviman <kuviman@gmail.com>"]
 
 [target.'cfg(target_os="emscripten")'.dependencies]
 emscripten = { path = "../bindings/emscripten" }
+
+[target.'cfg(not(target_os="emscripten"))'.dependencies]
+rand = "*"

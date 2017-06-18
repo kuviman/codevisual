@@ -1,11 +1,20 @@
+#[cfg(not(target_os = "emscripten"))]
+extern crate rand;
+
+use std;
+
 pub trait Random {
     fn get_random() -> Self;
 }
 
 impl Random for f64 {
+    #[cfg(target_os = "emscripten")]
     fn get_random() -> f64 {
-        #[cfg(target_os = "emscripten")]
         ::emscripten::random()
+    }
+    #[cfg(not(target_os = "emscripten"))]
+    fn get_random() -> f64 {
+        self::rand::random()
     }
 }
 
@@ -15,12 +24,10 @@ impl Random for f32 {
     }
 }
 
-impl Random for usize {
-    fn get_random() -> usize {
-        (<f64 as Random>::get_random() * usize::max_value() as f64) as usize
-    }
-}
-
 pub fn random<R: Random>() -> R {
     R::get_random()
+}
+
+pub fn random_range(range: std::ops::Range<usize>) -> usize {
+    range.start + (random::<f64>() * (range.end - range.start) as f64) as usize
 }
