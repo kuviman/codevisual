@@ -1,4 +1,5 @@
 use std;
+use common::*;
 
 #[derive(Debug, Copy, Clone)]
 pub struct Mat4<T: Copy = f64> {
@@ -23,6 +24,23 @@ impl Mat4<f32> {
         for i in 0..4 {
             result[(i, i)] = 1.0;
         }
+        result
+    }
+
+    pub fn scale(factor: f32) -> Self {
+        let mut result = Self { values: [0.0; 16] };
+        result[(0, 0)] = factor;
+        result[(1, 1)] = factor;
+        result[(2, 2)] = factor;
+        result[(3, 3)] = 1.0;
+        result
+    }
+
+    pub fn translate(dv: Vec3<f32>) -> Self {
+        let mut result = Self::identity();
+        result[(0, 3)] = dv.x;
+        result[(1, 3)] = dv.y;
+        result[(2, 3)] = dv.z;
         result
     }
 
@@ -61,12 +79,28 @@ impl Mat4<f32> {
 impl<T: Copy> std::ops::Index<(usize, usize)> for Mat4<T> {
     type Output = T;
     fn index(&self, index: (usize, usize)) -> &Self::Output {
-        &self.values[index.0 * 4 + index.1]
+        &self.values[index.1 * 4 + index.0]
     }
 }
 
 impl<T: Copy> std::ops::IndexMut<(usize, usize)> for Mat4<T> {
     fn index_mut(&mut self, index: (usize, usize)) -> &mut Self::Output {
-        &mut self.values[index.0 * 4 + index.1]
+        &mut self.values[index.1 * 4 + index.0]
+    }
+}
+
+impl std::ops::Mul for Mat4<f32> {
+    type Output = Self;
+    fn mul(self, rhs: Self) -> Self {
+        let mut result = Self { values: [0.0; 16] };
+        for i in 0..4 {
+            for j in 0..4 {
+                let cur = &mut result[(i, j)];
+                for t in 0..4 {
+                    *cur += self[(i, t)] * rhs[(t, j)];
+                }
+            }
+        }
+        result
     }
 }

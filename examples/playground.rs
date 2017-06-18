@@ -25,6 +25,7 @@ struct Instance {
     i_color: Color,
     i_size: f32,
     i_angle: f32,
+    i_start_angle: f32,
 }
 
 impl draw::vertex::Data for Instance {
@@ -35,6 +36,7 @@ impl draw::vertex::Data for Instance {
         f.consume("i_color", &self.i_color);
         f.consume("i_size", &self.i_size);
         f.consume("i_angle", &self.i_angle);
+        f.consume("i_start_angle", &self.i_start_angle);
     }
 }
 
@@ -42,8 +44,6 @@ struct Uniforms {
     u_time: f32,
     u_matrix: Mat4<f32>,
     u_texture: codevisual::draw::Texture,
-    u_scale: f32,
-    u_pos: Vec2<f32>,
 }
 
 impl draw::uniform::Data for Uniforms {
@@ -51,8 +51,6 @@ impl draw::uniform::Data for Uniforms {
         f.consume("u_time", &self.u_time);
         f.consume("u_matrix", &self.u_matrix);
         f.consume("u_texture", &self.u_texture);
-        f.consume("u_scale", &self.u_scale);
-        f.consume("u_pos", &self.u_pos);
     }
 }
 
@@ -62,37 +60,46 @@ struct Test {
     geometry: draw::InstancedGeometry<Instance, draw::PlainGeometry<Vertex>>,
     shader: draw::Shader,
     uniforms: Uniforms,
-    draw_count: i32,
-    actions_per_tick: i32,
+    draw_count: usize,
+    actions_per_tick: usize,
     start_drag: Option<Vec2<i32>>,
+    camera_distance: f32,
+    pos: Vec2<f32>,
+    time_scale: f32,
 }
 
+const MIN_CAMERA_DIST: f32 = 6.0;
+const MAX_CAMERA_DIST: f32 = 2000.0;
 const COUNT: usize = 10000;
-const SLOW_DOWN: f32 = 20.0;
-const MAX_SIZE: f32 = 0.0003;
-const MIN_SIZE: f32 = 0.0001;
+const MAX_SIZE: f32 = 1.5;
+const MIN_SIZE: f32 = 0.5;
+const MAP_SIZE: f32 = 1000.0;
 const ACTION_TICK: f32 = 0.016666;
+const SPEED: f32 = 15.0;
 
 impl Test {
     fn new() -> Self {
         let mut instances = Vec::new();
         for _ in 0..COUNT {
             instances.push(Instance {
-                               i_start_pos: vec2(0.0, 0.0),
+                               i_start_pos: vec2(random::<f32>() * 2.0 - 1.0,
+                                                 random::<f32>() * 2.0 - 1.0) *
+                                            MAP_SIZE,
                                i_speed: vec2(0.0, 0.0),
                                i_start_time: 0.0,
                                i_size: random::<f32>() * (MAX_SIZE - MIN_SIZE) + MAX_SIZE,
                                i_color: Color::rgb(1.0, random::<f32>(), 0.0),
                                i_angle: 0.0,
+                               i_start_angle: 0.0,
                            });
         }
-        let texture = codevisual::draw::Texture::load("assets/BUGGY_BLUE.png").unwrap();
+        let texture = codevisual::draw::Texture::load("assets/car.png").unwrap();
         let vertices = {
             let mut v = Vec::new();
             let mut n = Vec::new();
             let mut vt = Vec::new();
             let mut result = Vec::new();
-            for line in include_str!("public/assets/BUGGY.obj").lines() {
+            for line in include_str!("public/assets/car.obj").lines() {
                 let line: &str = line;
                 if line.starts_with("v ") {
                     let mut parts = line.split_whitespace();
@@ -100,14 +107,14 @@ impl Test {
                     let x: f32 = parts.next().unwrap().parse().unwrap();
                     let y: f32 = parts.next().unwrap().parse().unwrap();
                     let z: f32 = parts.next().unwrap().parse().unwrap();
-                    v.push(vec3(x, z, y) / 1000.0);
+                    v.push(vec3(x, z, y));
                 } else if line.starts_with("vn") {
                     let mut parts = line.split_whitespace();
                     parts.next();
                     let x: f32 = parts.next().unwrap().parse().unwrap();
                     let y: f32 = parts.next().unwrap().parse().unwrap();
                     let z: f32 = parts.next().unwrap().parse().unwrap();
-                    n.push(vec3(x, y, z));
+                    n.push(vec3(x, z, y));
 
                 } else if line.starts_with("vt") {
                     let mut parts = line.split_whitespace();
@@ -137,6 +144,20 @@ impl Test {
                         result.push(cur[0]);
                         result.push(cur[i - 1]);
                         result.push(cur[i]);
+                        // let normal = Vec3::cross(cur[i - 1].a_v - cur[0].a_v,
+                        //                          cur[i].a_v - cur[0].a_v);
+                        // result.push(Vertex {
+                        //                 a_n: normal,
+                        //                 ..cur[0]
+                        //             });
+                        // result.push(Vertex {
+                        //                 a_n: normal,
+                        //                 ..cur[i - 1]
+                        //             });
+                        // result.push(Vertex {
+                        //                 a_n: normal,
+                        //                 ..cur[i]
+                        //             });
                     }
                 }
             }
@@ -154,13 +175,14 @@ impl Test {
                 u_time: 0.0,
                 u_matrix: Mat4::identity(),
                 u_texture: texture,
-                u_scale: 1.0,
-                u_pos: vec2(0.0, 0.0),
             },
             next_action: 0.0,
-            draw_count: 10,
+            draw_count: COUNT,
             actions_per_tick: 1000,
             start_drag: None,
+            camera_distance: MAX_CAMERA_DIST / 2.0,
+            pos: vec2(0.0, 0.0),
+            time_scale: 1.0,
         }
     }
 }
@@ -169,7 +191,7 @@ use draw::Target as DrawTarget;
 
 impl codevisual::Game for Test {
     fn update(&mut self, mut delta_time: f32) {
-        delta_time /= self.uniforms.u_scale;
+        delta_time *= self.time_scale;
         self.current_time += delta_time;
         self.next_action -= delta_time;
         while self.next_action < 0.0 {
@@ -177,13 +199,32 @@ impl codevisual::Game for Test {
             for _ in 0..self.actions_per_tick {
                 let i = random::<usize>() % self.geometry.get_instance_data().len();
                 let ref mut cur = *self.geometry.get_instance_data_mut().index_mut(i);
-                let target = vec2(random::<f32>() * 2.0 - 1.0, random::<f32>() * 2.0 - 1.0);
+                let mut target = cur.i_start_pos +
+                                 vec2(random::<f32>() * 2.0 - 1.0, random::<f32>() * 2.0 - 1.0) *
+                                 MAP_SIZE;
+                target.x = target.x.min(MAP_SIZE).max(-MAP_SIZE);
+                target.y = target.y.min(MAP_SIZE).max(-MAP_SIZE);
                 let cur_pos = cur.i_start_pos +
                               cur.i_speed * (self.current_time - cur.i_start_time);
                 cur.i_start_pos = cur_pos;
-                cur.i_speed = (target - cur_pos).normalize() / SLOW_DOWN;
+                cur.i_speed = (target - cur_pos).normalize() * SPEED;
+                let current_angle = {
+                    let mut diff = cur.i_angle - cur.i_start_angle;
+                    let PI = std::f32::consts::PI;
+                    if diff < -PI {
+                        diff += 2.0 * PI;
+                    }
+                    if diff > PI {
+                        diff -= 2.0 * PI;
+                    }
+                    let passed_time = self.current_time - cur.i_start_time;
+                    const W: f32 = 10.0;
+                    cur.i_start_angle + diff.max(-W * passed_time).min(W * passed_time)
+                };
                 cur.i_start_time = self.current_time;
-                cur.i_angle = f32::atan2(cur.i_speed.y, cur.i_speed.x);
+                let target_angle = f32::atan2(cur.i_speed.y, cur.i_speed.x);
+                cur.i_start_angle = current_angle;
+                cur.i_angle = target_angle;
             }
         }
     }
@@ -192,9 +233,13 @@ impl codevisual::Game for Test {
         self.uniforms.u_time = self.current_time;
         self.uniforms.u_matrix = {
             let (w, h) = codevisual::Application::get_instance().get_size();
-            Mat4::perspective(std::f32::consts::PI / 2.0, w as f32 / h as f32, 0.1, 1000.0)
+            Mat4::perspective(std::f32::consts::PI / 4.0,
+                              w as f32 / h as f32,
+                              1.0,
+                              100000.0) *
+            Mat4::translate(vec3(self.pos.x, self.pos.y, -self.camera_distance))
         };
-        target.draw(&self.geometry.slice(0..self.draw_count as usize),
+        target.draw(&self.geometry.slice(0..self.draw_count),
                     &self.shader,
                     &self.uniforms);
     }
@@ -211,14 +256,18 @@ impl codevisual::Game for Test {
                                 x: prev_x,
                                 y: prev_y,
                             }) = self.start_drag {
-                    self.uniforms.u_pos += vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
-                                           1000.0 /
-                                           self.uniforms.u_scale;
+                    self.pos += vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
+                                codevisual::Application::get_instance().get_size().1 as f32 *
+                                self.camera_distance;
                     self.start_drag = Some(vec2(x, y));
                 }
             }
             MouseUp { button: codevisual::MouseButton::Left, .. } => self.start_drag = None,
-            Wheel { delta } => self.uniforms.u_scale *= f32::exp(-delta as f32 / 1000.0),
+            Wheel { delta } => {
+                self.camera_distance = (self.camera_distance * f32::exp(delta as f32 / 1000.0))
+                    .min(MAX_CAMERA_DIST)
+                    .max(MIN_CAMERA_DIST)
+            }
             _ => (),
         }
     }
@@ -230,20 +279,32 @@ fn main() {
                                                             name: "Count",
                                                             min_value: 1,
                                                             max_value: COUNT as i32,
-                                                            default_value: test.draw_count,
+                                                            default_value: test.draw_count as i32,
                                                             setter: &mut |new_value| {
         println!("Drawing {} instances", new_value);
-        test.draw_count = new_value;
+        test.draw_count = new_value as usize;
     },
                                                         });
     codevisual::Application::get_instance().add_setting(codevisual::Setting::I32 {
                                                             name: "Actions per tick",
                                                             min_value: 0,
                                                             max_value: 1000,
-                                                            default_value: test.actions_per_tick,
+                                                            default_value: test.actions_per_tick as
+                                                                           i32,
                                                             setter: &mut |new_value| {
-        test.actions_per_tick = new_value;
+        test.actions_per_tick = new_value as usize;
     },
+                                                        });
+    codevisual::Application::get_instance().add_setting(codevisual::Setting::I32 {
+                                                            name: "Time scale",
+                                                            min_value: 0,
+                                                            max_value: 200,
+                                                            default_value: 100,
+                                                            setter: &mut |new_value| {
+                                                                             test.time_scale =
+                                                                                 new_value as f32 /
+                                                                                 100.0;
+                                                                         },
                                                         });
     codevisual::run(&mut test);
 }
