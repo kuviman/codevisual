@@ -167,7 +167,7 @@ pub fn run<G: Game>(game: &mut G) {
         }
 
         let now_time = Instant::now();
-        let delta_time = now_time.duration_since(prev_time).subsec_nanos() as f64 / 1e6;
+        let delta_time = now_time.duration_since(prev_time).subsec_nanos() as f64 / 1e9;
         prev_time = now_time;
         game.update(delta_time.min(0.1) as f32); // TODO: configure
         let mut screen = draw::Screen;
