@@ -1,0 +1,31 @@
+{
+    "version": "0.1.0",
+    "windows": {
+        "tasks": []
+    },
+    "linux": {
+        "tasks": [
+            {
+                "taskName": "Make Web",
+                "command": "bash",
+                "args": [
+                    "make-web.sh"
+                ],
+                "isShellCommand": true
+            },
+            {
+                "taskName": "Run",
+                "command": "cargo",
+                "args": [
+                    "run",
+                    "--example",
+                    "playground"
+                ],
+                "isShellCommand": true,
+                "options": {
+                    "cwd": "${workspaceRoot}/examples/public"
+                }
+            }
+        ]
+    }
+}

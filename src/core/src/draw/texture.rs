@@ -33,9 +33,7 @@ impl Texture {
             }
             #[cfg(not(target_os = "emscripten"))]
             {
-                let image = ::image::open(std::path::Path::new("examples/public").join(path))
-                    .unwrap()
-                    .to_rgba();
+                let image = ::image::open(path).unwrap().to_rgba();
                 gl::TexImage2D(gl::TEXTURE_2D,
                                0,
                                gl::RGBA as GLint,
