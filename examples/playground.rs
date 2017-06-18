@@ -1,23 +1,18 @@
 extern crate codevisual;
+#[macro_use]
+extern crate codevisual_derive;
 
 use codevisual::common::*;
 use codevisual::draw;
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Vertex, Debug, Copy, Clone)]
 struct Vertex {
     a_v: Vec3<f32>,
     a_vt: Vec2<f32>,
     a_n: Vec3<f32>,
 }
 
-impl draw::vertex::Data for Vertex {
-    fn walk_attributes<F: draw::vertex::AttributeConsumer>(&self, f: &mut F) {
-        f.consume("a_v", &self.a_v);
-        f.consume("a_n", &self.a_n);
-        f.consume("a_vt", &self.a_vt);
-    }
-}
-
+#[derive(Vertex, Debug, Copy, Clone)]
 struct Instance {
     i_start_pos: Vec2<f32>,
     i_speed: Vec2<f32>,
@@ -26,18 +21,6 @@ struct Instance {
     i_size: f32,
     i_angle: f32,
     i_start_angle: f32,
-}
-
-impl draw::vertex::Data for Instance {
-    fn walk_attributes<F: draw::vertex::AttributeConsumer>(&self, f: &mut F) {
-        f.consume("i_start_pos", &self.i_start_pos);
-        f.consume("i_speed", &self.i_speed);
-        f.consume("i_start_time", &self.i_start_time);
-        f.consume("i_color", &self.i_color);
-        f.consume("i_size", &self.i_size);
-        f.consume("i_angle", &self.i_angle);
-        f.consume("i_start_angle", &self.i_start_angle);
-    }
 }
 
 struct Uniforms {

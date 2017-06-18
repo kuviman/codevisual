@@ -8,6 +8,7 @@ serde = "*"
 serde_json = "*"
 gl = "*"
 lazy_static = "*"
+codevisual_derive = { path = "src/derive" }
 
 [target.'cfg(target_os="emscripten")'.dependencies]
 emscripten-sys = "*"
