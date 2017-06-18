@@ -1,0 +1,17 @@
+[package]
+name = "codevisual_core"
+version = "0.1.0"
+authors = ["kuviman <kuviman@gmail.com>"]
+
+[dependencies]
+gl = "*"
+lazy_static = "*"
+
+codevisual_common = { path = "../common" }
+codevisual_derive = { path = "derive" }
+
+[target.'cfg(target_os = "emscripten")'.dependencies]
+emscripten = { path = "../bindings/emscripten" }
+codevisual_html = { path = "web/html" }
+codevisual_css = { path = "web/css" }
+codevisual_js = { path = "web/js" }

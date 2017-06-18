@@ -4,4 +4,4 @@ version = "0.1.0"
 authors = ["kuviman <kuviman@gmail.com>"]
 
 [target.'cfg(target_os="emscripten")'.dependencies]
-emscripten = { path = "../emscripten" }
+emscripten = { path = "../bindings/emscripten" }

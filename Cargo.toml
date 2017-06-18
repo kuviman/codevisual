@@ -4,11 +4,6 @@ version = "0.1.0"
 authors = ["kuviman <kuviman@gmail.com>"]
 
 [dependencies]
-gl = "*"
-lazy_static = "*"
-
 codevisual_common = { path = "src/common" }
-codevisual_derive = { path = "src/derive" }
-
-[target.'cfg(target_os="emscripten")'.dependencies]
-emscripten = { path = "src/emscripten" }
+codevisual_core = { path = "src/core" }
+codevisual_derive = { path = "src/core/derive" }
