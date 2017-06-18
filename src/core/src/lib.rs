@@ -113,7 +113,9 @@ impl Application {
 
     #[cfg(not(target_os = "emscripten"))]
     pub fn get_size(&self) -> (u32, u32) {
-        self.window.get_inner_size_pixels().unwrap()
+        self.window
+            .get_inner_size_pixels()
+            .unwrap_or((640, 480))
     }
 }
 
@@ -180,6 +182,6 @@ pub fn run<G: Game>(game: &mut G) {
             // gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
         }
         game.render(&mut screen);
-        app.window.swap_buffers().unwrap();
+        app.window.swap_buffers().expect("WTF");
     }
 }
