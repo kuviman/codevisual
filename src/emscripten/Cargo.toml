@@ -1,0 +1,9 @@
+[package]
+name = "emscripten"
+version = "0.1.0"
+authors = ["kuviman <kuviman@gmail.com>"]
+
+[dependencies]
+serde = "*"
+serde_json = "*"
+emscripten-sys = "*"

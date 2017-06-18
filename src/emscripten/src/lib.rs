@@ -1,7 +1,11 @@
-use std;
+extern crate emscripten_sys;
+extern crate serde;
+extern crate serde_json;
+
 use std::os::raw::{c_int, c_void};
 use std::ffi::CString;
 
+#[macro_export]
 macro_rules! format_placeholders {
     () => ("");
     ($arg:expr) => ("{}");
@@ -10,15 +14,25 @@ macro_rules! format_placeholders {
     )
 }
 
-#[cfg(target_os = "emscripten")]
+#[macro_export]
 macro_rules! run_js {
     ($($($f:ident).+ ( $($args:expr),* );)*) => (
         $(
-            ::emscripten::run_script(&format!(
+            $crate::run_script(&format!(
                 concat!(stringify!($($f).+), "(", format_placeholders!($($args),*), ")"),
-                $(::IntoJson::into($args)),*));
+                $($crate::IntoJson::into_json($args)),*));
         )*
     )
+}
+
+pub trait IntoJson {
+    fn into_json(self) -> String;
+}
+
+impl<'a, T: ?Sized + serde::Serialize> IntoJson for &'a T {
+    fn into_json(self) -> String {
+        ::serde_json::to_string(self).expect("Could not convert to JSON")
+    }
 }
 
 pub fn random() -> f64 {
@@ -56,7 +70,7 @@ pub fn get_canvas_size() -> (u32, u32) {
     }
 }
 
-pub fn create_gl_context() -> Result<(), ::Error> {
+pub fn create_gl_context() -> Result<(), String> {
     unsafe {
         let mut attributes: ::emscripten_sys::EmscriptenWebGLContextAttributes =
             std::mem::uninitialized();
@@ -64,7 +78,7 @@ pub fn create_gl_context() -> Result<(), ::Error> {
         let context = ::emscripten_sys::emscripten_webgl_create_context(std::ptr::null(),
                                                                         &attributes);
         if context <= 0 {
-            return Err(::Error::from("Could not create WebGL context"));
+            return Err(String::from("Could not create WebGL context"));
         }
         ::emscripten_sys::emscripten_webgl_make_context_current(context);
     }
@@ -78,6 +92,7 @@ pub fn set_main_loop<F: FnMut()>(callback: F) {
                                                        Box::into_raw(callback) as *mut _,
                                                        0,
                                                        1);
+        emscripten_sys::emscripten_GetProcAddress(std::ptr::null());
     }
     unsafe extern "C" fn wrapper<F>(arg: *mut c_void)
         where F: FnMut()
@@ -85,6 +100,9 @@ pub fn set_main_loop<F: FnMut()>(callback: F) {
         let mut callback = Box::<Box<F>>::from_raw(arg as *mut _);
         callback();
         std::mem::forget(callback);
+        run_js!{
+            console.log("abacaba");
+        }
     }
 }
 

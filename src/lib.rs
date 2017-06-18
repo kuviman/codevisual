@@ -1,14 +1,11 @@
-#[cfg(target_os = "emscripten")]
-extern crate emscripten_sys;
-extern crate serde;
-extern crate serde_json;
 extern crate gl;
 #[macro_use]
 extern crate lazy_static;
 
 #[cfg(target_os = "emscripten")]
 #[macro_use]
-mod emscripten;
+extern crate emscripten;
+
 pub mod draw;
 pub mod common;
 mod settings;
@@ -16,16 +13,6 @@ mod events;
 
 pub use settings::*;
 pub use events::*;
-
-trait IntoJson {
-    fn into(self) -> String;
-}
-
-impl<'a, T: ?Sized + serde::Serialize> IntoJson for &'a T {
-    fn into(self) -> String {
-        ::serde_json::to_string(self).expect("Could not convert to JSON")
-    }
-}
 
 pub struct Application {}
 
@@ -42,30 +29,30 @@ impl Application {
             if let None = APPLICATION_INSTANCE {
                 #[cfg(target_os = "emscripten")]
                 {
-                    fn panic_hook(info: &std::panic::PanicInfo) {
-                        use std::string::ToString;
-                        let mut json_info = serde_json::Value::Object(serde_json::Map::new());
-                        if let Some(location) = info.location() {
-                            let mut json_location =
-                                serde_json::Value::Object(serde_json::Map::new());
-                            json_location["file"] =
-                                serde_json::Value::String(location.file().to_string());
-                            json_location["line"] =
-                                serde_json::Value::String(location.line().to_string());
-                            json_info["location"] = json_location;
-                        }
-                        if let Some(error) = info.payload().downcast_ref::<String>() {
-                            json_info["error"] = serde_json::Value::String(error.clone());
-                        } else if let Some(error) = info.payload().downcast_ref::<&str>() {
-                            json_info["error"] = serde_json::Value::String(error.to_string());
-                        } else {
-                            json_info["error"] = serde_json::Value::String(String::from("Something went wrong",),);
-                        }
-                        run_js!{
-                            CodeVisual.internal.show_error(&json_info);
-                        }
-                    }
-                    std::panic::set_hook(Box::new(panic_hook));
+                    // fn panic_hook(info: &std::panic::PanicInfo) {
+                    //     use std::string::ToString;
+                    //     let mut json_info = serde_json::Value::Object(serde_json::Map::new());
+                    //     if let Some(location) = info.location() {
+                    //         let mut json_location =
+                    //             serde_json::Value::Object(serde_json::Map::new());
+                    //         json_location["file"] =
+                    //             serde_json::Value::String(location.file().to_string());
+                    //         json_location["line"] =
+                    //             serde_json::Value::String(location.line().to_string());
+                    //         json_info["location"] = json_location;
+                    //     }
+                    //     if let Some(error) = info.payload().downcast_ref::<String>() {
+                    //         json_info["error"] = serde_json::Value::String(error.clone());
+                    //     } else if let Some(error) = info.payload().downcast_ref::<&str>() {
+                    //         json_info["error"] = serde_json::Value::String(error.to_string());
+                    //     } else {
+                    //         json_info["error"] = serde_json::Value::String(String::from("Something went wrong",),);
+                    //     }
+                    //     run_js!{
+                    //         CodeVisual.internal.show_error(&json_info);
+                    //     }
+                    // }
+                    // std::panic::set_hook(Box::new(panic_hook));
 
                     ::emscripten::run_script(include_str!(concat!(env!("OUT_DIR"),
                                                                   "/codevisual-lib.js")));

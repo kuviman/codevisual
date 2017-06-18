@@ -55,8 +55,8 @@ namespace CodeVisual {
             }
             $failedScreen.find(".error-message").text(message);
         }
-        export function load_texture(args: { path: string, texture_handle: number }) {
-            let texture = GL.textures[args.texture_handle];
+        export function load_texture(path: string, texture_handle: number) {
+            let texture = GL.textures[texture_handle];
             let image = new Image();
             image.onload = function () {
                 var cur = GLctx.getParameter(GLctx.TEXTURE_BINDING_2D);
@@ -66,7 +66,7 @@ namespace CodeVisual {
                 GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MAG_FILTER, GLctx.NEAREST);
                 GLctx.bindTexture(GLctx.TEXTURE_2D, cur);
             };
-            image.src = args.path;
+            image.src = path;
         }
     }
 }

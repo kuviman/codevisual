@@ -18,8 +18,10 @@ pub enum Setting<'a> {
 struct BoolFunc<'a>(&'a mut FnMut(bool));
 struct I32Func<'a>(&'a mut FnMut(i32));
 
-impl<'a> ::IntoJson for BoolFunc<'a> {
-    fn into(self) -> String {
+use emscripten::IntoJson;
+
+impl<'a> IntoJson for BoolFunc<'a> {
+    fn into_json(self) -> String {
         let boxed = Box::new(self);
         extern "C" fn wrapper(f: std::os::raw::c_int, b: std::os::raw::c_int) {
             let boxed = unsafe { Box::from_raw(f as *mut BoolFunc) };
@@ -27,14 +29,14 @@ impl<'a> ::IntoJson for BoolFunc<'a> {
             std::mem::forget(boxed);
         }
         let result = format!("function(b) {{ Runtime.dynCall('vii', {}, [{}, b ? 1 : 0]); }}",
-                             ::IntoJson::into(&(wrapper as std::os::raw::c_int)),
-                             ::IntoJson::into(&(Box::into_raw(boxed) as std::os::raw::c_int)));
+                             (wrapper as std::os::raw::c_int).into_json(),
+                             (Box::into_raw(boxed) as std::os::raw::c_int).into_json());
         result
     }
 }
 
-impl<'a> ::IntoJson for I32Func<'a> {
-    fn into(self) -> String {
+impl<'a> IntoJson for I32Func<'a> {
+    fn into_json(self) -> String {
         let boxed = Box::new(self);
         extern "C" fn wrapper(f: std::os::raw::c_int, b: std::os::raw::c_int) {
             let boxed = unsafe { Box::from_raw(f as *mut I32Func) };
@@ -42,14 +44,14 @@ impl<'a> ::IntoJson for I32Func<'a> {
             std::mem::forget(boxed);
         }
         let result = format!("function(i) {{ Runtime.dynCall('vii', {}, [{}, i]); }}",
-                             ::IntoJson::into(&(wrapper as std::os::raw::c_int)),
-                             ::IntoJson::into(&(Box::into_raw(boxed) as std::os::raw::c_int)));
+                             (wrapper as std::os::raw::c_int).into_json(),
+                             (Box::into_raw(boxed) as std::os::raw::c_int).into_json());
         result
     }
 }
 
-impl<'a> ::IntoJson for Setting<'a> {
-    fn into(self) -> String {
+impl<'a> IntoJson for Setting<'a> {
+    fn into_json(self) -> String {
         match self {
             Setting::Bool {
                 name,
@@ -57,9 +59,9 @@ impl<'a> ::IntoJson for Setting<'a> {
                 setter,
             } => {
                 format!("new CodeVisual.BooleanSetting({}, {}, {})",
-                        ::IntoJson::into(name),
-                        ::IntoJson::into(&default_value),
-                        ::IntoJson::into(BoolFunc(setter)))
+                        name.into_json(),
+                        default_value.into_json(),
+                        BoolFunc(setter).into_json())
             }
             Setting::I32 {
                 name,
@@ -69,11 +71,11 @@ impl<'a> ::IntoJson for Setting<'a> {
                 setter,
             } => {
                 format!("new CodeVisual.NumberSetting({}, {}, {}, {}, 1, {})",
-                        ::IntoJson::into(name),
-                        ::IntoJson::into(&min_value),
-                        ::IntoJson::into(&max_value),
-                        ::IntoJson::into(&default_value),
-                        ::IntoJson::into(I32Func(setter)))
+                        name.into_json(),
+                        min_value.into_json(),
+                        max_value.into_json(),
+                        default_value.into_json(),
+                        I32Func(setter).into_json())
             }
         }
     }

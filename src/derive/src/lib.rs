@@ -25,7 +25,7 @@ fn impl_vertex(ast: &syn::DeriveInput) -> quote::Tokens {
         quote!{
             impl ::codevisual::draw::vertex::Data for #name {
                 fn walk_attributes<F>(&self, f: &mut F) where F: ::codevisual::draw::vertex::AttributeConsumer {
-                    #(f.consume(stringify!(#field_name), &self.#field_name));*
+                    #(f.consume(stringify!(#field_name2), &self.#field_name));*
                 }
             }
         }

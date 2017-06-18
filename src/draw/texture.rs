@@ -15,7 +15,6 @@ impl Texture {
 
             #[cfg(target_os = "emscripten")]
             {
-                use serde_json;
                 gl::BindTexture(gl::TEXTURE_2D, handle);
                 gl::TexImage2D(gl::TEXTURE_2D,
                                0,
@@ -26,12 +25,8 @@ impl Texture {
                                gl::RGBA as GLenum,
                                gl::UNSIGNED_BYTE,
                                std::ptr::null());
-                let mut args = serde_json::Value::Object(serde_json::Map::new());
-                args["path"] = serde_json::Value::String(String::from(path));
-                args["texture_handle"] =
-                    serde_json::Value::Number(serde_json::Number::from_f64(handle as f64).unwrap());
                 run_js!{
-                    CodeVisual.internal.load_texture(&args);
+                    CodeVisual.internal.load_texture(path, &handle);
                 }
             }
 
