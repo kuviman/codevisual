@@ -1,0 +1,116 @@
+use ::*;
+
+pub enum MouseButton {
+    Left,
+    Middle,
+    Right,
+}
+
+impl MouseButton {
+    fn from(button: c_ushort) -> Option<MouseButton> {
+        match button {
+            0 => Some(MouseButton::Left),
+            1 => Some(MouseButton::Middle),
+            2 => Some(MouseButton::Right),
+            _ => None,
+        }
+    }
+}
+
+pub struct MouseDownEvent {
+    pub canvas_x: f64,
+    pub canvas_y: f64,
+    pub button: MouseButton,
+}
+
+pub fn set_mousedown_callback<F: FnMut(MouseDownEvent)>(callback: F) {
+    let callback = Box::new(Box::new(callback));
+    unsafe {
+        emscripten_set_mousedown_callback(CANVAS_SELECTOR.as_ptr(),
+                                          Box::into_raw(callback) as *mut _,
+                                          USE_CAPTURE,
+                                          Some(wrapper::<F>));
+    }
+    unsafe extern "C" fn wrapper<F>(_: c_int,
+                                    event: *const EmscriptenMouseEvent,
+                                    callback: *mut c_void)
+                                    -> EM_BOOL
+        where F: FnMut(MouseDownEvent)
+    {
+        let event = *event;
+        if let Some(button) = MouseButton::from(event.button) {
+            let mut callback = Box::<Box<F>>::from_raw(callback as *mut _);
+            let (canvas_x, canvas_y) = into_canvas_pos(event.canvasX, event.canvasY);
+            callback(MouseDownEvent {
+                         canvas_x,
+                         canvas_y,
+                         button,
+                     });
+            std::mem::forget(callback);
+        }
+        EM_TRUE
+    }
+}
+
+pub struct MouseUpEvent {
+    pub canvas_x: f64,
+    pub canvas_y: f64,
+    pub button: MouseButton,
+}
+
+pub fn set_mouseup_callback<F: FnMut(MouseUpEvent)>(callback: F) {
+    let callback = Box::new(Box::new(callback));
+    unsafe {
+        emscripten_set_mouseup_callback(CANVAS_SELECTOR.as_ptr(),
+                                        Box::into_raw(callback) as *mut _,
+                                        USE_CAPTURE,
+                                        Some(wrapper::<F>));
+    }
+    unsafe extern "C" fn wrapper<F>(_: c_int,
+                                    event: *const EmscriptenMouseEvent,
+                                    callback: *mut c_void)
+                                    -> EM_BOOL
+        where F: FnMut(MouseUpEvent)
+    {
+        let event = *event;
+        if let Some(button) = MouseButton::from(event.button) {
+            let mut callback = Box::<Box<F>>::from_raw(callback as *mut _);
+            let (canvas_x, canvas_y) = into_canvas_pos(event.canvasX, event.canvasY);
+            callback(MouseUpEvent {
+                         canvas_x,
+                         canvas_y,
+                         button,
+                     });
+            std::mem::forget(callback);
+        }
+        EM_TRUE
+    }
+}
+
+pub struct MouseMoveEvent {
+    pub canvas_x: f64,
+    pub canvas_y: f64,
+}
+
+pub fn set_mousemove_callback<F: FnMut(MouseMoveEvent)>(callback: F) {
+    let callback = Box::new(Box::new(callback));
+    unsafe {
+        emscripten_set_mousemove_callback(CANVAS_SELECTOR.as_ptr(),
+                                          Box::into_raw(callback) as *mut _,
+                                          USE_CAPTURE,
+                                          Some(wrapper::<F>));
+    }
+    unsafe extern "C" fn wrapper<F>(_: c_int,
+                                    event: *const ::emscripten_sys::EmscriptenMouseEvent,
+                                    callback: *mut c_void)
+                                    -> EM_BOOL
+        where F: FnMut(MouseMoveEvent)
+    {
+        let event = *event;
+        let mut callback = Box::<Box<F>>::from_raw(callback as *mut _);
+        let (canvas_x, canvas_y) = into_canvas_pos(event.canvasX, event.canvasY);
+        callback(MouseMoveEvent { canvas_x, canvas_y });
+        std::mem::forget(callback);
+        EM_TRUE
+    }
+}
