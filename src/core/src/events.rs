@@ -9,9 +9,9 @@ pub enum MouseButton {
 
 #[derive(Debug, Copy, Clone)]
 pub enum Event {
-    MouseDown { x: i32, y: i32, button: MouseButton },
-    MouseUp { x: i32, y: i32, button: MouseButton },
-    MouseMove { x: i32, y: i32 },
+    MouseDown { x: f64, y: f64, button: MouseButton },
+    MouseUp { x: f64, y: f64, button: MouseButton },
+    MouseMove { x: f64, y: f64 },
     Wheel { delta: f64 },
 }
 
@@ -110,7 +110,7 @@ mod implementation {
     pub fn init() {}
 
     lazy_static!{ static ref SHOULD_CLOSE: Mutex<bool> = Mutex::new(false); }
-    lazy_static!{ static ref MOUSE_POS: Mutex<(i32, i32)> = Mutex::new((0, 0)); }
+    lazy_static!{ static ref MOUSE_POS: Mutex<(f64, f64)> = Mutex::new((0.0, 0.0)); }
 
     pub(crate) fn get() -> EventIterator {
         let mut events = EVENTS.lock().unwrap();
@@ -133,6 +133,8 @@ mod implementation {
                                     });
                     }
                     ::glutin::WindowEvent::MouseMoved(x, y) => {
+                        let x = x as f64;
+                        let y = y as f64;
                         *MOUSE_POS.lock().unwrap() = (x, y);
                         events.push(Event::MouseMove { x, y })
                     }

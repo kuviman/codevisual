@@ -2,7 +2,7 @@ extern crate emscripten_sys;
 extern crate serde;
 extern crate serde_json;
 
-use std::os::raw::{c_int, c_void};
+use std::os::raw::{c_int, c_long, c_void, c_double};
 use std::ffi::CString;
 
 #[macro_export]
@@ -103,6 +103,18 @@ pub fn set_main_loop<F: FnMut()>(callback: F) {
     }
 }
 
+fn into_canvas_pos(x: c_long, y: c_long) -> (f64, f64) {
+    let mut css_width: c_double = unsafe { std::mem::uninitialized() };
+    let mut css_height: c_double = unsafe { std::mem::uninitialized() };
+    unsafe {
+        ::emscripten_sys::emscripten_get_element_css_size(std::ptr::null(),
+                                                          &mut css_width,
+                                                          &mut css_height);
+    }
+    let (width, height) = get_canvas_size();
+    (x as f64 * width as f64 / css_width as f64, y as f64 * height as f64 / css_height as f64)
+}
+
 pub enum MouseButton {
     Left,
     Middle,
@@ -110,8 +122,8 @@ pub enum MouseButton {
 }
 
 pub struct MouseDownEvent {
-    pub canvas_x: i32,
-    pub canvas_y: i32,
+    pub canvas_x: f64,
+    pub canvas_y: f64,
     pub button: MouseButton,
 }
 
@@ -133,9 +145,10 @@ pub fn set_mousedown_callback<F: FnMut(MouseDownEvent)>(callback: F) {
     {
         let event = *event;
         let mut callback = Box::<Box<F>>::from_raw(arg as *mut _);
+        let (canvas_x, canvas_y) = into_canvas_pos(event.canvasX, event.canvasY);
         callback(MouseDownEvent {
-                     canvas_x: event.canvasX as i32,
-                     canvas_y: event.canvasY as i32,
+                     canvas_x,
+                     canvas_y,
                      button: match event.button {
                          0 => MouseButton::Left,
                          1 => MouseButton::Middle,
@@ -149,8 +162,8 @@ pub fn set_mousedown_callback<F: FnMut(MouseDownEvent)>(callback: F) {
 }
 
 pub struct MouseUpEvent {
-    pub canvas_x: i32,
-    pub canvas_y: i32,
+    pub canvas_x: f64,
+    pub canvas_y: f64,
     pub button: MouseButton,
 }
 
@@ -172,9 +185,10 @@ pub fn set_mouseup_callback<F: FnMut(MouseUpEvent)>(callback: F) {
     {
         let event = *event;
         let mut callback = Box::<Box<F>>::from_raw(arg as *mut _);
+        let (canvas_x, canvas_y) = into_canvas_pos(event.canvasX, event.canvasY);
         callback(MouseUpEvent {
-                     canvas_x: event.canvasX as i32,
-                     canvas_y: event.canvasY as i32,
+                     canvas_x,
+                     canvas_y,
                      button: match event.button {
                          0 => MouseButton::Left,
                          1 => MouseButton::Middle,
@@ -188,8 +202,8 @@ pub fn set_mouseup_callback<F: FnMut(MouseUpEvent)>(callback: F) {
 }
 
 pub struct MouseMoveEvent {
-    pub canvas_x: i32,
-    pub canvas_y: i32,
+    pub canvas_x: f64,
+    pub canvas_y: f64,
 }
 
 pub fn set_mousemove_callback<F: FnMut(MouseMoveEvent)>(callback: F) {
@@ -210,18 +224,16 @@ pub fn set_mousemove_callback<F: FnMut(MouseMoveEvent)>(callback: F) {
     {
         let event = *event;
         let mut callback = Box::<Box<F>>::from_raw(arg as *mut _);
-        callback(MouseMoveEvent {
-                     canvas_x: event.canvasX as i32,
-                     canvas_y: event.canvasY as i32,
-                 });
+        let (canvas_x, canvas_y) = into_canvas_pos(event.canvasX, event.canvasY);
+        callback(MouseMoveEvent { canvas_x, canvas_y });
         std::mem::forget(callback);
         1
     }
 }
 
 pub struct WheelEvent {
-    pub canvas_x: i32,
-    pub canvas_y: i32,
+    pub canvas_x: f64,
+    pub canvas_y: f64,
     pub delta: f64,
 }
 
@@ -241,9 +253,10 @@ pub fn set_wheel_callback<F: FnMut(WheelEvent)>(callback: F) {
     {
         let event = *event;
         let mut callback = Box::<Box<F>>::from_raw(arg as *mut _);
+        let (canvas_x, canvas_y) = into_canvas_pos(event.mouse.canvasX, event.mouse.canvasY);
         callback(WheelEvent {
-                     canvas_x: event.mouse.canvasX as i32,
-                     canvas_y: event.mouse.canvasY as i32,
+                     canvas_x,
+                     canvas_y,
                      delta: event.deltaY as f64 *
                             match event.deltaMode {
                                 0x00 => 1.0,

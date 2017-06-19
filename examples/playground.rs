@@ -44,7 +44,7 @@ struct Test {
     uniforms: Uniforms,
     draw_count: usize,
     actions_per_tick: usize,
-    start_drag: Option<Vec2<i32>>,
+    start_drag: Option<Vec2>,
     camera_distance: f32,
     pos: Vec2<f32>,
     time_scale: f32,
