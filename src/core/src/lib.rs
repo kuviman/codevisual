@@ -30,7 +30,7 @@ mod events;
 pub use settings::*;
 pub use events::*;
 
-use std::sync::{RwLock, RwLockReadGuard};
+use std::sync::{RwLock, RwLockReadGuard, RwLockWriteGuard};
 
 pub struct Application {
     #[cfg(not(target_os = "emscripten"))]
@@ -106,6 +106,10 @@ impl Application {
         APPLICATION_INSTANCE.read().unwrap()
     }
 
+    pub fn get_instance_mut() -> RwLockWriteGuard<'static, Application> {
+        APPLICATION_INSTANCE.write().unwrap()
+    }
+
     #[cfg(target_os = "emscripten")]
     pub fn get_size(&self) -> (u32, u32) {
         ::emscripten::get_canvas_size()
@@ -113,10 +117,39 @@ impl Application {
 
     #[cfg(not(target_os = "emscripten"))]
     pub fn get_size(&self) -> (u32, u32) {
-        self.window
-            .get_inner_size_pixels()
-            .unwrap_or((640, 480))
+        self.window.get_inner_size_pixels().unwrap_or((640, 480))
     }
+
+    #[cfg(target_os = "emscripten")]
+    pub fn set_cursor_type(&mut self, cursor_type: CursorType) {
+        use CursorType::*;
+        run_js!{
+            CodeVisual.internal.set_cursor(match cursor_type {
+                Default => "initial",
+                Pointer => "pointer",
+                Drag => "all-scroll",
+            });
+        }
+    }
+
+    #[cfg(not(target_os = "emscripten"))]
+    pub fn set_cursor_type(&mut self, cursor_type: CursorType) {
+        use CursorType::*;
+        use glutin::MouseCursor as GC;
+        self.window
+            .set_cursor(match cursor_type {
+                            Default => GC::Default,
+                            Pointer => GC::Hand,
+                            Drag => GC::AllScroll,
+                        });
+    }
+}
+
+#[derive(Debug, Copy, Clone)]
+pub enum CursorType {
+    Default,
+    Pointer,
+    Drag,
 }
 
 pub trait Game {
@@ -160,7 +193,7 @@ pub fn run<G: Game>(game: &mut G) {
 #[cfg(not(target_os = "emscripten"))]
 pub fn run<G: Game>(game: &mut G) {
     use std::time::Instant;
-    let app = Application::get_instance();
+    Application::get_instance();
 
     let mut prev_time = Instant::now();
     while !events::should_close() {
@@ -182,6 +215,9 @@ pub fn run<G: Game>(game: &mut G) {
             // gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
         }
         game.render(&mut screen);
-        app.window.swap_buffers().expect("WTF");
+        Application::get_instance_mut()
+            .window
+            .swap_buffers()
+            .expect("WTF");
     }
 }

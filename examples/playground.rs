@@ -232,7 +232,11 @@ impl codevisual::Game for Test {
                 x,
                 y,
                 button: codevisual::MouseButton::Left,
-            } => self.start_drag = Some(vec2(x, y)),
+            } => {
+                codevisual::Application::get_instance_mut()
+                    .set_cursor_type(codevisual::CursorType::Drag);
+                self.start_drag = Some(vec2(x, y));
+            }
             MouseMove { x, y } => {
                 if let Some(Vec2 {
                                 x: prev_x,
@@ -244,7 +248,11 @@ impl codevisual::Game for Test {
                     self.start_drag = Some(vec2(x, y));
                 }
             }
-            MouseUp { button: codevisual::MouseButton::Left, .. } => self.start_drag = None,
+            MouseUp { button: codevisual::MouseButton::Left, .. } => {
+                codevisual::Application::get_instance_mut()
+                    .set_cursor_type(codevisual::CursorType::Pointer);
+                self.start_drag = None;
+            }
             Wheel { delta } => {
                 self.camera_distance = (self.camera_distance * f32::exp(delta as f32 / 1000.0))
                     .min(MAX_CAMERA_DIST)
@@ -257,36 +265,39 @@ impl codevisual::Game for Test {
 
 fn main() {
     let mut test = Test::new();
-    codevisual::Application::get_instance().add_setting(codevisual::Setting::I32 {
-                                                            name: "Count",
-                                                            min_value: 1,
-                                                            max_value: COUNT as i32,
-                                                            default_value: test.draw_count as i32,
-                                                            setter: &mut |new_value| {
+    codevisual::Application::get_instance_mut().set_cursor_type(codevisual::CursorType::Pointer);
+    codevisual::Application::get_instance_mut().add_setting(codevisual::Setting::I32 {
+                                                                name: "Count",
+                                                                min_value: 1,
+                                                                max_value: COUNT as i32,
+                                                                default_value: test.draw_count as
+                                                                               i32,
+                                                                setter: &mut |new_value| {
         println!("Drawing {} instances", new_value);
         test.draw_count = new_value as usize;
     },
-                                                        });
-    codevisual::Application::get_instance().add_setting(codevisual::Setting::I32 {
-                                                            name: "Actions per tick",
-                                                            min_value: 0,
-                                                            max_value: 1000,
-                                                            default_value: test.actions_per_tick as
-                                                                           i32,
-                                                            setter: &mut |new_value| {
+                                                            });
+    codevisual::Application::get_instance_mut().add_setting(codevisual::Setting::I32 {
+                                                                name: "Actions per tick",
+                                                                min_value: 0,
+                                                                max_value: 1000,
+                                                                default_value:
+                                                                    test.actions_per_tick as i32,
+                                                                setter: &mut |new_value| {
         test.actions_per_tick = new_value as usize;
     },
-                                                        });
-    codevisual::Application::get_instance().add_setting(codevisual::Setting::I32 {
-                                                            name: "Time scale",
-                                                            min_value: 0,
-                                                            max_value: 200,
-                                                            default_value: 100,
-                                                            setter: &mut |new_value| {
-                                                                             test.time_scale =
-                                                                                 new_value as f32 /
-                                                                                 100.0;
-                                                                         },
-                                                        });
+                                                            });
+    codevisual::Application::get_instance_mut().add_setting(codevisual::Setting::I32 {
+                                                                name: "Time scale",
+                                                                min_value: 0,
+                                                                max_value: 200,
+                                                                default_value: 100,
+                                                                setter: &mut |new_value| {
+                                                                                 test.time_scale =
+                                                                                     new_value as
+                                                                                     f32 /
+                                                                                     100.0;
+                                                                             },
+                                                            });
     codevisual::run(&mut test);
 }
