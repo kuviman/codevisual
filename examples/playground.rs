@@ -1,6 +1,5 @@
-extern crate codevisual;
 #[macro_use]
-extern crate codevisual_derive;
+extern crate codevisual;
 
 use codevisual::commons::*;
 use codevisual::draw;
