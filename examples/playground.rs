@@ -48,6 +48,7 @@ struct Test {
     camera_distance: f32,
     pos: Vec2<f32>,
     time_scale: f32,
+    prev_zoom_touchdist: f32,
 }
 
 const MIN_CAMERA_DIST: f32 = 6.0;
@@ -165,6 +166,7 @@ impl Test {
             camera_distance: MAX_CAMERA_DIST / 2.0,
             pos: vec2(0.0, 0.0),
             time_scale: 1.0,
+            prev_zoom_touchdist: 0.0,
         }
     }
 }
@@ -258,17 +260,28 @@ impl codevisual::Game for Test {
                 if touches.len() == 1 {
                     self.start_drag = Some(touches[0].position);
                 }
+                if touches.len() == 2 {
+                    self.prev_zoom_touchdist = (touches[0].position - touches[1].position)
+                        .len() as f32;
+                }
+
             }
             TouchMove { touches } => {
-                let Vec2 { x, y } = touches[0].position;
-                if let Some(Vec2 {
-                                x: prev_x,
-                                y: prev_y,
-                            }) = self.start_drag {
-                    self.pos += vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
-                                codevisual::Application::get_instance().get_size().1 as f32 *
-                                self.camera_distance;
-                    self.start_drag = Some(vec2(x, y));
+                if touches.len() == 1 {
+                    let Vec2 { x, y } = touches[0].position;
+                    if let Some(Vec2 {
+                                    x: prev_x,
+                                    y: prev_y,
+                                }) = self.start_drag {
+                        self.pos += vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
+                                    codevisual::Application::get_instance().get_size().1 as f32 *
+                                    self.camera_distance;
+                        self.start_drag = Some(vec2(x, y));
+                    }
+                } else if touches.len() == 2 {
+                    let now_dist = (touches[0].position - touches[1].position).len() as f32;
+                    self.camera_distance /= now_dist / self.prev_zoom_touchdist;
+                    self.prev_zoom_touchdist = now_dist;
                 }
             }
             TouchEnd => {

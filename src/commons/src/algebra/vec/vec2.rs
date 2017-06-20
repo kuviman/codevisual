@@ -63,3 +63,9 @@ impl Vec2<f32> {
         self / len
     }
 }
+
+impl Vec2<f64> {
+    pub fn len(self) -> f64 {
+        f64::sqrt(self.x * self.x + self.y * self.y)
+    }
+}
