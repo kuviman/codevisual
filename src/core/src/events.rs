@@ -1,4 +1,5 @@
 use std::sync::Mutex;
+use commons::*;
 
 #[derive(Debug, Copy, Clone)]
 pub enum MouseButton {
@@ -8,11 +9,19 @@ pub enum MouseButton {
 }
 
 #[derive(Debug, Copy, Clone)]
+pub struct TouchPoint {
+    pub position: Vec2,
+}
+
+#[derive(Debug, Clone)]
 pub enum Event {
     MouseDown { x: f64, y: f64, button: MouseButton },
     MouseUp { x: f64, y: f64, button: MouseButton },
     MouseMove { x: f64, y: f64 },
     Wheel { delta: f64 },
+    TouchStart { touches: Vec<TouchPoint> },
+    TouchMove { touches: Vec<TouchPoint> },
+    TouchEnd,
 }
 
 lazy_static!{
@@ -83,6 +92,34 @@ mod implementation {
         }
     }
 
+    impl EmscriptenEvent for ::emscripten::TouchStartEvent {
+        fn into_event(self) -> Event {
+            Event::TouchStart {
+                touches: self.touches
+                    .into_iter()
+                    .map(|point| TouchPoint { position: vec2(point.canvas_x, point.canvas_y) })
+                    .collect(),
+            }
+        }
+    }
+
+    impl EmscriptenEvent for ::emscripten::TouchMoveEvent {
+        fn into_event(self) -> Event {
+            Event::TouchMove {
+                touches: self.touches
+                    .into_iter()
+                    .map(|point| TouchPoint { position: vec2(point.canvas_x, point.canvas_y) })
+                    .collect(),
+            }
+        }
+    }
+
+    impl EmscriptenEvent for ::emscripten::TouchEndEvent {
+        fn into_event(self) -> Event {
+            Event::TouchEnd
+        }
+    }
+
     pub fn init() {
         ::emscripten::set_mousedown_callback(|event| {
                                                  EVENTS.lock().unwrap().push(event.into_event());
@@ -96,6 +133,18 @@ mod implementation {
         ::emscripten::set_wheel_callback(|event| {
                                              EVENTS.lock().unwrap().push(event.into_event());
                                          });
+        ::emscripten::set_touchstart_callback(|event| {
+                                                  EVENTS
+                                                      .lock()
+                                                      .unwrap()
+                                                      .push(event.into_event());
+                                              });
+        ::emscripten::set_touchmove_callback(|event| {
+                                                 EVENTS.lock().unwrap().push(event.into_event());
+                                             });
+        ::emscripten::set_touchend_callback(|event| {
+                                                EVENTS.lock().unwrap().push(event.into_event());
+                                            });
     }
 
     pub(crate) fn get() -> EventIterator {

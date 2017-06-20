@@ -227,6 +227,7 @@ impl codevisual::Game for Test {
     }
     fn handle_event(&mut self, event: codevisual::Event) {
         use codevisual::Event::*;
+        println!("{:?}", event);
         match event {
             MouseDown {
                 x,
@@ -251,6 +252,26 @@ impl codevisual::Game for Test {
             MouseUp { button: codevisual::MouseButton::Left, .. } => {
                 codevisual::Application::get_instance_mut()
                     .set_cursor_type(codevisual::CursorType::Pointer);
+                self.start_drag = None;
+            }
+            TouchStart { touches } => {
+                if touches.len() == 1 {
+                    self.start_drag = Some(touches[0].position);
+                }
+            }
+            TouchMove { touches } => {
+                let Vec2 { x, y } = touches[0].position;
+                if let Some(Vec2 {
+                                x: prev_x,
+                                y: prev_y,
+                            }) = self.start_drag {
+                    self.pos += vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
+                                codevisual::Application::get_instance().get_size().1 as f32 *
+                                self.camera_distance;
+                    self.start_drag = Some(vec2(x, y));
+                }
+            }
+            TouchEnd => {
                 self.start_drag = None;
             }
             Wheel { delta } => {
