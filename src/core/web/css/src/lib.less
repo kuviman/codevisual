@@ -66,7 +66,7 @@
             width: 100%;
             height: 32px;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.2);
+            background-color: rgba(0, 0, 0, 0.7);
         }
         .timeline {
             position: absolute;
@@ -79,19 +79,19 @@
                 position: absolute;
                 width: 100%;
                 height: 4px;
-                background-color: rgba(255, 0, 0, 0.2);
+                background-color: rgba(0, 0, 128, 0.7);
             }
             &:hover .timeline-background {
-                box-shadow: 0 0 10px red;
+                box-shadow: 0 0 10px blue;
             }
             &.downloaded .timeline-background {
-                background-color: rgba(255, 0, 0, 0.5);
+                background-color: rgba(0, 0, 255, 0.7);
             }
             .timeline-loaded {
                 position: absolute;
                 left: 0;
                 height: 4px;
-                background-color: red;
+                background-color: blue;
             }
             .timeline-position {
                 position: absolute;
@@ -100,12 +100,12 @@
                 height: 10px;
                 bottom: -3px;
                 border-radius: 5px;
-                background-color: red;
-                border: 1px solid red;
+                background-color: blue;
+                border: 1px solid blue;
                 margin-left: -5px;
             }
             &:hover .timeline-position {
-                box-shadow: 0 0 10px red;
+                box-shadow: 0 0 10px blue;
             }
         }
         .tick-info {
@@ -151,7 +151,7 @@
             position: absolute;
             right: 0;
             bottom: 35px;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(0, 0, 0, 0.7);
             padding: 0 1em;
             border-top-left-radius: 1em;
             border: 2px solid dimgray;
