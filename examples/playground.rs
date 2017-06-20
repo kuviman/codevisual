@@ -4,11 +4,25 @@ extern crate codevisual;
 use codevisual::commons::*;
 use codevisual::draw;
 
+const MIN_CAMERA_DIST: f32 = 6.0;
+const MAX_CAMERA_DIST: f32 = 2000.0;
+const COUNT: usize = 10000;
+const MAX_SIZE: f32 = 1.5;
+const MIN_SIZE: f32 = 0.5;
+const MAP_SIZE: f32 = 1000.0;
+const ACTION_TICK: f32 = 0.016666;
+const SPEED: f32 = 15.0;
+
 #[derive(Vertex, Debug, Copy, Clone)]
 struct Vertex {
     a_v: Vec3<f32>,
     a_vt: Vec2<f32>,
     a_n: Vec3<f32>,
+}
+
+#[derive(Vertex, Debug, Copy, Clone)]
+struct GroundVertex {
+    a_pos: Vec3<f32>,
 }
 
 #[derive(Vertex, Debug, Copy, Clone)]
@@ -26,6 +40,9 @@ struct Uniforms {
     u_time: f32,
     u_matrix: Mat4<f32>,
     u_texture: codevisual::draw::Texture,
+    u_grass_texture: codevisual::draw::Texture,
+    u_dirt_texture: codevisual::draw::Texture,
+    u_map_texture: codevisual::draw::Texture,
 }
 
 impl draw::uniform::Data for Uniforms {
@@ -33,6 +50,9 @@ impl draw::uniform::Data for Uniforms {
         f.consume("u_time", &self.u_time);
         f.consume("u_matrix", &self.u_matrix);
         f.consume("u_texture", &self.u_texture);
+        f.consume("u_grass_texture", &self.u_grass_texture);
+        f.consume("u_dirt_texture", &self.u_dirt_texture);
+        f.consume("u_map_texture", &self.u_map_texture);
     }
 }
 
@@ -40,7 +60,9 @@ struct Test {
     current_time: f32,
     next_action: f32,
     geometry: draw::InstancedGeometry<Instance, draw::PlainGeometry<Vertex>>,
+    ground_geometry: draw::PlainGeometry<GroundVertex>,
     shader: draw::Shader,
+    ground_shader: draw::Shader,
     uniforms: Uniforms,
     draw_count: usize,
     actions_per_tick: usize,
@@ -50,15 +72,6 @@ struct Test {
     time_scale: f32,
     prev_zoom_touchdist: f32,
 }
-
-const MIN_CAMERA_DIST: f32 = 6.0;
-const MAX_CAMERA_DIST: f32 = 2000.0;
-const COUNT: usize = 10000;
-const MAX_SIZE: f32 = 1.5;
-const MIN_SIZE: f32 = 0.5;
-const MAP_SIZE: f32 = 1000.0;
-const ACTION_TICK: f32 = 0.016666;
-const SPEED: f32 = 15.0;
 
 impl Test {
     fn new() -> Self {
@@ -76,7 +89,6 @@ impl Test {
                                i_start_angle: 0.0,
                            });
         }
-        let texture = codevisual::draw::Texture::load("assets/car.png").unwrap();
         let vertices = {
             let mut v = Vec::new();
             let mut n = Vec::new();
@@ -149,15 +161,27 @@ impl Test {
         println!("Vertex count = {}", vertices.len());
         Self {
             current_time: 0.0,
-            shader: codevisual::draw::Shader::compile(include_str!("vertex.glsl"),
-                                                      include_str!("fragment.glsl"))
+            shader: codevisual::draw::Shader::compile(include_str!("shaders/model/vertex.glsl"),
+                                                      include_str!("shaders/model/fragment.glsl"))
+                    .unwrap(),
+            ground_shader: codevisual::draw::Shader::compile(include_str!("shaders/ground/vertex.glsl"),
+                                                             include_str!("shaders/ground/fragment.glsl"))
                     .unwrap(),
             geometry: draw::InstancedGeometry::new(std::rc::Rc::new(draw::PlainGeometry::new(draw::geometry::Mode::Triangles, vertices)),
                                                    instances),
+            ground_geometry: draw::PlainGeometry::new(draw::geometry::Mode::TriangleFan, vec![
+                GroundVertex { a_pos: vec3(-MAP_SIZE, -MAP_SIZE, 0.0) },
+                GroundVertex { a_pos: vec3(MAP_SIZE, -MAP_SIZE, 0.0) },
+                GroundVertex { a_pos: vec3(MAP_SIZE, MAP_SIZE, 0.0) },
+                GroundVertex { a_pos: vec3(-MAP_SIZE, MAP_SIZE, 0.0) },
+            ]),
             uniforms: Uniforms {
                 u_time: 0.0,
                 u_matrix: Mat4::identity(),
-                u_texture: texture,
+                u_texture: codevisual::draw::Texture::load("assets/car.png").unwrap(),
+                u_grass_texture: codevisual::draw::Texture::load("assets/grass.png").unwrap(),
+                u_dirt_texture: codevisual::draw::Texture::load("assets/dirt.png").unwrap(),
+                u_map_texture: codevisual::draw::Texture::load("assets/map.png").unwrap(),
             },
             next_action: 0.0,
             draw_count: COUNT,
@@ -226,6 +250,7 @@ impl codevisual::Game for Test {
         target.draw(&self.geometry.slice(0..self.draw_count),
                     &self.shader,
                     &self.uniforms);
+        target.draw(&self.ground_geometry, &self.ground_shader, &self.uniforms);
     }
     fn handle_event(&mut self, event: codevisual::Event) {
         use codevisual::Event::*;

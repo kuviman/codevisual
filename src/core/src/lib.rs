@@ -178,8 +178,8 @@ pub fn run<G: Game>(game: &mut G) {
         unsafe {
             // TODO: find place for it
             gl::Enable(gl::DEPTH_TEST);
-            gl::Enable(gl::CULL_FACE);
-            gl::CullFace(gl::FRONT);
+            // gl::Enable(gl::CULL_FACE);
+            // gl::CullFace(gl::FRONT);
             // gl::Enable(gl::BLEND);
             // gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
         }
@@ -209,12 +209,15 @@ pub fn run<G: Game>(game: &mut G) {
         unsafe {
             // TODO: find place for it
             gl::Enable(gl::DEPTH_TEST);
-            gl::Enable(gl::CULL_FACE);
-            gl::CullFace(gl::FRONT);
+            // gl::Enable(gl::CULL_FACE);
+            // gl::CullFace(gl::FRONT);
             // gl::Enable(gl::BLEND);
             // gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
         }
         game.render(&mut screen);
+        unsafe {
+            assert!(gl::GetError() == gl::NO_ERROR);
+        }
         Application::get_instance_mut()
             .window
             .swap_buffers()

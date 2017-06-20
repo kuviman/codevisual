@@ -90,7 +90,6 @@ unsafe fn prepare_geometry_attributes<G: Geometry>(shader: &Shader, geometry: &G
                                 shader,
                                 attrib_divisor: 0,
                             });
-
 }
 
 fn apply_uniforms<U: uniform::Data>(shader: &Shader, uniforms: &U) {
@@ -101,7 +100,9 @@ fn apply_uniforms<U: uniform::Data>(shader: &Shader, uniforms: &U) {
             unsafe {
                 let location =
                     gl::GetUniformLocation(self.0, std::ffi::CString::new(name).unwrap().as_ptr());
-                value.apply(location, &mut self.1);
+                if location >= 0 {
+                    value.apply(location, &mut self.1);
+                }
             }
         }
     }
@@ -152,16 +153,16 @@ impl Target for Screen {
                     }
                 }
             }
-            let mut counter_walker = CounterWalker {
-                instance_count: 1,
-                vertex_count: None,
+            let (vertex_count, instance_count) = {
+                let mut counter_walker = CounterWalker {
+                    instance_count: 1,
+                    vertex_count: None,
+                };
+                geometry.walk_data(&mut counter_walker);
+                (counter_walker.vertex_count.unwrap(), counter_walker.instance_count)
             };
-            geometry.walk_data(&mut counter_walker);
-            gl::DrawArraysInstanced(gl_mode,
-                                    0,
-                                    counter_walker.vertex_count.unwrap(),
-                                    counter_walker.instance_count);
-            gl::DeleteVertexArrays(1, &vao as *const _);
+            gl::DrawArraysInstanced(gl_mode, 0, vertex_count, instance_count);
+            gl::DeleteVertexArrays(1, &vao);
         }
     }
 }
