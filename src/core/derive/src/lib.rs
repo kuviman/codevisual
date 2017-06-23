@@ -33,3 +33,32 @@ fn impl_vertex(ast: &syn::DeriveInput) -> quote::Tokens {
         panic!("Can only be implemented for structs");
     }
 }
+
+#[proc_macro_derive(Uniforms)]
+pub fn uniforms(input: TokenStream) -> TokenStream {
+    let s = input.to_string();
+    let ast = syn::parse_derive_input(&s).unwrap();
+    let gen = impl_uniforms(&ast);
+    gen.parse().unwrap()
+}
+
+fn impl_uniforms(ast: &syn::DeriveInput) -> quote::Tokens {
+    let name = &ast.ident;
+    if let syn::Body::Struct(ref data) = ast.body {
+        let field_name = data.fields()
+            .into_iter()
+            .map(|field| field.ident.as_ref().unwrap());
+        let field_name2 = data.fields()
+            .into_iter()
+            .map(|field| field.ident.as_ref().unwrap());
+        quote!{
+            impl ::codevisual::draw::uniform::Data for #name {
+                fn walk<F>(&self, f: &mut F) where F: ::codevisual::draw::uniform::ValueConsumer {
+                    #(f.consume(stringify!(#field_name2), &self.#field_name));*
+                }
+            }
+        }
+    } else {
+        panic!("Can only be implemented for structs");
+    }
+}

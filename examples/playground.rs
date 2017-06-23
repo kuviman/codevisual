@@ -36,6 +36,7 @@ struct Instance {
     i_start_angle: f32,
 }
 
+#[derive(Uniforms)]
 struct Uniforms {
     u_time: f32,
     u_matrix: Mat4<f32>,
@@ -43,17 +44,6 @@ struct Uniforms {
     u_grass_texture: codevisual::draw::Texture,
     u_dirt_texture: codevisual::draw::Texture,
     u_map_texture: codevisual::draw::Texture,
-}
-
-impl draw::uniform::Data for Uniforms {
-    fn walk<F: draw::uniform::ValueConsumer>(&self, f: &mut F) {
-        f.consume("u_time", &self.u_time);
-        f.consume("u_matrix", &self.u_matrix);
-        f.consume("u_texture", &self.u_texture);
-        f.consume("u_grass_texture", &self.u_grass_texture);
-        f.consume("u_dirt_texture", &self.u_dirt_texture);
-        f.consume("u_map_texture", &self.u_map_texture);
-    }
 }
 
 struct Test {
