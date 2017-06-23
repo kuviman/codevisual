@@ -74,7 +74,7 @@ unsafe fn prepare_geometry_attributes<G: Geometry>(shader: &Shader, geometry: &G
         shader: &'a Shader,
         attrib_divisor: GLuint,
     }
-    impl<'a> geometry::VertexDataConsumer for DataWalker<'a> {
+    impl<'a> vertex::DataConsumer for DataWalker<'a> {
         fn consume<B: vertex::BufferView>(&mut self, data: &B) {
             unsafe {
                 prepare_vertex_attributes(self.shader, data, self.attrib_divisor);
@@ -144,7 +144,7 @@ impl Target for Screen {
                 instance_count: GLsizei,
                 vertex_count: Option<GLsizei>,
             }
-            impl geometry::VertexDataConsumer for CounterWalker {
+            impl vertex::DataConsumer for CounterWalker {
                 fn consume<B: vertex::BufferView>(&mut self, data: &B) {
                     if let None = self.vertex_count {
                         self.vertex_count = Some(data.as_slice().len() as GLsizei);
