@@ -25,8 +25,7 @@ impl std::fmt::Display for TextureError {
 }
 
 impl Texture {
-    pub fn load(path: &str) -> Result<Self, TextureError> {
-        ::Application::get_instance();
+    pub fn load(_: &::Application, path: &str) -> Result<Self, TextureError> {
         unsafe {
             let mut handle: GLuint = std::mem::uninitialized();
             gl::GenTextures(1, &mut handle);

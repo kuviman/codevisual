@@ -4,6 +4,8 @@ extern crate codevisual;
 use codevisual::commons::*;
 use codevisual::draw;
 
+use std::rc::Rc;
+
 const MIN_CAMERA_DIST: f32 = 6.0;
 const MAX_CAMERA_DIST: f32 = 2000.0;
 const COUNT: usize = 10000;
@@ -46,7 +48,14 @@ struct Uniforms {
     u_map_texture: codevisual::draw::Texture,
 }
 
+struct Settings {
+    actions_per_tick: usize,
+    time_scale: f32,
+    draw_count: usize,
+}
+
 struct Test {
+    app: Rc<codevisual::Application>,
     current_time: f32,
     next_action: f32,
     geometry: draw::InstancedGeometry<Instance, draw::PlainGeometry<Vertex>>,
@@ -54,17 +63,53 @@ struct Test {
     shader: draw::Shader,
     ground_shader: draw::Shader,
     uniforms: Uniforms,
-    draw_count: usize,
-    actions_per_tick: usize,
     start_drag: Option<Vec2>,
     camera_distance: f32,
     pos: Vec2<f32>,
-    time_scale: f32,
+    settings: Rc<Settings>,
     prev_zoom_touchdist: f32,
 }
 
 impl Test {
-    fn new() -> Self {
+    fn create_settings(&self) {
+        // TODO: there is definitely some bug here
+        let app = &self.app;
+        let settings = self.settings.clone();
+        app.add_setting(codevisual::Setting::I32 {
+                            name: "Count",
+                            min_value: 1,
+                            max_value: COUNT as i32,
+                            default_value: settings.draw_count as i32,
+                            setter: &mut |new_value| {
+                                             println!("Drawing {} instances", new_value);
+                                             //  settings.draw_count = new_value as usize;
+                                         },
+                        });
+        app.add_setting(codevisual::Setting::I32 {
+                            name: "Actions per tick",
+                            min_value: 0,
+                            max_value: 1000,
+                            default_value: settings.actions_per_tick as i32,
+                            setter: &mut |new_value| {
+                                             //  settings.actions_per_tick = new_value as usize;
+                                         },
+                        });
+        app.add_setting(codevisual::Setting::I32 {
+                            name: "Time scale",
+                            min_value: 0,
+                            max_value: 200,
+                            default_value: 100,
+                            setter: &mut |new_value| {
+                                             //  settings.time_scale = new_value as f32 / 100.0;
+                                         },
+                        });
+    }
+}
+
+use draw::Target as DrawTarget;
+
+impl codevisual::Game for Test {
+    fn new(app: Rc<codevisual::Application>) -> Self {
         let mut instances = Vec::new();
         for _ in 0..COUNT {
             instances.push(Instance {
@@ -149,52 +194,61 @@ impl Test {
             result
         };
         println!("Vertex count = {}", vertices.len());
-        Self {
+        app.set_cursor_type(codevisual::CursorType::Pointer);
+        let shader = draw::Shader::compile(&app,
+                                           include_str!("shaders/model/vertex.glsl"),
+                                           include_str!("shaders/model/fragment.glsl"))
+                .unwrap();
+        let ground_shader = draw::Shader::compile(&app,
+                                                  include_str!("shaders/ground/vertex.glsl"),
+                                                  include_str!("shaders/ground/fragment.glsl"))
+                .unwrap();
+        let uniforms = Uniforms {
+            u_time: 0.0,
+            u_matrix: Mat4::identity(),
+            u_texture: codevisual::draw::Texture::load(&app, "assets/car.png").unwrap(),
+            u_grass_texture: codevisual::draw::Texture::load(&app, "assets/grass.png").unwrap(),
+            u_dirt_texture: codevisual::draw::Texture::load(&app, "assets/dirt.png").unwrap(),
+            u_map_texture: codevisual::draw::Texture::load(&app, "assets/map.png").unwrap(),
+        };
+        let geometry = draw::InstancedGeometry::new(&app, std::rc::Rc::new(draw::PlainGeometry::new(&app, draw::geometry::Mode::Triangles, vertices)),
+                                                   instances);
+        let ground_geometry =
+            draw::PlainGeometry::new(&app,
+                                     draw::geometry::Mode::TriangleFan,
+                                     vec![GroundVertex { a_pos: vec3(-MAP_SIZE, -MAP_SIZE, 0.0) },
+                                          GroundVertex { a_pos: vec3(MAP_SIZE, -MAP_SIZE, 0.0) },
+                                          GroundVertex { a_pos: vec3(MAP_SIZE, MAP_SIZE, 0.0) },
+                                          GroundVertex { a_pos: vec3(-MAP_SIZE, MAP_SIZE, 0.0) }]);
+        let mut result = Self {
+            app,
             current_time: 0.0,
-            shader: codevisual::draw::Shader::compile(include_str!("shaders/model/vertex.glsl"),
-                                                      include_str!("shaders/model/fragment.glsl"))
-                    .unwrap(),
-            ground_shader: codevisual::draw::Shader::compile(include_str!("shaders/ground/vertex.glsl"),
-                                                             include_str!("shaders/ground/fragment.glsl"))
-                    .unwrap(),
-            geometry: draw::InstancedGeometry::new(std::rc::Rc::new(draw::PlainGeometry::new(draw::geometry::Mode::Triangles, vertices)),
-                                                   instances),
-            ground_geometry: draw::PlainGeometry::new(draw::geometry::Mode::TriangleFan, vec![
-                GroundVertex { a_pos: vec3(-MAP_SIZE, -MAP_SIZE, 0.0) },
-                GroundVertex { a_pos: vec3(MAP_SIZE, -MAP_SIZE, 0.0) },
-                GroundVertex { a_pos: vec3(MAP_SIZE, MAP_SIZE, 0.0) },
-                GroundVertex { a_pos: vec3(-MAP_SIZE, MAP_SIZE, 0.0) },
-            ]),
-            uniforms: Uniforms {
-                u_time: 0.0,
-                u_matrix: Mat4::identity(),
-                u_texture: codevisual::draw::Texture::load("assets/car.png").unwrap(),
-                u_grass_texture: codevisual::draw::Texture::load("assets/grass.png").unwrap(),
-                u_dirt_texture: codevisual::draw::Texture::load("assets/dirt.png").unwrap(),
-                u_map_texture: codevisual::draw::Texture::load("assets/map.png").unwrap(),
-            },
+            shader,
+            ground_shader,
+            geometry,
+            ground_geometry,
+            uniforms,
             next_action: 0.0,
-            draw_count: COUNT,
-            actions_per_tick: 1000,
             start_drag: None,
             camera_distance: MAX_CAMERA_DIST / 2.0,
             pos: vec2(0.0, 0.0),
-            time_scale: 1.0,
+            settings: Rc::new(Settings {
+                                  time_scale: 1.0,
+                                  actions_per_tick: 1000,
+                                  draw_count: COUNT,
+                              }),
             prev_zoom_touchdist: 0.0,
-        }
+        };
+        // result.create_settings(); TODO: doesn't work
+        result
     }
-}
-
-use draw::Target as DrawTarget;
-
-impl codevisual::Game for Test {
     fn update(&mut self, mut delta_time: f32) {
-        delta_time *= self.time_scale;
+        delta_time *= self.settings.time_scale;
         self.current_time += delta_time;
         self.next_action -= delta_time;
         while self.next_action < 0.0 {
             self.next_action += ACTION_TICK;
-            for _ in 0..self.actions_per_tick {
+            for _ in 0..self.settings.actions_per_tick {
                 let i = random_range(0..self.geometry.get_instance_data().len());
                 let ref mut cur = *self.geometry.get_instance_data_mut().index_mut(i);
                 let mut target = cur.i_start_pos +
@@ -230,14 +284,14 @@ impl codevisual::Game for Test {
         target.clear(Color::rgb(1.0, 1.0, 1.0));
         self.uniforms.u_time = self.current_time;
         self.uniforms.u_matrix = {
-            let (w, h) = codevisual::Application::get_instance().get_size();
+            let (w, h) = self.app.get_size();
             Mat4::perspective(std::f32::consts::PI / 4.0,
                               w as f32 / h as f32,
                               1.0,
                               100000.0) *
             Mat4::translate(vec3(self.pos.x, self.pos.y, -self.camera_distance))
         };
-        target.draw(&self.geometry.slice(0..self.draw_count),
+        target.draw(&self.geometry.slice(0..self.settings.draw_count),
                     &self.shader,
                     &self.uniforms);
         target.draw(&self.ground_geometry, &self.ground_shader, &self.uniforms);
@@ -251,8 +305,7 @@ impl codevisual::Game for Test {
                 y,
                 button: codevisual::MouseButton::Left,
             } => {
-                codevisual::Application::get_instance_mut()
-                    .set_cursor_type(codevisual::CursorType::Drag);
+                self.app.set_cursor_type(codevisual::CursorType::Drag);
                 self.start_drag = Some(vec2(x, y));
             }
             MouseMove { x, y } => {
@@ -261,14 +314,13 @@ impl codevisual::Game for Test {
                                 y: prev_y,
                             }) = self.start_drag {
                     self.pos += vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
-                                codevisual::Application::get_instance().get_size().1 as f32 *
+                                self.app.get_size().1 as f32 *
                                 self.camera_distance;
                     self.start_drag = Some(vec2(x, y));
                 }
             }
             MouseUp { button: codevisual::MouseButton::Left, .. } => {
-                codevisual::Application::get_instance_mut()
-                    .set_cursor_type(codevisual::CursorType::Pointer);
+                self.app.set_cursor_type(codevisual::CursorType::Pointer);
                 self.start_drag = None;
             }
             TouchStart { touches } => {
@@ -289,7 +341,7 @@ impl codevisual::Game for Test {
                                     y: prev_y,
                                 }) = self.start_drag {
                         self.pos += vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
-                                    codevisual::Application::get_instance().get_size().1 as f32 *
+                                    self.app.get_size().1 as f32 *
                                     self.camera_distance;
                         self.start_drag = Some(vec2(x, y));
                     }
@@ -313,40 +365,5 @@ impl codevisual::Game for Test {
 }
 
 fn main() {
-    let mut test = Test::new();
-    codevisual::Application::get_instance_mut().set_cursor_type(codevisual::CursorType::Pointer);
-    codevisual::Application::get_instance_mut().add_setting(codevisual::Setting::I32 {
-                                                                name: "Count",
-                                                                min_value: 1,
-                                                                max_value: COUNT as i32,
-                                                                default_value: test.draw_count as
-                                                                               i32,
-                                                                setter: &mut |new_value| {
-        println!("Drawing {} instances", new_value);
-        test.draw_count = new_value as usize;
-    },
-                                                            });
-    codevisual::Application::get_instance_mut().add_setting(codevisual::Setting::I32 {
-                                                                name: "Actions per tick",
-                                                                min_value: 0,
-                                                                max_value: 1000,
-                                                                default_value:
-                                                                    test.actions_per_tick as i32,
-                                                                setter: &mut |new_value| {
-        test.actions_per_tick = new_value as usize;
-    },
-                                                            });
-    codevisual::Application::get_instance_mut().add_setting(codevisual::Setting::I32 {
-                                                                name: "Time scale",
-                                                                min_value: 0,
-                                                                max_value: 200,
-                                                                default_value: 100,
-                                                                setter: &mut |new_value| {
-                                                                                 test.time_scale =
-                                                                                     new_value as
-                                                                                     f32 /
-                                                                                     100.0;
-                                                                             },
-                                                            });
-    codevisual::run(&mut test);
+    codevisual::run::<Test>();
 }

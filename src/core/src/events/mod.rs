@@ -161,10 +161,9 @@ mod implementation {
     lazy_static!{ static ref SHOULD_CLOSE: Mutex<bool> = Mutex::new(false); }
     lazy_static!{ static ref MOUSE_POS: Mutex<(f64, f64)> = Mutex::new((0.0, 0.0)); }
 
-    pub(crate) fn get() -> EventIterator {
+    pub(crate) fn get(app: &::Application) -> EventIterator {
         let mut events = EVENTS.lock().unwrap();
-        ::Application::get_instance()
-            .events_loop
+        app.events_loop
             .poll_events(|e| {
                 let ::glutin::Event::WindowEvent { event: e, .. } = e;
                 match e {
@@ -209,7 +208,7 @@ mod implementation {
                     ::glutin::WindowEvent::Resized(..) => {
                         use gl;
                         use gl::types::*;
-                        let (w, h) = ::Application::get_instance().get_size();
+                        let (w, h) = app.get_size();
                         unsafe {
                             gl::Viewport(0, 0, w as GLsizei, h as GLsizei);
                         }

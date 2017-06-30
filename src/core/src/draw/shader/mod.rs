@@ -25,11 +25,10 @@ impl std::fmt::Display for ShaderCompilationError {
 }
 
 impl Shader {
-    pub fn compile(vertex_shader: &str,
+    pub fn compile(_: &::Application,
+                   vertex_shader: &str,
                    fragment_shader: &str)
                    -> Result<Self, ShaderCompilationError> {
-        ::Application::get_instance();
-
         unsafe fn compile_shader(shader_type: GLuint,
                                  sources: &[&str])
                                  -> Result<GLuint, ShaderCompilationError> {

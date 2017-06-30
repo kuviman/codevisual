@@ -30,7 +30,7 @@ mod events;
 pub use settings::*;
 pub use events::*;
 
-use std::sync::{RwLock, RwLockReadGuard, RwLockWriteGuard};
+use std::rc::Rc;
 
 pub struct Application {
     #[cfg(not(target_os = "emscripten"))]
@@ -39,9 +39,8 @@ pub struct Application {
     events_loop: glutin::EventsLoop,
 }
 
-lazy_static!{
-    static ref APPLICATION_INSTANCE: RwLock<Application> = RwLock::new(Application::new());
-}
+#[allow(dead_code)]
+const DEFAULT_SIZE: (u32, u32) = (640, 480);
 
 impl Application {
     #[cfg(target_os = "emscripten")]
@@ -75,7 +74,7 @@ impl Application {
         run_js!{
                         CodeVisual.internal.init(codevisual_html::SOURCE, codevisual_css::SOURCE);
                     }
-        ::emscripten::create_gl_context().expect("Could not create OpenGL context");
+        ::emscripten::create_gl_context().unwrap();
         gl::load_with(emscripten::get_proc_address);
         events::init();
         Application {}
@@ -85,7 +84,7 @@ impl Application {
         let events_loop = glutin::EventsLoop::new();
         let window = glutin::WindowBuilder::new()
             .with_title("CodeVisual")
-            .with_dimensions(640, 480)
+            .with_dimensions(DEFAULT_SIZE.0, DEFAULT_SIZE.1)
             .with_vsync()
             .build(&events_loop)
             .unwrap();
@@ -100,14 +99,6 @@ impl Application {
         }
     }
 
-    pub fn get_instance() -> RwLockReadGuard<'static, Application> {
-        APPLICATION_INSTANCE.read().unwrap()
-    }
-
-    pub fn get_instance_mut() -> RwLockWriteGuard<'static, Application> {
-        APPLICATION_INSTANCE.write().unwrap()
-    }
-
     #[cfg(target_os = "emscripten")]
     pub fn get_size(&self) -> (u32, u32) {
         ::emscripten::get_canvas_size()
@@ -115,11 +106,11 @@ impl Application {
 
     #[cfg(not(target_os = "emscripten"))]
     pub fn get_size(&self) -> (u32, u32) {
-        self.window.get_inner_size_pixels().unwrap_or((640, 480))
+        self.window.get_inner_size_pixels().unwrap_or(DEFAULT_SIZE)
     }
 
     #[cfg(target_os = "emscripten")]
-    pub fn set_cursor_type(&mut self, cursor_type: CursorType) {
+    pub fn set_cursor_type(&self, cursor_type: CursorType) {
         use CursorType::*;
         run_js!{
             CodeVisual.internal.set_cursor(match cursor_type {
@@ -131,7 +122,7 @@ impl Application {
     }
 
     #[cfg(not(target_os = "emscripten"))]
-    pub fn set_cursor_type(&mut self, cursor_type: CursorType) {
+    pub fn set_cursor_type(&self, cursor_type: CursorType) {
         use CursorType::*;
         use glutin::MouseCursor as GC;
         self.window
@@ -151,14 +142,16 @@ pub enum CursorType {
 }
 
 pub trait Game {
+    fn new(app: Rc<Application>) -> Self;
     fn update(&mut self, delta_time: f32);
     fn render<T: draw::Target>(&mut self, target: &mut T);
     fn handle_event(&mut self, event: Event);
 }
 
 #[cfg(target_os = "emscripten")]
-pub fn run<G: Game>(game: &mut G) {
-    Application::get_instance();
+pub fn run<G: Game>() {
+    let app = Rc::new(Application::new());
+    let mut game = G::new(app.clone());
     run_js!{
         CodeVisual.internal.before_main_loop();
     }
@@ -189,13 +182,14 @@ pub fn run<G: Game>(game: &mut G) {
 }
 
 #[cfg(not(target_os = "emscripten"))]
-pub fn run<G: Game>(game: &mut G) {
-    use std::time::Instant;
-    Application::get_instance();
+pub fn run<G: Game>() {
+    let app = Rc::new(Application::new());
+    let mut game = G::new(app.clone());
 
+    use std::time::Instant;
     let mut prev_time = Instant::now();
     while !events::should_close() {
-        for event in events::get() {
+        for event in events::get(&app) {
             game.handle_event(event);
         }
 
@@ -216,9 +210,6 @@ pub fn run<G: Game>(game: &mut G) {
         unsafe {
             assert!(gl::GetError() == gl::NO_ERROR);
         }
-        Application::get_instance_mut()
-            .window
-            .swap_buffers()
-            .expect("WTF");
+        app.window.swap_buffers().expect("WTF");
     }
 }

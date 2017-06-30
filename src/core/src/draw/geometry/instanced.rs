@@ -20,9 +20,9 @@ impl<I: vertex::Data, B: Geometry> Geometry for InstancedGeometry<I, B> {
 }
 
 impl<I: vertex::Data, B: Geometry> InstancedGeometry<I, B> {
-    pub fn new(base: Rc<B>, instance_data: Vec<I>) -> Self {
+    pub fn new(app: &::Application, base: Rc<B>, instance_data: Vec<I>) -> Self {
         Self {
-            instance_data: vertex::Buffer::new(instance_data),
+            instance_data: vertex::Buffer::new(app, instance_data),
             base,
         }
     }

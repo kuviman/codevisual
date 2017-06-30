@@ -16,7 +16,7 @@ impl<D: vertex::Data> Geometry for PlainGeometry<D> {
 }
 
 impl<D: vertex::Data> PlainGeometry<D> {
-    pub fn new(mode: Mode, data: Vec<D>) -> Self {
+    pub fn new(app: &::Application, mode: Mode, data: Vec<D>) -> Self {
         assert!(match mode {
                     Mode::Points => true,
                     Mode::Lines => data.len() % 2 == 0,
@@ -28,7 +28,7 @@ impl<D: vertex::Data> PlainGeometry<D> {
                 "Wroing vertex count");
         Self {
             mode,
-            data: vertex::Buffer::new(data),
+            data: vertex::Buffer::new(app, data),
         }
     }
     pub fn get_data(&self) -> &vertex::Buffer<D> {

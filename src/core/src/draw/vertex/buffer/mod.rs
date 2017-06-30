@@ -17,8 +17,7 @@ pub struct Buffer<D: Data> {
 }
 
 impl<D: Data> Buffer<D> {
-    pub fn new(data: Vec<D>) -> Self {
-        ::Application::get_instance();
+    pub fn new(_: &::Application, data: Vec<D>) -> Self {
         let handle = unsafe {
             let mut handle: GLuint = std::mem::uninitialized();
             gl::GenBuffers(1, &mut handle);
