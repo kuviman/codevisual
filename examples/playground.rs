@@ -5,6 +5,7 @@ use codevisual::commons::*;
 use codevisual::draw;
 
 use std::rc::Rc;
+use std::cell::RefCell;
 
 const MIN_CAMERA_DIST: f32 = 6.0;
 const MAX_CAMERA_DIST: f32 = 2000.0;
@@ -66,43 +67,61 @@ struct Test {
     start_drag: Option<Vec2>,
     camera_distance: f32,
     pos: Vec2<f32>,
-    settings: Rc<Settings>,
+    settings: Rc<RefCell<Settings>>,
     prev_zoom_touchdist: f32,
 }
 
 impl Test {
-    fn create_settings(&self) {
-        // TODO: there is definitely some bug here
-        let app = &self.app;
-        let settings = self.settings.clone();
-        app.add_setting(codevisual::Setting::I32 {
-                            name: "Count",
-                            min_value: 1,
-                            max_value: COUNT as i32,
-                            default_value: settings.draw_count as i32,
-                            setter: &mut |new_value| {
-                                             println!("Drawing {} instances", new_value);
-                                             //  settings.draw_count = new_value as usize;
-                                         },
-                        });
-        app.add_setting(codevisual::Setting::I32 {
-                            name: "Actions per tick",
-                            min_value: 0,
-                            max_value: 1000,
-                            default_value: settings.actions_per_tick as i32,
-                            setter: &mut |new_value| {
-                                             //  settings.actions_per_tick = new_value as usize;
-                                         },
-                        });
-        app.add_setting(codevisual::Setting::I32 {
-                            name: "Time scale",
-                            min_value: 0,
-                            max_value: 200,
-                            default_value: 100,
-                            setter: &mut |new_value| {
-                                             //  settings.time_scale = new_value as f32 / 100.0;
-                                         },
-                        });
+    fn create_settings(app: &codevisual::Application) -> Rc<RefCell<Settings>> {
+        let settings = Rc::new(RefCell::new(Settings {
+                                                time_scale: 1.0,
+                                                actions_per_tick: 1000,
+                                                draw_count: COUNT,
+                                            }));
+        {
+            let settings = settings.clone();
+            app.add_setting(codevisual::I32Setting {
+                                name: String::from("Count"),
+                                min_value: 1,
+                                max_value: COUNT as i32,
+                                default_value: {
+                                    let borrow = settings.borrow();
+                                    borrow.draw_count as i32
+                                },
+                                setter: move |new_value| {
+                                    println!("Drawing {} instances", new_value);
+                                    settings.borrow_mut().draw_count = new_value as usize;
+                                },
+                            });
+        }
+        {
+            let settings = settings.clone();
+            app.add_setting(codevisual::I32Setting {
+                                name: String::from("Actions per tick"),
+                                min_value: 0,
+                                max_value: 1000,
+                                default_value: {
+                                    let borrow = settings.borrow();
+                                    borrow.actions_per_tick as i32
+                                },
+                                setter: move |new_value| {
+                                    settings.borrow_mut().actions_per_tick = new_value as usize;
+                                },
+                            });
+        }
+        {
+            let settings = settings.clone();
+            app.add_setting(codevisual::I32Setting {
+                                name: String::from("Time scale"),
+                                min_value: 0,
+                                max_value: 200,
+                                default_value: 100,
+                                setter: move |new_value| {
+                                    settings.borrow_mut().time_scale = new_value as f32 / 100.0;
+                                },
+                            });
+        }
+        settings
     }
 }
 
@@ -174,20 +193,6 @@ impl codevisual::Game for Test {
                         result.push(cur[0]);
                         result.push(cur[i - 1]);
                         result.push(cur[i]);
-                        // let normal = Vec3::cross(cur[i - 1].a_v - cur[0].a_v,
-                        //                          cur[i].a_v - cur[0].a_v);
-                        // result.push(Vertex {
-                        //                 a_n: normal,
-                        //                 ..cur[0]
-                        //             });
-                        // result.push(Vertex {
-                        //                 a_n: normal,
-                        //                 ..cur[i - 1]
-                        //             });
-                        // result.push(Vertex {
-                        //                 a_n: normal,
-                        //                 ..cur[i]
-                        //             });
                     }
                 }
             }
@@ -220,7 +225,8 @@ impl codevisual::Game for Test {
                                           GroundVertex { a_pos: vec3(MAP_SIZE, -MAP_SIZE, 0.0) },
                                           GroundVertex { a_pos: vec3(MAP_SIZE, MAP_SIZE, 0.0) },
                                           GroundVertex { a_pos: vec3(-MAP_SIZE, MAP_SIZE, 0.0) }]);
-        let mut result = Self {
+        let settings = Self::create_settings(&app);
+        Self {
             app,
             current_time: 0.0,
             shader,
@@ -232,23 +238,17 @@ impl codevisual::Game for Test {
             start_drag: None,
             camera_distance: MAX_CAMERA_DIST / 2.0,
             pos: vec2(0.0, 0.0),
-            settings: Rc::new(Settings {
-                                  time_scale: 1.0,
-                                  actions_per_tick: 1000,
-                                  draw_count: COUNT,
-                              }),
+            settings,
             prev_zoom_touchdist: 0.0,
-        };
-        // result.create_settings(); TODO: doesn't work
-        result
+        }
     }
     fn update(&mut self, mut delta_time: f32) {
-        delta_time *= self.settings.time_scale;
+        delta_time *= self.settings.borrow().time_scale;
         self.current_time += delta_time;
         self.next_action -= delta_time;
         while self.next_action < 0.0 {
             self.next_action += ACTION_TICK;
-            for _ in 0..self.settings.actions_per_tick {
+            for _ in 0..self.settings.borrow().actions_per_tick {
                 let i = random_range(0..self.geometry.get_instance_data().len());
                 let ref mut cur = *self.geometry.get_instance_data_mut().index_mut(i);
                 let mut target = cur.i_start_pos +
@@ -262,7 +262,7 @@ impl codevisual::Game for Test {
                 cur.i_speed = (target - cur_pos).normalize() * SPEED;
                 let current_angle = {
                     let mut diff = cur.i_angle - cur.i_start_angle;
-                    let PI = std::f32::consts::PI;
+                    const PI: f32 = std::f32::consts::PI;
                     if diff < -PI {
                         diff += 2.0 * PI;
                     }
@@ -291,7 +291,7 @@ impl codevisual::Game for Test {
                               100000.0) *
             Mat4::translate(vec3(self.pos.x, self.pos.y, -self.camera_distance))
         };
-        target.draw(&self.geometry.slice(0..self.settings.draw_count),
+        target.draw(&self.geometry.slice(0..self.settings.borrow().draw_count),
                     &self.shader,
                     &self.uniforms);
         target.draw(&self.ground_geometry, &self.ground_shader, &self.uniforms);
