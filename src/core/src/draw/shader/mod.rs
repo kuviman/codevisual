@@ -1,16 +1,38 @@
 use gl;
 use gl::types::*;
 use std;
+use std::error::Error;
 
 pub struct Shader {
     pub handle: GLuint,
 }
 
+#[derive(Debug)]
+pub struct ShaderCompilationError {
+    description: String,
+}
+
+impl Error for ShaderCompilationError {
+    fn description(&self) -> &str {
+        &self.description
+    }
+}
+
+impl std::fmt::Display for ShaderCompilationError {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "{}", Error::description(self))
+    }
+}
+
 impl Shader {
-    pub fn compile(vertex_shader: &str, fragment_shader: &str) -> Result<Self, String> {
+    pub fn compile(vertex_shader: &str,
+                   fragment_shader: &str)
+                   -> Result<Self, ShaderCompilationError> {
         ::Application::get_instance();
 
-        unsafe fn compile_shader(shader_type: GLuint, sources: &[&str]) -> Result<GLuint, String> {
+        unsafe fn compile_shader(shader_type: GLuint,
+                                 sources: &[&str])
+                                 -> Result<GLuint, ShaderCompilationError> {
             let handle = gl::CreateShader(shader_type);
             let source_ptrs: Vec<*const GLchar> = sources
                 .into_iter()
@@ -36,7 +58,9 @@ impl Shader {
                                      info_log_bytes.len() as GLsizei,
                                      std::ptr::null_mut(),
                                      info_log_bytes.as_mut_ptr() as *mut _);
-                return Err(String::from_utf8(info_log_bytes).unwrap());
+                return Err(ShaderCompilationError {
+                               description: String::from_utf8(info_log_bytes).unwrap(),
+                           });
             }
             Ok(handle)
         }
@@ -66,7 +90,9 @@ impl Shader {
                                       info_log_bytes.len() as GLsizei,
                                       std::ptr::null_mut(),
                                       info_log_bytes.as_mut_ptr() as *mut _);
-                return Err(String::from_utf8(info_log_bytes).unwrap());
+                return Err(ShaderCompilationError {
+                               description: String::from_utf8(info_log_bytes).unwrap(),
+                           });
             }
             Ok(Self { handle })
         }
