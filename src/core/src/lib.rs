@@ -43,8 +43,6 @@ lazy_static!{
     static ref APPLICATION_INSTANCE: RwLock<Application> = RwLock::new(Application::new());
 }
 
-pub type Error = String;
-
 impl Application {
     #[cfg(target_os = "emscripten")]
     fn new() -> Self {

@@ -1,4 +1,5 @@
 use std;
+use std::error::Error;
 use gl::types::*;
 use gl;
 
@@ -6,8 +7,25 @@ pub struct Texture {
     handle: GLuint,
 }
 
+#[derive(Debug)]
+pub struct TextureError {
+    description: String,
+}
+
+impl Error for TextureError {
+    fn description(&self) -> &str {
+        &self.description
+    }
+}
+
+impl std::fmt::Display for TextureError {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "{}", Error::description(self))
+    }
+}
+
 impl Texture {
-    pub fn load(path: &str) -> Result<Self, ::Error> {
+    pub fn load(path: &str) -> Result<Self, TextureError> {
         ::Application::get_instance();
         unsafe {
             let mut handle: GLuint = std::mem::uninitialized();
@@ -35,7 +53,14 @@ impl Texture {
             }
             #[cfg(not(target_os = "emscripten"))]
             {
-                let image = ::image::open(path).unwrap().to_rgba();
+                let image = match ::image::open(path) {
+                    Ok(image) => image.to_rgba(),
+                    Err(e) => {
+                        return Err(TextureError {
+                                       description: String::from(Error::description(&e)),
+                                   })
+                    }
+                };
                 gl::TexImage2D(gl::TEXTURE_2D,
                                0,
                                gl::RGBA as GLint,
