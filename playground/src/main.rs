@@ -95,8 +95,27 @@ impl Playground {
     }
 }
 
+pub struct Resources {
+    pub car_texture: draw::TextureResource,
+    pub dirt_texture: draw::TextureResource,
+    pub grass_texture: draw::TextureResource,
+    pub map_texture: draw::TextureResource,
+}
+
+impl codevisual::Resources for Resources {
+    fn new(loader: &codevisual::ResourceLoader) -> Self {
+        Self {
+            car_texture: draw::Texture::load(loader, "assets/car.png"),
+            dirt_texture: draw::Texture::load(loader, "assets/dirt.png"),
+            grass_texture: draw::Texture::load(loader, "assets/grass.png"),
+            map_texture: draw::Texture::load(loader, "assets/map.png"),
+        }
+    }
+}
+
 impl codevisual::Game for Playground {
-    fn new(app: Rc<codevisual::Application>) -> Self {
+    type Resources = Resources;
+    fn new(app: Rc<codevisual::Application>, resources: &Resources) -> Self {
         app.set_cursor_type(codevisual::CursorType::Pointer);
         Self {
             app: app.clone(),
@@ -110,8 +129,8 @@ impl codevisual::Game for Playground {
                 u_time: 0.0,
                 u_matrix: Mat4::identity(),
             },
-            ground: Ground::new(&app),
-            units: Units::new(&app),
+            ground: Ground::new(&app, resources),
+            units: Units::new(&app, resources),
         }
     }
     fn update(&mut self, mut delta_time: f32) {

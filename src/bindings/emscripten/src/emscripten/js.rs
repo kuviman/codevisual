@@ -79,3 +79,17 @@ impl<F: FnMut(i32)> IntoJson for Callback<i32, F> {
                 (Box::into_raw(boxed) as c_int).into_json())
     }
 }
+
+impl<F: FnMut(())> IntoJson for Callback<(), F> {
+    fn into_json(self) -> String {
+        let boxed = Box::new(self.f);
+        extern "C" fn wrapper<F: FnMut(())>(f: c_int) {
+            let mut boxed = unsafe { Box::from_raw(f as *mut F) };
+            boxed(());
+            std::mem::forget(boxed);
+        }
+        format!("function(i) {{ Runtime.dynCall('vi', {}, [{}]); }}",
+                (wrapper::<F> as c_int).into_json(),
+                (Box::into_raw(boxed) as c_int).into_json())
+    }
+}

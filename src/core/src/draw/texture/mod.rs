@@ -2,6 +2,7 @@ use std;
 use std::error::Error;
 use gl::types::*;
 use gl;
+use commons::*;
 
 pub struct Texture {
     handle: GLuint,
@@ -24,8 +25,21 @@ impl std::fmt::Display for TextureError {
     }
 }
 
+pub struct TextureResource {
+    texture: Rc<Texture>,
+    loaded: Rc<Cell<bool>>,
+}
+
+impl std::ops::Deref for TextureResource {
+    type Target = Rc<Texture>;
+    fn deref(&self) -> &Self::Target {
+        assert!(self.loaded.get());
+        &self.texture
+    }
+}
+
 impl Texture {
-    pub fn load(_: &::Application, path: &str) -> Result<Self, TextureError> {
+    pub fn load(loader: &::ResourceLoader, path: &str) -> TextureResource {
         unsafe {
             let mut handle: GLuint = std::mem::uninitialized();
             gl::GenTextures(1, &mut handle);
@@ -34,6 +48,8 @@ impl Texture {
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::NEAREST as GLint);
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::REPEAT as GLint);
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, gl::REPEAT as GLint);
+
+            let loaded = Rc::new(Cell::new(false));
 
             #[cfg(target_os = "emscripten")]
             {
@@ -46,8 +62,14 @@ impl Texture {
                                gl::RGBA as GLenum,
                                gl::UNSIGNED_BYTE,
                                std::ptr::null());
+                let loaded = loaded.clone();
+                loader.resource_count.set(loader.resource_count.get() + 1);
+                let loaded_resource_count = loader.loaded_resource_count.clone();
                 run_js!{
-                    CodeVisual.internal.load_texture(path, &handle);
+                    CodeVisual.internal.load_texture(path, &handle, ::emscripten::Callback::new(move |_: ()| {
+                        loaded.set(true);
+                        loaded_resource_count.set(loaded_resource_count.get() + 1);
+                    }));
                 }
             }
             #[cfg(not(target_os = "emscripten"))]
@@ -55,9 +77,7 @@ impl Texture {
                 let image = match ::image::open(path) {
                     Ok(image) => image.to_rgba(),
                     Err(e) => {
-                        return Err(TextureError {
-                                       description: String::from(Error::description(&e)),
-                                   })
+                        panic!(TextureError { description: String::from(Error::description(&e)) });
                     }
                 };
                 gl::TexImage2D(gl::TEXTURE_2D,
@@ -69,9 +89,13 @@ impl Texture {
                                gl::RGBA as GLenum,
                                gl::UNSIGNED_BYTE,
                                image.into_raw().as_ptr() as *const _);
+                loaded.set(true);
             }
 
-            Ok(Texture { handle })
+            TextureResource {
+                texture: Rc::new(Texture { handle }),
+                loaded,
+            }
         }
     }
     pub fn get_handle(&self) -> GLuint {

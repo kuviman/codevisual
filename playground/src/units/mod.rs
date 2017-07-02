@@ -20,7 +20,7 @@ pub struct InstanceData {
 struct Uniforms {
     u_time: f32,
     u_matrix: Mat4<f32>,
-    u_texture: draw::Texture,
+    u_texture: Rc<draw::Texture>,
 }
 
 pub struct Units {
@@ -38,7 +38,7 @@ pub const MAX_SIZE: f32 = 1.5;
 pub const SPEED: f32 = 15.0;
 
 impl Units {
-    pub fn new(app: &codevisual::Application) -> Self {
+    pub fn new(app: &codevisual::Application, resources: &::Resources) -> Self {
         let mut instance_data = Vec::new();
         for _ in 0..MAX_COUNT {
             instance_data.push(InstanceData {
@@ -65,7 +65,7 @@ impl Units {
             uniforms: Uniforms {
                 u_time: 0.0,
                 u_matrix: Mat4::identity(),
-                u_texture: draw::Texture::load(app, "assets/car.png").unwrap(),
+                u_texture: resources.car_texture.clone(),
             },
             actions_per_tick: 0,
         }

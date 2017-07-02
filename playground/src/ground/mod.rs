@@ -11,9 +11,9 @@ pub struct VertexData {
 #[derive(Uniforms)]
 struct Uniforms {
     u_matrix: Mat4<f32>,
-    u_grass_texture: draw::Texture,
-    u_dirt_texture: draw::Texture,
-    u_map_texture: draw::Texture,
+    u_grass_texture: Rc<draw::Texture>,
+    u_dirt_texture: Rc<draw::Texture>,
+    u_map_texture: Rc<draw::Texture>,
 }
 
 pub struct Ground {
@@ -23,7 +23,7 @@ pub struct Ground {
 }
 
 impl Ground {
-    pub fn new(app: &codevisual::Application) -> Self {
+    pub fn new(app: &codevisual::Application, resources: &::Resources) -> Self {
         Ground {
             geometry: draw::PlainGeometry::new(app,
                                                draw::geometry::Mode::TriangleFan,
@@ -41,9 +41,9 @@ impl Ground {
                                                     }]),
             uniforms: Uniforms {
                 u_matrix: Mat4::identity(),
-                u_dirt_texture: draw::Texture::load(app, "assets/dirt.png").unwrap(),
-                u_grass_texture: draw::Texture::load(app, "assets/grass.png").unwrap(),
-                u_map_texture: draw::Texture::load(app, "assets/map.png").unwrap(),
+                u_dirt_texture: resources.dirt_texture.clone(),
+                u_grass_texture: resources.grass_texture.clone(),
+                u_map_texture: resources.map_texture.clone(),
             },
             shader: draw::Shader::compile(app,
                                           include_str!("vertex.glsl"),

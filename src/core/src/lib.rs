@@ -26,7 +26,9 @@ extern crate codevisual_js;
 pub mod draw;
 mod settings;
 mod events;
+pub mod resource;
 
+pub use resource::*;
 pub use settings::*;
 pub use events::*;
 
@@ -142,7 +144,8 @@ pub enum CursorType {
 }
 
 pub trait Game {
-    fn new(app: Rc<Application>) -> Self;
+    type Resources: Resources;
+    fn new(app: Rc<Application>, resources: &Self::Resources) -> Self;
     fn update(&mut self, delta_time: f32);
     fn render<T: draw::Target>(&mut self, target: &mut T);
     fn handle_event(&mut self, event: Event);
@@ -151,32 +154,44 @@ pub trait Game {
 #[cfg(target_os = "emscripten")]
 pub fn run<G: Game>() {
     let app = Rc::new(Application::new());
-    let mut game = G::new(app.clone());
-    run_js!{
-        CodeVisual.internal.before_main_loop();
-    }
-    let mut prev_time = emscripten::get_now();
+    let resource_loader = ResourceLoader::new(app.clone());
+    let resources = G::Resources::new(&resource_loader);
     emscripten::set_main_loop(|| {
-        for event in events::get() {
-            game.handle_event(event);
-        }
+        let resource_count = resource_loader.resource_count.get();
+        let loaded_resource_count = resource_loader.loaded_resource_count.get();
+        if resource_count == loaded_resource_count {
+            let mut game = G::new(app.clone(), &resources);
+            run_js!{
+                CodeVisual.internal.before_main_loop();
+            }
+            let mut prev_time = emscripten::get_now();
+            emscripten::set_main_loop(|| {
+                for event in events::get() {
+                    game.handle_event(event);
+                }
 
-        let now_time = emscripten::get_now();
-        let delta_time = now_time - prev_time;
-        prev_time = now_time;
-        game.update(delta_time.min(0.1) as f32); // TODO: configure
-        let mut screen = draw::Screen;
-        unsafe {
-            // TODO: find place for it
-            gl::Enable(gl::DEPTH_TEST);
-            // gl::Enable(gl::CULL_FACE);
-            // gl::CullFace(gl::FRONT);
-            // gl::Enable(gl::BLEND);
-            // gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
-        }
-        game.render(&mut screen);
-        run_js!{
-            CodeVisual.internal.update_stats();
+                let now_time = emscripten::get_now();
+                let delta_time = now_time - prev_time;
+                prev_time = now_time;
+                game.update(delta_time.min(0.1) as f32); // TODO: configure
+                let mut screen = draw::Screen;
+                unsafe {
+                    // TODO: find place for it
+                    gl::Enable(gl::DEPTH_TEST);
+                    // gl::Enable(gl::CULL_FACE);
+                    // gl::CullFace(gl::FRONT);
+                    // gl::Enable(gl::BLEND);
+                    // gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
+                }
+                game.render(&mut screen);
+                run_js!{
+                    CodeVisual.internal.update_stats();
+                }
+            });
+        } else {
+            run_js!{
+                CodeVisual.internal.set_load_progress(&loaded_resource_count, &resource_count);
+            }
         }
     });
 }
@@ -184,7 +199,10 @@ pub fn run<G: Game>() {
 #[cfg(not(target_os = "emscripten"))]
 pub fn run<G: Game>() {
     let app = Rc::new(Application::new());
-    let mut game = G::new(app.clone());
+    let resource_loader = ResourceLoader::new(app.clone());
+    let resources = G::Resources::new(&resource_loader);
+    assert!(resource_loader.loaded());
+    let mut game = G::new(app.clone(), &resources);
 
     use std::time::Instant;
     let mut prev_time = Instant::now();

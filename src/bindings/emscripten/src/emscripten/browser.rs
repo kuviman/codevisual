@@ -11,8 +11,14 @@ pub fn get_canvas_size() -> (u32, u32) {
 }
 
 pub fn set_main_loop<F: FnMut()>(callback: F) {
+    static mut IS_SET: bool = false;
     let callback = Box::new(Box::new(callback));
     unsafe {
+        if IS_SET {
+            println!("Canceling main loop");
+            emscripten_cancel_main_loop();
+        }
+        IS_SET = true;
         emscripten_set_main_loop_arg(Some(wrapper::<F>), Box::into_raw(callback) as *mut _, 0, 1);
 
         // TODO: this is a hack. Emscripten (or rust?) optimizes emscripten_GetProcAddress out without this.

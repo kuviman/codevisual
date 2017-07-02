@@ -14,4 +14,4 @@ mod range;
 pub use self::range::*;
 
 pub use std::rc::Rc;
-pub use std::cell::RefCell;
+pub use std::cell::{Cell, RefCell, Ref};

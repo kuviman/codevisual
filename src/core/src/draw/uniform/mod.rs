@@ -49,6 +49,12 @@ impl Value for super::Texture {
     }
 }
 
+impl<T: Value> Value for Rc<T> {
+    fn apply(&self, location: GLint, texture_count: &mut usize) {
+        ::std::borrow::Borrow::<T>::borrow(self).apply(location, texture_count);
+    }
+}
+
 pub trait ValueConsumer {
     fn consume<V: Value>(&mut self, name: &str, value: &V);
 }

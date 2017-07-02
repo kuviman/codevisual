@@ -55,7 +55,7 @@ namespace CodeVisual {
             }
             $failedScreen.find(".error-message").text(message);
         }
-        export function load_texture(path: string, texture_handle: number) {
+        export function load_texture(path: string, texture_handle: number, on_load: () => void) {
             let texture = GL.textures[texture_handle];
             let image = new Image();
             image.onload = function () {
@@ -65,8 +65,12 @@ namespace CodeVisual {
                 GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MIN_FILTER, GLctx.NEAREST);
                 GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MAG_FILTER, GLctx.NEAREST);
                 GLctx.bindTexture(GLctx.TEXTURE_2D, cur);
+                on_load();
             };
             image.src = path;
+        }
+        export function set_load_progress(loaded_count: number, total_count: number) {
+            $player.find(".resource-loading-progress-bar").width(loaded_count * 100 / total_count + "%");
         }
     }
 }
