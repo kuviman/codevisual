@@ -1,4 +1,5 @@
 {
+    "runner": "terminal",
     "version": "0.1.0",
     "windows": {
         "tasks": [
