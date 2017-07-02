@@ -1,6 +1,6 @@
 target/
 **/*.rs.bk
 Cargo.lock
-examples/public/code.js
+playground/public/code.js
 *.wasm
 *~
