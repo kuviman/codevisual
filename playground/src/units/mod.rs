@@ -78,7 +78,7 @@ impl Units {
             self.next_action += TICK_TIME;
             for _ in 0..self.actions_per_tick {
                 let i = random_range(0..self.geometry.get_instance_data().len());
-                let ref mut cur = *self.geometry.get_instance_data_mut().index_mut(i);
+                let mut cur = self.geometry.get_instance_data_mut().index_mut(i);
                 let mut target = cur.i_start_pos +
                                  vec2(random::<f32>() * 2.0 - 1.0, random::<f32>() * 2.0 - 1.0) *
                                  MAP_SIZE;
