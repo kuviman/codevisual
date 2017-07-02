@@ -1,5 +1,5 @@
 attribute vec3 a_v;
-attribute vec3 a_n;
+attribute vec3 a_vn;
 attribute vec2 a_vt;
 
 attribute vec2 i_start_pos;
@@ -30,7 +30,7 @@ void main() {
     }
     float angle = i_start_angle + max(-W * passed_time, min(W * passed_time, angle_diff));
     v_uv = a_vt;
-    vec3 n = vec3(a_n.x * cos(angle) - a_n.y * sin(angle), a_n.x * sin(angle) + a_n.y * cos(angle), a_n.z);
+    vec3 n = vec3(a_vn.x * cos(angle) - a_vn.y * sin(angle), a_vn.x * sin(angle) + a_vn.y * cos(angle), a_vn.z);
     v_light = max(0.0, dot(normalize(n), normalize(vec3(3.0, 8.0, 10.0)))) * 0.7 + 0.3;
     vec3 v = vec3(a_v.x * cos(angle) - a_v.y * sin(angle), a_v.x * sin(angle) + a_v.y * cos(angle), a_v.z);
     gl_Position = u_matrix * vec4(v * i_size + vec3(i_start_pos + i_speed * passed_time, 0.0), 1.0);

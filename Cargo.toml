@@ -7,3 +7,7 @@ authors = ["kuviman <kuviman@gmail.com>"]
 codevisual_commons = { path = "src/commons" }
 codevisual_core = { path = "src/core" }
 codevisual_derive = { path = "src/core/derive" }
+
+[[example]]
+name = "playground"
+path = "playground/src/main.rs"

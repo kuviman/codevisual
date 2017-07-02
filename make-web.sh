@@ -3,7 +3,7 @@
 set -e
 
 config=release
-target=wasm32
+target=asmjs
 if [ -n "$1" ]; then
     target=$1
 fi
@@ -17,7 +17,7 @@ export EMSCRIPTEN=`python -c "execfile('$HOME/.emscripten'); print(EMSCRIPTEN_RO
 PATH="$EMSCRIPTEN:$PATH"
 
 cargo build $cargoArgs --target=$cargoTarget --example playground
-cp target/$cargoTarget/$config/examples/playground.js examples/public/code.js
+cp target/$cargoTarget/$config/examples/playground.js playground/public/code.js
 if [ "target" == "wasm" ]; then
-    cp target/$cargoTarget/$config/examples/*.wasm examples/public
+    cp target/$cargoTarget/$config/examples/*.wasm playground/public
 fi

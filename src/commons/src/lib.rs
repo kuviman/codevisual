@@ -12,3 +12,6 @@ pub use self::algebra::*;
 
 mod range;
 pub use self::range::*;
+
+pub use std::rc::Rc;
+pub use std::cell::RefCell;
