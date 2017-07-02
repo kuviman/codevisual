@@ -18,6 +18,6 @@ PATH="$EMSCRIPTEN:$PATH"
 
 cargo build $cargoArgs --target=$cargoTarget --example playground
 cp target/$cargoTarget/$config/examples/playground.js playground/public/code.js
-if [ "target" == "wasm" ]; then
+if [ "$target" == "wasm32" ]; then
     cp target/$cargoTarget/$config/examples/*.wasm playground/public
 fi
