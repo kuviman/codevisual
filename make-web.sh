@@ -3,11 +3,10 @@
 set -e
 
 config=release
+target=wasm32
 if [ -n "$1" ]; then
-    config=$1
+    target=$1
 fi
-
-target=wasm32 #asmjs
 cargoTarget=$target-unknown-emscripten
 cargoArgs=
 if [ "$config" == "release" ]; then
