@@ -53,7 +53,7 @@ impl Units {
                                    i_start_angle: 0.0,
                                });
         }
-        let model = ::obj::parse(app, include_str!("../../public/assets/car.obj"));
+        let model = ::obj::parse(app, &resources.car_obj.get());
         Units {
             current_time: 0.0,
             next_action: 0.0,

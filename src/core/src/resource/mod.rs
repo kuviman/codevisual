@@ -1,3 +1,6 @@
+mod text;
+pub use self::text::*;
+
 use commons::*;
 
 pub struct ResourceLoader {

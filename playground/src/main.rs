@@ -100,6 +100,7 @@ pub struct Resources {
     pub dirt_texture: draw::TextureResource,
     pub grass_texture: draw::TextureResource,
     pub map_texture: draw::TextureResource,
+    pub car_obj: codevisual::TextResource,
 }
 
 impl codevisual::Resources for Resources {
@@ -109,6 +110,7 @@ impl codevisual::Resources for Resources {
             dirt_texture: draw::Texture::load(loader, "assets/dirt.png"),
             grass_texture: draw::Texture::load(loader, "assets/grass.png"),
             map_texture: draw::Texture::load(loader, "assets/map.png"),
+            car_obj: codevisual::load_text(loader, "assets/car.obj"),
         }
     }
 }
