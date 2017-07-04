@@ -180,8 +180,8 @@ pub fn run<G: Game>() {
                     gl::Enable(gl::DEPTH_TEST);
                     // gl::Enable(gl::CULL_FACE);
                     // gl::CullFace(gl::FRONT);
-                    // gl::Enable(gl::BLEND);
-                    // gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
+                    gl::Enable(gl::BLEND);
+                    gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
                 }
                 game.render(&mut screen);
                 run_js!{
@@ -222,8 +222,8 @@ pub fn run<G: Game>() {
             gl::Enable(gl::DEPTH_TEST);
             // gl::Enable(gl::CULL_FACE);
             // gl::CullFace(gl::FRONT);
-            // gl::Enable(gl::BLEND);
-            // gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
+            gl::Enable(gl::BLEND);
+            gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
         }
         game.render(&mut screen);
         unsafe {

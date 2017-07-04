@@ -65,13 +65,16 @@ impl Shader {
         }
 
         #[cfg(target_os = "emscripten")]
-        let fragment_sources = vec!["precision mediump float;", fragment_shader];
+        let (vertex_sources, fragment_sources) = (vec!["precision mediump float;", vertex_shader],
+                                                  vec!["precision mediump float;",
+                                                       fragment_shader]);
 
         #[cfg(not(target_os = "emscripten"))]
-        let fragment_sources = vec![fragment_shader];
+        let (vertex_sources, fragment_sources) = (vec![vertex_shader], vec![fragment_shader]);
 
         unsafe {
-            let vertex_shader_handle = try!(compile_shader(gl::VERTEX_SHADER, &[vertex_shader]));
+            let vertex_shader_handle = try!(compile_shader(gl::VERTEX_SHADER,
+                                                           vertex_sources.as_slice()));
             let fragment_shader_handle = try!(compile_shader(gl::FRAGMENT_SHADER,
                                                              fragment_sources.as_slice()));
             let handle = gl::CreateProgram();

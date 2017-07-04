@@ -13,7 +13,7 @@ use codevisual::draw;
 
 const MAP_SIZE: f32 = 1000.0;
 const TICK_TIME: f32 = 0.016666;
-const MIN_CAMERA_DIST: f32 = 6.0;
+const MIN_CAMERA_DIST: f32 = 150.0;
 const MAX_CAMERA_DIST: f32 = 2000.0;
 
 #[derive(Uniforms)]
@@ -106,8 +106,8 @@ impl codevisual::Game for Playground {
             let (w, h) = self.app.get_size();
             Mat4::perspective(std::f32::consts::PI / 4.0,
                               w as f32 / h as f32,
-                              1.0,
-                              100000.0) * Mat4::rotate_x(-0.2) *
+                              100.0,
+                              10000.0) * Mat4::rotate_x(-0.2) *
             Mat4::translate(vec3(self.camera_position.x,
                                  self.camera_position.y,
                                  -self.camera_distance))
@@ -174,12 +174,13 @@ impl codevisual::Game for Playground {
                 self.start_drag = None;
             }
             Wheel { delta } => {
-                self.camera_distance = (self.camera_distance * f32::exp(delta as f32 / 1000.0))
-                    .min(MAX_CAMERA_DIST)
-                    .max(MIN_CAMERA_DIST)
+                self.camera_distance *= f32::exp(delta as f32 / 1000.0);
             }
             _ => (),
         }
+        self.camera_distance = self.camera_distance
+            .min(MAX_CAMERA_DIST)
+            .max(MIN_CAMERA_DIST);
     }
 }
 
