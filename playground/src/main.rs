@@ -99,6 +99,7 @@ pub struct Resources {
     pub car_texture: draw::TextureResource,
     pub dirt_texture: draw::TextureResource,
     pub grass_texture: draw::TextureResource,
+    pub darkgrass_texture: draw::TextureResource,
     pub map_texture: draw::TextureResource,
     pub car_obj: codevisual::TextResource,
 }
@@ -109,6 +110,7 @@ impl codevisual::Resources for Resources {
             car_texture: draw::Texture::load(loader, "assets/car.png"),
             dirt_texture: draw::Texture::load(loader, "assets/dirt.png"),
             grass_texture: draw::Texture::load(loader, "assets/grass.png"),
+            darkgrass_texture: draw::Texture::load(loader, "assets/darkgrass.png"),
             map_texture: draw::Texture::load(loader, "assets/map.png"),
             car_obj: codevisual::load_text(loader, "assets/car.obj"),
         }
@@ -149,7 +151,7 @@ impl codevisual::Game for Playground {
             Mat4::perspective(std::f32::consts::PI / 4.0,
                               w as f32 / h as f32,
                               1.0,
-                              100000.0) *
+                              100000.0) * Mat4::rotateX(-0.2) *
             Mat4::translate(vec3(self.camera_position.x,
                                  self.camera_position.y,
                                  -self.camera_distance))

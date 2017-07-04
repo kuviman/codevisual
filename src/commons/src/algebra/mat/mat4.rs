@@ -44,6 +44,17 @@ impl Mat4<f32> {
         result
     }
 
+    pub fn rotateX(angle: f32) -> Self {
+        let mut result = Self::identity();
+        let cs = angle.cos();
+        let sn = angle.sin();
+        result[(1, 1)] = cs;
+        result[(1, 2)] = -sn;
+        result[(2, 1)] = sn;
+        result[(2, 2)] = cs;
+        result
+    }
+
     pub fn perspective(fov: f32, aspect: f32, near: f32, far: f32) -> Self {
         let ymax = near * (fov / 2.0).tan();
         let xmax = ymax * aspect;

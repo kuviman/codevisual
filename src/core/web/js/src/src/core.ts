@@ -62,8 +62,6 @@ namespace CodeVisual {
                 var cur = GLctx.getParameter(GLctx.TEXTURE_BINDING_2D);
                 GLctx.bindTexture(GLctx.TEXTURE_2D, texture);
                 GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, image);
-                GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MIN_FILTER, GLctx.NEAREST);
-                GLctx.texParameteri(GLctx.TEXTURE_2D, GLctx.TEXTURE_MAG_FILTER, GLctx.NEAREST);
                 GLctx.bindTexture(GLctx.TEXTURE_2D, cur);
                 on_load();
             };

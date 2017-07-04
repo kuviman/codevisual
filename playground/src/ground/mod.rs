@@ -12,6 +12,7 @@ pub struct VertexData {
 struct Uniforms {
     u_matrix: Mat4<f32>,
     u_grass_texture: Rc<draw::Texture>,
+    u_darkgrass_texture: Rc<draw::Texture>,
     u_dirt_texture: Rc<draw::Texture>,
     u_map_texture: Rc<draw::Texture>,
 }
@@ -43,6 +44,7 @@ impl Ground {
                 u_matrix: Mat4::identity(),
                 u_dirt_texture: resources.dirt_texture.clone(),
                 u_grass_texture: resources.grass_texture.clone(),
+                u_darkgrass_texture: resources.darkgrass_texture.clone(),
                 u_map_texture: resources.map_texture.clone(),
             },
             shader: draw::Shader::compile(app,
