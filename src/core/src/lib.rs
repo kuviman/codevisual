@@ -201,7 +201,8 @@ pub fn run<G: Game>() {
     let app = Rc::new(Application::new());
     let resource_loader = ResourceLoader::new(app.clone());
     let resources = G::Resources::new(&resource_loader);
-    assert!(resource_loader.loaded());
+    assert_eq!(resource_loader.loaded_resource_count.get(),
+               resource_loader.resource_count.get());
     let mut game = G::new(app.clone(), &resources);
 
     use std::time::Instant;

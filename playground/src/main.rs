@@ -153,7 +153,7 @@ impl codevisual::Game for Playground {
             Mat4::perspective(std::f32::consts::PI / 4.0,
                               w as f32 / h as f32,
                               1.0,
-                              100000.0) * Mat4::rotateX(-0.2) *
+                              100000.0) * Mat4::rotate_x(-0.2) *
             Mat4::translate(vec3(self.camera_position.x,
                                  self.camera_position.y,
                                  -self.camera_distance))

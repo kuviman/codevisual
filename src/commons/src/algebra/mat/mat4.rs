@@ -44,7 +44,7 @@ impl Mat4<f32> {
         result
     }
 
-    pub fn rotateX(angle: f32) -> Self {
+    pub fn rotate_x(angle: f32) -> Self {
         let mut result = Self::identity();
         let cs = angle.cos();
         let sn = angle.sin();

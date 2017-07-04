@@ -69,12 +69,26 @@ impl<F: FnMut(bool)> IntoJson for Callback<bool, F> {
 impl<F: FnMut(i32)> IntoJson for Callback<i32, F> {
     fn into_json(self) -> String {
         let boxed = Box::new(self.f);
-        extern "C" fn wrapper<F: FnMut(i32)>(f: c_int, b: c_int) {
+        extern "C" fn wrapper<F: FnMut(i32)>(f: c_int, x: c_int) {
             let mut boxed = unsafe { Box::from_raw(f as *mut F) };
-            boxed(b as i32);
+            boxed(x as i32);
             std::mem::forget(boxed);
         }
-        format!("function(i) {{ Runtime.dynCall('vii', {}, [{}, i]); }}",
+        format!("function(x) {{ Runtime.dynCall('vii', {}, [{}, x]); }}",
+                (wrapper::<F> as c_int).into_json(),
+                (Box::into_raw(boxed) as c_int).into_json())
+    }
+}
+
+impl<F: FnMut((i32, i32))> IntoJson for Callback<(i32, i32), F> {
+    fn into_json(self) -> String {
+        let boxed = Box::new(self.f);
+        extern "C" fn wrapper<F: FnMut((i32, i32))>(f: c_int, a: c_int, b: c_int) {
+            let mut boxed = unsafe { Box::from_raw(f as *mut F) };
+            boxed((a as i32, b as i32));
+            std::mem::forget(boxed);
+        }
+        format!("function(a, b) {{ Runtime.dynCall('viii', {}, [{}, a, b]); }}",
                 (wrapper::<F> as c_int).into_json(),
                 (Box::into_raw(boxed) as c_int).into_json())
     }

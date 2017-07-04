@@ -2,6 +2,8 @@ declare var GLctx: WebGLRenderingContext;
 declare var GL: { textures: WebGLTexture[] };
 declare var ENV: { [name: string]: any };
 
+ENV.RUST_BACKTRACE = "1";
+
 declare namespace Module {
     export let canvas: HTMLCanvasElement;
     export function printErr(s: string): void;
@@ -55,7 +57,7 @@ namespace CodeVisual {
             }
             $failedScreen.find(".error-message").text(message);
         }
-        export function load_texture(path: string, texture_handle: number, on_load: () => void) {
+        export function load_texture(path: string, texture_handle: number, on_load: (width: number, height: number) => void) {
             let texture = GL.textures[texture_handle];
             let image = new Image();
             image.onload = function () {
@@ -63,7 +65,7 @@ namespace CodeVisual {
                 GLctx.bindTexture(GLctx.TEXTURE_2D, texture);
                 GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, image);
                 GLctx.bindTexture(GLctx.TEXTURE_2D, cur);
-                on_load();
+                on_load(image.width, image.height);
             };
             image.src = path;
         }

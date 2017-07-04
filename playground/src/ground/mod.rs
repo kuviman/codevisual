@@ -41,10 +41,19 @@ impl Ground {
     pub fn new(app: &codevisual::Application, resources: &::Resources) -> Self {
         let bush_geometry = {
             let mut bush_instances = Vec::new();
+            let map_size = resources.map_texture.get_size();
+            let map = resources.map_texture.get_data();
             for _ in 0..10000 {
+                let x = random::<f32>();
+                let y = random::<f32>();
+                let pixel = map.get_pixel((x * map_size.0 as f32) as usize,
+                                          (y * map_size.1 as f32) as usize);
+                if pixel.green < 0.5 {
+                    continue;
+                }
                 bush_instances.push(BushInstance {
-                                        i_pos: vec2(random::<f32>() * 2.0 * MAP_SIZE - MAP_SIZE,
-                                                    random::<f32>() * 2.0 * MAP_SIZE - MAP_SIZE),
+                                        i_pos: vec2(x * 2.0 * MAP_SIZE - MAP_SIZE,
+                                                    y * 2.0 * MAP_SIZE - MAP_SIZE),
                                     });
             }
             let geometry = {

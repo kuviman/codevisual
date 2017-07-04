@@ -15,3 +15,4 @@ pub use self::range::*;
 
 pub use std::rc::Rc;
 pub use std::cell::{Cell, RefCell, Ref};
+pub use std::marker::PhantomData;
