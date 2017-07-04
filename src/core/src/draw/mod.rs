@@ -27,6 +27,9 @@ pub trait Target {
 unsafe fn prepare_vertex_attributes<B>(shader: &Shader, data: &B, attrib_divisor: GLuint)
     where B: vertex::BufferView
 {
+    if data.as_slice().len() == 0 {
+        return;
+    }
     gl::BindBuffer(gl::ARRAY_BUFFER, data.get_original_buffer().handle);
     struct AttributeWalker<'a, D: 'a + vertex::Data> {
         shader: &'a Shader,

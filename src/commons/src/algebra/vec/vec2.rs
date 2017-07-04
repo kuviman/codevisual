@@ -59,8 +59,10 @@ impl<T: Copy + std::ops::Div<T, Output = T>> std::ops::Div<T> for Vec2<T> {
 
 impl Vec2<f32> {
     pub fn normalize(self) -> Self {
-        let len = f32::sqrt(self.x * self.x + self.y * self.y);
-        self / len
+        self / self.len()
+    }
+    pub fn len(self) -> f32 {
+        f32::sqrt(self.x * self.x + self.y * self.y)
     }
 }
 

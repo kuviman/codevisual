@@ -4,6 +4,7 @@ attribute vec2 a_vt;
 
 attribute vec2 i_start_pos;
 attribute float i_start_time;
+attribute float i_finish_time;
 attribute vec2 i_speed;
 attribute float i_size;
 attribute vec4 i_color;
@@ -20,7 +21,7 @@ uniform mat4 u_matrix;
 #define PI 3.1415926535897932384626433832795
 
 void main() {
-    float passed_time = u_time - i_start_time;
+    float passed_time = min(u_time, i_finish_time) - i_start_time;
     float angle_diff = i_angle - i_start_angle;
     if (angle_diff > PI) {
         angle_diff -= 2.0 * PI;

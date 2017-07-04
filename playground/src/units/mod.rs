@@ -10,6 +10,7 @@ pub struct InstanceData {
     i_start_pos: Vec2<f32>,
     i_speed: Vec2<f32>,
     i_start_time: f32,
+    i_finish_time: f32,
     i_color: Color,
     i_size: f32,
     i_angle: f32,
@@ -25,7 +26,8 @@ struct Uniforms {
 
 pub struct Units {
     current_time: f32,
-    pub actions_per_tick: usize,
+    draw_count: Rc<Cell<usize>>,
+    actions_per_tick: Rc<Cell<usize>>,
     next_action: f32,
     geometry: draw::InstancedGeometry<InstanceData, ::obj::Geometry>,
     shader: draw::Shader,
@@ -47,6 +49,7 @@ impl Units {
                                                 MAP_SIZE,
                                    i_speed: vec2(0.0, 0.0),
                                    i_start_time: 0.0,
+                                   i_finish_time: 0.0,
                                    i_size: random::<f32>() * (MAX_SIZE - MIN_SIZE) + MAX_SIZE,
                                    i_color: Color::rgb(1.0, random::<f32>(), 0.0),
                                    i_angle: 0.0,
@@ -67,7 +70,39 @@ impl Units {
                 u_matrix: Mat4::identity(),
                 u_texture: resources.car_texture.clone(),
             },
-            actions_per_tick: 0,
+            draw_count: {
+                let setting = Rc::new(Cell::new(0 as usize));
+                {
+                    let setting = setting.clone();
+                    app.add_setting(codevisual::I32Setting {
+                                        name: String::from("Count"),
+                                        min_value: 0,
+                                        max_value: MAX_COUNT as i32,
+                                        default_value: setting.get() as i32,
+                                        setter: move |new_value| {
+                                            println!("Drawing {} instances", new_value);
+                                            setting.set(new_value as usize);
+                                        },
+                                    });
+                }
+                setting
+            },
+            actions_per_tick: {
+                let setting = Rc::new(Cell::new(0 as usize));
+                {
+                    let setting = setting.clone();
+                    app.add_setting(codevisual::I32Setting {
+                                        name: String::from("Actions per tick"),
+                                        min_value: 0,
+                                        max_value: 1000,
+                                        default_value: setting.get() as i32,
+                                        setter: move |new_value| {
+                                            setting.set(new_value as usize);
+                                        },
+                                    });
+                }
+                setting
+            },
         }
     }
 
@@ -76,18 +111,22 @@ impl Units {
         self.next_action -= delta_time;
         while self.next_action < 0.0 {
             self.next_action += TICK_TIME;
-            for _ in 0..self.actions_per_tick {
+            for _ in 0..self.actions_per_tick.get() {
                 let i = random_range(0..self.geometry.get_instance_data().len());
                 let mut cur = self.geometry.get_instance_data_mut().index_mut(i);
-                let mut target = cur.i_start_pos +
-                                 vec2(random::<f32>() * 2.0 - 1.0, random::<f32>() * 2.0 - 1.0) *
-                                 MAP_SIZE;
-                target.x = target.x.min(MAP_SIZE).max(-MAP_SIZE);
-                target.y = target.y.min(MAP_SIZE).max(-MAP_SIZE);
+                let target_pos = {
+                    let mut target_pos =
+                        cur.i_start_pos +
+                        vec2(random::<f32>() * 2.0 - 1.0, random::<f32>() * 2.0 - 1.0) * MAP_SIZE;
+                    target_pos.x = target_pos.x.min(MAP_SIZE).max(-MAP_SIZE);
+                    target_pos.y = target_pos.y.min(MAP_SIZE).max(-MAP_SIZE);
+                    target_pos
+                };
                 let cur_pos = cur.i_start_pos +
-                              cur.i_speed * (self.current_time - cur.i_start_time);
+                              cur.i_speed *
+                              (self.current_time.min(cur.i_finish_time) - cur.i_start_time);
                 cur.i_start_pos = cur_pos;
-                cur.i_speed = (target - cur_pos).normalize() * SPEED;
+                cur.i_speed = (target_pos - cur_pos).normalize() * SPEED;
                 let current_angle = {
                     let mut diff = cur.i_angle - cur.i_start_angle;
                     const PI: f32 = std::f32::consts::PI;
@@ -102,6 +141,7 @@ impl Units {
                     cur.i_start_angle + diff.max(-W * passed_time).min(W * passed_time)
                 };
                 cur.i_start_time = self.current_time;
+                cur.i_finish_time = cur.i_start_time + (target_pos - cur_pos).len() / SPEED;
                 let target_angle = f32::atan2(cur.i_speed.y, cur.i_speed.x);
                 cur.i_start_angle = current_angle;
                 cur.i_angle = target_angle;
@@ -109,12 +149,11 @@ impl Units {
         }
     }
 
-    pub fn render<T: draw::Target>(&mut self,
-                                   count: usize,
-                                   target: &mut T,
-                                   global_uniforms: &::GlobalUniforms) {
+    pub fn render<T: draw::Target>(&mut self, target: &mut T, global_uniforms: &::GlobalUniforms) {
         self.uniforms.u_time = global_uniforms.u_time;
         self.uniforms.u_matrix = global_uniforms.u_matrix;
-        target.draw(&self.geometry.slice(0..count), &self.shader, &self.uniforms);
+        target.draw(&self.geometry.slice(0..self.draw_count.get()),
+                    &self.shader,
+                    &self.uniforms);
     }
 }

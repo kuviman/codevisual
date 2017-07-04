@@ -22,12 +22,6 @@ pub struct GlobalUniforms {
     u_matrix: Mat4<f32>,
 }
 
-struct Settings {
-    actions_per_tick: usize,
-    time_scale: f32,
-    draw_count: usize,
-}
-
 pub struct Playground {
     app: Rc<codevisual::Application>,
     current_time: f32,
@@ -38,61 +32,7 @@ pub struct Playground {
     prev_zoom_touchdist: f32,
     camera_distance: f32,
     camera_position: Vec2<f32>,
-    settings: Rc<RefCell<Settings>>,
-}
-
-impl Playground {
-    fn create_settings(app: &codevisual::Application) -> Rc<RefCell<Settings>> {
-        let settings = Rc::new(RefCell::new(Settings {
-                                                time_scale: 1.0,
-                                                actions_per_tick: 1000,
-                                                draw_count: units::MAX_COUNT,
-                                            }));
-        {
-            let settings = settings.clone();
-            app.add_setting(codevisual::I32Setting {
-                                name: String::from("Count"),
-                                min_value: 1,
-                                max_value: units::MAX_COUNT as i32,
-                                default_value: {
-                                    let borrow = settings.borrow();
-                                    borrow.draw_count as i32
-                                },
-                                setter: move |new_value| {
-                                    println!("Drawing {} instances", new_value);
-                                    settings.borrow_mut().draw_count = new_value as usize;
-                                },
-                            });
-        }
-        {
-            let settings = settings.clone();
-            app.add_setting(codevisual::I32Setting {
-                                name: String::from("Actions per tick"),
-                                min_value: 0,
-                                max_value: 1000,
-                                default_value: {
-                                    let borrow = settings.borrow();
-                                    borrow.actions_per_tick as i32
-                                },
-                                setter: move |new_value| {
-                                    settings.borrow_mut().actions_per_tick = new_value as usize;
-                                },
-                            });
-        }
-        {
-            let settings = settings.clone();
-            app.add_setting(codevisual::I32Setting {
-                                name: String::from("Time scale"),
-                                min_value: 0,
-                                max_value: 200,
-                                default_value: 100,
-                                setter: move |new_value| {
-                                    settings.borrow_mut().time_scale = new_value as f32 / 100.0;
-                                },
-                            });
-        }
-        settings
-    }
+    time_scale: Rc<Cell<f32>>,
 }
 
 pub struct Resources {
@@ -128,7 +68,22 @@ impl codevisual::Game for Playground {
             current_time: 0.0,
             camera_position: vec2(0.0, 0.0),
             camera_distance: MAX_CAMERA_DIST / 2.0,
-            settings: Self::create_settings(&app),
+            time_scale: {
+                let setting = Rc::new(Cell::new(1.0));
+                {
+                    let setting = setting.clone();
+                    app.add_setting(codevisual::I32Setting {
+                                        name: String::from("Time scale"),
+                                        min_value: 0,
+                                        max_value: 200,
+                                        default_value: 100,
+                                        setter: move |new_value| {
+                                            setting.set(new_value as f32 / 100.0);
+                                        },
+                                    });
+                }
+                setting
+            },
             start_drag: None,
             prev_zoom_touchdist: 0.0,
             global_uniforms: GlobalUniforms {
@@ -140,9 +95,8 @@ impl codevisual::Game for Playground {
         }
     }
     fn update(&mut self, mut delta_time: f32) {
-        delta_time *= self.settings.borrow().time_scale;
+        delta_time *= self.time_scale.get();
         self.current_time += delta_time;
-        self.units.actions_per_tick = self.settings.borrow().actions_per_tick;
         self.units.update(delta_time);
     }
     fn render<T: draw::Target>(&mut self, target: &mut T) {
@@ -159,10 +113,7 @@ impl codevisual::Game for Playground {
                                  -self.camera_distance))
         };
         self.ground.render(target, &self.global_uniforms);
-        self.units
-            .render(self.settings.borrow().draw_count,
-                    target,
-                    &self.global_uniforms);
+        self.units.render(target, &self.global_uniforms);
     }
     fn handle_event(&mut self, event: codevisual::Event) {
         use codevisual::Event::*;
