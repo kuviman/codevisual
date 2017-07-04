@@ -33,9 +33,9 @@ pub struct Units {
 }
 
 pub const MAX_COUNT: usize = 10000;
-pub const MIN_SIZE: f32 = 0.5;
-pub const MAX_SIZE: f32 = 1.5;
-pub const SPEED: f32 = 15.0;
+pub const MIN_SIZE: f32 = 3.5;
+pub const MAX_SIZE: f32 = 5.0;
+pub const SPEED: f32 = 50.0;
 
 impl Units {
     pub fn new(app: &codevisual::Application, resources: &::Resources) -> Self {

@@ -101,6 +101,7 @@ pub struct Resources {
     pub grass_texture: draw::TextureResource,
     pub darkgrass_texture: draw::TextureResource,
     pub map_texture: draw::TextureResource,
+    pub bush_texture: draw::TextureResource,
     pub car_obj: codevisual::TextResource,
 }
 
@@ -112,6 +113,7 @@ impl codevisual::Resources for Resources {
             grass_texture: draw::Texture::load(loader, "assets/grass.png"),
             darkgrass_texture: draw::Texture::load(loader, "assets/darkgrass.png"),
             map_texture: draw::Texture::load(loader, "assets/map.png"),
+            bush_texture: draw::Texture::load(loader, "assets/bush.png"),
             car_obj: codevisual::load_text(loader, "assets/car.obj"),
         }
     }
