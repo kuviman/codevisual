@@ -11,4 +11,5 @@ void main() {
     gl_FragColor = texture2D(u_darkgrass_texture, v_pos / 10.0) * typ.x +
         texture2D(u_grass_texture, v_pos / 10.0) * typ.y +
         texture2D(u_dirt_texture, v_pos / 10.0) * typ.z;
+    gl_FragColor.w = 1.0;
 }

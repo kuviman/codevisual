@@ -107,10 +107,10 @@ impl codevisual::Game for Playground {
             Mat4::perspective(std::f32::consts::PI / 4.0,
                               w as f32 / h as f32,
                               100.0,
-                              10000.0) * Mat4::rotate_x(-0.2) *
-            Mat4::translate(vec3(self.camera_position.x,
-                                 self.camera_position.y,
-                                 -self.camera_distance))
+                              2500.0) *
+            Mat4::translate(vec3(0.0, 0.0, -self.camera_distance)) *
+            Mat4::rotate_x(-0.2) *
+            Mat4::translate(vec3(self.camera_position.x, self.camera_position.y, 0.0))
         };
         self.ground.render(target, &self.global_uniforms);
         self.units.render(target, &self.global_uniforms);

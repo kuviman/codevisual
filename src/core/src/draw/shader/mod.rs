@@ -65,9 +65,8 @@ impl Shader {
         }
 
         #[cfg(target_os = "emscripten")]
-        let (vertex_sources, fragment_sources) = (vec!["precision mediump float;", vertex_shader],
-                                                  vec!["precision mediump float;",
-                                                       fragment_shader]);
+        let (vertex_sources, fragment_sources) = (vec!["precision highp float;", vertex_shader],
+                                                  vec!["precision highp float;", fragment_shader]);
 
         #[cfg(not(target_os = "emscripten"))]
         let (vertex_sources, fragment_sources) = (vec![vertex_shader], vec![fragment_shader]);
