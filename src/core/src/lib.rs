@@ -184,11 +184,11 @@ pub fn run<G: Game>() {
                     gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
                 }
                 game.render(&mut screen);
-                unsafe {
-                    gl::ColorMask(0, 0, 0, 1);
-                    gl::Clear(gl::COLOR_BUFFER_BIT);
-                    gl::ColorMask(1, 1, 1, 1);
-                }
+                // unsafe {
+                //     gl::ColorMask(0, 0, 0, 1);
+                //     gl::Clear(gl::COLOR_BUFFER_BIT);
+                //     gl::ColorMask(1, 1, 1, 1);
+                // }
                 run_js!{
                     CodeVisual.internal.update_stats();
                 }

@@ -19,6 +19,9 @@ pub fn create_gl_context() -> Result<(), GLContextCreationError> {
     unsafe {
         let mut attributes: EmscriptenWebGLContextAttributes = std::mem::uninitialized();
         emscripten_webgl_init_context_attributes(&mut attributes);
+        attributes.alpha = 0;
+        attributes.antialias = 0;
+        attributes.preserveDrawingBuffer = 1;
         let context = emscripten_webgl_create_context(std::ptr::null(), &attributes);
         if context <= 0 {
             return Err(GLContextCreationError);
