@@ -17,6 +17,7 @@ struct Uniforms {
     u_dirt_texture: Rc<draw::Texture>,
     u_map_texture: Rc<draw::Texture>,
     u_bush_texture: Rc<draw::Texture>,
+    u_palm_texture: Rc<draw::Texture>,
 }
 
 #[derive(Vertex)]
@@ -30,6 +31,18 @@ struct BushInstance {
     i_pos: Vec2<f32>,
 }
 
+#[derive(Vertex)]
+struct PalmVertex {
+    a_pos: Vec3<f32>,
+    a_vt: Vec2<f32>,
+}
+
+#[derive(Vertex)]
+struct PalmInstance {
+    i_pos: Vec2<f32>,
+    i_size: f32,
+}
+
 pub struct Ground {
     geometry: draw::PlainGeometry<VertexData>,
     uniforms: Uniforms,
@@ -38,12 +51,14 @@ pub struct Ground {
     bush_shader: draw::Shader,
     water_geometry: draw::PlainGeometry<VertexData>,
     water_shader: draw::Shader,
+    palm_geometry: draw::InstancedGeometry<PalmInstance, draw::PlainGeometry<PalmVertex>>,
+    palm_shader: draw::Shader,
 }
 
 impl Ground {
     pub fn new(app: &codevisual::Application, resources: &::Resources) -> Self {
         let bush_geometry = {
-            let mut bush_instances = Vec::new();
+            let mut instances = Vec::new();
             let map_size = resources.map_texture.get_size();
             let map = resources.map_texture.get_data();
             for _ in 0..10000 {
@@ -54,10 +69,10 @@ impl Ground {
                 if pixel.green < 0.5 {
                     continue;
                 }
-                bush_instances.push(BushInstance {
-                                        i_pos: vec2(x * 2.0 * MAP_SIZE - MAP_SIZE,
-                                                    y * 2.0 * MAP_SIZE - MAP_SIZE),
-                                    });
+                instances.push(BushInstance {
+                                   i_pos: vec2(x * 2.0 * MAP_SIZE - MAP_SIZE,
+                                               y * 2.0 * MAP_SIZE - MAP_SIZE),
+                               });
             }
             let geometry = {
                 let mut vertices = Vec::new();
@@ -113,7 +128,110 @@ impl Ground {
                 }
                 Rc::new(draw::PlainGeometry::new(app, draw::geometry::Mode::Triangles, vertices))
             };
-            draw::InstancedGeometry::new(app, geometry, bush_instances)
+            draw::InstancedGeometry::new(app, geometry, instances)
+        };
+        let palm_geometry = {
+            let mut instances = Vec::new();
+            let map_size = resources.map_texture.get_size();
+            let map = resources.map_texture.get_data();
+            for _ in 0..4000 {
+                let x = random::<f32>();
+                let y = random::<f32>();
+                let pixel = map.get_pixel((x * map_size.0 as f32) as usize,
+                                          (y * map_size.1 as f32) as usize);
+                if pixel.red < 0.5 {
+                    continue;
+                }
+                instances.push(PalmInstance {
+                                   i_pos: vec2(x * 2.0 * MAP_SIZE - MAP_SIZE,
+                                               y * 2.0 * MAP_SIZE - MAP_SIZE),
+                                   i_size: random::<f32>() * 0.5 + 1.0,
+                               });
+            }
+            let geometry = {
+                let mut vertices = Vec::new();
+                const TRUNK_SIZE: f32 = 0.1;
+                vertices.push(PalmVertex {
+                                  a_pos: vec3(-TRUNK_SIZE, 0.0, 0.0),
+                                  a_vt: vec2(0.75, 0.5),
+                              });
+                vertices.push(PalmVertex {
+                                  a_pos: vec3(0.0, -TRUNK_SIZE, 0.0),
+                                  a_vt: vec2(0.75, 0.5),
+                              });
+                vertices.push(PalmVertex {
+                                  a_pos: vec3(0.0, 0.0, 1.0),
+                                  a_vt: vec2(0.75, 0.5),
+                              });
+
+                vertices.push(PalmVertex {
+                                  a_pos: vec3(-TRUNK_SIZE, 0.0, 0.0),
+                                  a_vt: vec2(0.75, 0.5),
+                              });
+                vertices.push(PalmVertex {
+                                  a_pos: vec3(0.0, TRUNK_SIZE, 0.0),
+                                  a_vt: vec2(0.75, 0.5),
+                              });
+                vertices.push(PalmVertex {
+                                  a_pos: vec3(0.0, 0.0, 1.0),
+                                  a_vt: vec2(0.75, 0.5),
+                              });
+
+                vertices.push(PalmVertex {
+                                  a_pos: vec3(TRUNK_SIZE, 0.0, 0.0),
+                                  a_vt: vec2(0.75, 0.5),
+                              });
+                vertices.push(PalmVertex {
+                                  a_pos: vec3(0.0, TRUNK_SIZE, 0.0),
+                                  a_vt: vec2(0.75, 0.5),
+                              });
+                vertices.push(PalmVertex {
+                                  a_pos: vec3(0.0, 0.0, 1.0),
+                                  a_vt: vec2(0.75, 0.5),
+                              });
+
+                vertices.push(PalmVertex {
+                                  a_pos: vec3(TRUNK_SIZE, 0.0, 0.0),
+                                  a_vt: vec2(0.75, 0.5),
+                              });
+                vertices.push(PalmVertex {
+                                  a_pos: vec3(0.0, -TRUNK_SIZE, 0.0),
+                                  a_vt: vec2(0.75, 0.5),
+                              });
+                vertices.push(PalmVertex {
+                                  a_pos: vec3(0.0, 0.0, 1.0),
+                                  a_vt: vec2(0.75, 0.5),
+                              });
+
+                vertices.push(PalmVertex {
+                                  a_pos: vec3(-1.0, -1.0, 1.0),
+                                  a_vt: vec2(0.0, 0.0),
+                              });
+                vertices.push(PalmVertex {
+                                  a_pos: vec3(1.0, -1.0, 1.0),
+                                  a_vt: vec2(0.5, 0.0),
+                              });
+                vertices.push(PalmVertex {
+                                  a_pos: vec3(1.0, 1.0, 1.0),
+                                  a_vt: vec2(0.5, 1.0),
+                              });
+
+                vertices.push(PalmVertex {
+                                  a_pos: vec3(-1.0, -1.0, 1.0),
+                                  a_vt: vec2(0.0, 0.0),
+                              });
+                vertices.push(PalmVertex {
+                                  a_pos: vec3(1.0, 1.0, 1.0),
+                                  a_vt: vec2(0.5, 1.0),
+                              });
+                vertices.push(PalmVertex {
+                                  a_pos: vec3(-1.0, 1.0, 1.0),
+                                  a_vt: vec2(0.0, 1.0),
+                              });
+
+                Rc::new(draw::PlainGeometry::new(app, draw::geometry::Mode::Triangles, vertices))
+            };
+            draw::InstancedGeometry::new(app, geometry, instances)
         };
         Ground {
             geometry: {
@@ -145,6 +263,7 @@ impl Ground {
                 u_darkgrass_texture: resources.darkgrass_texture.clone(),
                 u_map_texture: resources.map_texture.clone(),
                 u_bush_texture: resources.bush_texture.clone(),
+                u_palm_texture: resources.palm_texture.clone(),
             },
             shader: draw::Shader::compile(app,
                                           include_str!("vertex.glsl"),
@@ -173,6 +292,11 @@ impl Ground {
                                                 include_str!("water_vertex.glsl"),
                                                 include_str!("water_fragment.glsl"))
                     .unwrap(),
+            palm_shader: draw::Shader::compile(app,
+                                               include_str!("palm_vertex.glsl"),
+                                               include_str!("palm_fragment.glsl"))
+                    .unwrap(),
+            palm_geometry,
         }
     }
 
@@ -180,6 +304,7 @@ impl Ground {
         self.uniforms.u_matrix = global_uniforms.u_matrix;
         target.draw(&self.geometry, &self.shader, &self.uniforms);
         target.draw(&self.bush_geometry, &self.bush_shader, &self.uniforms);
+        target.draw(&self.palm_geometry, &self.palm_shader, &self.uniforms);
         target.draw(&self.water_geometry, &self.water_shader, &self.uniforms);
     }
 }

@@ -43,6 +43,7 @@ pub struct Resources {
     pub map_texture: draw::TextureResource,
     pub bush_texture: draw::TextureResource,
     pub car_obj: codevisual::TextResource,
+    pub palm_texture: draw::TextureResource,
 }
 
 impl codevisual::Resources for Resources {
@@ -55,6 +56,7 @@ impl codevisual::Resources for Resources {
             map_texture: draw::Texture::load(loader, "assets/map.png"),
             bush_texture: draw::Texture::load(loader, "assets/bush.png"),
             car_obj: codevisual::load_text(loader, "assets/car.obj"),
+            palm_texture: draw::Texture::load(loader, "assets/palm.png"),
         }
     }
 }
@@ -112,8 +114,8 @@ impl codevisual::Game for Playground {
             Mat4::rotate_x(-0.2) *
             Mat4::translate(vec3(self.camera_position.x, self.camera_position.y, 0.0))
         };
-        self.ground.render(target, &self.global_uniforms);
         self.units.render(target, &self.global_uniforms);
+        self.ground.render(target, &self.global_uniforms);
     }
     fn handle_event(&mut self, event: codevisual::Event) {
         use codevisual::Event::*;
