@@ -47,30 +47,19 @@ const DEFAULT_SIZE: (u32, u32) = (640, 480);
 impl Application {
     #[cfg(target_os = "emscripten")]
     fn new() -> Self {
-        // fn panic_hook(info: &std::panic::PanicInfo) {
-        //     use std::string::ToString;
-        //     let mut json_info = serde_json::Value::Object(serde_json::Map::new());
-        //     if let Some(location) = info.location() {
-        //         let mut json_location =
-        //             serde_json::Value::Object(serde_json::Map::new());
-        //         json_location["file"] =
-        //             serde_json::Value::String(location.file().to_string());
-        //         json_location["line"] =
-        //             serde_json::Value::String(location.line().to_string());
-        //         json_info["location"] = json_location;
-        //     }
-        //     if let Some(error) = info.payload().downcast_ref::<String>() {
-        //         json_info["error"] = serde_json::Value::String(error.clone());
-        //     } else if let Some(error) = info.payload().downcast_ref::<&str>() {
-        //         json_info["error"] = serde_json::Value::String(error.to_string());
-        //     } else {
-        //         json_info["error"] = serde_json::Value::String(String::from("Something went wrong",),);
-        //     }
-        //     run_js!{
-        //         CodeVisual.internal.show_error(&json_info);
-        //     }
-        // }
-        // std::panic::set_hook(Box::new(panic_hook));
+        fn panic_hook(info: &std::panic::PanicInfo) {
+            let error: String = if let Some(error) = info.payload().downcast_ref::<String>() {
+                error.clone()
+            } else if let Some(error) = info.payload().downcast_ref::<&str>() {
+                error.to_string()
+            } else {
+                String::from("Something went wrong")
+            };
+            run_js!{
+                CodeVisual.internal.show_error(&error);
+            }
+        }
+        std::panic::set_hook(Box::new(panic_hook));
 
         ::emscripten::run_script(codevisual_js::SOURCE);
         run_js!{

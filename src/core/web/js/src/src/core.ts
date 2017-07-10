@@ -45,17 +45,13 @@ namespace CodeVisual {
             $loadingScreen.hide();
             $gameScreen.show();
         }
-        export function show_error(json: any) {
-            console.error(json);
+        export function show_error(error: string) {
+            console.error(error);
             $player.addClass("error");
             $loadingScreen.hide();
             $gameScreen.hide();
             $failedScreen.show();
-            let message = json.error;
-            if (json.location) {
-                message = "@" + json.location.file + "(line " + json.location.line + "): " + message;
-            }
-            $failedScreen.find(".error-message").text(message);
+            $failedScreen.find(".error-message").text(error);
         }
         export function load_texture(path: string, texture_handle: number, on_load: (width: number, height: number) => void) {
             let texture = GL.textures[texture_handle];
