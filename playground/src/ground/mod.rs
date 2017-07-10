@@ -10,7 +10,6 @@ pub struct VertexData {
 
 #[derive(Uniforms)]
 struct Uniforms {
-    u_matrix: Mat4<f32>,
     u_map_size: f32,
     u_grass_texture: Rc<draw::Texture>,
     u_darkgrass_texture: Rc<draw::Texture>,
@@ -256,7 +255,6 @@ impl Ground {
                 draw::PlainGeometry::new(app, draw::geometry::Mode::Triangles, vertices)
             },
             uniforms: Uniforms {
-                u_matrix: Mat4::identity(),
                 u_map_size: MAP_SIZE,
                 u_dirt_texture: resources.dirt_texture.clone(),
                 u_grass_texture: resources.grass_texture.clone(),
@@ -301,10 +299,10 @@ impl Ground {
     }
 
     pub fn render<T: draw::Target>(&mut self, target: &mut T, global_uniforms: &::GlobalUniforms) {
-        self.uniforms.u_matrix = global_uniforms.u_matrix;
-        target.draw(&self.geometry, &self.shader, &self.uniforms);
-        target.draw(&self.bush_geometry, &self.bush_shader, &self.uniforms);
-        target.draw(&self.palm_geometry, &self.palm_shader, &self.uniforms);
-        target.draw(&self.water_geometry, &self.water_shader, &self.uniforms);
+        let uniforms = draw::uniform::cons(global_uniforms, &self.uniforms);
+        target.draw(&self.geometry, &self.shader, &uniforms);
+        target.draw(&self.bush_geometry, &self.bush_shader, &uniforms);
+        target.draw(&self.palm_geometry, &self.palm_shader, &uniforms);
+        target.draw(&self.water_geometry, &self.water_shader, &uniforms);
     }
 }

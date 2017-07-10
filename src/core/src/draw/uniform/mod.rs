@@ -62,3 +62,19 @@ pub trait ValueConsumer {
 pub trait Data {
     fn walk<F: ValueConsumer>(&self, &mut F);
 }
+
+pub struct Cons<'a, A: Data + 'a, B: Data + 'a> {
+    a: &'a A,
+    b: &'a B,
+}
+
+impl<'a, A: Data, B: Data> Data for Cons<'a, A, B> {
+    fn walk<F: ValueConsumer>(&self, f: &mut F) {
+        self.a.walk(f);
+        self.b.walk(f);
+    }
+}
+
+pub fn cons<'a, A: Data, B: Data>(a: &'a A, b: &'a B) -> Cons<'a, A, B> {
+    Cons { a, b }
+}

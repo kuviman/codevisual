@@ -154,6 +154,6 @@ impl Units {
         self.uniforms.u_matrix = global_uniforms.u_matrix;
         target.draw(&self.geometry.slice(0..self.draw_count.get()),
                     &self.shader,
-                    &self.uniforms);
+                    &draw::uniform::cons(global_uniforms, &self.uniforms));
     }
 }
