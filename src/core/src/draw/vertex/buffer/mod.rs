@@ -5,11 +5,11 @@ use std::os::raw::c_void;
 use gl;
 use gl::types::*;
 
-mod indexing;
-pub use self::indexing::*;
+mod view;
+pub use self::view::*;
 
-mod slicing;
-pub use self::slicing::*;
+mod mutate;
+pub use self::mutate::*;
 
 pub struct Buffer<D: Data> {
     pub(crate) handle: GLuint,

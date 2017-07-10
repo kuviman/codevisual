@@ -17,6 +17,41 @@ pub struct InstanceData {
     i_start_angle: f32,
 }
 
+impl InstanceData {
+    fn update(&mut self, current_time: f32) {
+        let target_pos = {
+            let mut target_pos = self.i_start_pos +
+                                 vec2(random::<f32>() * 2.0 - 1.0, random::<f32>() * 2.0 - 1.0) *
+                                 MAP_SIZE;
+            target_pos.x = target_pos.x.min(MAP_SIZE).max(-MAP_SIZE);
+            target_pos.y = target_pos.y.min(MAP_SIZE).max(-MAP_SIZE);
+            target_pos
+        };
+        let cur_pos = self.i_start_pos +
+                      self.i_speed * (current_time.min(self.i_finish_time) - self.i_start_time);
+        self.i_start_pos = cur_pos;
+        self.i_speed = (target_pos - cur_pos).normalize() * SPEED;
+        let current_angle = {
+            let mut diff = self.i_angle - self.i_start_angle;
+            const PI: f32 = std::f32::consts::PI;
+            if diff < -PI {
+                diff += 2.0 * PI;
+            }
+            if diff > PI {
+                diff -= 2.0 * PI;
+            }
+            let passed_time = current_time - self.i_start_time;
+            const W: f32 = 10.0;
+            self.i_start_angle + diff.max(-W * passed_time).min(W * passed_time)
+        };
+        self.i_start_time = current_time;
+        self.i_finish_time = self.i_start_time + (target_pos - cur_pos).len() / SPEED;
+        let target_angle = f32::atan2(self.i_speed.y, self.i_speed.x);
+        self.i_start_angle = current_angle;
+        self.i_angle = target_angle;
+    }
+}
+
 #[derive(Uniforms)]
 struct Uniforms {
     u_time: f32,
@@ -34,10 +69,11 @@ pub struct Units {
     uniforms: Uniforms,
 }
 
-pub const MAX_COUNT: usize = 10000;
+pub const MAX_COUNT: usize = 100000;
 pub const MIN_SIZE: f32 = 3.5;
 pub const MAX_SIZE: f32 = 5.0;
 pub const SPEED: f32 = 50.0;
+pub const MAX_APS: usize = MAX_COUNT;
 
 impl Units {
     pub fn new(app: &codevisual::Application, resources: &::Resources) -> Self {
@@ -94,7 +130,7 @@ impl Units {
                     app.add_setting(codevisual::I32Setting {
                                         name: String::from("Actions per tick"),
                                         min_value: 0,
-                                        max_value: 1000,
+                                        max_value: MAX_APS as i32,
                                         default_value: setting.get() as i32,
                                         setter: move |new_value| {
                                             setting.set(new_value as usize);
@@ -111,40 +147,21 @@ impl Units {
         self.next_action -= delta_time;
         while self.next_action < 0.0 {
             self.next_action += TICK_TIME;
-            for _ in 0..self.actions_per_tick.get() {
-                let i = random_range(0..self.geometry.get_instance_data().len());
-                let mut cur = self.geometry.get_instance_data_mut().index_mut(i);
-                let target_pos = {
-                    let mut target_pos =
-                        cur.i_start_pos +
-                        vec2(random::<f32>() * 2.0 - 1.0, random::<f32>() * 2.0 - 1.0) * MAP_SIZE;
-                    target_pos.x = target_pos.x.min(MAP_SIZE).max(-MAP_SIZE);
-                    target_pos.y = target_pos.y.min(MAP_SIZE).max(-MAP_SIZE);
-                    target_pos
-                };
-                let cur_pos = cur.i_start_pos +
-                              cur.i_speed *
-                              (self.current_time.min(cur.i_finish_time) - cur.i_start_time);
-                cur.i_start_pos = cur_pos;
-                cur.i_speed = (target_pos - cur_pos).normalize() * SPEED;
-                let current_angle = {
-                    let mut diff = cur.i_angle - cur.i_start_angle;
-                    const PI: f32 = std::f32::consts::PI;
-                    if diff < -PI {
-                        diff += 2.0 * PI;
-                    }
-                    if diff > PI {
-                        diff -= 2.0 * PI;
-                    }
-                    let passed_time = self.current_time - cur.i_start_time;
-                    const W: f32 = 10.0;
-                    cur.i_start_angle + diff.max(-W * passed_time).min(W * passed_time)
-                };
-                cur.i_start_time = self.current_time;
-                cur.i_finish_time = cur.i_start_time + (target_pos - cur_pos).len() / SPEED;
-                let target_angle = f32::atan2(cur.i_speed.y, cur.i_speed.x);
-                cur.i_start_angle = current_angle;
-                cur.i_angle = target_angle;
+            if self.actions_per_tick.get() == MAX_APS {
+                for unit in self.geometry
+                        .get_instance_data_mut()
+                        .slice_mut(..self.draw_count.get())
+                        .iter_mut() {
+                    unit.update(self.current_time);
+                }
+            } else {
+                for _ in 0..self.actions_per_tick.get() {
+                    let i = random_range(0..self.geometry.get_instance_data().len());
+                    self.geometry
+                        .get_instance_data_mut()
+                        .index_mut(i)
+                        .update(self.current_time);
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 use super::super::*;
 
 use commons::*;
+use std;
 
 pub trait BufferView {
     type Data: Data;
@@ -36,5 +37,12 @@ impl<'a, D: 'a + Data> BufferView for BufferSlice<'a, D> {
     }
     fn as_slice(&self) -> &[D] {
         self.data
+    }
+}
+
+impl<D: Data> std::ops::Index<usize> for Buffer<D> {
+    type Output = D;
+    fn index(&self, index: usize) -> &Self::Output {
+        &self.data[index]
     }
 }
