@@ -37,12 +37,14 @@ pub struct Playground {
 
 pub struct Resources {
     pub car_texture: draw::TextureResource,
+    pub heli_texture: draw::TextureResource,
     pub dirt_texture: draw::TextureResource,
     pub grass_texture: draw::TextureResource,
     pub darkgrass_texture: draw::TextureResource,
     pub map_texture: draw::TextureResource,
     pub bush_texture: draw::TextureResource,
     pub car_obj: codevisual::TextResource,
+    pub heli_obj: codevisual::TextResource,
     pub palm_texture: draw::TextureResource,
 }
 
@@ -50,12 +52,14 @@ impl codevisual::Resources for Resources {
     fn new(loader: &codevisual::ResourceLoader) -> Self {
         Self {
             car_texture: draw::Texture::load(loader, "assets/car.png"),
+            heli_texture: draw::Texture::load(loader, "assets/heli.png"),
             dirt_texture: draw::Texture::load(loader, "assets/dirt.png"),
             grass_texture: draw::Texture::load(loader, "assets/grass.png"),
             darkgrass_texture: draw::Texture::load(loader, "assets/darkgrass.png"),
             map_texture: draw::Texture::load(loader, "assets/map.png"),
             bush_texture: draw::Texture::load(loader, "assets/bush.png"),
             car_obj: codevisual::load_text(loader, "assets/car.obj"),
+            heli_obj: codevisual::load_text(loader, "assets/heli.obj"),
             palm_texture: draw::Texture::load(loader, "assets/palm.png"),
         }
     }
@@ -116,6 +120,7 @@ impl codevisual::Game for Playground {
         };
         self.units.render(target, &self.global_uniforms);
         self.ground.render(target, &self.global_uniforms);
+        self.units.render2(target, &self.global_uniforms);
     }
     fn handle_event(&mut self, event: codevisual::Event) {
         use codevisual::Event::*;

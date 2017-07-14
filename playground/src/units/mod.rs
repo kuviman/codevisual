@@ -54,9 +54,8 @@ impl InstanceData {
 
 #[derive(Uniforms)]
 struct Uniforms {
-    u_time: f32,
-    u_matrix: Mat4<f32>,
-    u_texture: Rc<draw::Texture>,
+    u_car_texture: Rc<draw::Texture>,
+    u_heli_texture: Rc<draw::Texture>,
 }
 
 pub struct Units {
@@ -65,15 +64,17 @@ pub struct Units {
     actions_per_tick: Rc<Cell<usize>>,
     next_action: f32,
     geometry: draw::InstancedGeometry<InstanceData, ::obj::Geometry>,
+    heli_geometry: draw::InstancedGeometry<InstanceData, ::obj::Geometry>,
     shader: draw::Shader,
+    shader_heli: draw::Shader,
     uniforms: Uniforms,
 }
 
-pub const MAX_COUNT: usize = 100000;
+pub const MAX_COUNT: usize = 10000;
 pub const MIN_SIZE: f32 = 3.5;
 pub const MAX_SIZE: f32 = 5.0;
 pub const SPEED: f32 = 50.0;
-pub const MAX_APS: usize = MAX_COUNT;
+pub const MAX_APS: usize = 10000;
 
 impl Units {
     pub fn new(app: &codevisual::Application, resources: &::Resources) -> Self {
@@ -93,18 +94,26 @@ impl Units {
                                });
         }
         let model = ::obj::parse(app, &resources.car_obj.get());
+        let heli_model = ::obj::parse(app, &resources.heli_obj.get());
+        let heli_instance_data = instance_data.clone();
         Units {
             current_time: 0.0,
             next_action: 0.0,
             geometry: draw::InstancedGeometry::new(app, Rc::new(model), instance_data),
+            heli_geometry: draw::InstancedGeometry::new(app,
+                                                        Rc::new(heli_model),
+                                                        heli_instance_data),
             shader: draw::Shader::compile(&app,
-                                          include_str!("vertex.glsl"),
-                                          include_str!("fragment.glsl"))
+                                          include_str!("vertex_car.glsl"),
+                                          include_str!("fragment_car.glsl"))
+                    .unwrap(),
+            shader_heli: draw::Shader::compile(&app,
+                                               include_str!("vertex_heli.glsl"),
+                                               include_str!("fragment_heli.glsl"))
                     .unwrap(),
             uniforms: Uniforms {
-                u_time: 0.0,
-                u_matrix: Mat4::identity(),
-                u_texture: resources.car_texture.clone(),
+                u_car_texture: resources.car_texture.clone(),
+                u_heli_texture: resources.heli_texture.clone(),
             },
             draw_count: {
                 let setting = Rc::new(Cell::new(0 as usize));
@@ -147,30 +156,37 @@ impl Units {
         self.next_action -= delta_time;
         while self.next_action < 0.0 {
             self.next_action += TICK_TIME;
-            if self.actions_per_tick.get() == MAX_APS {
-                for unit in self.geometry
-                        .get_instance_data_mut()
-                        .slice_mut(..self.draw_count.get())
-                        .iter_mut() {
-                    unit.update(self.current_time);
-                }
-            } else {
-                for _ in 0..self.actions_per_tick.get() {
-                    let i = random_range(0..self.geometry.get_instance_data().len());
-                    self.geometry
-                        .get_instance_data_mut()
-                        .index_mut(i)
-                        .update(self.current_time);
+            for geometry in &mut [&mut self.geometry, &mut self.heli_geometry] {
+                if self.actions_per_tick.get() == MAX_APS {
+                    for unit in geometry
+                            .get_instance_data_mut()
+                            .slice_mut(..self.draw_count.get())
+                            .iter_mut() {
+                        unit.update(self.current_time);
+                    }
+                } else {
+                    for _ in 0..self.draw_count.get() * self.actions_per_tick.get() / MAX_APS {
+                        let i = random_range(0..geometry.get_instance_data().len());
+                        geometry
+                            .get_instance_data_mut()
+                            .index_mut(i)
+                            .update(self.current_time);
+                    }
                 }
             }
         }
     }
 
     pub fn render<T: draw::Target>(&mut self, target: &mut T, global_uniforms: &::GlobalUniforms) {
-        self.uniforms.u_time = global_uniforms.u_time;
-        self.uniforms.u_matrix = global_uniforms.u_matrix;
         target.draw(&self.geometry.slice(0..self.draw_count.get()),
                     &self.shader,
+                    &draw::uniform::cons(global_uniforms, &self.uniforms));
+    }
+    pub fn render2<T: draw::Target>(&mut self,
+                                    target: &mut T,
+                                    global_uniforms: &::GlobalUniforms) {
+        target.draw(&self.heli_geometry.slice(0..self.draw_count.get()),
+                    &self.shader_heli,
                     &draw::uniform::cons(global_uniforms, &self.uniforms));
     }
 }
