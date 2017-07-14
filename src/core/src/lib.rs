@@ -15,13 +15,13 @@ pub extern crate codevisual_commons as commons;
 extern crate emscripten;
 
 #[cfg(target_os = "emscripten")]
-extern crate codevisual_html;
+extern crate codevisual_core_html;
 
 #[cfg(target_os = "emscripten")]
-extern crate codevisual_css;
+extern crate codevisual_core_css;
 
 #[cfg(target_os = "emscripten")]
-extern crate codevisual_js;
+extern crate codevisual_core_js;
 
 pub mod draw;
 mod settings;
@@ -61,9 +61,9 @@ impl Application {
         }
         std::panic::set_hook(Box::new(panic_hook));
 
-        ::emscripten::run_script(codevisual_js::SOURCE);
+        ::emscripten::run_script(codevisual_core_js::SOURCE);
         run_js!{
-                        CodeVisual.internal.init(codevisual_html::SOURCE, codevisual_css::SOURCE);
+                        CodeVisual.internal.init(codevisual_core_html::SOURCE, codevisual_core_css::SOURCE);
                     }
         ::emscripten::create_gl_context().unwrap();
         gl::load_with(emscripten::get_proc_address);
