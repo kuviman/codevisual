@@ -33,7 +33,7 @@
             ],
             "isShellCommand": true,
             "options": {
-                "cwd": "${workspaceRoot}/playground/public"
+                "cwd": "${workspaceRoot}/examples/playground/static"
             }
         }
     ]

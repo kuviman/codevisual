@@ -18,8 +18,12 @@ PATH="$EMSCRIPTEN:$PATH"
 
 export EMMAKEN_CFLAGS="-s TOTAL_MEMORY=$(expr 256 "*" 1024 "*" 1024)"
 
-cargo build $cargoArgs --target=$cargoTarget --example playground
-cp target/$cargoTarget/$config/examples/playground.js playground/public/code.js
+name=playground
+target_dir=target/web/$name
+cargo build $cargoArgs --target=$cargoTarget --example $name
+mkdir -p $target_dir
+cp -r examples/$name/static/* $target_dir
+cp target/$cargoTarget/$config/examples/$name.js $target_dir/code.js
 if [ "$target" == "wasm32" ]; then
-    cp target/$cargoTarget/$config/examples/*.wasm playground/public
+    cp target/$cargoTarget/$config/examples/*.wasm $target_dir
 fi

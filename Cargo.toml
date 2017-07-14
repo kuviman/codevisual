@@ -10,4 +10,4 @@ codevisual_derive = { path = "src/core/derive" }
 
 [[example]]
 name = "playground"
-path = "playground/src/main.rs"
+path = "examples/playground/src/main.rs"
