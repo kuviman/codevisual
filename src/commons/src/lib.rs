@@ -1,5 +1,5 @@
 #[cfg(target_os = "emscripten")]
-extern crate emscripten;
+extern crate brijs;
 
 mod color;
 pub use self::color::*;

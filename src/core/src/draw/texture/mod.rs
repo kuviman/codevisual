@@ -102,7 +102,7 @@ impl Texture {
                     loader.resource_count.set(loader.resource_count.get() + 1);
                     let loaded_resource_count = loader.loaded_resource_count.clone();
                     run_js!{
-                        CodeVisual.internal.load_texture(path, &handle, ::emscripten::Callback::new(move |size: (i32, i32)| {
+                        CodeVisual.internal.load_texture(path, &handle, ::brijs::Callback::new(move |size: (i32, i32)| {
                             loaded.set(true);
                             loaded_resource_count.set(loaded_resource_count.get() + 1);
                             texture.size.set((size.0 as usize, size.1 as usize));

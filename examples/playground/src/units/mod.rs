@@ -157,7 +157,7 @@ impl Units {
                 setting
             },
             actions_per_tick: {
-                let setting = Rc::new(Cell::new(0 as usize));
+                let setting = Rc::new(Cell::new(1 as usize));
                 {
                     let setting = setting.clone();
                     app.add_setting(codevisual::I32Setting {
@@ -203,7 +203,9 @@ impl Units {
                     unit.update(self.current_time);
                 }
             } else {
-                for _ in 0..self.draw_count.get() * self.actions_per_tick.get() / MAX_APS {
+                for _ in 0..
+                         (self.draw_count.get() * self.actions_per_tick.get() + MAX_APS - 1) /
+                         MAX_APS {
                     let i = random_range(0..self.instances.len());
                     self.instances.index_mut(i).update(self.current_time);
                 }

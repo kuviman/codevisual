@@ -1,5 +1,5 @@
 #[cfg(target_os = "emscripten")]
-pub trait Setting: ::emscripten::IntoJson {}
+pub trait Setting: ::brijs::IntoJson {}
 
 #[cfg(not(target_os = "emscripten"))]
 pub trait Setting {}
@@ -25,14 +25,14 @@ impl<F: FnMut(i32)> Setting for I32Setting<F> {}
 #[cfg(target_os = "emscripten")]
 mod implementation {
     use super::*;
-    use emscripten::IntoJson;
+    use brijs::IntoJson;
 
     impl<F: FnMut(bool)> IntoJson for BoolSetting<F> {
         fn into_json(mut self) -> String {
             format!("new CodeVisual.BooleanSetting({}, {}, {})",
                     self.name.into_json(),
                     self.default_value.into_json(),
-                    ::emscripten::Callback::new(move |value| (self.setter)(value)).into_json())
+                    ::brijs::Callback::new(move |value| (self.setter)(value)).into_json())
         }
     }
 
@@ -43,7 +43,7 @@ mod implementation {
                     self.min_value.into_json(),
                     self.max_value.into_json(),
                     self.default_value.into_json(),
-                    ::emscripten::Callback::new(move |value| (self.setter)(value)).into_json())
+                    ::brijs::Callback::new(move |value| (self.setter)(value)).into_json())
         }
     }
 }

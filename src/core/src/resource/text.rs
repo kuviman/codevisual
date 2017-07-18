@@ -26,7 +26,7 @@ pub fn load_text(loader: &ResourceLoader, path: &str) -> TextResource {
         let loaded = resource.loaded.clone();
         loader.resource_count.set(loader.resource_count.get() + 1);
         let loaded_resource_count = loader.loaded_resource_count.clone();
-        ::emscripten::wget(path, move |data| {
+        ::brijs::wget(path, move |data| {
             value.borrow_mut().push_str(data);
             loaded.set(true);
             loaded_resource_count.set(loaded_resource_count.get() + 1);

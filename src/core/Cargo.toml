@@ -15,7 +15,7 @@ glutin = "*"
 image = "*"
 
 [target.'cfg(target_os = "emscripten")'.dependencies]
-emscripten = { path = "../bindings/emscripten" }
+brijs = { path = "../brijs" }
 codevisual_core_html = { path = "web/html" }
 codevisual_core_css = { path = "web/css" }
 codevisual_core_js = { path = "web/js" }

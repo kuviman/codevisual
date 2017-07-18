@@ -45,39 +45,39 @@ mod implementation {
         fn into_event(self) -> Event;
     }
 
-    impl EmscriptenEvent for ::emscripten::MouseDownEvent {
+    impl EmscriptenEvent for ::brijs::MouseDownEvent {
         fn into_event(self) -> Event {
             Event::MouseDown {
                 x: self.canvas_x,
                 y: self.canvas_y,
                 button: {
                     match self.button {
-                        ::emscripten::MouseButton::Left => MouseButton::Left,
-                        ::emscripten::MouseButton::Middle => MouseButton::Middle,
-                        ::emscripten::MouseButton::Right => MouseButton::Right,
+                        ::brijs::MouseButton::Left => MouseButton::Left,
+                        ::brijs::MouseButton::Middle => MouseButton::Middle,
+                        ::brijs::MouseButton::Right => MouseButton::Right,
                     }
                 },
             }
         }
     }
 
-    impl EmscriptenEvent for ::emscripten::MouseUpEvent {
+    impl EmscriptenEvent for ::brijs::MouseUpEvent {
         fn into_event(self) -> Event {
             Event::MouseUp {
                 x: self.canvas_x,
                 y: self.canvas_y,
                 button: {
                     match self.button {
-                        ::emscripten::MouseButton::Left => MouseButton::Left,
-                        ::emscripten::MouseButton::Middle => MouseButton::Middle,
-                        ::emscripten::MouseButton::Right => MouseButton::Right,
+                        ::brijs::MouseButton::Left => MouseButton::Left,
+                        ::brijs::MouseButton::Middle => MouseButton::Middle,
+                        ::brijs::MouseButton::Right => MouseButton::Right,
                     }
                 },
             }
         }
     }
 
-    impl EmscriptenEvent for ::emscripten::MouseMoveEvent {
+    impl EmscriptenEvent for ::brijs::MouseMoveEvent {
         fn into_event(self) -> Event {
             Event::MouseMove {
                 x: self.canvas_x,
@@ -86,13 +86,13 @@ mod implementation {
         }
     }
 
-    impl EmscriptenEvent for ::emscripten::WheelEvent {
+    impl EmscriptenEvent for ::brijs::WheelEvent {
         fn into_event(self) -> Event {
             Event::Wheel { delta: self.delta }
         }
     }
 
-    impl EmscriptenEvent for ::emscripten::TouchStartEvent {
+    impl EmscriptenEvent for ::brijs::TouchStartEvent {
         fn into_event(self) -> Event {
             Event::TouchStart {
                 touches: self.touches
@@ -103,7 +103,7 @@ mod implementation {
         }
     }
 
-    impl EmscriptenEvent for ::emscripten::TouchMoveEvent {
+    impl EmscriptenEvent for ::brijs::TouchMoveEvent {
         fn into_event(self) -> Event {
             Event::TouchMove {
                 touches: self.touches
@@ -114,35 +114,35 @@ mod implementation {
         }
     }
 
-    impl EmscriptenEvent for ::emscripten::TouchEndEvent {
+    impl EmscriptenEvent for ::brijs::TouchEndEvent {
         fn into_event(self) -> Event {
             Event::TouchEnd
         }
     }
 
     pub fn init() {
-        ::emscripten::set_mousedown_callback(|event| {
+        ::brijs::set_mousedown_callback(|event| {
                                                  EVENTS.lock().unwrap().push(event.into_event());
                                              });
-        ::emscripten::set_mouseup_callback(|event| {
+        ::brijs::set_mouseup_callback(|event| {
                                                EVENTS.lock().unwrap().push(event.into_event());
                                            });
-        ::emscripten::set_mousemove_callback(|event| {
+        ::brijs::set_mousemove_callback(|event| {
                                                  EVENTS.lock().unwrap().push(event.into_event());
                                              });
-        ::emscripten::set_wheel_callback(|event| {
+        ::brijs::set_wheel_callback(|event| {
                                              EVENTS.lock().unwrap().push(event.into_event());
                                          });
-        ::emscripten::set_touchstart_callback(|event| {
+        ::brijs::set_touchstart_callback(|event| {
                                                   EVENTS
                                                       .lock()
                                                       .unwrap()
                                                       .push(event.into_event());
                                               });
-        ::emscripten::set_touchmove_callback(|event| {
+        ::brijs::set_touchmove_callback(|event| {
                                                  EVENTS.lock().unwrap().push(event.into_event());
                                              });
-        ::emscripten::set_touchend_callback(|event| {
+        ::brijs::set_touchend_callback(|event| {
                                                 EVENTS.lock().unwrap().push(event.into_event());
                                             });
     }

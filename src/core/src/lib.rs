@@ -12,7 +12,7 @@ pub extern crate codevisual_commons as commons;
 
 #[cfg(target_os = "emscripten")]
 #[macro_use]
-extern crate emscripten;
+extern crate brijs;
 
 #[cfg(target_os = "emscripten")]
 extern crate codevisual_core_html;
@@ -61,12 +61,12 @@ impl Application {
         }
         std::panic::set_hook(Box::new(panic_hook));
 
-        ::emscripten::run_script(codevisual_core_js::SOURCE);
+        ::brijs::run_script(codevisual_core_js::SOURCE);
         run_js!{
                         CodeVisual.internal.init(codevisual_core_html::SOURCE, codevisual_core_css::SOURCE);
                     }
-        ::emscripten::create_gl_context().unwrap();
-        gl::load_with(emscripten::get_proc_address);
+        ::brijs::create_gl_context().unwrap();
+        gl::load_with(brijs::get_proc_address);
         events::init();
         Application {}
     }
@@ -92,7 +92,7 @@ impl Application {
 
     #[cfg(target_os = "emscripten")]
     pub fn get_size(&self) -> (u32, u32) {
-        ::emscripten::get_canvas_size()
+        ::brijs::get_canvas_size()
     }
 
     #[cfg(not(target_os = "emscripten"))]
@@ -145,7 +145,7 @@ pub fn run<G: Game>() {
     let app = Rc::new(Application::new());
     let resource_loader = ResourceLoader::new(app.clone());
     let resources = G::Resources::new(&resource_loader);
-    emscripten::set_main_loop(|| {
+    brijs::set_main_loop(|| {
         let resource_count = resource_loader.resource_count.get();
         let loaded_resource_count = resource_loader.loaded_resource_count.get();
         if resource_count == loaded_resource_count {
@@ -153,13 +153,13 @@ pub fn run<G: Game>() {
             run_js!{
                 CodeVisual.internal.before_main_loop();
             }
-            let mut prev_time = emscripten::get_now();
-            emscripten::set_main_loop(|| {
+            let mut prev_time = brijs::get_now();
+            brijs::set_main_loop(|| {
                 for event in events::get() {
                     game.handle_event(event);
                 }
 
-                let now_time = emscripten::get_now();
+                let now_time = brijs::get_now();
                 let delta_time = now_time - prev_time;
                 prev_time = now_time;
                 game.update(delta_time.min(0.1) as f32); // TODO: configure

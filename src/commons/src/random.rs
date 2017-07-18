@@ -10,7 +10,7 @@ pub trait Random {
 impl Random for f64 {
     #[cfg(target_os = "emscripten")]
     fn get_random() -> f64 {
-        ::emscripten::random()
+        ::brijs::random()
     }
     #[cfg(not(target_os = "emscripten"))]
     fn get_random() -> f64 {
