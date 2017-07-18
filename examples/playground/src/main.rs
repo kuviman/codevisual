@@ -20,6 +20,7 @@ const MAX_CAMERA_DIST: f32 = 2000.0;
 pub struct GlobalUniforms {
     u_time: f32,
     u_matrix: Mat4<f32>,
+    u_fog_map: draw::Texture,
 }
 
 pub struct Playground {
@@ -95,6 +96,7 @@ impl codevisual::Game for Playground {
             global_uniforms: GlobalUniforms {
                 u_time: 0.0,
                 u_matrix: Mat4::identity(),
+                u_fog_map: draw::Texture::new(&app, 256, 256),
             },
             ground: Ground::new(&app, resources),
             units: Units::new(&app, resources),
@@ -118,6 +120,9 @@ impl codevisual::Game for Playground {
             Mat4::rotate_x(-0.2) *
             Mat4::translate(vec3(self.camera_position.x, self.camera_position.y, 0.0))
         };
+        self.units
+            .get_fog(&mut self.global_uniforms.u_fog_map,
+                     self.global_uniforms.u_time);
         self.units.render(target, &self.global_uniforms);
         self.ground.render(target, &self.global_uniforms);
         self.units.render2(target, &self.global_uniforms);

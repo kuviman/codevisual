@@ -17,11 +17,58 @@ pub use self::texture::*;
 use commons::*;
 
 pub trait Target {
-    fn clear(&mut self, color: Color);
+    fn clear(&mut self, color: Color) {
+        unsafe {
+            gl::ClearColor(color.red, color.green, color.blue, color.alpha);
+            gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
+        }
+    }
     fn draw<G: Geometry, U: uniform::Data>(&mut self,
                                            geometry: &G,
                                            shader: &Shader,
-                                           uniforms: &U);
+                                           uniforms: &U) {
+        use draw::geometry::Mode::*;
+        unsafe {
+            gl::UseProgram(shader.handle);
+            let mut vao: GLuint = std::mem::uninitialized();
+            gl::GenVertexArrays(1, &mut vao as *mut _);
+            gl::BindVertexArray(vao);
+            prepare_geometry_attributes(shader, geometry);
+            apply_uniforms(shader, uniforms);
+            let gl_mode = match geometry.get_mode() {
+                Points => gl::POINTS,
+                Lines => gl::LINES,
+                LineStrip => gl::LINE_STRIP,
+                Triangles => gl::TRIANGLES,
+                TriangleStrip => gl::TRIANGLE_STRIP,
+                TriangleFan => gl::TRIANGLE_FAN,
+            };
+
+            struct CounterWalker {
+                instance_count: GLsizei,
+                vertex_count: Option<GLsizei>,
+            }
+            impl vertex::DataConsumer for CounterWalker {
+                fn consume<B: vertex::BufferView>(&mut self, data: &B) {
+                    if let None = self.vertex_count {
+                        self.vertex_count = Some(data.as_slice().len() as GLsizei);
+                    } else {
+                        self.instance_count *= data.as_slice().len() as GLsizei;
+                    }
+                }
+            }
+            let (vertex_count, instance_count) = {
+                let mut counter_walker = CounterWalker {
+                    instance_count: 1,
+                    vertex_count: None,
+                };
+                geometry.walk_data(&mut counter_walker);
+                (counter_walker.vertex_count.unwrap(), counter_walker.instance_count)
+            };
+            gl::DrawArraysInstanced(gl_mode, 0, vertex_count, instance_count);
+            gl::DeleteVertexArrays(1, &vao);
+        }
+    }
 }
 
 unsafe fn prepare_vertex_attributes<B>(shader: &Shader, data: &B, attrib_divisor: GLuint)
@@ -115,57 +162,4 @@ fn apply_uniforms<U: uniform::Data>(shader: &Shader, uniforms: &U) {
 
 pub struct Screen;
 
-impl Target for Screen {
-    fn clear(&mut self, color: Color) {
-        unsafe {
-            gl::ClearColor(color.red, color.green, color.blue, color.alpha);
-            gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
-        }
-    }
-    fn draw<G: Geometry, U: uniform::Data>(&mut self,
-                                           geometry: &G,
-                                           shader: &Shader,
-                                           uniforms: &U) {
-        use draw::geometry::Mode::*;
-        unsafe {
-            gl::UseProgram(shader.handle);
-            let mut vao: GLuint = std::mem::uninitialized();
-            gl::GenVertexArrays(1, &mut vao as *mut _);
-            gl::BindVertexArray(vao);
-            prepare_geometry_attributes(shader, geometry);
-            apply_uniforms(shader, uniforms);
-            let gl_mode = match geometry.get_mode() {
-                Points => gl::POINTS,
-                Lines => gl::LINES,
-                LineStrip => gl::LINE_STRIP,
-                Triangles => gl::TRIANGLES,
-                TriangleStrip => gl::TRIANGLE_STRIP,
-                TriangleFan => gl::TRIANGLE_FAN,
-            };
-
-            struct CounterWalker {
-                instance_count: GLsizei,
-                vertex_count: Option<GLsizei>,
-            }
-            impl vertex::DataConsumer for CounterWalker {
-                fn consume<B: vertex::BufferView>(&mut self, data: &B) {
-                    if let None = self.vertex_count {
-                        self.vertex_count = Some(data.as_slice().len() as GLsizei);
-                    } else {
-                        self.instance_count *= data.as_slice().len() as GLsizei;
-                    }
-                }
-            }
-            let (vertex_count, instance_count) = {
-                let mut counter_walker = CounterWalker {
-                    instance_count: 1,
-                    vertex_count: None,
-                };
-                geometry.walk_data(&mut counter_walker);
-                (counter_walker.vertex_count.unwrap(), counter_walker.instance_count)
-            };
-            gl::DrawArraysInstanced(gl_mode, 0, vertex_count, instance_count);
-            gl::DeleteVertexArrays(1, &vao);
-        }
-    }
-}
+impl Target for Screen {}

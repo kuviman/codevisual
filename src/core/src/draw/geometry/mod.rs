@@ -6,6 +6,9 @@ pub use self::plain::*;
 mod instanced;
 pub use self::instanced::*;
 
+mod immediate;
+pub use self::immediate::*;
+
 #[derive(Debug, Copy, Clone)]
 pub enum Mode {
     Points,

@@ -5,6 +5,16 @@ use std;
 
 use {MAP_SIZE, TICK_TIME};
 
+#[derive(Vertex)]
+pub struct QuadVertex {
+    a_v: Vec2<f32>,
+}
+
+#[derive(Uniforms)]
+pub struct FogUniforms {
+    u_time: f32,
+}
+
 #[derive(Vertex, Debug, Copy, Clone)]
 pub struct InstanceData {
     i_start_pos: Vec2<f32>,
@@ -60,13 +70,16 @@ struct Uniforms {
 
 pub struct Units {
     current_time: f32,
+    quad: draw::PlainGeometry<QuadVertex>,
     draw_count: Rc<Cell<usize>>,
     actions_per_tick: Rc<Cell<usize>>,
     next_action: f32,
-    geometry: draw::InstancedGeometry<InstanceData, ::obj::Geometry>,
+    geometry: ::obj::Geometry,
+    instances: draw::vertex::Buffer<InstanceData>,
     heli_geometry: draw::InstancedGeometry<InstanceData, ::obj::Geometry>,
     shader: draw::Shader,
     shader_heli: draw::Shader,
+    shader_fog: draw::Shader,
     uniforms: Uniforms,
 }
 
@@ -99,7 +112,14 @@ impl Units {
         Units {
             current_time: 0.0,
             next_action: 0.0,
-            geometry: draw::InstancedGeometry::new(app, Rc::new(model), instance_data),
+            geometry: model,
+            quad: draw::PlainGeometry::new(app,
+                                           draw::geometry::Mode::TriangleFan,
+                                           vec![QuadVertex { a_v: vec2(-1.0, -1.0) },
+                                                QuadVertex { a_v: vec2(1.0, -1.0) },
+                                                QuadVertex { a_v: vec2(1.0, 1.0) },
+                                                QuadVertex { a_v: vec2(-1.0, 1.0) }]),
+            instances: draw::vertex::Buffer::new(app, instance_data),
             heli_geometry: draw::InstancedGeometry::new(app,
                                                         Rc::new(heli_model),
                                                         heli_instance_data),
@@ -111,12 +131,16 @@ impl Units {
                                                include_str!("vertex_heli.glsl"),
                                                include_str!("fragment_heli.glsl"))
                     .unwrap(),
+            shader_fog: draw::Shader::compile(&app,
+                                              include_str!("vertex_fog.glsl"),
+                                              include_str!("fragment_fog.glsl"))
+                    .unwrap(),
             uniforms: Uniforms {
                 u_car_texture: resources.car_texture.clone(),
                 u_heli_texture: resources.heli_texture.clone(),
             },
             draw_count: {
-                let setting = Rc::new(Cell::new(0 as usize));
+                let setting = Rc::new(Cell::new(50 as usize));
                 {
                     let setting = setting.clone();
                     app.add_setting(codevisual::I32Setting {
@@ -156,7 +180,7 @@ impl Units {
         self.next_action -= delta_time;
         while self.next_action < 0.0 {
             self.next_action += TICK_TIME;
-            for geometry in &mut [&mut self.geometry, &mut self.heli_geometry] {
+            for geometry in &mut [&mut self.heli_geometry] {
                 if self.actions_per_tick.get() == MAX_APS {
                     for unit in geometry
                             .get_instance_data_mut()
@@ -174,11 +198,37 @@ impl Units {
                     }
                 }
             }
+            if self.actions_per_tick.get() == MAX_APS {
+                for unit in self.instances.slice_mut(..self.draw_count.get()).iter_mut() {
+                    unit.update(self.current_time);
+                }
+            } else {
+                for _ in 0..self.draw_count.get() * self.actions_per_tick.get() / MAX_APS {
+                    let i = random_range(0..self.instances.len());
+                    self.instances.index_mut(i).update(self.current_time);
+                }
+            }
         }
     }
 
+    pub fn get_fog(&self, texture: &mut draw::Texture, u_time: f32) {
+        use draw::Target;
+        let mut target = texture.as_target();
+        const K: f32 = 0.5;
+        target.clear(Color::rgb(K, K, K));
+        use draw::vertex::BufferView;
+        target.draw(&draw::geometry::Immediate::new(&self.quad,
+                                                    &self.instances.slice(0..
+                                                                          self.draw_count.get())),
+                    &self.shader_fog,
+                    &FogUniforms { u_time });
+    }
+
     pub fn render<T: draw::Target>(&mut self, target: &mut T, global_uniforms: &::GlobalUniforms) {
-        target.draw(&self.geometry.slice(0..self.draw_count.get()),
+        use draw::vertex::BufferView;
+        target.draw(&draw::geometry::Immediate::new(&self.geometry,
+                                                    &self.instances.slice(0..
+                                                                          self.draw_count.get())),
                     &self.shader,
                     &draw::uniform::cons(global_uniforms, &self.uniforms));
     }

@@ -1,6 +1,9 @@
 mod data;
 pub use self::data::*;
 
+mod target;
+pub use self::target::*;
+
 use std;
 use std::error::Error;
 use gl::types::*;
@@ -43,6 +46,30 @@ impl std::ops::Deref for TextureResource {
 }
 
 impl Texture {
+    pub fn new(_: &::Application, width: usize, height: usize) -> Texture {
+        unsafe {
+            let mut handle: GLuint = std::mem::uninitialized();
+            gl::GenTextures(1, &mut handle);
+            gl::BindTexture(gl::TEXTURE_2D, handle);
+            gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MIN_FILTER, gl::LINEAR as GLint);
+            gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::LINEAR as GLint);
+            gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::REPEAT as GLint);
+            gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, gl::REPEAT as GLint);
+            gl::TexImage2D(gl::TEXTURE_2D,
+                           0,
+                           gl::RGBA as GLint,
+                           width as GLsizei,
+                           height as GLsizei,
+                           0,
+                           gl::RGBA as GLenum,
+                           gl::UNSIGNED_BYTE,
+                           std::ptr::null());
+            Texture {
+                size: Cell::new((width, height)),
+                handle,
+            }
+        }
+    }
     pub fn load(loader: &::ResourceLoader, path: &str) -> TextureResource {
         unsafe {
             let mut handle: GLuint = std::mem::uninitialized();
