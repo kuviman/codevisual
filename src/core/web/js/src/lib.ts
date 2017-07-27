@@ -5,3 +5,5 @@
 /// <reference path="src/canvas.ts" />
 
 (window as any).CodeVisual = CodeVisual;
+(window as any).Module = Module;
+$(() => $.getScript("code.js"));

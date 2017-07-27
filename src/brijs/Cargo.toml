@@ -7,3 +7,5 @@ authors = ["kuviman <kuviman@gmail.com>"]
 serde = "*"
 serde_json = "*"
 emscripten-sys = "*"
+ugli = { path = "../ugli" }
+vpl = { path = "../vpl" }

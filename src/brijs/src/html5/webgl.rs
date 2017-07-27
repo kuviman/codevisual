@@ -15,7 +15,7 @@ impl std::fmt::Display for GLContextCreationError {
     }
 }
 
-pub fn create_gl_context() -> Result<(), GLContextCreationError> {
+pub fn create_gl_context() -> Result<ugli::Context, GLContextCreationError> {
     unsafe {
         let mut attributes: EmscriptenWebGLContextAttributes = std::mem::uninitialized();
         emscripten_webgl_init_context_attributes(&mut attributes);
@@ -28,5 +28,5 @@ pub fn create_gl_context() -> Result<(), GLContextCreationError> {
         }
         emscripten_webgl_make_context_current(context);
     }
-    Ok(())
+    Ok(ugli::Context::init(get_proc_address).unwrap())
 }

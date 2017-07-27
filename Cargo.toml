@@ -4,10 +4,25 @@ version = "0.1.0"
 authors = ["kuviman <kuviman@gmail.com>"]
 
 [dependencies]
-codevisual_commons = { path = "src/commons" }
+vpl = { path = "src/vpl" }
+ugli = { path = "src/ugli" }
 codevisual_core = { path = "src/core" }
-codevisual_derive = { path = "src/core/derive" }
+
+[target.'cfg(target_os = "emscripten")'.dependencies]
+brijs = { path = "src/brijs" }
 
 [[example]]
 name = "playground"
 path = "examples/playground/src/main.rs"
+
+[[example]]
+name = "tutorial-01"
+path = "examples/tutorial/01-hello.rs"
+
+[[example]]
+name = "tutorial-02"
+path = "examples/tutorial/02-triangle.rs"
+
+[[example]]
+name = "tutorial-03"
+path = "examples/tutorial/03-events.rs"

@@ -1,27 +1,26 @@
 use ::*;
 
-pub fn get_canvas_size() -> (u32, u32) {
+pub fn get_canvas_size() -> Vec2<usize> {
     unsafe {
         let mut width: c_int = std::mem::uninitialized();
         let mut height: c_int = std::mem::uninitialized();
         let mut is_fullscreen: c_int = std::mem::uninitialized();
         emscripten_get_canvas_size(&mut width, &mut height, &mut is_fullscreen);
-        (width as u32, height as u32)
+        vec2(width as usize, height as usize)
     }
 }
 
 pub fn set_main_loop<F: FnMut()>(callback: F) {
-    static mut IS_SET: bool = false;
+    static mut SET: bool = false;
     let callback = Box::new(Box::new(callback));
     unsafe {
-        if IS_SET {
-            println!("Canceling main loop");
+        if SET {
             emscripten_cancel_main_loop();
+        } else {
+            SET = true;
         }
-        IS_SET = true;
         emscripten_set_main_loop_arg(Some(wrapper::<F>), Box::into_raw(callback) as *mut _, 0, 1);
-
-        // TODO: this is a hack. Emscripten (or rust?) optimizes emscripten_GetProcAddress out without this.
+        // FIXME: this is a hack. Emscripten (or rust?) optimizes emscripten_GetProcAddress out without this.
         emscripten_GetProcAddress(std::ptr::null());
     }
     unsafe extern "C" fn wrapper<F>(arg: *mut c_void)

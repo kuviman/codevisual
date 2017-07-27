@@ -1,19 +1,6 @@
-use codevisual::commons::*;
-use codevisual::{self, draw};
-
-use std;
+use ::*;
 
 use {MAP_SIZE, TICK_TIME};
-
-#[derive(Vertex)]
-pub struct QuadVertex {
-    a_v: Vec2<f32>,
-}
-
-#[derive(Uniforms)]
-pub struct FogUniforms {
-    u_time: f32,
-}
 
 #[derive(Vertex, Debug, Copy, Clone)]
 pub struct InstanceData {
@@ -62,37 +49,36 @@ impl InstanceData {
     }
 }
 
-#[derive(Uniforms)]
-struct Uniforms {
-    u_car_texture: Rc<draw::Texture>,
-    u_heli_texture: Rc<draw::Texture>,
-}
-
-pub struct Units {
-    current_time: f32,
-    quad: draw::PlainGeometry<QuadVertex>,
-    draw_count: Rc<Cell<usize>>,
-    actions_per_tick: Rc<Cell<usize>>,
-    next_action: f32,
-    geometry: ::obj::Geometry,
-    instances: draw::vertex::Buffer<InstanceData>,
-    heli_geometry: draw::InstancedGeometry<InstanceData, ::obj::Geometry>,
-    shader: draw::Shader,
-    shader_heli: draw::Shader,
-    shader_fog: draw::Shader,
-    uniforms: Uniforms,
+#[derive(Debug)]
+pub enum UnitType {
+    Car,
+    Heli,
 }
 
 pub const MAX_COUNT: usize = 10000;
 pub const MIN_SIZE: f32 = 3.5;
 pub const MAX_SIZE: f32 = 5.0;
 pub const SPEED: f32 = 50.0;
-pub const MAX_APS: usize = 10000;
+pub const MAX_APS: usize = 1000;
+
+pub struct Units {
+    geometry: obj::Geometry,
+    pub instances: ugli::VertexBuffer<InstanceData>,
+    shader: codevisual::Shader,
+    texture: ugli::Texture2d,
+    count: usize,
+    pub current_time: f32,
+}
 
 impl Units {
-    pub fn new(app: &codevisual::Application, resources: &::Resources) -> Self {
+    pub fn new(app: &codevisual::Application,
+               unit_type: UnitType,
+               geometry: obj::Geometry,
+               texture: ugli::Texture2d)
+               -> Self {
         let mut instance_data = Vec::new();
         for _ in 0..MAX_COUNT {
+            let angle = random::<f32>() * 2.0 * std::f32::consts::PI;
             instance_data.push(InstanceData {
                                    i_start_pos: vec2(random::<f32>() * 2.0 - 1.0,
                                                      random::<f32>() * 2.0 - 1.0) *
@@ -102,143 +88,145 @@ impl Units {
                                    i_finish_time: 0.0,
                                    i_size: random::<f32>() * (MAX_SIZE - MIN_SIZE) + MAX_SIZE,
                                    i_color: Color::rgb(1.0, random::<f32>(), 0.0),
-                                   i_angle: 0.0,
-                                   i_start_angle: 0.0,
+                                   i_angle: angle,
+                                   i_start_angle: angle,
                                });
         }
-        let model = ::obj::parse(app, &resources.car_obj.get());
-        let heli_model = ::obj::parse(app, &resources.heli_obj.get());
-        let heli_instance_data = instance_data.clone();
-        Units {
+        let context = app.get_window().ugli_context();
+        Self {
+            geometry,
+            instances: ugli::VertexBuffer::new(context, instance_data),
+            shader: codevisual::Shader::compile::<::ShaderLib>(context,
+                                                               defines!(HELI: if let UnitType::Heli = unit_type { true } else { false }),
+                                                               include_str!("shader.glsl")),
+            texture,
+            count: 0,
             current_time: 0.0,
-            next_action: 0.0,
-            geometry: model,
-            quad: draw::PlainGeometry::new(app,
-                                           draw::geometry::Mode::TriangleFan,
-                                           vec![QuadVertex { a_v: vec2(-1.0, -1.0) },
-                                                QuadVertex { a_v: vec2(1.0, -1.0) },
-                                                QuadVertex { a_v: vec2(1.0, 1.0) },
-                                                QuadVertex { a_v: vec2(-1.0, 1.0) }]),
-            instances: draw::vertex::Buffer::new(app, instance_data),
-            heli_geometry: draw::InstancedGeometry::new(app,
-                                                        Rc::new(heli_model),
-                                                        heli_instance_data),
-            shader: draw::Shader::compile(&app,
-                                          include_str!("vertex_car.glsl"),
-                                          include_str!("fragment_car.glsl"))
-                    .unwrap(),
-            shader_heli: draw::Shader::compile(&app,
-                                               include_str!("vertex_heli.glsl"),
-                                               include_str!("fragment_heli.glsl"))
-                    .unwrap(),
-            shader_fog: draw::Shader::compile(&app,
-                                              include_str!("vertex_fog.glsl"),
-                                              include_str!("fragment_fog.glsl"))
-                    .unwrap(),
-            uniforms: Uniforms {
-                u_car_texture: resources.car_texture.clone(),
-                u_heli_texture: resources.heli_texture.clone(),
-            },
-            draw_count: {
-                let setting = Rc::new(Cell::new(50 as usize));
-                {
-                    let setting = setting.clone();
-                    app.add_setting(codevisual::I32Setting {
-                                        name: String::from("Count"),
-                                        min_value: 0,
-                                        max_value: MAX_COUNT as i32,
-                                        default_value: setting.get() as i32,
-                                        setter: move |new_value| {
-                                            println!("Drawing {} instances", new_value);
-                                            setting.set(new_value as usize);
-                                        },
-                                    });
+        }
+    }
+    pub fn update(&mut self, percent: Option<f64>) {
+        let mut data = self.instances.slice_mut(..self.count);
+        match percent {
+            Some(percent) => {
+                let count = (self.count as f64 * percent) as usize;
+                let indices = rand::sample(&mut thread_rng(), 0..self.count, count);
+                for &i in &indices {
+                    data[i].update(self.current_time);
                 }
-                setting
-            },
+            }
+            None => {
+                for unit in data.iter_mut() {
+                    unit.update(self.current_time);
+                }
+            }
+        };
+    }
+    pub fn draw<U: ugli::UniformStorage>(&mut self,
+                                         framebuffer: &mut ugli::DefaultFramebuffer,
+                                         uniforms: &U) {
+        ugli::draw(framebuffer,
+                   self.shader.ugli_program(),
+                   ugli::DrawMode::Triangles,
+                   &ugli::instanced(&self.geometry.slice(..),
+                                    &self.instances.slice(..self.count)),
+                   &(uniforms, uniforms!(u_texture: &self.texture)),
+                   &ugli::DrawParameters::default());
+    }
+}
+
+resources! {
+    Resources {
+        car_texture: ugli::Texture2d = "assets/car.png",
+        heli_texture: ugli::Texture2d = "assets/heli.png",
+        car_obj: String = "assets/car.obj",
+        heli_obj: String = "assets/heli.obj",
+    }
+}
+
+pub struct AllUnits {
+    current_time: f32,
+    actions_per_tick: Rc<Cell<usize>>,
+    next_action: f32,
+    pub draw_count: Rc<Cell<usize>>,
+    pub cars: Units,
+    pub helis: Units,
+}
+
+impl AllUnits {
+    pub fn new(app: &codevisual::Application, resources: Resources) -> Self {
+        let cars = Units::new(app,
+                              UnitType::Car,
+                              obj::parse(app, &resources.car_obj),
+                              resources.car_texture);
+        let helis = Units::new(app,
+                               UnitType::Heli,
+                               obj::parse(app, &resources.heli_obj),
+                               resources.heli_texture);
+        Self {
+            current_time: 0.0,
             actions_per_tick: {
                 let setting = Rc::new(Cell::new(1 as usize));
                 {
                     let setting = setting.clone();
-                    app.add_setting(codevisual::I32Setting {
+                    app.add_setting(codevisual::Setting::I32 {
                                         name: String::from("Actions per tick"),
                                         min_value: 0,
                                         max_value: MAX_APS as i32,
                                         default_value: setting.get() as i32,
-                                        setter: move |new_value| {
-                                            setting.set(new_value as usize);
-                                        },
+                                        setter: Box::new(move |new_value| {
+                                                             setting.set(new_value as usize);
+                                                         }),
                                     });
                 }
                 setting
             },
+            next_action: 0.0,
+            draw_count: {
+                let setting = Rc::new(Cell::new(50 as usize));
+                {
+                    let setting = setting.clone();
+                    app.add_setting(codevisual::Setting::I32 {
+                                        name: String::from("Count"),
+                                        min_value: 0,
+                                        max_value: MAX_COUNT as i32,
+                                        default_value: setting.get() as i32,
+                                        setter: Box::new(move |new_value| {
+                                                             println!("Drawing {} instances",
+                                                                      new_value);
+                                                             setting.set(new_value as usize);
+                                                         }),
+                                    });
+                }
+                setting
+            },
+            cars,
+            helis,
         }
     }
 
     pub fn update(&mut self, delta_time: f32) {
         self.current_time += delta_time;
         self.next_action -= delta_time;
+        self.cars.count = self.draw_count.get();
+        self.helis.count = self.draw_count.get();
+        self.cars.current_time = self.current_time;
+        self.helis.current_time = self.current_time;
         while self.next_action < 0.0 {
             self.next_action += TICK_TIME;
-            for geometry in &mut [&mut self.heli_geometry] {
+            for units in &mut [&mut self.cars, &mut self.helis] {
                 if self.actions_per_tick.get() == MAX_APS {
-                    for unit in geometry
-                            .get_instance_data_mut()
-                            .slice_mut(..self.draw_count.get())
-                            .iter_mut() {
-                        unit.update(self.current_time);
-                    }
+                    units.update(None);
                 } else {
-                    for _ in 0..self.draw_count.get() * self.actions_per_tick.get() / MAX_APS {
-                        let i = random_range(0..geometry.get_instance_data().len());
-                        geometry
-                            .get_instance_data_mut()
-                            .index_mut(i)
-                            .update(self.current_time);
-                    }
-                }
-            }
-            if self.actions_per_tick.get() == MAX_APS {
-                for unit in self.instances.slice_mut(..self.draw_count.get()).iter_mut() {
-                    unit.update(self.current_time);
-                }
-            } else {
-                for _ in 0..
-                         (self.draw_count.get() * self.actions_per_tick.get() + MAX_APS - 1) /
-                         MAX_APS {
-                    let i = random_range(0..self.instances.len());
-                    self.instances.index_mut(i).update(self.current_time);
+                    units.update(Some(self.actions_per_tick.get() as f64 / MAX_APS as f64));
                 }
             }
         }
     }
 
-    pub fn get_fog(&self, texture: &mut draw::Texture, u_time: f32) {
-        use draw::Target;
-        let mut target = texture.as_target();
-        const K: f32 = 0.5;
-        target.clear(Color::rgb(K, K, K));
-        use draw::vertex::BufferView;
-        target.draw(&draw::geometry::Immediate::new(&self.quad,
-                                                    &self.instances.slice(0..
-                                                                          self.draw_count.get())),
-                    &self.shader_fog,
-                    &FogUniforms { u_time });
-    }
-
-    pub fn render<T: draw::Target>(&mut self, target: &mut T, global_uniforms: &::GlobalUniforms) {
-        use draw::vertex::BufferView;
-        target.draw(&draw::geometry::Immediate::new(&self.geometry,
-                                                    &self.instances.slice(0..
-                                                                          self.draw_count.get())),
-                    &self.shader,
-                    &draw::uniform::cons(global_uniforms, &self.uniforms));
-    }
-    pub fn render2<T: draw::Target>(&mut self,
-                                    target: &mut T,
-                                    global_uniforms: &::GlobalUniforms) {
-        target.draw(&self.heli_geometry.slice(0..self.draw_count.get()),
-                    &self.shader_heli,
-                    &draw::uniform::cons(global_uniforms, &self.uniforms));
+    pub fn draw<U: ugli::UniformStorage>(&mut self,
+                                         framebuffer: &mut ugli::DefaultFramebuffer,
+                                         uniforms: &U) {
+        self.cars.draw(framebuffer, uniforms);
+        self.helis.draw(framebuffer, uniforms);
     }
 }

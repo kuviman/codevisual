@@ -1,5 +1,4 @@
 use ::*;
-use std::marker::PhantomData;
 
 pub fn run_script(script: &str) {
     let script = CString::new(script).expect("Could not convert script to C string");
@@ -38,13 +37,13 @@ impl<'a, T: ?Sized + serde::Serialize> IntoJson for &'a T {
     }
 }
 
-pub struct Callback<T, F: FnMut(T) + 'static> {
+pub struct Callback<Arg, F: FnMut(Arg) + 'static> {
     f: F,
-    phantom_data: PhantomData<T>,
+    phantom_data: PhantomData<Arg>,
 }
 
-impl<T, F: FnMut(T)> Callback<T, F> {
-    pub fn new(f: F) -> Self {
+impl<Arg, F: FnMut(Arg)> From<F> for Callback<Arg, F> {
+    fn from(f: F) -> Self {
         Self {
             f,
             phantom_data: PhantomData,

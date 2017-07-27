@@ -1,24 +1,17 @@
 declare var GLctx: WebGLRenderingContext;
 declare var GL: { textures: WebGLTexture[] };
-declare var ENV: { [name: string]: any };
 
-ENV.RUST_BACKTRACE = "1";
-
-declare namespace Module {
+namespace Module {
     export let canvas: HTMLCanvasElement;
-    export function printErr(s: string): void;
-}
-
-Module.printErr = function (s: string) {
-    if (s.indexOf("bad name in getProcAddress: ") == 0) {
-        return;
+    export function printErr(s: string) {
+        if (s.indexOf("bad name in getProcAddress: ") == 0) {
+            return;
+        }
+        console.error(s);
     }
-    console.error(s);
 }
 
 namespace CodeVisual {
-    const $placeholder = $("#codevisual");
-
     export let $player: JQuery;
 
     let $loadingScreen: JQuery;
@@ -27,11 +20,8 @@ namespace CodeVisual {
 
     export namespace internal {
         export const on_init = [] as [() => void];
-        export function init(html: string, css: string) {
-            $placeholder.html(html);
-            $(document.head).append($("<style>" + css + "</style>"));
-
-            $player = $placeholder.find(".codevisual-player");
+        export function init() {
+            $player = $(".codevisual-player");
 
             $loadingScreen = $player.find(".loading-screen");
             $gameScreen = $player.find(".game-screen");

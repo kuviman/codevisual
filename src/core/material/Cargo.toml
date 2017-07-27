@@ -1,0 +1,9 @@
+[package]
+name = "codevisual_material"
+version = "0.1.0"
+authors = ["kuviman <kuviman@gmail.com>"]
+
+[dependencies]
+vpl = { path = "../../vpl" }
+ugli = { path = "../../ugli" }
+codevisual_derive = { path = "../derive" }

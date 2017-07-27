@@ -1,8 +1,7 @@
 use ::*;
 
 pub struct WheelEvent {
-    pub canvas_x: f64,
-    pub canvas_y: f64,
+    pub canvas_pos: Vec2<f64>,
     pub delta: f64,
 }
 
@@ -26,14 +25,13 @@ pub fn set_wheel_callback<F: FnMut(WheelEvent)>(callback: F) {
     {
         let event = *event;
         let mut callback = Box::<Box<F>>::from_raw(callback as *mut _);
-        let (canvas_x, canvas_y) = into_canvas_pos(event.mouse.canvasX, event.mouse.canvasY);
+        let canvas_pos = into_canvas_pos(vec2(event.mouse.canvasX, event.mouse.canvasY));
         callback(WheelEvent {
-                     canvas_x,
-                     canvas_y,
+                     canvas_pos,
                      delta: event.deltaY as f64 *
                             match event.deltaMode {
                                 DOM_DELTA_PIXEL => 1.0,
-                                DOM_DELTA_LINE => 16.0,
+                                DOM_DELTA_LINE => 17.0,
                                 DOM_DELTA_PAGE => 800.0,
                                 _ => panic!("Unexpected event.deltaMode"),
                             },

@@ -1,6 +1,9 @@
 extern crate emscripten_sys;
 extern crate serde;
 extern crate serde_json;
+extern crate ugli;
+extern crate vpl;
+use vpl::*;
 
 mod emscripten;
 pub use emscripten::*;
@@ -9,8 +12,6 @@ mod html5;
 pub use html5::*;
 
 use emscripten_sys::*;
-use std::os::raw::{c_double, c_char, c_ushort, c_int, c_long, c_ulong, c_void};
-use std::ffi::CString;
 
 #[allow(non_camel_case_types)]
 type EM_BOOL = c_int;

@@ -4,7 +4,7 @@ namespace CodeVisual {
     export namespace internal {
         export let canvas: HTMLCanvasElement;
 
-        internal.on_init.push(() => {
+        on_init.push(() => {
             const scalingSetting = new NumberSetting("Canvas scale", 1, 4, 1, 0.01);
             settings.add(scalingSetting);
             $canvas = $player.find("canvas");

@@ -1,8 +1,7 @@
 use ::*;
 
 pub struct TouchPoint {
-    pub canvas_x: f64,
-    pub canvas_y: f64,
+    pub canvas_pos: Vec2<f64>,
 }
 
 pub struct TouchStartEvent {
@@ -27,9 +26,9 @@ pub fn set_touchstart_callback<F: FnMut(TouchStartEvent)>(callback: F) {
         let mut callback = Box::<Box<F>>::from_raw(callback as *mut _);
         let mut touches = Vec::with_capacity(event.numTouches as usize);
         for i in 0..event.numTouches as usize {
-            let (canvas_x, canvas_y) = into_canvas_pos(event.touches[i].canvasX,
-                                                       event.touches[i].canvasY);
-            touches.push(TouchPoint { canvas_x, canvas_y });
+            let canvas_pos = into_canvas_pos(vec2(event.touches[i].canvasX,
+                                                  event.touches[i].canvasY));
+            touches.push(TouchPoint { canvas_pos });
         }
         callback(TouchStartEvent { touches });
         std::mem::forget(callback);
@@ -59,9 +58,9 @@ pub fn set_touchmove_callback<F: FnMut(TouchMoveEvent)>(callback: F) {
         let mut callback = Box::<Box<F>>::from_raw(callback as *mut _);
         let mut touches = Vec::with_capacity(event.numTouches as usize);
         for i in 0..event.numTouches as usize {
-            let (canvas_x, canvas_y) = into_canvas_pos(event.touches[i].canvasX,
-                                                       event.touches[i].canvasY);
-            touches.push(TouchPoint { canvas_x, canvas_y });
+            let canvas_pos = into_canvas_pos(vec2(event.touches[i].canvasX,
+                                                  event.touches[i].canvasY));
+            touches.push(TouchPoint { canvas_pos });
         }
         callback(TouchMoveEvent { touches });
         std::mem::forget(callback);

@@ -4,14 +4,13 @@ version = "0.1.0"
 authors = ["kuviman <kuviman@gmail.com>"]
 
 [dependencies]
-gl = "*"
-lazy_static = "*"
-
-codevisual_commons = { path = "../commons" }
+vpl = { path = "../vpl" }
+ugli = { path = "../ugli" }
+codevisual_window = { path = "window" }
+codevisual_material = { path = "material" }
 codevisual_derive = { path = "derive" }
 
 [target.'cfg(not(target_os = "emscripten"))'.dependencies]
-glutin = "*"
 image = "*"
 
 [target.'cfg(target_os = "emscripten")'.dependencies]

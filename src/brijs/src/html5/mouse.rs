@@ -18,8 +18,7 @@ impl MouseButton {
 }
 
 pub struct MouseDownEvent {
-    pub canvas_x: f64,
-    pub canvas_y: f64,
+    pub canvas_pos: Vec2<f64>,
     pub button: MouseButton,
 }
 
@@ -40,12 +39,8 @@ pub fn set_mousedown_callback<F: FnMut(MouseDownEvent)>(callback: F) {
         let event = *event;
         if let Some(button) = MouseButton::from(event.button) {
             let mut callback = Box::<Box<F>>::from_raw(callback as *mut _);
-            let (canvas_x, canvas_y) = into_canvas_pos(event.canvasX, event.canvasY);
-            callback(MouseDownEvent {
-                         canvas_x,
-                         canvas_y,
-                         button,
-                     });
+            let canvas_pos = into_canvas_pos(vec2(event.canvasX, event.canvasY));
+            callback(MouseDownEvent { canvas_pos, button });
             std::mem::forget(callback);
         }
         EM_TRUE
@@ -53,8 +48,7 @@ pub fn set_mousedown_callback<F: FnMut(MouseDownEvent)>(callback: F) {
 }
 
 pub struct MouseUpEvent {
-    pub canvas_x: f64,
-    pub canvas_y: f64,
+    pub canvas_pos: Vec2<f64>,
     pub button: MouseButton,
 }
 
@@ -75,12 +69,8 @@ pub fn set_mouseup_callback<F: FnMut(MouseUpEvent)>(callback: F) {
         let event = *event;
         if let Some(button) = MouseButton::from(event.button) {
             let mut callback = Box::<Box<F>>::from_raw(callback as *mut _);
-            let (canvas_x, canvas_y) = into_canvas_pos(event.canvasX, event.canvasY);
-            callback(MouseUpEvent {
-                         canvas_x,
-                         canvas_y,
-                         button,
-                     });
+            let canvas_pos = into_canvas_pos(vec2(event.canvasX, event.canvasY));
+            callback(MouseUpEvent { canvas_pos, button });
             std::mem::forget(callback);
         }
         EM_TRUE
@@ -88,8 +78,7 @@ pub fn set_mouseup_callback<F: FnMut(MouseUpEvent)>(callback: F) {
 }
 
 pub struct MouseMoveEvent {
-    pub canvas_x: f64,
-    pub canvas_y: f64,
+    pub canvas_pos: Vec2<f64>,
 }
 
 pub fn set_mousemove_callback<F: FnMut(MouseMoveEvent)>(callback: F) {
@@ -108,8 +97,8 @@ pub fn set_mousemove_callback<F: FnMut(MouseMoveEvent)>(callback: F) {
     {
         let event = *event;
         let mut callback = Box::<Box<F>>::from_raw(callback as *mut _);
-        let (canvas_x, canvas_y) = into_canvas_pos(event.canvasX, event.canvasY);
-        callback(MouseMoveEvent { canvas_x, canvas_y });
+        let canvas_pos = into_canvas_pos(vec2(event.canvasX, event.canvasY));
+        callback(MouseMoveEvent { canvas_pos });
         std::mem::forget(callback);
         EM_TRUE
     }

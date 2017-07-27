@@ -1,10 +1,10 @@
+use ::*;
+
 mod browser;
 pub use self::browser::*;
 
 mod js;
 pub use self::js::*;
-
-use ::*;
 
 pub fn wget<F: FnMut(&str) + 'static>(url: &str, on_load: F) {
     let callback = Box::new(Box::new(on_load));

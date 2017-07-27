@@ -1,5 +1,4 @@
-use codevisual::commons::*;
-use codevisual::{self, draw};
+use ::*;
 
 #[derive(Vertex, Debug, Copy, Clone)]
 pub struct VertexData {
@@ -8,7 +7,7 @@ pub struct VertexData {
     pub a_vn: Vec3<f32>,
 }
 
-pub type Geometry = draw::PlainGeometry<VertexData>;
+pub type Geometry = ugli::VertexBuffer<VertexData>;
 
 pub fn parse(app: &codevisual::Application, source: &str) -> Geometry {
     let mut v = Vec::new();
@@ -63,5 +62,5 @@ pub fn parse(app: &codevisual::Application, source: &str) -> Geometry {
             }
         }
     }
-    draw::PlainGeometry::new(app, draw::geometry::Mode::Triangles, data)
+    ugli::VertexBuffer::new(app.get_window().ugli_context(), data)
 }

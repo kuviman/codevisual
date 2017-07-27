@@ -23,9 +23,9 @@ fn impl_vertex(ast: &syn::DeriveInput) -> quote::Tokens {
             .into_iter()
             .map(|field| field.ident.as_ref().unwrap());
         quote!{
-            impl ::codevisual::draw::vertex::Data for #name {
-                fn walk_attributes<F>(&self, f: &mut F) where F: ::codevisual::draw::vertex::AttributeConsumer {
-                    #(f.consume(stringify!(#field_name2), &self.#field_name));*
+            impl ::codevisual::ugli::VertexData for #name {
+                fn walk_attributes<C>(&self, mut consumer: C) where C: ::codevisual::ugli::VertexAttributeConsumer {
+                    #(consumer.consume(stringify!(#field_name2), &self.#field_name));*
                 }
             }
         }
@@ -52,9 +52,9 @@ fn impl_uniforms(ast: &syn::DeriveInput) -> quote::Tokens {
             .into_iter()
             .map(|field| field.ident.as_ref().unwrap());
         quote!{
-            impl ::codevisual::draw::uniform::Data for #name {
-                fn walk<F>(&self, f: &mut F) where F: ::codevisual::draw::uniform::ValueConsumer {
-                    #(f.consume(stringify!(#field_name2), &self.#field_name));*
+            impl ::codevisual::ugli::UniformStorage for #name {
+                fn walk_uniforms<C>(&self, consumer: &mut C) where C: ::codevisual::ugli::UniformConsumer {
+                    #(consumer.consume(stringify!(#field_name2), &self.#field_name));*
                 }
             }
         }
