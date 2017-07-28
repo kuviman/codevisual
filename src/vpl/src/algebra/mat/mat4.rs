@@ -55,6 +55,28 @@ impl Mat4<f32> {
         result
     }
 
+    pub fn rotate_y(angle: f32) -> Self {
+        let mut result = Self::identity();
+        let cs = angle.cos();
+        let sn = angle.sin();
+        result[(2, 2)] = cs;
+        result[(2, 0)] = -sn;
+        result[(0, 2)] = sn;
+        result[(0, 0)] = cs;
+        result
+    }
+
+    pub fn rotate_z(angle: f32) -> Self {
+        let mut result = Self::identity();
+        let cs = angle.cos();
+        let sn = angle.sin();
+        result[(0, 0)] = cs;
+        result[(0, 1)] = -sn;
+        result[(1, 0)] = sn;
+        result[(1, 1)] = cs;
+        result
+    }
+
     pub fn perspective(fov: f32, aspect: f32, near: f32, far: f32) -> Self {
         let ymax = near * (fov / 2.0).tan();
         let xmax = ymax * aspect;

@@ -64,6 +64,14 @@ impl Vec2<f32> {
     pub fn len(self) -> f32 {
         f32::sqrt(self.x * self.x + self.y * self.y)
     }
+    pub fn rotated(v: Self, angle: f32) -> Self {
+        let sin = angle.sin();
+        let cos = angle.cos();
+        Self {
+            x: v.x * cos - v.y * sin,
+            y: v.x * sin + v.y * cos,
+        }
+    }
 }
 
 impl Vec2<f64> {

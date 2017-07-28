@@ -137,12 +137,10 @@ impl codevisual::Game for Playground {
         self.global_uniforms.u_time = self.current_time;
         self.global_uniforms.u_matrix = {
             let Vec2 { x: w, y: h } = self.app.get_window().get_size();
-            Mat4::perspective(std::f32::consts::PI / 4.0,
-                              w as f32 / h as f32,
-                              100.0,
-                              5500.0) *
+            Mat4::perspective(std::f32::consts::PI / 4.0, w as f32 / h as f32, 1.0, 5500.0) *
             Mat4::translate(vec3(0.0, 0.0, -self.camera_distance)) *
             Mat4::rotate_x(self.camera_rotation.y) *
+            Mat4::rotate_z(self.camera_rotation.x) *
             Mat4::translate(vec3(self.camera_position.x, self.camera_position.y, 0.0))
         };
 
@@ -181,9 +179,11 @@ impl codevisual::Game for Playground {
                                 x: prev_x,
                                 y: prev_y,
                             }) = self.start_drag {
-                    self.camera_position += vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
-                                            self.app.get_window().get_size().y as f32 *
-                                            self.camera_distance;
+                    let dv = vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
+                             self.app.get_window().get_size().y as f32;
+                    let dv = vec2(dv.x, dv.y / self.camera_rotation.y.cos());
+                    let dv = Vec2::rotated(dv, -self.camera_rotation.x);
+                    self.camera_position += dv * self.camera_distance;
                     self.start_drag = Some(vec2(x, y));
                 }
                 if let Some(Vec2 {
