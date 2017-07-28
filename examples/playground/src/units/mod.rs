@@ -104,17 +104,25 @@ impl Units {
             current_time: 0.0,
         }
     }
-    pub fn update(&mut self, percent: Option<f64>) {
-        let mut data = self.instances.slice_mut(..self.count);
+    pub fn update(&mut self, percent: Option<f64>, point_updates: bool) {
         match percent {
             Some(percent) => {
                 let count = (self.count as f64 * percent) as usize;
                 let indices = rand::sample(&mut thread_rng(), 0..self.count, count);
-                for &i in &indices {
-                    data[i].update(self.current_time);
+                if point_updates {
+                    for &i in &indices {
+                        let mut data = self.instances.slice_mut(i..i + 1);
+                        data[0].update(self.current_time);
+                    }
+                } else {
+                    let mut data = self.instances.slice_mut(..self.count);
+                    for &i in &indices {
+                        data[i].update(self.current_time);
+                    }
                 }
             }
             None => {
+                let mut data = self.instances.slice_mut(..self.count);
                 for unit in data.iter_mut() {
                     unit.update(self.current_time);
                 }
@@ -145,6 +153,7 @@ resources! {
 
 pub struct AllUnits {
     current_time: f32,
+    point_updates: Rc<Cell<bool>>,
     actions_per_tick: Rc<Cell<usize>>,
     next_action: f32,
     pub draw_count: Rc<Cell<usize>>,
@@ -175,6 +184,20 @@ impl AllUnits {
                                         default_value: setting.get() as i32,
                                         setter: Box::new(move |new_value| {
                                                              setting.set(new_value as usize);
+                                                         }),
+                                    });
+                }
+                setting
+            },
+            point_updates: {
+                let setting = Rc::new(Cell::new(false));
+                {
+                    let setting = setting.clone();
+                    app.add_setting(codevisual::Setting::Bool {
+                                        name: String::from("Point updates"),
+                                        default_value: setting.get(),
+                                        setter: Box::new(move |new_value| {
+                                                             setting.set(new_value);
                                                          }),
                                     });
                 }
@@ -215,9 +238,10 @@ impl AllUnits {
             self.next_action += TICK_TIME;
             for units in &mut [&mut self.cars, &mut self.helis] {
                 if self.actions_per_tick.get() == MAX_APS {
-                    units.update(None);
+                    units.update(None, self.point_updates.get());
                 } else {
-                    units.update(Some(self.actions_per_tick.get() as f64 / MAX_APS as f64));
+                    units.update(Some(self.actions_per_tick.get() as f64 / MAX_APS as f64),
+                                 self.point_updates.get());
                 }
             }
         }

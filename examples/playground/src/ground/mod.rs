@@ -96,7 +96,7 @@ impl Ground {
                    self.water_shader.ugli_program(),
                    ugli::DrawMode::TriangleFan,
                    &ugli::plain(&self.water_geometry.slice(..)),
-                   uniforms,
+                   &(uniforms, &self.uniforms),
                    &ugli::DrawParameters {
                        blend_mode: ugli::BlendMode::Alpha,
                        ..Default::default()

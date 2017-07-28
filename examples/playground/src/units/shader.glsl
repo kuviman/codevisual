@@ -35,7 +35,7 @@ void main() {
         v = vec3(v.x * cos(angle) - v.y * sin(angle), v.x * sin(angle) + v.y * cos(angle), v.z);
         v.xy = v.xy * 2.0;
     }
-    float height = map_height(pos) + 50.0;
+    float height = max(0.0, map_height(pos)) + 50.0;
 #else
     float height = map_height(pos);
 #endif
