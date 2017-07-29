@@ -36,6 +36,8 @@ pub struct GlobalUniforms {
     u_time: f32,
     u_matrix: Mat4<f32>,
     u_map_size: f32,
+    u_camera_matrix: Mat4<f32>,
+    u_projection_matrix: Mat4<f32>,
 }
 
 pub struct Playground {
@@ -93,6 +95,8 @@ impl codevisual::Game for Playground {
                 u_time: 0.0,
                 u_matrix: Mat4::identity(),
                 u_map_size: MAP_SIZE,
+                u_camera_matrix: Mat4::identity(),
+                u_projection_matrix: Mat4::identity(),
             },
 
             current_time: 0.0,
@@ -136,15 +140,17 @@ impl codevisual::Game for Playground {
         ugli::clear(&mut framebuffer, Some(Color::rgb(1.0, 1.0, 1.0)), Some(1.0));
 
         self.global_uniforms.u_time = self.current_time;
-        self.global_uniforms.u_matrix = {
+        self.global_uniforms.u_projection_matrix = {
             let Vec2 { x: w, y: h } = self.app.get_window().get_size();
-            Mat4::perspective(std::f32::consts::PI / 4.0, w as f32 / h as f32, 1.0, 5500.0) *
-                Mat4::translate(vec3(0.0, 0.0, -self.camera_distance)) *
-                Mat4::rotate_x(self.camera_rotation.y) *
-                Mat4::rotate_z(self.camera_rotation.x) *
-                Mat4::translate(vec3(self.camera_position.x, self.camera_position.y, 0.0))
+            Mat4::perspective(std::f32::consts::PI / 4.0, w as f32 / h as f32, 1.0, 5500.0)
         };
-
+        self.global_uniforms.u_camera_matrix = Mat4::translate(
+            vec3(0.0, 0.0, -self.camera_distance),
+        ) * Mat4::rotate_x(self.camera_rotation.y) *
+            Mat4::rotate_z(self.camera_rotation.x) *
+            Mat4::translate(vec3(self.camera_position.x, self.camera_position.y, 0.0));
+        self.global_uniforms.u_matrix = self.global_uniforms.u_projection_matrix *
+            self.global_uniforms.u_camera_matrix;
         self.fog.prepare(&self.units, &self.global_uniforms);
         let uniforms = (&self.global_uniforms, &self.fog.uniforms);
         self.units.draw(&mut framebuffer, &(
@@ -152,6 +158,16 @@ impl codevisual::Game for Playground {
             &self.ground.uniforms,
         ));
         self.ground.draw(&mut framebuffer, &uniforms);
+        let uniforms = (
+            &uniforms,
+            uniforms! {
+                u_screen_used_texture: self.units.get_screen_used_texture(&(&self.global_uniforms, &self.ground.uniforms)),
+                FRAMEBUFFER_SIZE: {
+                    let size = framebuffer.get_size();
+                    vec2(size.x as f32, size.y as f32)
+                }
+            },
+        );
         self.decor.draw(&mut framebuffer, &(
             &uniforms,
             &self.ground.uniforms,

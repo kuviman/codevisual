@@ -21,6 +21,8 @@ void main() {
 
 #ifdef FRAGMENT
 uniform sampler2D u_texture;
+uniform sampler2D u_screen_used_texture;
+uniform vec2 FRAMEBUFFER_SIZE;
 
 void main() {
     gl_FragColor = texture2D(u_texture, vec2(v_vt.x, -v_vt.y));
@@ -28,6 +30,12 @@ void main() {
         discard;
     }
     gl_FragColor.xyz *= fog_value(v_pos.xy);
-    gl_FragColor.w = 0.5;
+#if PALM
+    #define MIN_VIS 0.4
+    #define MAX_VIS 1.0
+    gl_FragColor.w = texture2D(u_screen_used_texture, gl_FragCoord.xy / FRAMEBUFFER_SIZE).x * (MAX_VIS - MIN_VIS) + MIN_VIS;
+#else
+    gl_FragColor.w = 1.0;
+#endif
 }
 #endif

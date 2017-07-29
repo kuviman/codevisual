@@ -2,6 +2,7 @@ use ::*;
 
 pub struct Context {
     size: Cell<Vec2<usize>>,
+    pub(crate) quad: RefCell<Option<Quad>>,
 }
 
 #[derive(Debug)]
@@ -26,7 +27,10 @@ impl Context {
         F: Fn(&str) -> *const c_void,
     {
         gl::load_with(get_proc_address);
-        Ok(Context { size: Cell::new(vec2(1, 1)) })
+        Ok(Context {
+            size: Cell::new(vec2(1, 1)),
+            quad: RefCell::new(None),
+        })
     }
     pub fn _set_size(&self, size: Vec2<usize>) {
         self.size.set(size);

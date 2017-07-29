@@ -32,6 +32,9 @@ pub use vertex::*;
 mod uniform;
 pub use uniform::*;
 
+mod quad;
+pub use quad::*;
+
 fn check_gl_error() {
     assert_eq!(unsafe { gl::GetError() }, gl::NO_ERROR);
 }

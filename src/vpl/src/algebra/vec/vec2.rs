@@ -1,6 +1,6 @@
 use std;
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub struct Vec2<T: Copy = f64> {
     pub x: T,
     pub y: T,

@@ -34,6 +34,7 @@ impl Decor {
         map_texture: &ugli::Texture2d,
         predicate: fn(Color) -> bool,
         density: usize,
+        is_palm: bool,
     ) -> Self {
         let context = app.get_window().ugli_context();
         let instances = {
@@ -61,7 +62,7 @@ impl Decor {
             texture,
             shader: codevisual::Shader::compile::<::ShaderLib>(
                 context,
-                &(),
+                &defines!(PALM: is_palm),
                 include_str!("shader.glsl"),
             ),
             geometry,
@@ -153,6 +154,7 @@ impl AllDecor {
                 map_texture,
                 |color| color.blue < 0.1 && color.green > 0.5,
                 10000,
+                false,
             )
         };
         let palms = {
@@ -190,13 +192,14 @@ impl AllDecor {
                 map_texture,
                 |color| color.red > 0.5,
                 4000,
+                true,
             )
         };
         Self {
             bushes,
             palms,
             percent: {
-                let setting = Rc::new(Cell::new(0.0));
+                let setting = Rc::new(Cell::new(1.0));
                 {
                     let setting = setting.clone();
                     const MAX_VALUE: i32 = 1000;

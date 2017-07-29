@@ -159,6 +159,7 @@ resources! {
 }
 
 pub struct AllUnits {
+    app: Rc<codevisual::Application>,
     current_time: f32,
     point_updates: Rc<Cell<bool>>,
     actions_per_tick: Rc<Cell<usize>>,
@@ -166,10 +167,13 @@ pub struct AllUnits {
     pub draw_count: Rc<Cell<usize>>,
     pub cars: Units,
     pub helis: Units,
+    screen_used_texture: Option<ugli::Texture2d>,
+    screen_used_shader: codevisual::Shader,
 }
 
 impl AllUnits {
-    pub fn new(app: &codevisual::Application, resources: Resources) -> Self {
+    pub fn new(app: &Rc<codevisual::Application>, resources: Resources) -> Self {
+        let context = app.get_window().ugli_context();
         let cars = Units::new(
             app,
             UnitType::Car,
@@ -183,6 +187,7 @@ impl AllUnits {
             resources.heli_texture,
         );
         Self {
+            app: app.clone(),
             current_time: 0.0,
             actions_per_tick: {
                 let setting = Rc::new(Cell::new(1 as usize));
@@ -230,6 +235,12 @@ impl AllUnits {
             },
             cars,
             helis,
+            screen_used_texture: None,
+            screen_used_shader: codevisual::Shader::compile::<::ShaderLib>(
+                context,
+                &defines!(HELI: false),
+                include_str!("screen_used.glsl"),
+            ),
         }
     }
 
@@ -253,6 +264,52 @@ impl AllUnits {
                 }
             }
         }
+    }
+
+    pub fn get_screen_used_texture<U: ugli::UniformStorage>(
+        &mut self,
+        uniforms: &U,
+    ) -> &ugli::Texture2d {
+        let context = self.app.get_window().ugli_context();
+        let need_size = {
+            let nearest = |n| {
+                let mut x = 1;
+                while x * 2 <= n {
+                    x *= 2;
+                }
+                x
+            };
+            let need_size = self.app.get_window().get_size() / 5;
+            vec2(nearest(need_size.x), nearest(need_size.y))
+        };
+        if match self.screen_used_texture {
+            Some(ref texture) => texture.get_size() != need_size,
+            None => true,
+        }
+        {
+            self.screen_used_texture = Some(ugli::Texture2d::new(context, need_size));
+        }
+        {
+            let texture = self.screen_used_texture.as_mut().unwrap();
+            let mut framebuffer = ugli::Framebuffer::new_color(context, texture);
+            ugli::clear(&mut framebuffer, Some(Color::rgb(1.0, 1.0, 1.0)), None);
+            ugli::draw(
+                &mut framebuffer,
+                self.screen_used_shader.ugli_program(),
+                ugli::DrawMode::TriangleFan,
+                &ugli::instanced(
+                    &ugli::quad(context).slice(..),
+                    &self.cars.instances.slice(..self.draw_count.get()),
+                ),
+                uniforms,
+                &ugli::DrawParameters {
+                    blend_mode: ugli::BlendMode::Alpha,
+                    depth_test: ugli::DepthTest::Off,
+                    ..Default::default()
+                },
+            );
+        }
+        self.screen_used_texture.as_ref().unwrap()
     }
 
     pub fn draw<U: ugli::UniformStorage>(
