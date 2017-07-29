@@ -27,13 +27,14 @@ struct Decor {
 }
 
 impl Decor {
-    pub fn new(app: &codevisual::Application,
-               geometry: ugli::VertexBuffer<Vertex>,
-               texture: ugli::Texture2d,
-               map_texture: &ugli::Texture2d,
-               predicate: fn(Color) -> bool,
-               density: usize)
-               -> Self {
+    pub fn new(
+        app: &codevisual::Application,
+        geometry: ugli::VertexBuffer<Vertex>,
+        texture: ugli::Texture2d,
+        map_texture: &ugli::Texture2d,
+        predicate: fn(Color) -> bool,
+        density: usize,
+    ) -> Self {
         let context = app.get_window().ugli_context();
         let instances = {
             let mut instances = Vec::new();
@@ -43,42 +44,49 @@ impl Decor {
             for _ in 0..density {
                 let x = random::<f32>();
                 let y = random::<f32>();
-                let pixel = map.get_pixel((x * map_size.x as f32) as usize,
-                                          (y * map_size.y as f32) as usize);
+                let pixel = map.get_pixel(
+                    (x * map_size.x as f32) as usize,
+                    (y * map_size.y as f32) as usize,
+                );
                 if predicate(pixel) {
                     instances.push(Instance {
-                                       i_pos: vec2(x * 2.0 * MAP_SIZE - MAP_SIZE,
-                                                   y * 2.0 * MAP_SIZE - MAP_SIZE),
-                                       i_size: random::<f32>() * 0.5 + 1.0,
-                                   });
+                        i_pos: vec2(x * 2.0 * MAP_SIZE - MAP_SIZE, y * 2.0 * MAP_SIZE - MAP_SIZE),
+                        i_size: random::<f32>() * 0.5 + 1.0,
+                    });
                 }
             }
             ugli::VertexBuffer::new(context, instances)
         };
         Self {
             texture,
-            shader: codevisual::Shader::compile::<::ShaderLib>(context,
-                                                               &(),
-                                                               include_str!("shader.glsl")),
+            shader: codevisual::Shader::compile::<::ShaderLib>(
+                context,
+                &(),
+                include_str!("shader.glsl"),
+            ),
             geometry,
             instances,
         }
     }
 
-    pub fn draw<U: ugli::UniformStorage>(&mut self,
-                                         framebuffer: &mut ugli::DefaultFramebuffer,
-                                         uniforms: &U,
-                                         percent: f64) {
+    pub fn draw<U: ugli::UniformStorage>(
+        &mut self,
+        framebuffer: &mut ugli::DefaultFramebuffer,
+        uniforms: &U,
+        percent: f64,
+    ) {
         let count = (self.instances.slice(..).len() as f64 * percent) as usize;
-        ugli::draw(framebuffer,
-                   self.shader.ugli_program(),
-                   ugli::DrawMode::Triangles,
-                   &ugli::instanced(&self.geometry.slice(..), &self.instances.slice(..count)),
-                   &(uniforms, uniforms!(u_texture: &self.texture)),
-                   &ugli::DrawParameters {
-                       blend_mode: ugli::BlendMode::Alpha,
-                       ..Default::default()
-                   });
+        ugli::draw(
+            framebuffer,
+            self.shader.ugli_program(),
+            ugli::DrawMode::Triangles,
+            &ugli::instanced(&self.geometry.slice(..), &self.instances.slice(..count)),
+            &(uniforms, uniforms!(u_texture: &self.texture)),
+            &ugli::DrawParameters {
+                blend_mode: ugli::BlendMode::Alpha,
+                ..Default::default()
+            },
+        );
     }
 }
 
@@ -89,10 +97,11 @@ pub struct AllDecor {
 }
 
 impl AllDecor {
-    pub fn new(app: &codevisual::Application,
-               resources: Resources,
-               map_texture: &ugli::Texture2d)
-               -> Self {
+    pub fn new(
+        app: &codevisual::Application,
+        resources: Resources,
+        map_texture: &ugli::Texture2d,
+    ) -> Self {
         let context = app.get_window().ugli_context();
         macro_rules! vertex_data {
             ($scale:expr, [$(pos: $pos:expr, vt: $vt:expr);*;]) => {{
@@ -137,12 +146,14 @@ impl AllDecor {
                 pos: vec3(-1.0, 1.0, 1.0), vt: vec2(0.0, 1.0);
             ]);
             let geometry = ugli::VertexBuffer::new(context, vertex_data);
-            Decor::new(app,
-                       geometry,
-                       resources.bush_texture,
-                       map_texture,
-                       |color| color.blue < 0.1 && color.green > 0.5,
-                       10000)
+            Decor::new(
+                app,
+                geometry,
+                resources.bush_texture,
+                map_texture,
+                |color| color.blue < 0.1 && color.green > 0.5,
+                10000,
+            )
         };
         let palms = {
             const TRUNK_SIZE: f32 = 0.1;
@@ -172,12 +183,14 @@ impl AllDecor {
                 pos: vec3(-1.0, 1.0, 1.0), vt: vec2(0.0, 1.0);
             ]);
             let geometry = ugli::VertexBuffer::new(context, vertex_data);
-            Decor::new(app,
-                       geometry,
-                       resources.palm_texture,
-                       map_texture,
-                       |color| color.red > 0.5,
-                       4000)
+            Decor::new(
+                app,
+                geometry,
+                resources.palm_texture,
+                map_texture,
+                |color| color.red > 0.5,
+                4000,
+            )
         };
         Self {
             bushes,
@@ -188,24 +201,25 @@ impl AllDecor {
                     let setting = setting.clone();
                     const MAX_VALUE: i32 = 1000;
                     app.add_setting(codevisual::Setting::I32 {
-                                        name: String::from("Decorations"),
-                                        min_value: 0,
-                                        max_value: MAX_VALUE,
-                                        default_value: (MAX_VALUE as f64 * setting.get()) as i32,
-                                        setter: Box::new(move |new_value| {
-                                                             setting.set(new_value as f64 /
-                                                                         MAX_VALUE as f64);
-                                                         }),
-                                    });
+                        name: String::from("Decorations"),
+                        min_value: 0,
+                        max_value: MAX_VALUE,
+                        default_value: (MAX_VALUE as f64 * setting.get()) as i32,
+                        setter: Box::new(move |new_value| {
+                            setting.set(new_value as f64 / MAX_VALUE as f64);
+                        }),
+                    });
                 }
                 setting
             },
         }
     }
 
-    pub fn draw<U: ugli::UniformStorage>(&mut self,
-                                         framebuffer: &mut ugli::DefaultFramebuffer,
-                                         uniforms: &U) {
+    pub fn draw<U: ugli::UniformStorage>(
+        &mut self,
+        framebuffer: &mut ugli::DefaultFramebuffer,
+        uniforms: &U,
+    ) {
         self.bushes.draw(framebuffer, uniforms, self.percent.get());
         self.palms.draw(framebuffer, uniforms, self.percent.get());
     }

@@ -16,8 +16,9 @@ impl ShaderLibrary for ShaderPrelude {
 }
 
 impl<A, B> ShaderLibrary for (A, B)
-    where A: ShaderLibrary,
-          B: ShaderLibrary
+where
+    A: ShaderLibrary,
+    B: ShaderLibrary,
 {
     fn get(path: &str) -> Option<&str> {
         if let Some(result) = A::get(path) {

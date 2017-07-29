@@ -14,11 +14,13 @@ pub trait Attachment {
 impl<T: Deref<Target = Texture2d>> Attachment for T {
     fn attach(&self) {
         unsafe {
-            gl::FramebufferTexture2D(gl::FRAMEBUFFER,
-                                     gl::COLOR_ATTACHMENT0,
-                                     gl::TEXTURE_2D,
-                                     self.handle,
-                                     0);
+            gl::FramebufferTexture2D(
+                gl::FRAMEBUFFER,
+                gl::COLOR_ATTACHMENT0,
+                gl::TEXTURE_2D,
+                self.handle,
+                0,
+            );
         }
     }
     fn get_size(&self) -> Option<Vec2<usize>> {

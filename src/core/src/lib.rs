@@ -48,8 +48,7 @@ impl Application {
             fn panic_hook(info: &std::panic::PanicInfo) {
                 let error: String = if let Some(error) = info.payload().downcast_ref::<String>() {
                     error.clone()
-                } else if let Some(error) = info.payload()
-                              .downcast_ref::<&str>() {
+                } else if let Some(error) = info.payload().downcast_ref::<&str>() {
                     error.to_string()
                 } else {
                     String::from("Something went wrong")
@@ -138,8 +137,7 @@ pub fn run<G: Game>() {
             app.window.swap_buffers();
         };
 
-        #[cfg(target_os = "emscripten")]
-        brijs::set_main_loop(main_loop);
+        #[cfg(target_os = "emscripten")] brijs::set_main_loop(main_loop);
 
         #[cfg(not(target_os = "emscripten"))]
         while !app.window.should_close() {
@@ -148,8 +146,7 @@ pub fn run<G: Game>() {
 
         true
     };
-    #[cfg(target_os = "emscripten")]
-    brijs::set_main_loop(|| { start(); });
+    #[cfg(target_os = "emscripten")] brijs::set_main_loop(|| { start(); });
 
     #[cfg(not(target_os = "emscripten"))]
     assert!(start());

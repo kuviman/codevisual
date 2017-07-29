@@ -22,12 +22,11 @@ impl Window {
         #[cfg(not(target_os = "emscripten"))]
         {
             use glutin::MouseCursor as GC;
-            self.glutin_window
-                .set_cursor(match cursor_type {
-                                Default => GC::Default,
-                                Pointer => GC::Hand,
-                                Drag => GC::AllScroll,
-                            });
+            self.glutin_window.set_cursor(match cursor_type {
+                Default => GC::Default,
+                Pointer => GC::Hand,
+                Drag => GC::AllScroll,
+            });
         }
     }
 }

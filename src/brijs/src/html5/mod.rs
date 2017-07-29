@@ -22,6 +22,8 @@ pub(crate) fn into_canvas_pos(pos: Vec2<c_long>) -> Vec2<f64> {
     };
     let canvas_size = get_canvas_size();
     let canvas_size = vec2(canvas_size.x as f64, canvas_size.y as f64);
-    vec2(pos.x * canvas_size.x / css_size.x,
-         pos.y * canvas_size.y / css_size.y)
+    vec2(
+        pos.x * canvas_size.x / css_size.x,
+        pos.y * canvas_size.y / css_size.y,
+    )
 }

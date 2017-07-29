@@ -44,15 +44,15 @@ impl Window {
         let window = {
             use glutin::GlContext;
             let glutin_events_loop = glutin::EventsLoop::new();
-            let glutin_window =
-                glutin::GlWindow::new(glutin::WindowBuilder::new().with_title(title),
-                                      glutin::ContextBuilder::new().with_vsync(true),
-                                      &glutin_events_loop)
-                        .unwrap();
+            let glutin_window = glutin::GlWindow::new(
+                glutin::WindowBuilder::new().with_title(title),
+                glutin::ContextBuilder::new().with_vsync(true),
+                &glutin_events_loop,
+            ).unwrap();
             unsafe { glutin_window.make_current() }.unwrap();
-            let ugli_context =
-                ugli::Context::init(|symbol| glutin_window.get_proc_address(symbol) as *const _)
-                    .unwrap();
+            let ugli_context = ugli::Context::init(
+                |symbol| glutin_window.get_proc_address(symbol) as *const _,
+            ).unwrap();
             Self {
                 glutin_window,
                 glutin_events_loop: RefCell::new(glutin_events_loop),
@@ -73,13 +73,12 @@ impl Window {
     }
 
     pub fn get_size(&self) -> Vec2<usize> {
-        #[cfg(target_os = "emscripten")]
-        return brijs::get_canvas_size();
+        #[cfg(target_os = "emscripten")] return brijs::get_canvas_size();
         #[cfg(not(target_os = "emscripten"))]
         return {
-                   let (width, height) = self.glutin_window.get_inner_size_pixels().unwrap();
-                   vec2(width as usize, height as usize)
-               };
+            let (width, height) = self.glutin_window.get_inner_size_pixels().unwrap();
+            vec2(width as usize, height as usize)
+        };
     }
 
     pub fn ugli_context(&self) -> &ugli::Context {

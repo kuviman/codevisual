@@ -89,22 +89,24 @@ impl Mat4<f32> {
         let temp3 = top - bottom;
         let temp4 = far - near;
         Self {
-            values: [temp / temp2,
-                     0.0,
-                     0.0,
-                     0.0,
-                     0.0,
-                     temp / temp3,
-                     0.0,
-                     0.0,
-                     (right + left) / temp2,
-                     (top + bottom) / temp3,
-                     (-far - near) / temp4,
-                     -1.0,
-                     0.0,
-                     0.0,
-                     (-temp * far) / temp4,
-                     0.0],
+            values: [
+                temp / temp2,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                temp / temp3,
+                0.0,
+                0.0,
+                (right + left) / temp2,
+                (top + bottom) / temp3,
+                (-far - near) / temp4,
+                -1.0,
+                0.0,
+                0.0,
+                (-temp * far) / temp4,
+                0.0,
+            ],
         }
     }
 }

@@ -10,9 +10,13 @@ mod read;
 pub use self::read::*;
 
 pub struct Framebuffer<ReadAccess, WriteAccess, Color>
-    where ReadAccess: Access,
-          WriteAccess: Access,
-          Color: attachment::Color<ReadAccess = ReadAccess, WriteAccess = WriteAccess>
+where
+    ReadAccess: Access,
+    WriteAccess: Access,
+    Color: attachment::Color<
+        ReadAccess = ReadAccess,
+        WriteAccess = WriteAccess,
+    >,
 {
     pub(crate) fbo: FBO,
     #[allow(dead_code)]

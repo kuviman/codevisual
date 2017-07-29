@@ -11,11 +11,13 @@ pub struct Shader {
 }
 
 impl Shader {
-    pub fn compile<Lib>(ugli_context: &ugli::Context,
-                        defines: &ShaderDefineStorage,
-                        source: &str)
-                        -> Shader
-        where Lib: ShaderLibrary
+    pub fn compile<Lib>(
+        ugli_context: &ugli::Context,
+        defines: &ShaderDefineStorage,
+        source: &str,
+    ) -> Shader
+    where
+        Lib: ShaderLibrary,
     {
         #[cfg(target_os = "emscripten")]
         const PRELUDE_INCLUDE: &str = "#define EMSCRIPTEN\n#include <prelude>";
@@ -30,18 +32,18 @@ impl Shader {
         }
         sources.push(PRELUDE_INCLUDE);
         sources.push(source);
-        let vertex_shader = ugli::Shader::new(ugli_context,
-                                              ugli::ShaderType::Vertex,
-                                              PreprocessedShader::new::<Lib>(&sources)
-                                                  .get_sources())
-                .unwrap();
+        let vertex_shader = ugli::Shader::new(
+            ugli_context,
+            ugli::ShaderType::Vertex,
+            PreprocessedShader::new::<Lib>(&sources).get_sources(),
+        ).unwrap();
 
         sources[0] = "#define FRAGMENT";
-        let fragment_shader = ugli::Shader::new(ugli_context,
-                                                ugli::ShaderType::Fragment,
-                                                PreprocessedShader::new::<Lib>(&sources)
-                                                    .get_sources())
-                .unwrap();
+        let fragment_shader = ugli::Shader::new(
+            ugli_context,
+            ugli::ShaderType::Fragment,
+            PreprocessedShader::new::<Lib>(&sources).get_sources(),
+        ).unwrap();
 
         Shader {
             ugli_program: ugli::Program::new(ugli_context, &[&vertex_shader, &fragment_shader])

@@ -42,22 +42,28 @@ impl codevisual::Game for Tutorial {
 
         Tutorial {
             app: app.clone(),
-            shader: codevisual::Shader::compile::<codevisual::ShaderPrelude>(context,
-                                                                             &(),
-                                                                             SHADER_SOURCE),
-            vertices: ugli::VertexBuffer::new(context,
-                                              vec![Vertex {
-                                                       a_position: vec2(-0.5, -0.5),
-                                                       a_color: Color::rgb(1.0, 0.0, 0.0),
-                                                   },
-                                                   Vertex {
-                                                       a_position: vec2(0.5, -0.5),
-                                                       a_color: Color::rgb(0.0, 1.0, 0.0),
-                                                   },
-                                                   Vertex {
-                                                       a_position: vec2(0.0, 0.5),
-                                                       a_color: Color::rgb(0.0, 0.0, 1.0),
-                                                   }]),
+            shader: codevisual::Shader::compile::<codevisual::ShaderPrelude>(
+                context,
+                &(),
+                SHADER_SOURCE,
+            ),
+            vertices: ugli::VertexBuffer::new(
+                context,
+                vec![
+                    Vertex {
+                        a_position: vec2(-0.5, -0.5),
+                        a_color: Color::rgb(1.0, 0.0, 0.0),
+                    },
+                    Vertex {
+                        a_position: vec2(0.5, -0.5),
+                        a_color: Color::rgb(0.0, 1.0, 0.0),
+                    },
+                    Vertex {
+                        a_position: vec2(0.0, 0.5),
+                        a_color: Color::rgb(0.0, 0.0, 1.0),
+                    },
+                ],
+            ),
         }
     }
     fn get_title() -> String {
@@ -65,18 +71,22 @@ impl codevisual::Game for Tutorial {
     }
     fn update(&mut self, delta_time: f64) {}
     fn draw(&mut self) {
-        ugli::clear(&mut ugli::default_framebuffer(self.app.get_window().ugli_context()),
-                    Some(Color::rgb(0.0, 0.0, 0.0)),
-                    None);
-        ugli::draw(&mut ugli::default_framebuffer(self.app.get_window().ugli_context()),
-                   &self.shader.ugli_program(),
-                   ugli::DrawMode::Triangles,
-                   &ugli::plain(&self.vertices.slice(..)),
-                   &(),
-                   &ugli::DrawParameters {
-                       depth_test: ugli::DepthTest::Off,
-                       ..Default::default()
-                   });
+        ugli::clear(
+            &mut ugli::default_framebuffer(self.app.get_window().ugli_context()),
+            Some(Color::rgb(0.0, 0.0, 0.0)),
+            None,
+        );
+        ugli::draw(
+            &mut ugli::default_framebuffer(self.app.get_window().ugli_context()),
+            &self.shader.ugli_program(),
+            ugli::DrawMode::Triangles,
+            &ugli::plain(&self.vertices.slice(..)),
+            &(),
+            &ugli::DrawParameters {
+                depth_test: ugli::DepthTest::Off,
+                ..Default::default()
+            },
+        );
     }
     fn handle_event(&mut self, event: codevisual::Event) {}
 }

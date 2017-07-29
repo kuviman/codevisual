@@ -16,12 +16,12 @@ pub fn vertex(input: TokenStream) -> TokenStream {
 fn impl_vertex(ast: &syn::DeriveInput) -> quote::Tokens {
     let name = &ast.ident;
     if let syn::Body::Struct(ref data) = ast.body {
-        let field_name = data.fields()
-            .into_iter()
-            .map(|field| field.ident.as_ref().unwrap());
-        let field_name2 = data.fields()
-            .into_iter()
-            .map(|field| field.ident.as_ref().unwrap());
+        let field_name = data.fields().into_iter().map(|field| {
+            field.ident.as_ref().unwrap()
+        });
+        let field_name2 = data.fields().into_iter().map(|field| {
+            field.ident.as_ref().unwrap()
+        });
         quote!{
             impl ::codevisual::ugli::VertexData for #name {
                 fn walk_attributes<C>(&self, mut consumer: C) where C: ::codevisual::ugli::VertexAttributeConsumer {
@@ -45,12 +45,12 @@ pub fn uniforms(input: TokenStream) -> TokenStream {
 fn impl_uniforms(ast: &syn::DeriveInput) -> quote::Tokens {
     let name = &ast.ident;
     if let syn::Body::Struct(ref data) = ast.body {
-        let field_name = data.fields()
-            .into_iter()
-            .map(|field| field.ident.as_ref().unwrap());
-        let field_name2 = data.fields()
-            .into_iter()
-            .map(|field| field.ident.as_ref().unwrap());
+        let field_name = data.fields().into_iter().map(|field| {
+            field.ident.as_ref().unwrap()
+        });
+        let field_name2 = data.fields().into_iter().map(|field| {
+            field.ident.as_ref().unwrap()
+        });
         quote!{
             impl ::codevisual::ugli::UniformStorage for #name {
                 fn walk_uniforms<C>(&self, consumer: &mut C) where C: ::codevisual::ugli::UniformConsumer {

@@ -1,11 +1,17 @@
 use ::*;
 
 pub trait UniformStorage {
-    fn walk_uniforms<C>(&self, consumer: &mut C) where C: UniformConsumer;
+    fn walk_uniforms<C>(&self, consumer: &mut C)
+    where
+        C: UniformConsumer;
 }
 
 impl UniformStorage for () {
-    fn walk_uniforms<C>(&self, _: &mut C) where C: UniformConsumer {}
+    fn walk_uniforms<C>(&self, _: &mut C)
+    where
+        C: UniformConsumer,
+    {
+    }
 }
 
 pub struct SingleUniform<'a, U: Uniform> {
@@ -21,7 +27,8 @@ impl<'a, U: Uniform> SingleUniform<'a, U> {
 
 impl<'a, U: Uniform> UniformStorage for SingleUniform<'a, U> {
     fn walk_uniforms<C>(&self, consumer: &mut C)
-        where C: UniformConsumer
+    where
+        C: UniformConsumer,
     {
         consumer.consume(self.name, &self.value);
     }
@@ -29,7 +36,8 @@ impl<'a, U: Uniform> UniformStorage for SingleUniform<'a, U> {
 
 impl<'a, A: UniformStorage, B: UniformStorage> UniformStorage for (&'a A, &'a B) {
     fn walk_uniforms<C>(&self, consumer: &mut C)
-        where C: UniformConsumer
+    where
+        C: UniformConsumer,
     {
         self.0.walk_uniforms(consumer);
         self.1.walk_uniforms(consumer);

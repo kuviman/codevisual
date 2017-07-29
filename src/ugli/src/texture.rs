@@ -40,24 +40,28 @@ impl Texture2d {
         unsafe {
             gl::BindTexture(gl::TEXTURE_2D, self.handle);
             gl::GenerateMipmap(gl::TEXTURE_2D);
-            gl::TexParameteri(gl::TEXTURE_2D,
-                              gl::TEXTURE_MIN_FILTER,
-                              gl::LINEAR_MIPMAP_LINEAR as GLint);
+            gl::TexParameteri(
+                gl::TEXTURE_2D,
+                gl::TEXTURE_MIN_FILTER,
+                gl::LINEAR_MIPMAP_LINEAR as GLint,
+            );
         }
     }
 
     pub fn new(_: &Context, size: Vec2<usize>) -> Self {
         let texture = Texture2d::new_raw(size);
         unsafe {
-            gl::TexImage2D(gl::TEXTURE_2D,
-                           0,
-                           gl::RGBA as GLint,
-                           size.x as GLsizei,
-                           size.y as GLsizei,
-                           0,
-                           gl::RGBA as GLenum,
-                           gl::UNSIGNED_BYTE,
-                           std::ptr::null());
+            gl::TexImage2D(
+                gl::TEXTURE_2D,
+                0,
+                gl::RGBA as GLint,
+                size.x as GLsizei,
+                size.y as GLsizei,
+                0,
+                gl::RGBA as GLenum,
+                gl::UNSIGNED_BYTE,
+                std::ptr::null(),
+            );
         }
         texture
     }
@@ -67,15 +71,17 @@ impl Texture2d {
         let size = vec2(image.width() as usize, image.height() as usize);
         let mut texture = Texture2d::new_raw(size);
         unsafe {
-            gl::TexImage2D(gl::TEXTURE_2D,
-                           0,
-                           gl::RGBA as GLint,
-                           size.x as GLsizei,
-                           size.y as GLsizei,
-                           0,
-                           gl::RGBA as GLenum,
-                           gl::UNSIGNED_BYTE,
-                           image.into_raw().as_ptr() as *const _);
+            gl::TexImage2D(
+                gl::TEXTURE_2D,
+                0,
+                gl::RGBA as GLint,
+                size.x as GLsizei,
+                size.y as GLsizei,
+                0,
+                gl::RGBA as GLenum,
+                gl::UNSIGNED_BYTE,
+                image.into_raw().as_ptr() as *const _,
+            );
         }
         texture.gen_mipmaps();
         texture

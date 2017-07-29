@@ -25,17 +25,20 @@ impl<T: VertexData> VertexBuffer<T> {
         };
         buffer.bind();
         unsafe {
-            gl::BufferData(gl::ARRAY_BUFFER,
-                           std::mem::size_of_val(data.as_slice()) as GLsizeiptr,
-                           data.as_ptr() as *const c_void,
-                           gl::STATIC_DRAW); // TODO: dynamic, stream?
+            gl::BufferData(
+                gl::ARRAY_BUFFER,
+                std::mem::size_of_val(data.as_slice()) as GLsizeiptr,
+                data.as_ptr() as *const c_void,
+                gl::STATIC_DRAW,
+            ); // TODO: dynamic, stream?
         }
         buffer.data = data;
         buffer
     }
 
     pub fn slice<'a, R>(&'a self, range: R) -> VertexBufferSlice<'a, T>
-        where R: RangeArgument<usize>
+    where
+        R: RangeArgument<usize>,
     {
         VertexBufferSlice {
             buffer: self,
@@ -47,7 +50,8 @@ impl<T: VertexData> VertexBuffer<T> {
     }
 
     pub fn slice_mut<'a, R>(&'a mut self, range: R) -> VertexBufferSliceMut<'a, T>
-        where R: RangeArgument<usize>
+    where
+        R: RangeArgument<usize>,
     {
         let end = *range.end().unwrap_or(&self.data.len());
         VertexBufferSliceMut {
@@ -101,10 +105,12 @@ impl<'a, T: VertexData> Drop for VertexBufferSliceMut<'a, T> {
         self.buffer.bind();
         let data = &self.buffer.data[self.range.clone()];
         unsafe {
-            gl::BufferSubData(gl::ARRAY_BUFFER,
-                              (self.range.start * std::mem::size_of::<T>()) as GLintptr,
-                              std::mem::size_of_val(data) as GLsizeiptr,
-                              data.as_ptr() as *const c_void);
+            gl::BufferSubData(
+                gl::ARRAY_BUFFER,
+                (self.range.start * std::mem::size_of::<T>()) as GLintptr,
+                std::mem::size_of_val(data) as GLsizeiptr,
+                data.as_ptr() as *const c_void,
+            );
         }
     }
 }

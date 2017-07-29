@@ -61,45 +61,51 @@ impl Ground {
                 u_darkgrass_texture: resources.darkgrass_texture,
                 u_map_texture: resources.map_texture,
             },
-            shader: codevisual::Shader::compile::<::ShaderLib>(context,
-                                                               &(),
-                                                               include_str!("shader.glsl")),
-            water_geometry: ugli::VertexBuffer::new(context,
-                                                    vec![Vertex {
-                                                             a_pos: vec2(-MAP_SIZE, -MAP_SIZE),
-                                                         },
-                                                         Vertex {
-                                                             a_pos: vec2(-MAP_SIZE, MAP_SIZE),
-                                                         },
-                                                         Vertex {
-                                                             a_pos: vec2(MAP_SIZE, MAP_SIZE),
-                                                         },
-                                                         Vertex {
-                                                             a_pos: vec2(MAP_SIZE, -MAP_SIZE),
-                                                         }]),
-            water_shader: codevisual::Shader::compile::<::ShaderLib>(context,
-                                                                     &(),
-                                                                     include_str!("water.glsl")),
+            shader: codevisual::Shader::compile::<::ShaderLib>(
+                context,
+                &(),
+                include_str!("shader.glsl"),
+            ),
+            water_geometry: ugli::VertexBuffer::new(
+                context,
+                vec![
+                    Vertex { a_pos: vec2(-MAP_SIZE, -MAP_SIZE) },
+                    Vertex { a_pos: vec2(-MAP_SIZE, MAP_SIZE) },
+                    Vertex { a_pos: vec2(MAP_SIZE, MAP_SIZE) },
+                    Vertex { a_pos: vec2(MAP_SIZE, -MAP_SIZE) },
+                ],
+            ),
+            water_shader: codevisual::Shader::compile::<::ShaderLib>(
+                context,
+                &(),
+                include_str!("water.glsl"),
+            ),
         }
     }
 
-    pub fn draw<U: ugli::UniformStorage>(&mut self,
-                                         framebuffer: &mut ugli::DefaultFramebuffer,
-                                         uniforms: &U) {
-        ugli::draw(framebuffer,
-                   self.shader.ugli_program(),
-                   ugli::DrawMode::Triangles,
-                   &ugli::plain(&self.geometry.slice(..)),
-                   &(uniforms, &self.uniforms),
-                   &Default::default());
-        ugli::draw(framebuffer,
-                   self.water_shader.ugli_program(),
-                   ugli::DrawMode::TriangleFan,
-                   &ugli::plain(&self.water_geometry.slice(..)),
-                   &(uniforms, &self.uniforms),
-                   &ugli::DrawParameters {
-                       blend_mode: ugli::BlendMode::Alpha,
-                       ..Default::default()
-                   });
+    pub fn draw<U: ugli::UniformStorage>(
+        &mut self,
+        framebuffer: &mut ugli::DefaultFramebuffer,
+        uniforms: &U,
+    ) {
+        ugli::draw(
+            framebuffer,
+            self.shader.ugli_program(),
+            ugli::DrawMode::Triangles,
+            &ugli::plain(&self.geometry.slice(..)),
+            &(uniforms, &self.uniforms),
+            &Default::default(),
+        );
+        ugli::draw(
+            framebuffer,
+            self.water_shader.ugli_program(),
+            ugli::DrawMode::TriangleFan,
+            &ugli::plain(&self.water_geometry.slice(..)),
+            &(uniforms, &self.uniforms),
+            &ugli::DrawParameters {
+                blend_mode: ugli::BlendMode::Alpha,
+                ..Default::default()
+            },
+        );
     }
 }

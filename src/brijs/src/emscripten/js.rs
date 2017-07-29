@@ -59,9 +59,11 @@ impl<F: FnMut(bool)> IntoJson for Callback<bool, F> {
             boxed(b != 0);
             std::mem::forget(boxed);
         }
-        format!("function(b) {{ Runtime.dynCall('vii', {}, [{}, b ? 1 : 0]); }}",
-                (wrapper::<F> as c_int).into_json(),
-                (Box::into_raw(boxed) as c_int).into_json())
+        format!(
+            "function(b) {{ Runtime.dynCall('vii', {}, [{}, b ? 1 : 0]); }}",
+            (wrapper::<F> as c_int).into_json(),
+            (Box::into_raw(boxed) as c_int).into_json()
+        )
     }
 }
 
@@ -73,9 +75,11 @@ impl<F: FnMut(i32)> IntoJson for Callback<i32, F> {
             boxed(x as i32);
             std::mem::forget(boxed);
         }
-        format!("function(x) {{ Runtime.dynCall('vii', {}, [{}, x]); }}",
-                (wrapper::<F> as c_int).into_json(),
-                (Box::into_raw(boxed) as c_int).into_json())
+        format!(
+            "function(x) {{ Runtime.dynCall('vii', {}, [{}, x]); }}",
+            (wrapper::<F> as c_int).into_json(),
+            (Box::into_raw(boxed) as c_int).into_json()
+        )
     }
 }
 
@@ -87,9 +91,11 @@ impl<F: FnMut((i32, i32))> IntoJson for Callback<(i32, i32), F> {
             boxed((a as i32, b as i32));
             std::mem::forget(boxed);
         }
-        format!("function(a, b) {{ Runtime.dynCall('viii', {}, [{}, a, b]); }}",
-                (wrapper::<F> as c_int).into_json(),
-                (Box::into_raw(boxed) as c_int).into_json())
+        format!(
+            "function(a, b) {{ Runtime.dynCall('viii', {}, [{}, a, b]); }}",
+            (wrapper::<F> as c_int).into_json(),
+            (Box::into_raw(boxed) as c_int).into_json()
+        )
     }
 }
 
@@ -101,8 +107,10 @@ impl<F: FnMut(())> IntoJson for Callback<(), F> {
             boxed(());
             std::mem::forget(boxed);
         }
-        format!("function(i) {{ Runtime.dynCall('vi', {}, [{}]); }}",
-                (wrapper::<F> as c_int).into_json(),
-                (Box::into_raw(boxed) as c_int).into_json())
+        format!(
+            "function(i) {{ Runtime.dynCall('vi', {}, [{}]); }}",
+            (wrapper::<F> as c_int).into_json(),
+            (Box::into_raw(boxed) as c_int).into_json()
+        )
     }
 }

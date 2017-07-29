@@ -22,7 +22,8 @@ display_error_description!(ContextCreationError);
 
 impl Context {
     pub fn init<F>(get_proc_address: F) -> Result<Self, ContextCreationError>
-        where F: Fn(&str) -> *const c_void
+    where
+        F: Fn(&str) -> *const c_void,
     {
         gl::load_with(get_proc_address);
         Ok(Context { size: Cell::new(vec2(1, 1)) })

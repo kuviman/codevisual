@@ -9,7 +9,9 @@ pub trait VertexAttributeConsumer {
 }
 
 pub trait VertexData {
-    fn walk_attributes<C>(&self, consumer: C) where C: VertexAttributeConsumer;
+    fn walk_attributes<C>(&self, consumer: C)
+    where
+        C: VertexAttributeConsumer;
 }
 
 pub trait VertexDataConsumer {
@@ -17,7 +19,9 @@ pub trait VertexDataConsumer {
 }
 
 pub trait VertexDataSource {
-    fn walk_data<C>(&self, consumer: C) where C: VertexDataConsumer;
+    fn walk_data<C>(&self, consumer: C)
+    where
+        C: VertexDataConsumer;
 }
 
 pub struct PlainVertexDataSource<'a, T: VertexData + 'a> {
@@ -26,14 +30,16 @@ pub struct PlainVertexDataSource<'a, T: VertexData + 'a> {
 
 impl<'a, T: VertexData + 'a> VertexDataSource for PlainVertexDataSource<'a, T> {
     fn walk_data<C>(&self, mut consumer: C)
-        where C: VertexDataConsumer
+    where
+        C: VertexDataConsumer,
     {
         consumer.consume(self.buffer, None);
     }
 }
 
 pub fn plain<'a, T>(buffer: &'a VertexBufferSlice<'a, T>) -> PlainVertexDataSource<'a, T>
-    where T: VertexData + 'a
+where
+    T: VertexData + 'a,
 {
     PlainVertexDataSource { buffer }
 }
@@ -44,22 +50,26 @@ pub struct InstancedVertexDataSource<'a, V: VertexData + 'a, I: VertexData + 'a>
 }
 
 impl<'a, V, I> VertexDataSource for InstancedVertexDataSource<'a, V, I>
-    where V: VertexData + 'a,
-          I: VertexData + 'a
+where
+    V: VertexData + 'a,
+    I: VertexData + 'a,
 {
     fn walk_data<C>(&self, mut consumer: C)
-        where C: VertexDataConsumer
+    where
+        C: VertexDataConsumer,
     {
         consumer.consume(self.vertices, None);
         consumer.consume(self.instances, Some(1));
     }
 }
 
-pub fn instanced<'a, V, I>(vertices: &'a VertexBufferSlice<'a, V>,
-                           instances: &'a VertexBufferSlice<'a, I>)
-                           -> InstancedVertexDataSource<'a, V, I>
-    where V: VertexData + 'a,
-          I: VertexData + 'a
+pub fn instanced<'a, V, I>(
+    vertices: &'a VertexBufferSlice<'a, V>,
+    instances: &'a VertexBufferSlice<'a, I>,
+) -> InstancedVertexDataSource<'a, V, I>
+where
+    V: VertexData + 'a,
+    I: VertexData + 'a,
 {
     InstancedVertexDataSource {
         vertices,

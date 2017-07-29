@@ -29,23 +29,27 @@ impl Fog {
                 {
                     let setting = setting.clone();
                     app.add_setting(codevisual::Setting::Bool {
-                                        name: String::from("Fog'o'war"),
-                                        default_value: setting.get(),
-                                        setter: Box::new(move |new_value| {
-                                                             setting.set(new_value);
-                                                         }),
-                                    });
+                        name: String::from("Fog'o'war"),
+                        default_value: setting.get(),
+                        setter: Box::new(move |new_value| { setting.set(new_value); }),
+                    });
                 }
                 setting
             },
-            quad: ugli::VertexBuffer::new(context,
-                                          vec![QuadVertex { a_v: vec2(-1.0, -1.0) },
-                                               QuadVertex { a_v: vec2(1.0, -1.0) },
-                                               QuadVertex { a_v: vec2(1.0, 1.0) },
-                                               QuadVertex { a_v: vec2(-1.0, 1.0) }]),
-            shader: codevisual::Shader::compile::<::ShaderLib>(context,
-                                                               &(),
-                                                               include_str!("shader.glsl")),
+            quad: ugli::VertexBuffer::new(
+                context,
+                vec![
+                    QuadVertex { a_v: vec2(-1.0, -1.0) },
+                    QuadVertex { a_v: vec2(1.0, -1.0) },
+                    QuadVertex { a_v: vec2(1.0, 1.0) },
+                    QuadVertex { a_v: vec2(-1.0, 1.0) },
+                ],
+            ),
+            shader: codevisual::Shader::compile::<::ShaderLib>(
+                context,
+                &(),
+                include_str!("shader.glsl"),
+            ),
             uniforms: Uniforms { u_fog_map: ugli::Texture2d::new(context, vec2(256, 256)) },
         }
     }
@@ -55,17 +59,21 @@ impl Fog {
         if self.enabled.get() {
             ugli::clear(&mut framebuffer, Some(Color::rgb(0.0, 0.0, 0.0)), None);
             for instances in &[&units.cars.instances, &units.helis.instances] {
-                ugli::draw(&mut framebuffer,
-                           self.shader.ugli_program(),
-                           ugli::DrawMode::TriangleFan,
-                           &ugli::instanced(&self.quad.slice(..),
-                                            &instances.slice(..units.draw_count.get())),
-                           uniforms,
-                           &ugli::DrawParameters {
-                               blend_mode: ugli::BlendMode::Alpha,
-                               depth_test: ugli::DepthTest::Off,
-                               ..Default::default()
-                           });
+                ugli::draw(
+                    &mut framebuffer,
+                    self.shader.ugli_program(),
+                    ugli::DrawMode::TriangleFan,
+                    &ugli::instanced(
+                        &self.quad.slice(..),
+                        &instances.slice(..units.draw_count.get()),
+                    ),
+                    uniforms,
+                    &ugli::DrawParameters {
+                        blend_mode: ugli::BlendMode::Alpha,
+                        depth_test: ugli::DepthTest::Off,
+                        ..Default::default()
+                    },
+                );
             }
         } else {
             ugli::clear(&mut framebuffer, Some(Color::rgb(1.0, 1.0, 1.0)), None);

@@ -8,13 +8,11 @@ impl Window {
                 glutin::WindowEvent::Closed => self.should_close.set(true),
                 glutin::WindowEvent::MouseWheel { delta, .. } => {
                     events.push(Event::Wheel {
-                                    delta: match delta {
-                                        glutin::MouseScrollDelta::PixelDelta(_, dy) => dy as f64,
-                                        glutin::MouseScrollDelta::LineDelta(_, dy) => {
-                                            dy as f64 * 51.0
-                                        }
-                                    },
-                                });
+                        delta: match delta {
+                            glutin::MouseScrollDelta::PixelDelta(_, dy) => dy as f64,
+                            glutin::MouseScrollDelta::LineDelta(_, dy) => dy as f64 * 51.0,
+                        },
+                    });
                 }
                 glutin::WindowEvent::MouseMoved { position: (x, y), .. } => {
                     let position = vec2(x as f64, y as f64);
@@ -31,22 +29,18 @@ impl Window {
                     if let Some(button) = button {
                         let position = self.mouse_pos.get();
                         events.push(match state {
-                                        glutin::ElementState::Pressed => {
-                                            Event::MouseDown { position, button }
-                                        }
-                                        glutin::ElementState::Released => {
-                                            Event::MouseUp { position, button }
-                                        }
-                                    });
+                            glutin::ElementState::Pressed => Event::MouseDown { position, button },
+                            glutin::ElementState::Released => Event::MouseUp { position, button },
+                        });
                     }
                 }
                 _ => {}
             };
-            self.glutin_events_loop
-                .borrow_mut()
-                .poll_events(|e| if let glutin::Event::WindowEvent { event: e, .. } = e {
-                                 handle_event(e)
-                             });
+            self.glutin_events_loop.borrow_mut().poll_events(|e| {
+                if let glutin::Event::WindowEvent { event: e, .. } = e {
+                    handle_event(e)
+                }
+            });
         }
         events
     }

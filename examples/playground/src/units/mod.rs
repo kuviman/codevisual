@@ -18,14 +18,13 @@ impl InstanceData {
     fn update(&mut self, current_time: f32) {
         let target_pos = {
             let mut target_pos = self.i_start_pos +
-                                 vec2(random::<f32>() * 2.0 - 1.0, random::<f32>() * 2.0 - 1.0) *
-                                 MAP_SIZE;
+                vec2(random::<f32>() * 2.0 - 1.0, random::<f32>() * 2.0 - 1.0) * MAP_SIZE;
             target_pos.x = target_pos.x.min(MAP_SIZE).max(-MAP_SIZE);
             target_pos.y = target_pos.y.min(MAP_SIZE).max(-MAP_SIZE);
             target_pos
         };
         let cur_pos = self.i_start_pos +
-                      self.i_speed * (current_time.min(self.i_finish_time) - self.i_start_time);
+            self.i_speed * (current_time.min(self.i_finish_time) - self.i_start_time);
         self.i_start_pos = cur_pos;
         self.i_speed = (target_pos - cur_pos).normalize() * SPEED;
         let current_angle = {
@@ -71,34 +70,36 @@ pub struct Units {
 }
 
 impl Units {
-    pub fn new(app: &codevisual::Application,
-               unit_type: UnitType,
-               geometry: obj::Geometry,
-               texture: ugli::Texture2d)
-               -> Self {
+    pub fn new(
+        app: &codevisual::Application,
+        unit_type: UnitType,
+        geometry: obj::Geometry,
+        texture: ugli::Texture2d,
+    ) -> Self {
         let mut instance_data = Vec::new();
         for _ in 0..MAX_COUNT {
             let angle = random::<f32>() * 2.0 * std::f32::consts::PI;
             instance_data.push(InstanceData {
-                                   i_start_pos: vec2(random::<f32>() * 2.0 - 1.0,
-                                                     random::<f32>() * 2.0 - 1.0) *
-                                                MAP_SIZE,
-                                   i_speed: vec2(0.0, 0.0),
-                                   i_start_time: 0.0,
-                                   i_finish_time: 0.0,
-                                   i_size: random::<f32>() * (MAX_SIZE - MIN_SIZE) + MAX_SIZE,
-                                   i_color: Color::rgb(1.0, random::<f32>(), 0.0),
-                                   i_angle: angle,
-                                   i_start_angle: angle,
-                               });
+                i_start_pos: vec2(random::<f32>() * 2.0 - 1.0, random::<f32>() * 2.0 - 1.0) *
+                    MAP_SIZE,
+                i_speed: vec2(0.0, 0.0),
+                i_start_time: 0.0,
+                i_finish_time: 0.0,
+                i_size: random::<f32>() * (MAX_SIZE - MIN_SIZE) + MAX_SIZE,
+                i_color: Color::rgb(1.0, random::<f32>(), 0.0),
+                i_angle: angle,
+                i_start_angle: angle,
+            });
         }
         let context = app.get_window().ugli_context();
         Self {
             geometry,
             instances: ugli::VertexBuffer::new(context, instance_data),
-            shader: codevisual::Shader::compile::<::ShaderLib>(context,
-                                                               defines!(HELI: if let UnitType::Heli = unit_type { true } else { false }),
-                                                               include_str!("shader.glsl")),
+            shader: codevisual::Shader::compile::<::ShaderLib>(
+                context,
+                defines!(HELI: if let UnitType::Heli = unit_type { true } else { false }),
+                include_str!("shader.glsl"),
+            ),
             texture,
             count: 0,
             current_time: 0.0,
@@ -129,16 +130,22 @@ impl Units {
             }
         };
     }
-    pub fn draw<U: ugli::UniformStorage>(&mut self,
-                                         framebuffer: &mut ugli::DefaultFramebuffer,
-                                         uniforms: &U) {
-        ugli::draw(framebuffer,
-                   self.shader.ugli_program(),
-                   ugli::DrawMode::Triangles,
-                   &ugli::instanced(&self.geometry.slice(..),
-                                    &self.instances.slice(..self.count)),
-                   &(uniforms, uniforms!(u_texture: &self.texture)),
-                   &ugli::DrawParameters::default());
+    pub fn draw<U: ugli::UniformStorage>(
+        &mut self,
+        framebuffer: &mut ugli::DefaultFramebuffer,
+        uniforms: &U,
+    ) {
+        ugli::draw(
+            framebuffer,
+            self.shader.ugli_program(),
+            ugli::DrawMode::Triangles,
+            &ugli::instanced(
+                &self.geometry.slice(..),
+                &self.instances.slice(..self.count),
+            ),
+            &(uniforms, uniforms!(u_texture: &self.texture)),
+            &ugli::DrawParameters::default(),
+        );
     }
 }
 
@@ -163,14 +170,18 @@ pub struct AllUnits {
 
 impl AllUnits {
     pub fn new(app: &codevisual::Application, resources: Resources) -> Self {
-        let cars = Units::new(app,
-                              UnitType::Car,
-                              obj::parse(app, &resources.car_obj),
-                              resources.car_texture);
-        let helis = Units::new(app,
-                               UnitType::Heli,
-                               obj::parse(app, &resources.heli_obj),
-                               resources.heli_texture);
+        let cars = Units::new(
+            app,
+            UnitType::Car,
+            obj::parse(app, &resources.car_obj),
+            resources.car_texture,
+        );
+        let helis = Units::new(
+            app,
+            UnitType::Heli,
+            obj::parse(app, &resources.heli_obj),
+            resources.heli_texture,
+        );
         Self {
             current_time: 0.0,
             actions_per_tick: {
@@ -178,14 +189,12 @@ impl AllUnits {
                 {
                     let setting = setting.clone();
                     app.add_setting(codevisual::Setting::I32 {
-                                        name: String::from("Actions per tick"),
-                                        min_value: 0,
-                                        max_value: MAX_APS as i32,
-                                        default_value: setting.get() as i32,
-                                        setter: Box::new(move |new_value| {
-                                                             setting.set(new_value as usize);
-                                                         }),
-                                    });
+                        name: String::from("Actions per tick"),
+                        min_value: 0,
+                        max_value: MAX_APS as i32,
+                        default_value: setting.get() as i32,
+                        setter: Box::new(move |new_value| { setting.set(new_value as usize); }),
+                    });
                 }
                 setting
             },
@@ -194,12 +203,10 @@ impl AllUnits {
                 {
                     let setting = setting.clone();
                     app.add_setting(codevisual::Setting::Bool {
-                                        name: String::from("Point updates"),
-                                        default_value: setting.get(),
-                                        setter: Box::new(move |new_value| {
-                                                             setting.set(new_value);
-                                                         }),
-                                    });
+                        name: String::from("Point updates"),
+                        default_value: setting.get(),
+                        setter: Box::new(move |new_value| { setting.set(new_value); }),
+                    });
                 }
                 setting
             },
@@ -209,16 +216,15 @@ impl AllUnits {
                 {
                     let setting = setting.clone();
                     app.add_setting(codevisual::Setting::I32 {
-                                        name: String::from("Count"),
-                                        min_value: 0,
-                                        max_value: MAX_COUNT as i32,
-                                        default_value: setting.get() as i32,
-                                        setter: Box::new(move |new_value| {
-                                                             println!("Drawing {} instances",
-                                                                      new_value);
-                                                             setting.set(new_value as usize);
-                                                         }),
-                                    });
+                        name: String::from("Count"),
+                        min_value: 0,
+                        max_value: MAX_COUNT as i32,
+                        default_value: setting.get() as i32,
+                        setter: Box::new(move |new_value| {
+                            println!("Drawing {} instances", new_value);
+                            setting.set(new_value as usize);
+                        }),
+                    });
                 }
                 setting
             },
@@ -240,16 +246,20 @@ impl AllUnits {
                 if self.actions_per_tick.get() == MAX_APS {
                     units.update(None, self.point_updates.get());
                 } else {
-                    units.update(Some(self.actions_per_tick.get() as f64 / MAX_APS as f64),
-                                 self.point_updates.get());
+                    units.update(
+                        Some(self.actions_per_tick.get() as f64 / MAX_APS as f64),
+                        self.point_updates.get(),
+                    );
                 }
             }
         }
     }
 
-    pub fn draw<U: ugli::UniformStorage>(&mut self,
-                                         framebuffer: &mut ugli::DefaultFramebuffer,
-                                         uniforms: &U) {
+    pub fn draw<U: ugli::UniformStorage>(
+        &mut self,
+        framebuffer: &mut ugli::DefaultFramebuffer,
+        uniforms: &U,
+    ) {
         self.cars.draw(framebuffer, uniforms);
         self.helis.draw(framebuffer, uniforms);
     }

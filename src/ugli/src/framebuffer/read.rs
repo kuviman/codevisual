@@ -13,10 +13,12 @@ impl<'a> ColorData<'a> {
     pub fn get_pixel(&self, x: usize, y: usize) -> Color {
         assert!(x < self.width);
         assert!(y < self.height);
-        Color::rgba(self.buffer[(y * self.width + x) * 4] as f32 / 255.0,
-                    self.buffer[(y * self.width + x) * 4 + 1] as f32 / 255.0,
-                    self.buffer[(y * self.width + x) * 4 + 2] as f32 / 255.0,
-                    self.buffer[(y * self.width + x) * 4 + 3] as f32 / 255.0)
+        Color::rgba(
+            self.buffer[(y * self.width + x) * 4] as f32 / 255.0,
+            self.buffer[(y * self.width + x) * 4 + 1] as f32 / 255.0,
+            self.buffer[(y * self.width + x) * 4 + 2] as f32 / 255.0,
+            self.buffer[(y * self.width + x) * 4 + 3] as f32 / 255.0,
+        )
     }
 }
 

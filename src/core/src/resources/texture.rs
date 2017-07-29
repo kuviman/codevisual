@@ -20,8 +20,10 @@ impl Asset for ugli::Texture2d {
     fn load(loader: &ResourceLoader, path: &str) -> Self::Future {
         #[cfg(target_os = "emscripten")]
         {
-            let texture = Rc::new(ugli::Texture2d::new(loader.app.get_window().ugli_context(),
-                                                       vec2(1, 1)));
+            let texture = Rc::new(ugli::Texture2d::new(
+                loader.app.get_window().ugli_context(),
+                vec2(1, 1),
+            ));
             let loaded = Rc::new(Cell::new(false));
             {
                 let texture_handle = texture._get_handle();
@@ -46,8 +48,8 @@ impl Asset for ugli::Texture2d {
         #[cfg(not(target_os = "emscripten"))]
         {
             let image = image::open(path).unwrap().to_rgba();
-            let texture = ugli::Texture2d::from_image(loader.app.get_window().ugli_context(),
-                                                      image);
+            let texture =
+                ugli::Texture2d::from_image(loader.app.get_window().ugli_context(), image);
             Self::Future {
                 texture: Rc::new(texture),
                 loaded: Rc::new(Cell::new(true)),

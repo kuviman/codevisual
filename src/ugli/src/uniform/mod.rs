@@ -40,10 +40,12 @@ impl Uniform for Vec2<f32> {
 impl Uniform for Mat4<f32> {
     fn apply<'a>(&self, location: raw::Location<'a>) {
         unsafe {
-            gl::UniformMatrix4fv(location.location,
-                                 1,
-                                 gl::FALSE,
-                                 self as *const Self as *const _);
+            gl::UniformMatrix4fv(
+                location.location,
+                1,
+                gl::FALSE,
+                self as *const Self as *const _,
+            );
         }
     }
 }
@@ -51,11 +53,13 @@ impl Uniform for Mat4<f32> {
 impl Uniform for Color {
     fn apply<'a>(&self, location: raw::Location<'a>) {
         unsafe {
-            gl::Uniform4f(location.location,
-                          self.red,
-                          self.green,
-                          self.blue,
-                          self.alpha);
+            gl::Uniform4f(
+                location.location,
+                self.red,
+                self.green,
+                self.blue,
+                self.alpha,
+            );
         }
     }
 }

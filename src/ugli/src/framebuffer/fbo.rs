@@ -27,8 +27,10 @@ impl FBO {
     }
     pub fn check(&self) {
         unsafe {
-            assert_eq!(gl::CheckFramebufferStatus(gl::FRAMEBUFFER),
-                       gl::FRAMEBUFFER_COMPLETE);
+            assert_eq!(
+                gl::CheckFramebufferStatus(gl::FRAMEBUFFER),
+                gl::FRAMEBUFFER_COMPLETE
+            );
         }
     }
 }

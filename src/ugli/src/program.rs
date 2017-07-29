@@ -56,13 +56,15 @@ impl Program {
                 gl::GetProgramiv(program.handle, gl::INFO_LOG_LENGTH, &mut info_log_length);
                 let mut info_log_bytes =
                     vec![std::mem::uninitialized::<u8>(); info_log_length as usize];
-                gl::GetProgramInfoLog(program.handle,
-                                      info_log_bytes.len() as GLsizei,
-                                      std::ptr::null_mut(),
-                                      info_log_bytes.as_mut_ptr() as *mut _);
+                gl::GetProgramInfoLog(
+                    program.handle,
+                    info_log_bytes.len() as GLsizei,
+                    std::ptr::null_mut(),
+                    info_log_bytes.as_mut_ptr() as *mut _,
+                );
                 return Err(ProgramCreationError::LinkError {
-                               description: String::from_utf8(info_log_bytes).unwrap(),
-                           });
+                    description: String::from_utf8(info_log_bytes).unwrap(),
+                });
             }
         }
         Ok(program)

@@ -37,8 +37,9 @@ impl ShaderDefineStorage for () {
 }
 
 impl<'a, A, B> ShaderDefineStorage for (&'a A, &'a B)
-    where A: ShaderDefineStorage,
-          B: ShaderDefineStorage
+where
+    A: ShaderDefineStorage,
+    B: ShaderDefineStorage,
 {
     fn into_code(&self, sources: &mut Vec<String>) {
         self.0.into_code(sources);

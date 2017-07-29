@@ -24,7 +24,8 @@ pub fn set_main_loop<F: FnMut()>(callback: F) {
         emscripten_GetProcAddress(std::ptr::null());
     }
     unsafe extern "C" fn wrapper<F>(arg: *mut c_void)
-        where F: FnMut()
+    where
+        F: FnMut(),
     {
         let mut callback = Box::<Box<F>>::from_raw(arg as *mut _);
         callback();
