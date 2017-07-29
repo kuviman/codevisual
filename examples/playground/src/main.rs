@@ -197,11 +197,11 @@ impl codevisual::Game for Playground {
                                 y: prev_y,
                             }) = self.rotate_mouse_pos
                 {
-                    const SENS: f64 = 1e-3;
-                    let dx = (x - prev_x) * SENS;
-                    let dy = (y - prev_y) * SENS;
-                    self.camera_rotation.x += dx as f32;
-                    self.camera_rotation.y = (self.camera_rotation.y + dy as f32).min(0.0).max(
+                    const SENS: f64 = 2.0;
+                    let dv = vec2(x - prev_x, y - prev_y) * SENS /
+                        self.app.get_window().get_size().y as f64;
+                    self.camera_rotation.x += dv.x as f32;
+                    self.camera_rotation.y = (self.camera_rotation.y + dv.y as f32).min(0.0).max(
                         -std::f32::consts::PI /
                             3.0,
                     );
