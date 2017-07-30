@@ -3,6 +3,10 @@
 set -e
 
 config=release
+if [ -n "$3" ]; then
+    config=$3
+fi
+
 target=asmjs
 if [ -n "$1" ]; then
     target=$1
