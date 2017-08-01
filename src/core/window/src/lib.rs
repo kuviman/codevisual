@@ -26,14 +26,14 @@ pub struct Window {
     glutin_events_loop: RefCell<glutin::EventsLoop>,
     should_close: Cell<bool>,
     mouse_pos: Cell<Vec2>,
-    ugli_context: ugli::Context,
+    ugli_context: Rc<ugli::Context>,
 }
 
 impl Window {
     pub fn new(title: &str) -> Self {
         #[cfg(target_os = "emscripten")]
         let window = {
-            let ugli_context = brijs::create_gl_context().unwrap();
+            let ugli_context = Rc::new(brijs::create_gl_context().unwrap());
             Self {
                 ugli_context,
                 should_close: Cell::new(false),
@@ -50,9 +50,11 @@ impl Window {
                 &glutin_events_loop,
             ).unwrap();
             unsafe { glutin_window.make_current() }.unwrap();
-            let ugli_context = ugli::Context::init(
-                |symbol| glutin_window.get_proc_address(symbol) as *const _,
-            ).unwrap();
+            let ugli_context = Rc::new(
+                ugli::Context::init(
+                    |symbol| glutin_window.get_proc_address(symbol) as *const _,
+                ).unwrap(),
+            );
             Self {
                 glutin_window,
                 glutin_events_loop: RefCell::new(glutin_events_loop),
@@ -81,7 +83,7 @@ impl Window {
         };
     }
 
-    pub fn ugli_context(&self) -> &ugli::Context {
+    pub fn ugli_context(&self) -> &Rc<ugli::Context> {
         self.ugli_context._set_size(self.get_size());
         &self.ugli_context
     }

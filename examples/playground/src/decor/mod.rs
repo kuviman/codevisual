@@ -19,16 +19,26 @@ resources! {
     }
 }
 
+#[derive(Defines, Clone, PartialEq)]
+struct Defines {
+    d_fog_enabled: bool,
+    d_transparency_enabled: bool,
+    d_heightmap_enabled: bool,
+    d_is_palm: bool,
+}
+
 struct Decor {
     texture: ugli::Texture2d,
-    shader: codevisual::Shader,
+    material: codevisual::LazyMaterial<::ShaderLib, (), Defines>,
     geometry: ugli::VertexBuffer<Vertex>,
     instances: ugli::VertexBuffer<Instance>,
+    settings: Rc<Settings>,
 }
 
 impl Decor {
     pub fn new(
         app: &codevisual::Application,
+        settings: &Rc<Settings>,
         geometry: ugli::VertexBuffer<Vertex>,
         texture: ugli::Texture2d,
         map_texture: &ugli::Texture2d,
@@ -60,13 +70,20 @@ impl Decor {
         };
         Self {
             texture,
-            shader: codevisual::Shader::compile::<::ShaderLib>(
+            material: codevisual::LazyMaterial::new(
                 context,
-                &defines!(PALM: is_palm),
+                (),
+                Defines {
+                    d_is_palm: is_palm,
+                    d_fog_enabled: true,
+                    d_heightmap_enabled: true,
+                    d_transparency_enabled: true,
+                },
                 include_str!("shader.glsl"),
             ),
             geometry,
             instances,
+            settings: settings.clone(),
         }
     }
 
@@ -76,10 +93,13 @@ impl Decor {
         uniforms: &U,
         percent: f64,
     ) {
+        self.material.defines.d_fog_enabled = self.settings.fog_enabled.get();
+        self.material.defines.d_transparency_enabled = self.settings.decor_transparency.get();
+        self.material.defines.d_heightmap_enabled = self.settings.heightmap_enabled.get();
         let count = (self.instances.slice(..).len() as f64 * percent) as usize;
         ugli::draw(
             framebuffer,
-            self.shader.ugli_program(),
+            self.material.get_shader().ugli_program(),
             ugli::DrawMode::Triangles,
             &ugli::instanced(&self.geometry.slice(..), &self.instances.slice(..count)),
             &(uniforms, uniforms!(u_texture: &self.texture)),
@@ -94,7 +114,7 @@ impl Decor {
 pub struct AllDecor {
     palms: Decor,
     bushes: Decor,
-    percent: Rc<Cell<f64>>,
+    settings: Rc<Settings>,
 }
 
 impl AllDecor {
@@ -102,6 +122,7 @@ impl AllDecor {
         app: &codevisual::Application,
         resources: Resources,
         map_texture: &ugli::Texture2d,
+        settings: &Rc<Settings>,
     ) -> Self {
         let context = app.get_window().ugli_context();
         macro_rules! vertex_data {
@@ -149,11 +170,12 @@ impl AllDecor {
             let geometry = ugli::VertexBuffer::new(context, vertex_data);
             Decor::new(
                 app,
+                settings,
                 geometry,
                 resources.bush_texture,
                 map_texture,
                 |color| color.blue < 0.1 && color.green > 0.5,
-                10000,
+                50000,
                 false,
             )
         };
@@ -187,34 +209,19 @@ impl AllDecor {
             let geometry = ugli::VertexBuffer::new(context, vertex_data);
             Decor::new(
                 app,
+                settings,
                 geometry,
                 resources.palm_texture,
                 map_texture,
                 |color| color.red > 0.5,
-                4000,
+                20000,
                 true,
             )
         };
         Self {
             bushes,
             palms,
-            percent: {
-                let setting = Rc::new(Cell::new(1.0));
-                {
-                    let setting = setting.clone();
-                    const MAX_VALUE: i32 = 1000;
-                    app.add_setting(codevisual::Setting::I32 {
-                        name: String::from("Decorations"),
-                        min_value: 0,
-                        max_value: MAX_VALUE,
-                        default_value: (MAX_VALUE as f64 * setting.get()) as i32,
-                        setter: Box::new(move |new_value| {
-                            setting.set(new_value as f64 / MAX_VALUE as f64);
-                        }),
-                    });
-                }
-                setting
-            },
+            settings: settings.clone(),
         }
     }
 
@@ -223,7 +230,17 @@ impl AllDecor {
         framebuffer: &mut ugli::DefaultFramebuffer,
         uniforms: &U,
     ) {
-        self.bushes.draw(framebuffer, uniforms, self.percent.get());
-        self.palms.draw(framebuffer, uniforms, self.percent.get());
+        if self.settings.show_bushes.get() {
+            self.bushes.draw(
+                framebuffer,
+                uniforms,
+                self.settings.decor_percent.get(),
+            );
+        }
+        self.palms.draw(
+            framebuffer,
+            uniforms,
+            self.settings.decor_percent.get(),
+        );
     }
 }

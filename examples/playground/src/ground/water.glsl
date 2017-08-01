@@ -19,8 +19,14 @@ void main() {
 #define K 7.5
 void main() {
     gl_FragColor = vec4(0.5, 0.7, 1.0, 0.4);
+#if d_fog_enabled
     gl_FragColor.xyz *= fog_value(v_pos);
+#endif
+#if d_heightmap_enabled
     float h = map_height(v_pos) - WATER_LINE;
+#else
+    float h = -WATER_LINE;
+#endif
     if (h >= 0.0) {
         discard;
     }

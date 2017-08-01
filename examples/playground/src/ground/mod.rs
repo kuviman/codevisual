@@ -22,17 +22,32 @@ resources! {
     }
 }
 
+#[derive(Defines, Clone, PartialEq)]
+struct Defines {
+    d_fog_enabled: bool,
+    d_heightmap_enabled: bool,
+}
+
 pub struct Ground {
     geometry: ugli::VertexBuffer<Vertex>,
     pub uniforms: Uniforms,
-    shader: codevisual::Shader,
+    material: codevisual::LazyMaterial<::ShaderLib, (), Defines>,
     water_geometry: ugli::VertexBuffer<Vertex>,
-    water_shader: codevisual::Shader,
+    water_material: codevisual::LazyMaterial<::ShaderLib, (), Defines>,
+    settings: Rc<Settings>,
 }
 
 impl Ground {
-    pub fn new(app: &codevisual::Application, resources: Resources) -> Self {
+    pub fn new(
+        app: &codevisual::Application,
+        resources: Resources,
+        settings: &Rc<Settings>,
+    ) -> Self {
         let context = app.get_window().ugli_context();
+        let defines = Defines {
+            d_fog_enabled: settings.fog_enabled.get(),
+            d_heightmap_enabled: settings.heightmap_enabled.get(),
+        };
         Ground {
             geometry: {
                 let mut data = Vec::new();
@@ -61,9 +76,10 @@ impl Ground {
                 u_darkgrass_texture: resources.darkgrass_texture,
                 u_map_texture: resources.map_texture,
             },
-            shader: codevisual::Shader::compile::<::ShaderLib>(
+            material: codevisual::LazyMaterial::new(
                 context,
-                &(),
+                (),
+                defines.clone(),
                 include_str!("shader.glsl"),
             ),
             water_geometry: ugli::VertexBuffer::new(
@@ -75,11 +91,13 @@ impl Ground {
                     Vertex { a_pos: vec2(MAP_SIZE, -MAP_SIZE) },
                 ],
             ),
-            water_shader: codevisual::Shader::compile::<::ShaderLib>(
+            water_material: codevisual::LazyMaterial::new(
                 context,
-                &(),
+                (),
+                defines.clone(),
                 include_str!("water.glsl"),
             ),
+            settings: settings.clone(),
         }
     }
 
@@ -88,9 +106,13 @@ impl Ground {
         framebuffer: &mut ugli::DefaultFramebuffer,
         uniforms: &U,
     ) {
+        self.material.defines.d_fog_enabled = self.settings.fog_enabled.get();
+        self.material.defines.d_heightmap_enabled = self.settings.heightmap_enabled.get();
+        self.water_material.defines.d_fog_enabled = self.settings.fog_enabled.get();
+        self.water_material.defines.d_heightmap_enabled = self.settings.heightmap_enabled.get();
         ugli::draw(
             framebuffer,
-            self.shader.ugli_program(),
+            self.material.get_shader().ugli_program(),
             ugli::DrawMode::Triangles,
             &ugli::plain(&self.geometry.slice(..)),
             &(uniforms, &self.uniforms),
@@ -98,7 +120,7 @@ impl Ground {
         );
         ugli::draw(
             framebuffer,
-            self.water_shader.ugli_program(),
+            self.water_material.get_shader().ugli_program(),
             ugli::DrawMode::TriangleFan,
             &ugli::plain(&self.water_geometry.slice(..)),
             &(uniforms, &self.uniforms),

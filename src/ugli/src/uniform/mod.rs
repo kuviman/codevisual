@@ -80,3 +80,11 @@ impl<'a, U: Uniform> Uniform for &'a U {
         (*self).apply(location);
     }
 }
+
+impl<U: Uniform> Uniform for Option<U> {
+    fn apply<'b>(&self, location: raw::Location<'b>) {
+        if let Some(ref value) = *self {
+            value.apply(location);
+        }
+    }
+}

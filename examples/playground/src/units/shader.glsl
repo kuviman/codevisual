@@ -29,15 +29,20 @@ void main() {
     vec3 n = vec3(a_vn.x * cos(angle) - a_vn.y * sin(angle), a_vn.x * sin(angle) + a_vn.y * cos(angle), a_vn.z);
     v_light = max(0.0, dot(normalize(n), normalize(vec3(3.0, 8.0, 10.0)))) * 0.7 + 0.3;
     vec3 v = vec3(a_v.x * cos(angle) - a_v.y * sin(angle), a_v.x * sin(angle) + a_v.y * cos(angle), a_v.z);
-#if HELI
+#if d_heightmap_enabled
+    float mapheight = map_height(pos);
+#else
+    float mapheight = 0.0;
+#endif
+#if d_is_heli
     if (v.z > 1.5) {
         angle = u_time * 25.0;
         v = vec3(v.x * cos(angle) - v.y * sin(angle), v.x * sin(angle) + v.y * cos(angle), v.z);
         v.xy = v.xy * 2.0;
     }
-    float height = max(0.0, map_height(pos)) + 50.0;
+    float height = max(0.0, mapheight) + 50.0;
 #else
-    float height = map_height(pos);
+    float height = mapheight;
 #endif
     gl_Position = u_matrix * vec4(v * i_size + vec3(pos, height), 1.0);
 }

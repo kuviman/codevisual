@@ -58,20 +58,27 @@ pub const MAX_COUNT: usize = 10000;
 pub const MIN_SIZE: f32 = 3.5;
 pub const MAX_SIZE: f32 = 5.0;
 pub const SPEED: f32 = 50.0;
-pub const MAX_APS: usize = 1000;
+
+#[derive(Defines, Clone, PartialEq)]
+struct Defines {
+    d_is_heli: bool,
+    d_heightmap_enabled: bool,
+}
 
 pub struct Units {
     geometry: obj::Geometry,
     pub instances: ugli::VertexBuffer<InstanceData>,
-    shader: codevisual::Shader,
+    material: codevisual::LazyMaterial<::ShaderLib, (), Defines>,
     texture: ugli::Texture2d,
     count: usize,
     pub current_time: f32,
+    settings: Rc<Settings>,
 }
 
 impl Units {
     pub fn new(
         app: &codevisual::Application,
+        settings: &Rc<Settings>,
         unit_type: UnitType,
         geometry: obj::Geometry,
         texture: ugli::Texture2d,
@@ -95,14 +102,23 @@ impl Units {
         Self {
             geometry,
             instances: ugli::VertexBuffer::new(context, instance_data),
-            shader: codevisual::Shader::compile::<::ShaderLib>(
+            material: codevisual::LazyMaterial::new(
                 context,
-                defines!(HELI: if let UnitType::Heli = unit_type { true } else { false }),
+                (),
+                Defines {
+                    d_is_heli: if let UnitType::Heli = unit_type {
+                        true
+                    } else {
+                        false
+                    },
+                    d_heightmap_enabled: true,
+                },
                 include_str!("shader.glsl"),
             ),
             texture,
             count: 0,
             current_time: 0.0,
+            settings: settings.clone(),
         }
     }
     pub fn update(&mut self, percent: Option<f64>, point_updates: bool) {
@@ -135,9 +151,10 @@ impl Units {
         framebuffer: &mut ugli::DefaultFramebuffer,
         uniforms: &U,
     ) {
+        self.material.defines.d_heightmap_enabled = self.settings.heightmap_enabled.get();
         ugli::draw(
             framebuffer,
-            self.shader.ugli_program(),
+            self.material.get_shader().ugli_program(),
             ugli::DrawMode::Triangles,
             &ugli::instanced(
                 &self.geometry.slice(..),
@@ -161,27 +178,31 @@ resources! {
 pub struct AllUnits {
     app: Rc<codevisual::Application>,
     current_time: f32,
-    point_updates: Rc<Cell<bool>>,
-    actions_per_tick: Rc<Cell<usize>>,
     next_action: f32,
-    pub draw_count: Rc<Cell<usize>>,
     pub cars: Units,
     pub helis: Units,
     screen_used_texture: Option<ugli::Texture2d>,
-    screen_used_shader: codevisual::Shader,
+    screen_used_material: codevisual::LazyMaterial<::ShaderLib, (), Defines>,
+    settings: Rc<Settings>,
 }
 
 impl AllUnits {
-    pub fn new(app: &Rc<codevisual::Application>, resources: Resources) -> Self {
+    pub fn new(
+        app: &Rc<codevisual::Application>,
+        resources: Resources,
+        settings: &Rc<Settings>,
+    ) -> Self {
         let context = app.get_window().ugli_context();
         let cars = Units::new(
             app,
+            settings,
             UnitType::Car,
             obj::parse(app, &resources.car_obj),
             resources.car_texture,
         );
         let helis = Units::new(
             app,
+            settings,
             UnitType::Heli,
             obj::parse(app, &resources.heli_obj),
             resources.heli_texture,
@@ -189,77 +210,39 @@ impl AllUnits {
         Self {
             app: app.clone(),
             current_time: 0.0,
-            actions_per_tick: {
-                let setting = Rc::new(Cell::new(1 as usize));
-                {
-                    let setting = setting.clone();
-                    app.add_setting(codevisual::Setting::I32 {
-                        name: String::from("Actions per tick"),
-                        min_value: 0,
-                        max_value: MAX_APS as i32,
-                        default_value: setting.get() as i32,
-                        setter: Box::new(move |new_value| { setting.set(new_value as usize); }),
-                    });
-                }
-                setting
-            },
-            point_updates: {
-                let setting = Rc::new(Cell::new(false));
-                {
-                    let setting = setting.clone();
-                    app.add_setting(codevisual::Setting::Bool {
-                        name: String::from("Point updates"),
-                        default_value: setting.get(),
-                        setter: Box::new(move |new_value| { setting.set(new_value); }),
-                    });
-                }
-                setting
-            },
             next_action: 0.0,
-            draw_count: {
-                let setting = Rc::new(Cell::new(50 as usize));
-                {
-                    let setting = setting.clone();
-                    app.add_setting(codevisual::Setting::I32 {
-                        name: String::from("Count"),
-                        min_value: 0,
-                        max_value: MAX_COUNT as i32,
-                        default_value: setting.get() as i32,
-                        setter: Box::new(move |new_value| {
-                            println!("Drawing {} instances", new_value);
-                            setting.set(new_value as usize);
-                        }),
-                    });
-                }
-                setting
-            },
             cars,
             helis,
             screen_used_texture: None,
-            screen_used_shader: codevisual::Shader::compile::<::ShaderLib>(
+            screen_used_material: codevisual::LazyMaterial::new(
                 context,
-                &defines!(HELI: false),
+                (),
+                Defines {
+                    d_is_heli: false,
+                    d_heightmap_enabled: true,
+                },
                 include_str!("screen_used.glsl"),
             ),
+            settings: settings.clone(),
         }
     }
 
     pub fn update(&mut self, delta_time: f32) {
         self.current_time += delta_time;
         self.next_action -= delta_time;
-        self.cars.count = self.draw_count.get();
-        self.helis.count = self.draw_count.get();
+        self.cars.count = self.settings.draw_count.get();
+        self.helis.count = self.settings.draw_count.get();
         self.cars.current_time = self.current_time;
         self.helis.current_time = self.current_time;
         while self.next_action < 0.0 {
             self.next_action += TICK_TIME;
             for units in &mut [&mut self.cars, &mut self.helis] {
-                if self.actions_per_tick.get() == MAX_APS {
-                    units.update(None, self.point_updates.get());
+                if self.settings.actions_per_tick.get() >= 1.0 - 1e-6 {
+                    units.update(None, self.settings.point_updates.get());
                 } else {
                     units.update(
-                        Some(self.actions_per_tick.get() as f64 / MAX_APS as f64),
-                        self.point_updates.get(),
+                        Some(self.settings.actions_per_tick.get()),
+                        self.settings.point_updates.get(),
                     );
                 }
             }
@@ -270,6 +253,8 @@ impl AllUnits {
         &mut self,
         uniforms: &U,
     ) -> &ugli::Texture2d {
+        self.screen_used_material.defines.d_heightmap_enabled =
+            self.settings.heightmap_enabled.get();
         let context = self.app.get_window().ugli_context();
         let need_size = {
             let nearest = |n| {
@@ -295,11 +280,11 @@ impl AllUnits {
             ugli::clear(&mut framebuffer, Some(Color::rgb(1.0, 1.0, 1.0)), None);
             ugli::draw(
                 &mut framebuffer,
-                self.screen_used_shader.ugli_program(),
+                self.screen_used_material.get_shader().ugli_program(),
                 ugli::DrawMode::TriangleFan,
                 &ugli::instanced(
                     &ugli::quad(context).slice(..),
-                    &self.cars.instances.slice(..self.draw_count.get()),
+                    &self.cars.instances.slice(..self.settings.draw_count.get()),
                 ),
                 uniforms,
                 &ugli::DrawParameters {

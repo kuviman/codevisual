@@ -10,10 +10,15 @@ attribute float i_size;
 void main() {
     v_v = a_v;
     vec2 pos = unit_pos();
-#if HELI
-    float height = max(0.0, map_height(pos)) + 50.0;
+#if d_heightmap_enabled
+    float mapheight = map_height(pos);
 #else
-    float height = map_height(pos);
+    float mapheight = 0.0;
+#endif
+#if d_is_heli
+    float height = max(0.0, mapheight) + 50.0;
+#else
+    float height = mapheight;
 #endif
     gl_Position = u_projection_matrix * (u_camera_matrix * vec4(pos, height + 0.3 * i_size, 1.0) + vec4(a_v * i_size * 2.5, 0.0, 0.0));
 }

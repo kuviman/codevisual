@@ -14,6 +14,9 @@ use units::AllUnits as Units;
 mod decor;
 use decor::AllDecor as Decor;
 
+mod settings;
+use settings::*;
+
 mod fog;
 
 shader_library! {
@@ -26,7 +29,7 @@ shader_library! {
     }
 }
 
-const MAP_SIZE: f32 = 1000.0;
+const MAP_SIZE: f32 = 2000.0;
 const TICK_TIME: f32 = 0.016666;
 const MIN_CAMERA_DIST: f32 = 150.0;
 const MAX_CAMERA_DIST: f32 = 2000.0;
@@ -51,7 +54,6 @@ pub struct Playground {
     global_uniforms: GlobalUniforms,
 
     current_time: f32,
-    time_scale: Rc<Cell<f32>>,
 
     camera_distance: f32,
     camera_position: Vec2<f32>,
@@ -61,6 +63,8 @@ pub struct Playground {
 
     start_drag: Option<Vec2>,
     prev_zoom_touchdist: f32,
+
+    settings: Rc<Settings>,
 }
 
 resources! {
@@ -82,13 +86,19 @@ impl codevisual::Game for Playground {
         app.get_window().set_cursor_type(
             codevisual::CursorType::Pointer,
         );
-        let decor = Decor::new(&app, resources.decor, &resources.ground.map_texture);
+        let settings = Rc::new(Settings::new(&app));
+        let decor = Decor::new(
+            &app,
+            resources.decor,
+            &resources.ground.map_texture,
+            &settings,
+        );
         Self {
             app: app.clone(),
 
-            fog: fog::Fog::new(&app),
-            units: Units::new(&app, resources.units),
-            ground: Ground::new(&app, resources.ground),
+            fog: fog::Fog::new(&app, &settings),
+            units: Units::new(&app, resources.units, &settings),
+            ground: Ground::new(&app, resources.ground, &settings),
             decor,
 
             global_uniforms: GlobalUniforms {
@@ -100,22 +110,6 @@ impl codevisual::Game for Playground {
             },
 
             current_time: 0.0,
-            time_scale: {
-                let setting = Rc::new(Cell::new(1.0));
-                {
-                    let setting = setting.clone();
-                    app.add_setting(codevisual::Setting::I32 {
-                        name: String::from("Time scale"),
-                        min_value: 0,
-                        max_value: 200,
-                        default_value: 100,
-                        setter: Box::new(
-                            move |new_value| { setting.set(new_value as f32 / 100.0); },
-                        ),
-                    });
-                }
-                setting
-            },
 
             camera_distance: MAX_CAMERA_DIST / 2.0,
             camera_position: vec2(0.0, 0.0),
@@ -125,12 +119,14 @@ impl codevisual::Game for Playground {
 
             start_drag: None,
             prev_zoom_touchdist: 0.0,
+
+            settings: settings.clone(),
         }
     }
 
     fn update(&mut self, delta_time: f64) {
         let mut delta_time = delta_time as f32;
-        delta_time *= self.time_scale.get();
+        delta_time *= self.settings.time_scale.get() as f32;
         self.current_time += delta_time;
         self.units.update(delta_time);
     }
@@ -151,7 +147,9 @@ impl codevisual::Game for Playground {
             Mat4::translate(vec3(self.camera_position.x, self.camera_position.y, 0.0));
         self.global_uniforms.u_matrix = self.global_uniforms.u_projection_matrix *
             self.global_uniforms.u_camera_matrix;
-        self.fog.prepare(&self.units, &self.global_uniforms);
+        if self.settings.fog_enabled.get() {
+            self.fog.prepare(&self.units, &self.global_uniforms);
+        }
         let uniforms = (&self.global_uniforms, &self.fog.uniforms);
         self.units.draw(&mut framebuffer, &(
             &uniforms,
@@ -161,11 +159,17 @@ impl codevisual::Game for Playground {
         let uniforms = (
             &uniforms,
             uniforms! {
-                u_screen_used_texture: self.units.get_screen_used_texture(&(&self.global_uniforms, &self.ground.uniforms)),
+                u_screen_used_texture: if self.settings.decor_transparency.get() {
+                    Some(self.units.get_screen_used_texture(
+                        &(&self.global_uniforms, &self.ground.uniforms),
+                    ))
+                } else {
+                    None
+                },
                 FRAMEBUFFER_SIZE: {
                     let size = framebuffer.get_size();
                     vec2(size.x as f32, size.y as f32)
-                }
+                },
             },
         );
         self.decor.draw(&mut framebuffer, &(

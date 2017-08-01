@@ -5,5 +5,5 @@ vec4 map_type(vec2 pos) {
 }
 
 float map_height(vec2 pos) {
-    return -pow(map_type(pos).z, 1.5) * 50.0 + pow(map_type(pos).x, 1.5) * 100.0;
+    return -pow(map_type(pos).z, 1.5) * 150.0 + pow(map_type(pos).x, 1.5) * 300.0;
 }

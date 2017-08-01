@@ -62,3 +62,33 @@ fn impl_uniforms(ast: &syn::DeriveInput) -> quote::Tokens {
         panic!("Can only be implemented for structs");
     }
 }
+
+#[proc_macro_derive(Defines)]
+pub fn defines(input: TokenStream) -> TokenStream {
+    let s = input.to_string();
+    let ast = syn::parse_derive_input(&s).unwrap();
+    let gen = impl_defines(&ast);
+    gen.parse().unwrap()
+}
+
+fn impl_defines(ast: &syn::DeriveInput) -> quote::Tokens {
+    let name = &ast.ident;
+    if let syn::Body::Struct(ref data) = ast.body {
+        let field_name = data.fields().into_iter().map(|field| {
+            field.ident.as_ref().unwrap()
+        });
+        let field_name2 = data.fields().into_iter().map(|field| {
+            field.ident.as_ref().unwrap()
+        });
+        quote!{
+            impl ::codevisual::ShaderDefineStorage for #name {
+                fn into_code(&self, sources: &mut Vec<String>) {
+                    #(sources.push(format!(concat!("#define ", stringify!(#field_name2), " {}"),
+                        <::codevisual::ShaderDefine>::into_code(&self.#field_name))));*
+                }
+            }
+        }
+    } else {
+        panic!("Can only be implemented for structs");
+    }
+}
