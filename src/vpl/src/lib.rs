@@ -28,12 +28,15 @@ pub fn random<R: rand::Rand>() -> R {
 }
 
 mod color;
+
 pub use self::color::*;
 
 mod algebra;
+
 pub use self::algebra::*;
 
 mod range;
+
 pub use self::range::*;
 
 pub use std::rc::Rc;

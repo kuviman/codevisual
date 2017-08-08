@@ -1,5 +1,6 @@
 extern crate vpl;
-use vpl::*;
+
+pub ( crate ) use vpl::*;
 
 extern crate ugli;
 
@@ -7,6 +8,7 @@ extern crate ugli;
 extern crate codevisual_derive;
 
 mod shader;
+
 pub use shader::*;
 
 pub trait Material {
@@ -16,10 +18,10 @@ pub trait Material {
 }
 
 pub struct LazyMaterial<Lib = ShaderPrelude, U = (), D = ()>
-where
-    Lib: ShaderLibrary,
-    U: ugli::UniformStorage,
-    D: ShaderDefineStorage + Clone + PartialEq,
+    where
+        Lib: ShaderLibrary,
+        U: ugli::UniformStorage,
+        D: ShaderDefineStorage + Clone + PartialEq,
 {
     pub uniforms: U,
     pub defines: D,
@@ -31,10 +33,10 @@ where
 }
 
 impl<Lib, U, D> LazyMaterial<Lib, U, D>
-where
-    Lib: ShaderLibrary,
-    U: ugli::UniformStorage,
-    D: ShaderDefineStorage + Clone + PartialEq,
+    where
+        Lib: ShaderLibrary,
+        U: ugli::UniformStorage,
+        D: ShaderDefineStorage + Clone + PartialEq,
 {
     pub fn new<S: Into<String>>(
         context: &Rc<ugli::Context>,

@@ -3,18 +3,22 @@ extern crate serde;
 extern crate serde_json;
 extern crate ugli;
 extern crate vpl;
-use vpl::*;
+
+pub ( crate ) use vpl::*;
 
 mod emscripten;
+
 pub use emscripten::*;
 
 mod html5;
+
 pub use html5::*;
 
 use emscripten_sys::*;
 
 #[allow(non_camel_case_types)]
 type EM_BOOL = c_int;
+
 const EM_TRUE: EM_BOOL = 1;
 
 const CANVAS_SELECTOR: &[c_char] = b"#canvas\0";

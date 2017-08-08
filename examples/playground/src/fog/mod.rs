@@ -20,7 +20,7 @@ pub struct Fog {
 
 impl Fog {
     pub fn new(app: &Rc<codevisual::Application>, settings: &Rc<Settings>) -> Self {
-        let context = app.get_window().ugli_context();
+        let context = app.ugli_context();
 
         Self {
             app: app.clone(),
@@ -43,7 +43,7 @@ impl Fog {
         }
     }
     pub fn prepare<U: ugli::UniformStorage>(&mut self, units: &units::AllUnits, uniforms: &U) {
-        let context = self.app.get_window().ugli_context();
+        let context = self.app.ugli_context();
         let mut framebuffer = ugli::Framebuffer::new_color(context, &mut self.uniforms.u_fog_map);
         ugli::clear(&mut framebuffer, Some(Color::rgb(0.0, 0.0, 0.0)), None);
         for instances in &[&units.cars.instances, &units.helis.instances] {

@@ -98,7 +98,7 @@ impl Units {
                 i_start_angle: angle,
             });
         }
-        let context = app.get_window().ugli_context();
+        let context = app.ugli_context();
         Self {
             geometry,
             instances: ugli::VertexBuffer::new(context, instance_data),
@@ -192,7 +192,7 @@ impl AllUnits {
         resources: Resources,
         settings: &Rc<Settings>,
     ) -> Self {
-        let context = app.get_window().ugli_context();
+        let context = app.ugli_context();
         let cars = Units::new(
             app,
             settings,
@@ -255,7 +255,7 @@ impl AllUnits {
     ) -> &ugli::Texture2d {
         self.screen_used_material.defines.d_heightmap_enabled =
             self.settings.heightmap_enabled.get();
-        let context = self.app.get_window().ugli_context();
+        let context = self.app.ugli_context();
         let need_size = {
             let nearest = |n| {
                 let mut x = 1;

@@ -43,7 +43,7 @@ impl Ground {
         resources: Resources,
         settings: &Rc<Settings>,
     ) -> Self {
-        let context = app.get_window().ugli_context();
+        let context = app.ugli_context();
         let defines = Defines {
             d_fog_enabled: settings.fog_enabled.get(),
             d_heightmap_enabled: settings.heightmap_enabled.get(),

@@ -38,7 +38,7 @@ void main() {
 impl codevisual::Game for Tutorial {
     type Resources = ();
     fn new(app: Rc<codevisual::Application>, resources: ()) -> Self {
-        let context = app.get_window().ugli_context();
+        let context = app.ugli_context();
 
         Tutorial {
             app: app.clone(),
@@ -72,12 +72,12 @@ impl codevisual::Game for Tutorial {
     fn update(&mut self, delta_time: f64) {}
     fn draw(&mut self) {
         ugli::clear(
-            &mut ugli::default_framebuffer(self.app.get_window().ugli_context()),
+            &mut ugli::default_framebuffer(self.app.ugli_context()),
             Some(Color::rgb(0.0, 0.0, 0.0)),
             None,
         );
         ugli::draw(
-            &mut ugli::default_framebuffer(self.app.get_window().ugli_context()),
+            &mut ugli::default_framebuffer(self.app.ugli_context()),
             &self.shader.ugli_program(),
             ugli::DrawMode::Triangles,
             &ugli::plain(&self.vertices.slice(..)),

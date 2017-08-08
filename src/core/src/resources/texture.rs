@@ -19,9 +19,9 @@ impl Resource for ugli::Texture2d {
 impl Asset for ugli::Texture2d {
     fn load(loader: &ResourceLoader, path: &str) -> Self::Future {
         #[cfg(target_os = "emscripten")]
-        {
+        return {
             let texture = Rc::new(ugli::Texture2d::new(
-                loader.app.get_window().ugli_context(),
+                loader.app.ugli_context(),
                 vec2(1, 1),
             ));
             let loaded = Rc::new(Cell::new(false));
@@ -39,21 +39,21 @@ impl Asset for ugli::Texture2d {
                     let texture = texture_swp.unwrap();
                     texture._set_size(vec2(size.0 as usize, size.1 as usize));
                 });
-                run_js!{
+                run_js! {
                     CodeVisual.internal.load_texture(path, &texture_handle, callback);
                 }
             }
             Self::Future { texture, loaded }
-        }
+        };
         #[cfg(not(target_os = "emscripten"))]
-        {
+        return {
             let image = image::open(path).unwrap().to_rgba();
             let texture =
-                ugli::Texture2d::from_image(loader.app.get_window().ugli_context(), image);
+                ugli::Texture2d::from_image(loader.app.ugli_context(), image);
             Self::Future {
                 texture: Rc::new(texture),
                 loaded: Rc::new(Cell::new(true)),
             }
-        }
+        };
     }
 }
