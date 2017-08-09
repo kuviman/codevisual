@@ -17,9 +17,7 @@ fn compile_js(source: &Path, out: &Path) {
         "TypeScript compiler exited with error"
     );
     let js = {
-        let result = Command::new("java")
-            .arg("-jar")
-            .arg("C:\\Programs\\bin\\closure-compiler.jar")
+        let result = Command::new("closure-compiler.cmd")
             .arg(&full_js_file)
             .output()
             .expect("Could not minify JavaScript");

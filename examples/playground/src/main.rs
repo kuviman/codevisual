@@ -20,9 +20,13 @@ use decor::AllDecor as Decor;
 
 mod settings;
 
-use settings::*;
+pub ( crate ) use settings::*;
 
 mod fog;
+
+mod minimap;
+
+pub ( crate ) use minimap::*;
 
 shader_library! {
     ShaderLib {
@@ -55,6 +59,7 @@ pub struct Playground {
     units: Units,
     ground: Ground,
     decor: Decor,
+    minimap: Minimap,
 
     global_uniforms: GlobalUniforms,
 
@@ -105,6 +110,7 @@ impl codevisual::Game for Playground {
             units: Units::new(&app, resources.units, &settings),
             ground: Ground::new(&app, resources.ground, &settings),
             decor,
+            minimap: Minimap::new(&app, &settings),
 
             global_uniforms: GlobalUniforms {
                 u_time: 0.0,
@@ -161,9 +167,10 @@ impl codevisual::Game for Playground {
             &self.ground.uniforms,
         ));
         self.ground.draw(&mut framebuffer, &uniforms);
-        let uniforms = (
-            &uniforms,
-            uniforms! {
+        {
+            let uniforms = (
+                &uniforms,
+                uniforms! {
                 u_screen_used_texture: if self.settings.decor_transparency.get() {
                     Some(self.units.get_screen_used_texture(
                         &(&self.global_uniforms, &self.ground.uniforms),
@@ -176,11 +183,13 @@ impl codevisual::Game for Playground {
                     vec2(size.x as f32, size.y as f32)
                 },
             },
-        );
-        self.decor.draw(&mut framebuffer, &(
-            &uniforms,
-            &self.ground.uniforms,
-        ));
+            );
+            self.decor.draw(&mut framebuffer, &(
+                &uniforms,
+                &self.ground.uniforms,
+            ));
+        }
+        self.minimap.render(&mut framebuffer, &self.units, &uniforms);
     }
 
     fn handle_event(&mut self, event: codevisual::Event) {
