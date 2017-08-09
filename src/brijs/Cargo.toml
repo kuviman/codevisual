@@ -6,6 +6,6 @@ authors = ["kuviman <kuviman@gmail.com>"]
 [dependencies]
 serde = "*"
 serde_json = "*"
-emscripten-sys = "*"
+emscripten-sys = { path = "emscripten-sys" } # "*"
 ugli = { path = "../ugli" }
 vpl = { path = "../vpl" }
