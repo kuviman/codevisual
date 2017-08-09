@@ -69,7 +69,7 @@ impl Application {
         Application { window: Window::new(title) }
     }
 
-    pub fn get_window(&self) -> &Window {
+    pub fn window(&self) -> &Window {
         &self.window
     }
 

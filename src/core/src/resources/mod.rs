@@ -46,5 +46,5 @@ impl Resource for () {
     type Future = ();
 }
 impl ResourceContainer for () {
-    fn load(loader: &ResourceLoader) {}
+    fn load(_: &ResourceLoader) {}
 }

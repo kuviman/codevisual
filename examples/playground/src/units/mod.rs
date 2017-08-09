@@ -264,7 +264,7 @@ impl AllUnits {
                 }
                 x
             };
-            let need_size = self.app.get_window().get_size() / 5;
+            let need_size = self.app.window().get_size() / 5;
             vec2(nearest(need_size.x), nearest(need_size.y))
         };
         if match self.screen_used_texture {

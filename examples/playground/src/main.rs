@@ -88,7 +88,7 @@ impl codevisual::Game for Playground {
     }
 
     fn new(app: Rc<codevisual::Application>, resources: Resources) -> Self {
-        app.get_window().set_cursor_type(
+        app.window().set_cursor_type(
             codevisual::CursorType::Pointer,
         );
         let settings = Rc::new(Settings::new(&app));
@@ -142,7 +142,7 @@ impl codevisual::Game for Playground {
 
         self.global_uniforms.u_time = self.current_time;
         self.global_uniforms.u_projection_matrix = {
-            let Vec2 { x: w, y: h } = self.app.get_window().get_size();
+            let Vec2 { x: w, y: h } = self.app.window().get_size();
             Mat4::perspective(std::f32::consts::PI / 4.0, w as f32 / h as f32, 1.0, 5500.0)
         };
         self.global_uniforms.u_camera_matrix = Mat4::translate(
@@ -190,7 +190,7 @@ impl codevisual::Game for Playground {
                 position,
                 button: codevisual::MouseButton::Left,
             } => {
-                self.app.get_window().set_cursor_type(
+                self.app.window().set_cursor_type(
                     codevisual::CursorType::Drag,
                 );
                 self.start_drag = Some(position);
@@ -199,7 +199,7 @@ impl codevisual::Game for Playground {
                 position,
                 button: codevisual::MouseButton::Right,
             } => {
-                self.app.get_window().set_cursor_type(
+                self.app.window().set_cursor_type(
                     codevisual::CursorType::Drag,
                 );
                 self.rotate_mouse_pos = Some(position);
@@ -211,7 +211,7 @@ impl codevisual::Game for Playground {
                             }) = self.start_drag
                     {
                         let dv = vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
-                            self.app.get_window().get_size().y as f32;
+                            self.app.window().get_size().y as f32;
                         let dv = vec2(dv.x, dv.y / self.camera_rotation.y.cos());
                         let dv = Vec2::rotated(dv, -self.camera_rotation.x);
                         self.camera_position += dv * self.camera_distance;
@@ -224,7 +224,7 @@ impl codevisual::Game for Playground {
                     {
                         const SENS: f64 = 2.0;
                         let dv = vec2(x - prev_x, y - prev_y) * SENS /
-                            self.app.get_window().get_size().y as f64;
+                            self.app.window().get_size().y as f64;
                         self.camera_rotation.x += dv.x as f32;
                         self.camera_rotation.y = (self.camera_rotation.y + dv.y as f32).min(0.0).max(
                             -std::f32::consts::PI /
@@ -234,7 +234,7 @@ impl codevisual::Game for Playground {
                     }
             }
             MouseUp { .. } => {
-                self.app.get_window().set_cursor_type(
+                self.app.window().set_cursor_type(
                     codevisual::CursorType::Pointer,
                 );
                 self.start_drag = None;
@@ -258,7 +258,7 @@ impl codevisual::Game for Playground {
                                 }) = self.start_drag
                         {
                             self.camera_position += vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
-                                self.app.get_window().get_size().y as f32 *
+                                self.app.window().get_size().y as f32 *
                                 self.camera_distance;
                             self.start_drag = Some(vec2(x, y));
                         }
