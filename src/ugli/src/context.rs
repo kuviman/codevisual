@@ -27,8 +27,10 @@ impl Context {
             F: Fn(&str) -> *const c_void,
     {
         gl::load_with(get_proc_address);
+        #[cfg(not(target_os = "emscripten"))]
         unsafe {
             gl::Enable(gl::PROGRAM_POINT_SIZE);
+            #[cfg(target_os = "windows")]
             gl::Enable(0x8861); // GL_POINT_SPRITE
         }
         Ok(Context {

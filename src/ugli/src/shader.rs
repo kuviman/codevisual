@@ -55,12 +55,18 @@ impl Shader {
                 handle
             },
         };
+        #[cfg(not(target_os = "emscripten"))]
+        let sources = {
+            let mut with_version = vec!["#version 150\n"];
+            with_version.extend(sources);
+            with_version
+        };
         let source_ptrs: Vec<*const GLchar> = sources
-            .into_iter()
+            .iter()
             .map(|source| source.as_ptr() as *const GLchar)
             .collect();
         let lengths: Vec<GLint> = sources
-            .into_iter()
+            .iter()
             .map(|source| source.len() as GLint)
             .collect();
         unsafe {

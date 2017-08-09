@@ -292,6 +292,7 @@ impl codevisual::Game for Playground {
 }
 
 fn main() {
+    #[cfg(not(target_os = "emscripten"))]
     std::env::set_current_dir("examples/playground/static").unwrap();
     codevisual::run::<Playground>();
 }

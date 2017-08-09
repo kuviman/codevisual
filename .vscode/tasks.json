@@ -32,9 +32,6 @@
                 "playground"
             ],
             "isShellCommand": true,
-            "options": {
-                "cwd": "${workspaceRoot}/examples/playground/static"
-            }
         }
     ]
 }
