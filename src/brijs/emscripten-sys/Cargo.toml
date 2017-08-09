@@ -1,0 +1,4 @@
+[package]
+name = "emscripten-sys"
+version = "0.1.0"
+authors = ["kuviman <kuviman@gmail.com>"]
