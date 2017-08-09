@@ -1,6 +1,8 @@
+#[allow(unused_imports)]
 #[macro_use]
 extern crate vpl;
-use vpl::*;
+
+pub ( crate ) use vpl::*;
 
 extern crate ugli;
 
@@ -21,20 +23,19 @@ extern crate codevisual_core_css;
 extern crate codevisual_core_js;
 
 extern crate codevisual_window;
-pub use codevisual_window::*;
-
 extern crate codevisual_material;
-pub use codevisual_material::*;
-
 #[allow(unused_imports)]
 #[macro_use]
 extern crate codevisual_derive;
+
+pub use codevisual_window::*;
+pub use codevisual_material::*;
 pub use codevisual_derive::*;
 
 mod resources;
-pub use resources::*;
-
 mod settings;
+
+pub use resources::*;
 pub use settings::*;
 
 pub struct Application {
@@ -53,7 +54,7 @@ impl Application {
                 } else {
                     String::from("Something went wrong")
                 };
-                run_js!{
+                run_js! {
                 CodeVisual.internal.show_error(&error);
             }
             }
@@ -61,7 +62,7 @@ impl Application {
         }
         #[cfg(target_os = "emscripten")]
         {
-            run_js!{
+            run_js! {
                 CodeVisual.internal.init();
             }
         }
@@ -70,6 +71,10 @@ impl Application {
 
     pub fn get_window(&self) -> &Window {
         &self.window
+    }
+
+    pub fn ugli_context(&self) -> &Rc<ugli::Context> {
+        self.window.ugli_context()
     }
 }
 
@@ -96,7 +101,7 @@ pub fn run<G: Game>() {
         let mut game = G::new(app.clone(), resources_swapper.unwrap().unwrap());
 
         #[cfg(target_os = "emscripten")]
-        run_js!{
+        run_js! {
             CodeVisual.internal.before_main_loop();
         }
 
@@ -130,14 +135,15 @@ pub fn run<G: Game>() {
             game.draw();
 
             #[cfg(target_os = "emscripten")]
-            run_js!{
+            run_js! {
                 CodeVisual.internal.update_stats(); 
             }
 
             app.window.swap_buffers();
         };
 
-        #[cfg(target_os = "emscripten")] brijs::set_main_loop(main_loop);
+        #[cfg(target_os = "emscripten")]
+        brijs::set_main_loop(main_loop);
 
         #[cfg(not(target_os = "emscripten"))]
         while !app.window.should_close() {
@@ -146,7 +152,9 @@ pub fn run<G: Game>() {
 
         true
     };
-    #[cfg(target_os = "emscripten")] brijs::set_main_loop(|| { start(); });
+
+    #[cfg(target_os = "emscripten")]
+    brijs::set_main_loop(|| { start(); });
 
     #[cfg(not(target_os = "emscripten"))]
     assert!(start());

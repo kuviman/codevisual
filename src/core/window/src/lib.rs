@@ -1,8 +1,10 @@
 extern crate vpl;
+
 use vpl::*;
 
 extern crate ugli;
 
+#[allow(unused_imports)]
 #[macro_use]
 extern crate lazy_static;
 
@@ -14,9 +16,11 @@ extern crate brijs;
 extern crate glutin;
 
 mod cursor;
+
 pub use cursor::*;
 
 mod events;
+
 pub use events::*;
 
 pub struct Window {
@@ -68,17 +72,17 @@ impl Window {
 
     pub fn swap_buffers(&self) {
         #[cfg(not(target_os = "emscripten"))]
-        {
+        return {
             use glutin::GlContext;
             self.glutin_window.swap_buffers().unwrap();
-        }
+        };
     }
 
     pub fn get_size(&self) -> Vec2<usize> {
         #[cfg(target_os = "emscripten")] return brijs::get_canvas_size();
         #[cfg(not(target_os = "emscripten"))]
         return {
-            let (width, height) = self.glutin_window.get_inner_size_pixels().unwrap();
+            let (width, height) = self.glutin_window.get_inner_size_pixels().unwrap_or((1, 1));
             vec2(width as usize, height as usize)
         };
     }

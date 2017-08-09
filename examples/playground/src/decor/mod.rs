@@ -46,7 +46,7 @@ impl Decor {
         density: usize,
         is_palm: bool,
     ) -> Self {
-        let context = app.get_window().ugli_context();
+        let context = app.ugli_context();
         let instances = {
             let mut instances = Vec::new();
             let map_size = map_texture.get_size();
@@ -124,7 +124,7 @@ impl AllDecor {
         map_texture: &ugli::Texture2d,
         settings: &Rc<Settings>,
     ) -> Self {
-        let context = app.get_window().ugli_context();
+        let context = app.ugli_context();
         macro_rules! vertex_data {
             ($scale:expr, [$(pos: $pos:expr, vt: $vt:expr);*;]) => {{
                 let mut data = Vec::new();

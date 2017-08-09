@@ -62,5 +62,5 @@ pub fn parse(app: &codevisual::Application, source: &str) -> Geometry {
             }
         }
     }
-    ugli::VertexBuffer::new(app.get_window().ugli_context(), data)
+    ugli::VertexBuffer::new(app.ugli_context(), data)
 }

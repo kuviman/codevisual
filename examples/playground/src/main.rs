@@ -1,20 +1,25 @@
 #[macro_use]
 extern crate codevisual;
-use codevisual::prelude::*;
-use codevisual::ugli;
+
+pub ( crate ) use codevisual::prelude::*;
+pub ( crate ) use codevisual::ugli;
 
 mod obj;
 
 mod ground;
+
 use ground::Ground;
 
 mod units;
+
 use units::AllUnits as Units;
 
 mod decor;
+
 use decor::AllDecor as Decor;
 
 mod settings;
+
 use settings::*;
 
 mod fog;
@@ -132,7 +137,7 @@ impl codevisual::Game for Playground {
     }
 
     fn draw(&mut self) {
-        let mut framebuffer = ugli::default_framebuffer(self.app.get_window().ugli_context());
+        let mut framebuffer = ugli::default_framebuffer(self.app.ugli_context());
         ugli::clear(&mut framebuffer, Some(Color::rgb(1.0, 1.0, 1.0)), Some(1.0));
 
         self.global_uniforms.u_time = self.current_time;
@@ -204,29 +209,29 @@ impl codevisual::Game for Playground {
                                 x: prev_x,
                                 y: prev_y,
                             }) = self.start_drag
-                {
-                    let dv = vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
-                        self.app.get_window().get_size().y as f32;
-                    let dv = vec2(dv.x, dv.y / self.camera_rotation.y.cos());
-                    let dv = Vec2::rotated(dv, -self.camera_rotation.x);
-                    self.camera_position += dv * self.camera_distance;
-                    self.start_drag = Some(vec2(x, y));
-                }
+                    {
+                        let dv = vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
+                            self.app.get_window().get_size().y as f32;
+                        let dv = vec2(dv.x, dv.y / self.camera_rotation.y.cos());
+                        let dv = Vec2::rotated(dv, -self.camera_rotation.x);
+                        self.camera_position += dv * self.camera_distance;
+                        self.start_drag = Some(vec2(x, y));
+                    }
                 if let Some(Vec2 {
                                 x: prev_x,
                                 y: prev_y,
                             }) = self.rotate_mouse_pos
-                {
-                    const SENS: f64 = 2.0;
-                    let dv = vec2(x - prev_x, y - prev_y) * SENS /
-                        self.app.get_window().get_size().y as f64;
-                    self.camera_rotation.x += dv.x as f32;
-                    self.camera_rotation.y = (self.camera_rotation.y + dv.y as f32).min(0.0).max(
-                        -std::f32::consts::PI /
-                            3.0,
-                    );
-                    self.rotate_mouse_pos = Some(vec2(x, y));
-                }
+                    {
+                        const SENS: f64 = 2.0;
+                        let dv = vec2(x - prev_x, y - prev_y) * SENS /
+                            self.app.get_window().get_size().y as f64;
+                        self.camera_rotation.x += dv.x as f32;
+                        self.camera_rotation.y = (self.camera_rotation.y + dv.y as f32).min(0.0).max(
+                            -std::f32::consts::PI /
+                                3.0,
+                        );
+                        self.rotate_mouse_pos = Some(vec2(x, y));
+                    }
             }
             MouseUp { .. } => {
                 self.app.get_window().set_cursor_type(
@@ -243,7 +248,6 @@ impl codevisual::Game for Playground {
                     self.prev_zoom_touchdist = (touches[0].position - touches[1].position)
                         .len() as f32;
                 }
-
             }
             TouchMove { touches } => {
                 if touches.len() == 1 {
@@ -252,12 +256,12 @@ impl codevisual::Game for Playground {
                                     x: prev_x,
                                     y: prev_y,
                                 }) = self.start_drag
-                    {
-                        self.camera_position += vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
-                            self.app.get_window().get_size().y as f32 *
-                            self.camera_distance;
-                        self.start_drag = Some(vec2(x, y));
-                    }
+                        {
+                            self.camera_position += vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
+                                self.app.get_window().get_size().y as f32 *
+                                self.camera_distance;
+                            self.start_drag = Some(vec2(x, y));
+                        }
                 } else if touches.len() == 2 {
                     let now_dist = (touches[0].position - touches[1].position).len() as f32;
                     self.camera_distance /= now_dist / self.prev_zoom_touchdist;
@@ -279,5 +283,6 @@ impl codevisual::Game for Playground {
 }
 
 fn main() {
+    std::env::set_current_dir("examples/playground/static").unwrap();
     codevisual::run::<Playground>();
 }
