@@ -66,7 +66,7 @@ impl Decor {
                     });
                 }
             }
-            ugli::VertexBuffer::new(context, instances)
+            ugli::VertexBuffer::new_static(context, instances)
         };
         Self {
             texture,
@@ -167,7 +167,7 @@ impl AllDecor {
                 pos: vec3(1.0, -1.0, 1.0), vt: vec2(1.0, 1.0);
                 pos: vec3(-1.0, 1.0, 1.0), vt: vec2(0.0, 1.0);
             ]);
-            let geometry = ugli::VertexBuffer::new(context, vertex_data);
+            let geometry = ugli::VertexBuffer::new_static(context, vertex_data);
             Decor::new(
                 app,
                 settings,
@@ -206,7 +206,7 @@ impl AllDecor {
                 pos: vec3(1.0, 1.0, 1.0), vt: vec2(0.5, 1.0);
                 pos: vec3(-1.0, 1.0, 1.0), vt: vec2(0.0, 1.0);
             ]);
-            let geometry = ugli::VertexBuffer::new(context, vertex_data);
+            let geometry = ugli::VertexBuffer::new_static(context, vertex_data);
             Decor::new(
                 app,
                 settings,

@@ -36,7 +36,7 @@ pub fn quad(context: &Context) -> QuadRef {
             }
         }
         {
-            *context.quad.borrow_mut() = Some(Quad::new(
+            *context.quad.borrow_mut() = Some(Quad::new_static(
                 context,
                 vec![
                     QuadVertex { a_v: vec2(-1.0, -1.0) },

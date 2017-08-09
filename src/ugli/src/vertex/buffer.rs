@@ -1,7 +1,7 @@
 use ::*;
 
 pub struct VertexBuffer<T: VertexData> {
-    pub(crate) handle: GLuint,
+    pub ( crate ) handle: GLuint,
     data: Vec<T>,
 }
 
@@ -14,31 +14,38 @@ impl<T: VertexData> Drop for VertexBuffer<T> {
 }
 
 impl<T: VertexData> VertexBuffer<T> {
-    pub fn new(_: &Context, data: Vec<T>) -> Self {
-        let mut buffer = Self {
+    fn new(_: &Context, data: Vec<T>, usage: GLenum) -> Self {
+        let buffer = Self {
             handle: unsafe {
                 let mut handle: GLuint = std::mem::uninitialized();
                 gl::GenBuffers(1, &mut handle);
                 handle
             },
-            data: Vec::new(),
+            data,
         };
         buffer.bind();
         unsafe {
             gl::BufferData(
                 gl::ARRAY_BUFFER,
-                std::mem::size_of_val(data.as_slice()) as GLsizeiptr,
-                data.as_ptr() as *const c_void,
-                gl::STATIC_DRAW,
-            ); // TODO: dynamic, stream?
+                std::mem::size_of_val(buffer.data.as_slice()) as GLsizeiptr,
+                buffer.data.as_ptr() as *const c_void,
+                usage,
+            );
         }
-        buffer.data = data;
         buffer
     }
 
+    pub fn new_static(context: &Context, data: Vec<T>) -> Self {
+        Self::new(context, data, gl::STATIC_DRAW)
+    }
+
+    pub fn new_dynamic(context: &Context, data: Vec<T>) -> Self {
+        Self::new(context, data, gl::DYNAMIC_DRAW)
+    }
+
     pub fn slice<'a, R>(&'a self, range: R) -> VertexBufferSlice<'a, T>
-    where
-        R: RangeArgument<usize>,
+        where
+            R: RangeArgument<usize>,
     {
         VertexBufferSlice {
             buffer: self,
@@ -50,8 +57,8 @@ impl<T: VertexData> VertexBuffer<T> {
     }
 
     pub fn slice_mut<'a, R>(&'a mut self, range: R) -> VertexBufferSliceMut<'a, T>
-    where
-        R: RangeArgument<usize>,
+        where
+            R: RangeArgument<usize>,
     {
         let end = *range.end().unwrap_or(&self.data.len());
         VertexBufferSliceMut {
@@ -63,7 +70,7 @@ impl<T: VertexData> VertexBuffer<T> {
         }
     }
 
-    pub(crate) fn bind(&self) {
+    pub ( crate ) fn bind(&self) {
         unsafe {
             gl::BindBuffer(gl::ARRAY_BUFFER, self.handle);
         }
@@ -71,8 +78,8 @@ impl<T: VertexData> VertexBuffer<T> {
 }
 
 pub struct VertexBufferSlice<'a, T: VertexData + 'a> {
-    pub(crate) buffer: &'a VertexBuffer<T>,
-    pub(crate) range: Range<usize>,
+    pub ( crate ) buffer: &'a VertexBuffer<T>,
+    pub ( crate ) range: Range<usize>,
 }
 
 impl<'a, T: VertexData + 'a> Deref for VertexBufferSlice<'a, T> {

@@ -47,7 +47,7 @@ impl codevisual::Game for Tutorial {
                 &(),
                 SHADER_SOURCE,
             ),
-            vertices: ugli::VertexBuffer::new(
+            vertices: ugli::VertexBuffer::new_static(
                 context,
                 vec![
                     Vertex {

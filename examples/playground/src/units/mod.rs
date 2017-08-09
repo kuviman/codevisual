@@ -101,7 +101,7 @@ impl Units {
         let context = app.ugli_context();
         Self {
             geometry,
-            instances: ugli::VertexBuffer::new(context, instance_data),
+            instances: ugli::VertexBuffer::new_dynamic(context, instance_data),
             material: codevisual::LazyMaterial::new(
                 context,
                 (),
@@ -271,9 +271,9 @@ impl AllUnits {
             Some(ref texture) => texture.get_size() != need_size,
             None => true,
         }
-        {
-            self.screen_used_texture = Some(ugli::Texture2d::new(context, need_size));
-        }
+            {
+                self.screen_used_texture = Some(ugli::Texture2d::new(context, need_size));
+            }
         {
             let texture = self.screen_used_texture.as_mut().unwrap();
             let mut framebuffer = ugli::Framebuffer::new_color(context, texture);

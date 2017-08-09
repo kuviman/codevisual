@@ -24,7 +24,7 @@ impl Fog {
 
         Self {
             app: app.clone(),
-            quad: ugli::VertexBuffer::new(
+            quad: ugli::VertexBuffer::new_static(
                 context,
                 vec![
                     QuadVertex { a_v: vec2(-1.0, -1.0) },

@@ -68,7 +68,7 @@ impl Ground {
                         data.push(Vertex { a_pos: vec2(x1, y2) });
                     }
                 }
-                ugli::VertexBuffer::new(context, data)
+                ugli::VertexBuffer::new_static(context, data)
             },
             uniforms: Uniforms {
                 u_dirt_texture: resources.dirt_texture,
@@ -82,7 +82,7 @@ impl Ground {
                 defines.clone(),
                 include_str!("shader.glsl"),
             ),
-            water_geometry: ugli::VertexBuffer::new(
+            water_geometry: ugli::VertexBuffer::new_static(
                 context,
                 vec![
                     Vertex { a_pos: vec2(-MAP_SIZE, -MAP_SIZE) },

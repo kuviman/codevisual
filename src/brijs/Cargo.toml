@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["kuviman <kuviman@gmail.com>"]
 
 [dependencies]
-serde = "*"
+serde = "0.9.15"
 serde_json = "*"
 emscripten-sys = { path = "emscripten-sys" } # "*"
 ugli = { path = "../ugli" }
