@@ -5,20 +5,21 @@ pub trait ShaderLibrary {
 }
 
 pub struct ShaderPrelude;
+
 impl ShaderLibrary for ShaderPrelude {
     fn get(path: &str) -> Option<&str> {
-        if path == "prelude" {
-            Some(include_str!("prelude.glsl"))
-        } else {
-            None
+        match path {
+            "prelude" => Some(include_str!("prelude.glsl")),
+            "noise2d" => Some(include_str!("noise2d.glsl")),
+            _ => None
         }
     }
 }
 
 impl<A, B> ShaderLibrary for (A, B)
-where
-    A: ShaderLibrary,
-    B: ShaderLibrary,
+    where
+        A: ShaderLibrary,
+        B: ShaderLibrary,
 {
     fn get(path: &str) -> Option<&str> {
         if let Some(result) = A::get(path) {

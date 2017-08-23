@@ -18,6 +18,10 @@ mod decor;
 
 use decor::AllDecor as Decor;
 
+mod clouds;
+
+use clouds::Clouds;
+
 mod settings;
 
 pub ( crate ) use settings::*;
@@ -59,6 +63,7 @@ pub struct Playground {
     units: Units,
     ground: Ground,
     decor: Decor,
+    clouds: Clouds,
     minimap: Minimap,
 
     global_uniforms: GlobalUniforms,
@@ -82,6 +87,7 @@ resources! {
         units: units::Resources = (),
         ground: ground::Resources = (),
         decor: decor::Resources = (),
+        clouds: clouds::Resources = (),
     }
 }
 
@@ -103,6 +109,11 @@ impl codevisual::Game for Playground {
             &resources.ground.map_texture,
             &settings,
         );
+        let clouds = Clouds::new(
+            &app,
+            resources.clouds,
+            &settings,
+        );
         Self {
             app: app.clone(),
 
@@ -110,6 +121,7 @@ impl codevisual::Game for Playground {
             units: Units::new(&app, resources.units, &settings),
             ground: Ground::new(&app, resources.ground, &settings),
             decor,
+            clouds,
             minimap: Minimap::new(&app, &settings),
 
             global_uniforms: GlobalUniforms {
@@ -189,7 +201,14 @@ impl codevisual::Game for Playground {
                 &self.ground.uniforms,
             ));
         }
-        self.minimap.render(&mut framebuffer, &self.units, &uniforms);
+        if self.settings.clouds_enabled.get() {
+            self.clouds.draw(&mut framebuffer, &uniforms);
+        }
+        self.minimap.render(
+            &mut framebuffer,
+            &self.units,
+            &uniforms,
+        );
     }
 
     fn handle_event(&mut self, event: codevisual::Event) {

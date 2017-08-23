@@ -10,6 +10,7 @@ pub struct Settings {
     pub point_updates: codevisual::SettingValue<bool>,
     pub heightmap_enabled: codevisual::SettingValue<bool>,
     pub show_bushes: codevisual::SettingValue<bool>,
+    pub clouds_enabled: codevisual::SettingValue<bool>,
 }
 
 impl Settings {
@@ -18,6 +19,7 @@ impl Settings {
             decor_percent: app.add_setting_f64("Decor", 0.0, 1.0, 1.0),
             show_bushes: app.add_setting_bool("Bushes", false),
             decor_transparency: app.add_setting_bool("Decor transparency", true),
+            clouds_enabled: app.add_setting_bool("Clouds", true),
             fog_enabled: app.add_setting_bool("Fog'o'war", true),
             heightmap_enabled: app.add_setting_bool("Terrait heightmap", true),
             point_updates: app.add_setting_bool("Point updates", false),
