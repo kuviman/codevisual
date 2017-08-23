@@ -13,7 +13,7 @@ void main() {
         p.y + sin(u_time * TS + snoise(p.xy + 5.0) * PI) * D,
         p.z + sin(u_time * TS + snoise(p.xy + 10.0) * PI) * D);
     gl_Position = u_matrix * vec4(p, 1.0);
-    gl_PointSize = 7e4 / gl_Position.w;
+    gl_PointSize = 1e2 * u_screen_size.y / gl_Position.w;
 }
 #endif
 

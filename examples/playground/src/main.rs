@@ -54,6 +54,7 @@ pub struct GlobalUniforms {
     u_map_size: f32,
     u_camera_matrix: Mat4<f32>,
     u_projection_matrix: Mat4<f32>,
+	u_screen_size: Vec2<f32>,
 }
 
 pub struct Playground {
@@ -130,6 +131,7 @@ impl codevisual::Game for Playground {
                 u_map_size: MAP_SIZE,
                 u_camera_matrix: Mat4::identity(),
                 u_projection_matrix: Mat4::identity(),
+				u_screen_size: vec2(1.0, 1.0),
             },
 
             current_time: 0.0,
@@ -155,6 +157,10 @@ impl codevisual::Game for Playground {
     }
 
     fn draw(&mut self) {
+		self.global_uniforms.u_screen_size = {
+			let size = self.app.window().get_size();
+			vec2(size.x as f32, size.y as f32)
+		};
         let mut framebuffer = ugli::default_framebuffer(self.app.ugli_context());
         ugli::clear(&mut framebuffer, Some(Color::rgb(1.0, 1.0, 1.0)), Some(1.0));
 
