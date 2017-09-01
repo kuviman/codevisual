@@ -1,0 +1,10 @@
+[package]
+name = "codewars2017"
+version = "0.1.0"
+authors = ["kuviman <kuviman@gmail.com>"]
+
+[dependencies]
+codevisual = { path = ".." }
+
+[target.'cfg(target_os = "emscripten")'.dependencies]
+codewars2017_web = { path = "src/web" }

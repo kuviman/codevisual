@@ -3,6 +3,9 @@ name = "codevisual"
 version = "0.1.0"
 authors = ["kuviman <kuviman@gmail.com>"]
 
+[workspace]
+members = ["codewars2017"]
+
 [dependencies]
 vpl = { path = "src/vpl" }
 ugli = { path = "src/ugli" }
