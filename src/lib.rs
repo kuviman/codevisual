@@ -43,7 +43,7 @@ macro_rules! resources {
             }
         }
         impl $crate::ResourceContainer for $name {
-            fn load(loader: &$crate::ResourceLoader) -> Future {
+            fn load(loader: &Rc<$crate::ResourceLoader>) -> Future {
                 Future {
                     $($field_name: load_field!(loader, $field_type = $field_value)),*
                 }

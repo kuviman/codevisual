@@ -27,11 +27,20 @@ impl Mat4<f32> {
         result
     }
 
-    pub fn scale(factor: f32) -> Self {
+    pub fn scale_uniform(factor: f32) -> Self {
         let mut result = Self { values: [0.0; 16] };
         result[(0, 0)] = factor;
         result[(1, 1)] = factor;
         result[(2, 2)] = factor;
+        result[(3, 3)] = 1.0;
+        result
+    }
+
+    pub fn scale(factor: Vec3<f32>) -> Self {
+        let mut result = Self { values: [0.0; 16] };
+        result[(0, 0)] = factor.x;
+        result[(1, 1)] = factor.y;
+        result[(2, 2)] = factor.z;
         result[(3, 3)] = 1.0;
         result
     }

@@ -1,25 +1,35 @@
 use ::*;
 
 mod text;
+
 pub use self::text::*;
 
 mod texture;
+
 pub use self::texture::*;
 
 pub struct ResourceLoader {
-    #[allow(dead_code)]
-    app: Rc<::Application>,
-    pub(crate) resource_count: Cell<usize>,
-    pub(crate) loaded_resource_count: Rc<Cell<usize>>,
+    app: Rc<Application>,
+    resource_count: Cell<usize>,
+    loaded_resource_count: Rc<Cell<usize>>,
 }
 
 impl ResourceLoader {
-    pub(crate) fn new(app: Rc<::Application>) -> Self {
+    pub ( crate ) fn new(app: &Rc<Application>) -> Self {
         Self {
-            app,
+            app: app.clone(),
             resource_count: Cell::new(0),
             loaded_resource_count: Rc::new(Cell::new(0)),
         }
+    }
+    pub fn add_one(&self) {
+        self.resource_count.set(self.resource_count.get() + 1);
+    }
+    pub fn confirm_one(&self) {
+        self.loaded_resource_count.set(self.loaded_resource_count.get() + 1);
+    }
+    pub fn ready(&self) -> bool {
+        self.resource_count.get() == self.loaded_resource_count.get()
     }
 }
 
@@ -32,19 +42,21 @@ pub trait Resource: Sized {
 }
 
 pub trait Asset: Resource {
-    fn load(loader: &ResourceLoader, path: &str) -> Self::Future;
+    fn load(loader: &Rc<ResourceLoader>, path: &str) -> Self::Future;
 }
 
 pub trait ResourceContainer: Resource {
-    fn load(loader: &ResourceLoader) -> Self::Future;
+    fn load(loader: &Rc<ResourceLoader>) -> Self::Future;
 }
 
 impl ResourceFuture<()> for () {
     fn unwrap(self) {}
 }
+
 impl Resource for () {
     type Future = ();
 }
+
 impl ResourceContainer for () {
-    fn load(_: &ResourceLoader) {}
+    fn load(_: &Rc<ResourceLoader>) {}
 }

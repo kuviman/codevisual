@@ -17,7 +17,7 @@ impl Resource for String {
 }
 
 impl Asset for String {
-    fn load(loader: &ResourceLoader, path: &str) -> Self::Future {
+    fn load(loader: &Rc<ResourceLoader>, path: &str) -> Self::Future {
         let resource = Self::Future {
             value: Rc::new(RefCell::new(String::new())),
             loaded: Rc::new(Cell::new(false)),

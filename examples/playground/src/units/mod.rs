@@ -272,7 +272,7 @@ impl AllUnits {
             None => true,
         }
             {
-                self.screen_used_texture = Some(ugli::Texture2d::new(context, need_size));
+                self.screen_used_texture = Some(ugli::Texture2d::new_uninitialized(context, need_size));
             }
         {
             let texture = self.screen_used_texture.as_mut().unwrap();

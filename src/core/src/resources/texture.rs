@@ -17,10 +17,10 @@ impl Resource for ugli::Texture2d {
 }
 
 impl Asset for ugli::Texture2d {
-    fn load(loader: &ResourceLoader, path: &str) -> Self::Future {
+    fn load(loader: &Rc<ResourceLoader>, path: &str) -> Self::Future {
         #[cfg(target_os = "emscripten")]
         return {
-            let texture = Rc::new(ugli::Texture2d::new(
+            let texture = Rc::new(ugli::Texture2d::new_uninitialized(
                 loader.app.ugli_context(),
                 vec2(1, 1),
             ));

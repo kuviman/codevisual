@@ -52,7 +52,7 @@ pub fn draw<FR, FC, V, U>(
     program: &Program,
     mode: DrawMode,
     vertices: &V,
-    uniforms: &U,
+    uniforms: U,
     draw_parameters: &DrawParameters,
 ) where
     FR: attachment::Access,

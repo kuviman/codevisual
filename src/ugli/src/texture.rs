@@ -1,7 +1,7 @@
 use ::*;
 
 pub struct Texture2d {
-    pub(crate) handle: GLuint,
+    pub ( crate ) handle: GLuint,
     size: Cell<Vec2<usize>>,
 }
 
@@ -48,7 +48,7 @@ impl Texture2d {
         }
     }
 
-    pub fn new(_: &Context, size: Vec2<usize>) -> Self {
+    pub fn new_uninitialized(_: &Context, size: Vec2<usize>) -> Self {
         let texture = Texture2d::new_raw(size);
         unsafe {
             gl::TexImage2D(
@@ -61,6 +61,34 @@ impl Texture2d {
                 gl::RGBA as GLenum,
                 gl::UNSIGNED_BYTE,
                 std::ptr::null(),
+            );
+        }
+        texture
+    }
+
+    pub fn new_with<F: FnMut(Vec2<usize>) -> Color>(_: &Context, size: Vec2<usize>, mut f: F) -> Self {
+        let texture = Texture2d::new_raw(size);
+        let mut data: Vec<u8> = Vec::with_capacity(size.x * size.y * 4);
+        for y in 0..size.y {
+            for x in 0..size.x {
+                let color = f(vec2(x, y));
+                data.push((color.red * 255.0) as u8);
+                data.push((color.green * 255.0) as u8);
+                data.push((color.blue * 255.0) as u8);
+                data.push((color.alpha * 255.0) as u8);
+            }
+        }
+        unsafe {
+            gl::TexImage2D(
+                gl::TEXTURE_2D,
+                0,
+                gl::RGBA as GLint,
+                size.x as GLsizei,
+                size.y as GLsizei,
+                0,
+                gl::RGBA as GLenum,
+                gl::UNSIGNED_BYTE,
+                data.as_ptr() as *const _,
             );
         }
         texture

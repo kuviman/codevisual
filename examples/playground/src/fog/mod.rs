@@ -38,7 +38,7 @@ impl Fog {
                 &(),
                 include_str!("shader.glsl"),
             ),
-            uniforms: Uniforms { u_fog_map: ugli::Texture2d::new(context, vec2(256, 256)) },
+            uniforms: Uniforms { u_fog_map: ugli::Texture2d::new_uninitialized(context, vec2(256, 256)) },
             settings: settings.clone(),
         }
     }

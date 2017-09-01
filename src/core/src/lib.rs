@@ -89,11 +89,11 @@ pub trait Game {
 
 pub fn run<G: Game>() {
     let app = Rc::new(Application::new(&G::get_title()));
-    let resource_loader = Rc::new(ResourceLoader::new(app.clone()));
+    let resource_loader = Rc::new(ResourceLoader::new(&app));
     let resources = Rc::new(RefCell::new(Some(G::Resources::load(&resource_loader))));
 
     let start = move || {
-        if resource_loader.loaded_resource_count.get() != resource_loader.resource_count.get() {
+        if !resource_loader.ready() {
             return false;
         }
         let mut resources_swapper = None;
