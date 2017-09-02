@@ -1,5 +1,15 @@
 use ::*;
 
+pub enum WrapMode {
+    Repeat,
+    Clamp,
+}
+
+pub enum Filter {
+    Nearest,
+    Linear,
+}
+
 pub struct Texture2d {
     pub ( crate ) handle: GLuint,
     size: Cell<Vec2<usize>>,
@@ -26,13 +36,36 @@ impl Texture2d {
             gl::GenTextures(1, &mut handle);
             gl::BindTexture(gl::TEXTURE_2D, handle);
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MIN_FILTER, gl::LINEAR as GLint);
-            gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::LINEAR as GLint);
-            gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::REPEAT as GLint);
-            gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, gl::REPEAT as GLint);
-            Self {
+            let mut texture = Self {
                 handle,
                 size: Cell::new(size),
-            }
+            };
+            texture.set_filter(Filter::Linear);
+            texture.set_wrap_mode(WrapMode::Clamp);
+            texture
+        }
+    }
+
+    pub fn set_wrap_mode(&mut self, wrap_mode: WrapMode) {
+        let wrap_mode = match wrap_mode {
+            WrapMode::Clamp => gl::CLAMP_TO_EDGE,
+            WrapMode::Repeat => gl::REPEAT,
+        } as GLint;
+        unsafe {
+            gl::BindTexture(gl::TEXTURE_2D, self.handle);
+            gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, wrap_mode);
+            gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, wrap_mode);
+        }
+    }
+
+    pub fn set_filter(&mut self, filter: Filter) {
+        let filter = match filter {
+            Filter::Nearest => gl::NEAREST,
+            Filter::Linear => gl::LINEAR,
+        } as GLint;
+        unsafe {
+            gl::BindTexture(gl::TEXTURE_2D, self.handle);
+            gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, filter);
         }
     }
 

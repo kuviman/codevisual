@@ -37,6 +37,11 @@ pub struct Ground {
     settings: Rc<Settings>,
 }
 
+fn repeatable(mut texture: ugli::Texture2d) -> ugli::Texture2d {
+    texture.set_wrap_mode(ugli::WrapMode::Repeat);
+    texture
+}
+
 impl Ground {
     pub fn new(
         app: &codevisual::Application,
@@ -71,9 +76,9 @@ impl Ground {
                 ugli::VertexBuffer::new_static(context, data)
             },
             uniforms: Uniforms {
-                u_dirt_texture: resources.dirt_texture,
-                u_grass_texture: resources.grass_texture,
-                u_darkgrass_texture: resources.darkgrass_texture,
+                u_dirt_texture: repeatable(resources.dirt_texture),
+                u_grass_texture: repeatable(resources.grass_texture),
+                u_darkgrass_texture: repeatable(resources.darkgrass_texture),
                 u_map_texture: resources.map_texture,
             },
             material: codevisual::Material::new(

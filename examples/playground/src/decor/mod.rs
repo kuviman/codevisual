@@ -211,7 +211,11 @@ impl AllDecor {
                 app,
                 settings,
                 geometry,
-                resources.palm_texture,
+                {
+                    let mut texture = resources.palm_texture;
+                    texture.set_wrap_mode(ugli::WrapMode::Repeat);
+                    texture
+                },
                 map_texture,
                 |color| color.red > 0.5,
                 20000,
