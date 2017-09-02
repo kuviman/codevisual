@@ -7,13 +7,14 @@ struct QuadVertex {
 
 #[derive(Uniforms)]
 pub struct Uniforms {
-    u_fog_map: ugli::Texture2d, // TODO: need only one color component
+    u_fog_map: ugli::Texture2d,
+    // TODO: need only one color component
 }
 
 pub struct Fog {
     app: Rc<codevisual::Application>,
     quad: ugli::VertexBuffer<QuadVertex>,
-    shader: codevisual::Shader,
+    material: codevisual::Material<ShaderLib>,
     pub uniforms: Uniforms,
     settings: Rc<Settings>,
 }
@@ -33,9 +34,8 @@ impl Fog {
                     QuadVertex { a_v: vec2(-1.0, 1.0) },
                 ],
             ),
-            shader: codevisual::Shader::compile::<::ShaderLib>(
-                context,
-                &(),
+            material: codevisual::Material::new(
+                context, (), (),
                 include_str!("shader.glsl"),
             ),
             uniforms: Uniforms { u_fog_map: ugli::Texture2d::new_uninitialized(context, vec2(256, 256)) },
@@ -49,7 +49,7 @@ impl Fog {
         for instances in &[&units.cars.instances, &units.helis.instances] {
             ugli::draw(
                 &mut framebuffer,
-                self.shader.ugli_program(),
+                &self.material.ugli_program(),
                 ugli::DrawMode::TriangleFan,
                 &ugli::instanced(
                     &self.quad.slice(..),

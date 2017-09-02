@@ -31,9 +31,9 @@ struct Defines {
 pub struct Ground {
     geometry: ugli::VertexBuffer<Vertex>,
     pub uniforms: Uniforms,
-    material: codevisual::LazyMaterial<::ShaderLib, (), Defines>,
+    material: codevisual::Material<::ShaderLib, (), Defines>,
     water_geometry: ugli::VertexBuffer<Vertex>,
-    water_material: codevisual::LazyMaterial<::ShaderLib, (), Defines>,
+    water_material: codevisual::Material<::ShaderLib, (), Defines>,
     settings: Rc<Settings>,
 }
 
@@ -76,7 +76,7 @@ impl Ground {
                 u_darkgrass_texture: resources.darkgrass_texture,
                 u_map_texture: resources.map_texture,
             },
-            material: codevisual::LazyMaterial::new(
+            material: codevisual::Material::new(
                 context,
                 (),
                 defines.clone(),
@@ -91,7 +91,7 @@ impl Ground {
                     Vertex { a_pos: vec2(MAP_SIZE, -MAP_SIZE) },
                 ],
             ),
-            water_material: codevisual::LazyMaterial::new(
+            water_material: codevisual::Material::new(
                 context,
                 (),
                 defines.clone(),
@@ -112,7 +112,7 @@ impl Ground {
         self.water_material.defines.d_heightmap_enabled = self.settings.heightmap_enabled.get();
         ugli::draw(
             framebuffer,
-            self.material.get_shader().ugli_program(),
+            &self.material.ugli_program(),
             ugli::DrawMode::Triangles,
             &ugli::plain(&self.geometry.slice(..)),
             &(uniforms, &self.uniforms),
@@ -120,7 +120,7 @@ impl Ground {
         );
         ugli::draw(
             framebuffer,
-            self.water_material.get_shader().ugli_program(),
+            &self.water_material.ugli_program(),
             ugli::DrawMode::TriangleFan,
             &ugli::plain(&self.water_geometry.slice(..)),
             &(uniforms, &self.uniforms),

@@ -29,7 +29,7 @@ struct Defines {
 
 struct Decor {
     texture: ugli::Texture2d,
-    material: codevisual::LazyMaterial<::ShaderLib, (), Defines>,
+    material: codevisual::Material<::ShaderLib, (), Defines>,
     geometry: ugli::VertexBuffer<Vertex>,
     instances: ugli::VertexBuffer<Instance>,
     settings: Rc<Settings>,
@@ -70,7 +70,7 @@ impl Decor {
         };
         Self {
             texture,
-            material: codevisual::LazyMaterial::new(
+            material: codevisual::Material::new(
                 context,
                 (),
                 Defines {
@@ -99,7 +99,7 @@ impl Decor {
         let count = (self.instances.slice(..).len() as f64 * percent) as usize;
         ugli::draw(
             framebuffer,
-            self.material.get_shader().ugli_program(),
+            &self.material.ugli_program(),
             ugli::DrawMode::Triangles,
             &ugli::instanced(&self.geometry.slice(..), &self.instances.slice(..count)),
             &(uniforms, uniforms!(u_texture: &self.texture)),

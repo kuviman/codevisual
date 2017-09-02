@@ -9,8 +9,8 @@ pub struct ShaderPrelude;
 impl ShaderLibrary for ShaderPrelude {
     fn get(path: &str) -> Option<&str> {
         match path {
-            "prelude" => Some(include_str!("prelude.glsl")),
-            "noise2d" => Some(include_str!("noise2d.glsl")),
+            "prelude" => Some(include_str!("glsl/prelude.glsl")),
+            "noise2d" => Some(include_str!("glsl/noise2d.glsl")),
             _ => None
         }
     }

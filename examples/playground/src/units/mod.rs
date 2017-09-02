@@ -68,7 +68,7 @@ struct Defines {
 pub struct Units {
     geometry: obj::Geometry,
     pub instances: ugli::VertexBuffer<InstanceData>,
-    material: codevisual::LazyMaterial<::ShaderLib, (), Defines>,
+    material: codevisual::Material<::ShaderLib, (), Defines>,
     texture: ugli::Texture2d,
     count: usize,
     pub current_time: f32,
@@ -102,7 +102,7 @@ impl Units {
         Self {
             geometry,
             instances: ugli::VertexBuffer::new_dynamic(context, instance_data),
-            material: codevisual::LazyMaterial::new(
+            material: codevisual::Material::new(
                 context,
                 (),
                 Defines {
@@ -154,7 +154,7 @@ impl Units {
         self.material.defines.d_heightmap_enabled = self.settings.heightmap_enabled.get();
         ugli::draw(
             framebuffer,
-            self.material.get_shader().ugli_program(),
+            &self.material.ugli_program(),
             ugli::DrawMode::Triangles,
             &ugli::instanced(
                 &self.geometry.slice(..),
@@ -182,7 +182,7 @@ pub struct AllUnits {
     pub cars: Units,
     pub helis: Units,
     screen_used_texture: Option<ugli::Texture2d>,
-    screen_used_material: codevisual::LazyMaterial<::ShaderLib, (), Defines>,
+    screen_used_material: codevisual::Material<::ShaderLib, (), Defines>,
     settings: Rc<Settings>,
 }
 
@@ -214,7 +214,7 @@ impl AllUnits {
             cars,
             helis,
             screen_used_texture: None,
-            screen_used_material: codevisual::LazyMaterial::new(
+            screen_used_material: codevisual::Material::new(
                 context,
                 (),
                 Defines {
@@ -280,7 +280,7 @@ impl AllUnits {
             ugli::clear(&mut framebuffer, Some(Color::rgb(1.0, 1.0, 1.0)), None);
             ugli::draw(
                 &mut framebuffer,
-                self.screen_used_material.get_shader().ugli_program(),
+                &self.screen_used_material.ugli_program(),
                 ugli::DrawMode::TriangleFan,
                 &ugli::instanced(
                     &ugli::quad(context).slice(..),

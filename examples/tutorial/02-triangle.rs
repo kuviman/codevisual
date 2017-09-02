@@ -2,6 +2,7 @@
 
 #[macro_use]
 extern crate codevisual;
+
 use codevisual::prelude::*;
 use codevisual::ugli;
 
@@ -13,7 +14,7 @@ struct Vertex {
 
 struct Tutorial {
     app: Rc<codevisual::Application>,
-    shader: codevisual::Shader,
+    material: codevisual::Material,
     vertices: ugli::VertexBuffer<Vertex>,
 }
 
@@ -42,9 +43,9 @@ impl codevisual::Game for Tutorial {
 
         Tutorial {
             app: app.clone(),
-            shader: codevisual::Shader::compile::<codevisual::ShaderPrelude>(
+            material: codevisual::Material::new(
                 context,
-                &(),
+                (), (),
                 SHADER_SOURCE,
             ),
             vertices: ugli::VertexBuffer::new_static(
@@ -78,7 +79,7 @@ impl codevisual::Game for Tutorial {
         );
         ugli::draw(
             &mut ugli::default_framebuffer(self.app.ugli_context()),
-            &self.shader.ugli_program(),
+            &self.material.ugli_program(),
             ugli::DrawMode::Triangles,
             &ugli::plain(&self.vertices.slice(..)),
             &(),

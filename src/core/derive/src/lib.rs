@@ -22,7 +22,7 @@ fn impl_vertex(ast: &syn::DeriveInput) -> quote::Tokens {
         let field_name2 = data.fields().into_iter().map(|field| {
             field.ident.as_ref().unwrap()
         });
-        quote!{
+        quote! {
             impl ::codevisual::ugli::VertexData for #name {
                 fn walk_attributes<C>(&self, mut consumer: C) where C: ::codevisual::ugli::VertexAttributeConsumer {
                     #(consumer.consume(stringify!(#field_name2), &self.#field_name));*
@@ -51,7 +51,7 @@ fn impl_uniforms(ast: &syn::DeriveInput) -> quote::Tokens {
         let field_name2 = data.fields().into_iter().map(|field| {
             field.ident.as_ref().unwrap()
         });
-        quote!{
+        quote! {
             impl ::codevisual::ugli::UniformStorage for #name {
                 fn walk_uniforms<C>(&self, consumer: &mut C) where C: ::codevisual::ugli::UniformConsumer {
                     #(consumer.consume(stringify!(#field_name2), &self.#field_name));*
@@ -80,11 +80,11 @@ fn impl_defines(ast: &syn::DeriveInput) -> quote::Tokens {
         let field_name2 = data.fields().into_iter().map(|field| {
             field.ident.as_ref().unwrap()
         });
-        quote!{
+        quote! {
             impl ::codevisual::ShaderDefineStorage for #name {
-                fn into_code(&self, sources: &mut Vec<String>) {
+                fn as_glsl(&self, sources: &mut Vec<String>) {
                     #(sources.push(format!(concat!("#define ", stringify!(#field_name2), " {}"),
-                        <::codevisual::ShaderDefine>::into_code(&self.#field_name))));*
+                        <::codevisual::ShaderDefine>::as_glsl(&self.#field_name))));*
                 }
             }
         }

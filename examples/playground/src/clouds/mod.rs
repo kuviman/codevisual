@@ -20,7 +20,7 @@ struct Vertex {
 pub struct Clouds {
     uniforms: Uniforms,
     data: ugli::VertexBuffer<Vertex>,
-    shader: codevisual::Shader,
+    material: codevisual::Material<ShaderLib>,
 }
 
 impl Clouds {
@@ -49,7 +49,7 @@ impl Clouds {
         Self {
             uniforms: Uniforms { u_texture: resources.cloud_texture },
             data: ugli::VertexBuffer::new_static(app.ugli_context(), data),
-            shader: codevisual::Shader::compile::<ShaderLib>(app.ugli_context(), &(), include_str!("shader.glsl")),
+            material: codevisual::Material::new(app.ugli_context(), (), (), include_str!("shader.glsl")),
         }
     }
 
@@ -60,7 +60,7 @@ impl Clouds {
     ) {
         ugli::draw(
             framebuffer,
-            self.shader.ugli_program(),
+            &self.material.ugli_program(),
             ugli::DrawMode::Points,
             &ugli::plain(&self.data.slice(..)),
             &(uniforms, &self.uniforms),

@@ -26,7 +26,7 @@ struct CodeWars2017 {
     app: Rc<codevisual::Application>,
     camera: Camera,
     texture: ugli::Texture2d,
-    shader: codevisual::Shader,
+    material: Material,
 }
 
 shader_library! {
@@ -35,6 +35,8 @@ shader_library! {
         "camera" => include_str!("camera/lib.glsl"),
     }
 }
+
+type Material = codevisual::Material<ShaderLib>;
 
 resources! {
     Resources {
@@ -64,8 +66,8 @@ impl codevisual::Game for CodeWars2017 {
                     }
                 })
             },
-            shader: codevisual::Shader::compile::<ShaderLib>(
-                app.ugli_context(), &(), include_str!("shader.glsl"))
+            material: Material::new(
+                app.ugli_context(), (), (), include_str!("shader.glsl"))
         }
     }
 
@@ -81,7 +83,7 @@ impl codevisual::Game for CodeWars2017 {
         });
         ugli::draw(
             framebuffer,
-            &self.shader.ugli_program(),
+            &self.material.ugli_program(),
             ugli::DrawMode::TriangleFan,
             &ugli::plain(&ugli::quad(self.app.ugli_context()).slice(..)),
             (self.camera.uniforms(), uniforms!(texture: &self.texture)),
