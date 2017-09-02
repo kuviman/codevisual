@@ -19,7 +19,7 @@ impl Settings {
             decor_percent: app.add_setting_f64("Decor", 0.0, 1.0, 1.0),
             show_bushes: app.add_setting_bool("Bushes", false),
             decor_transparency: app.add_setting_bool("Decor transparency", true),
-            clouds_enabled: app.add_setting_bool("Clouds", true),
+            clouds_enabled: app.add_setting_bool("Clouds", false),
             fog_enabled: app.add_setting_bool("Fog'o'war", true),
             heightmap_enabled: app.add_setting_bool("Terrait heightmap", true),
             point_updates: app.add_setting_bool("Point updates", false),
