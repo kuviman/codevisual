@@ -5,7 +5,7 @@ authors = ["kuviman <kuviman@gmail.com>"]
 
 [dependencies]
 gl = "*"
-vpl = { path = "../vpl" }
+prelude = { path = "../prelude" }
 
 [target.'cfg(not(target_os = "emscripten"))'.dependencies]
 image = "*"

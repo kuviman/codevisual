@@ -1,8 +1,8 @@
 #[allow(unused_imports)]
 #[macro_use]
-extern crate vpl;
+extern crate prelude;
 
-pub ( crate ) use vpl::*;
+pub ( crate ) use prelude::*;
 
 extern crate ugli;
 

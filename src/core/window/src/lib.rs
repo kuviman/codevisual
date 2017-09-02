@@ -1,6 +1,6 @@
-extern crate vpl;
+extern crate prelude;
 
-use vpl::*;
+use prelude::*;
 
 extern crate ugli;
 

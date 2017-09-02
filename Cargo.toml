@@ -7,7 +7,7 @@ authors = ["kuviman <kuviman@gmail.com>"]
 members = ["codewars2017"]
 
 [dependencies]
-vpl = { path = "src/vpl" }
+prelude = { path = "src/prelude" }
 ugli = { path = "src/ugli" }
 codevisual_core = { path = "src/core" }
 

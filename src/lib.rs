@@ -1,18 +1,15 @@
-pub extern crate vpl;
+pub extern crate prelude;
 
 #[allow(unused_imports)]
 #[macro_use]
 pub extern crate codevisual_core as core;
+
 pub use core::*;
 
 pub extern crate ugli;
 
 #[cfg(target_os = "emscripten")]
 pub extern crate brijs;
-
-pub mod prelude {
-    pub use vpl::*;
-}
 
 #[macro_export]
 macro_rules! resources {

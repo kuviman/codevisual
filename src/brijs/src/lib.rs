@@ -2,9 +2,9 @@ extern crate emscripten_sys;
 extern crate serde;
 extern crate serde_json;
 extern crate ugli;
-extern crate vpl;
+extern crate prelude;
 
-pub ( crate ) use vpl::*;
+pub ( crate ) use prelude::*;
 
 mod emscripten;
 
