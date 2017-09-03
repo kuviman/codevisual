@@ -31,6 +31,12 @@ impl ResourceLoader {
     pub fn ready(&self) -> bool {
         self.resource_count.get() == self.loaded_resource_count.get()
     }
+    pub fn get_total_count(&self) -> usize {
+        self.resource_count.get()
+    }
+    pub fn get_loaded_count(&self) -> usize {
+        self.loaded_resource_count.get()
+    }
 }
 
 pub trait ResourceFuture<T>: 'static {

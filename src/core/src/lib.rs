@@ -94,6 +94,10 @@ pub fn run<G: Game>() {
 
     let start = move || {
         if !resource_loader.ready() {
+            #[cfg(target_os = "emscripten")]
+            run_js! {
+                CodeVisual.internal.set_load_progress(&resource_loader.get_loaded_count(), &resource_loader.get_total_count());
+            }
             return false;
         }
         let mut resources_swapper = None;
