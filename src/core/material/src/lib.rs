@@ -39,14 +39,14 @@ pub fn compile_ugli_program<Lib>(
     let vertex_shader = ugli::Shader::new(
         ugli_context,
         ugli::ShaderType::Vertex,
-        PreprocessedShader::new::<Lib>(&sources).get_sources(),
+        &[&PreprocessedShader::new::<Lib>(&sources).get_source()],
     ).unwrap();
 
     sources[0] = "#define FRAGMENT";
     let fragment_shader = ugli::Shader::new(
         ugli_context,
         ugli::ShaderType::Fragment,
-        PreprocessedShader::new::<Lib>(&sources).get_sources(),
+        &[&PreprocessedShader::new::<Lib>(&sources).get_source()],
     ).unwrap();
 
     ugli::Program::new(ugli_context, &[&vertex_shader, &fragment_shader]).unwrap()

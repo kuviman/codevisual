@@ -24,7 +24,7 @@ vec4 blurred(sampler2D texture, vec2 pos) {
         for (int j = -OFF; j <= OFF; j++) {
             float g = G(vec2(i, j), BLUR_SIGMA);
             sum += g;
-            result += texture2D(texture, pos + vec2(i, j) / BLUR_DIV) * g;
+            result += texture2D(texture, pos + vec2(i, j) / texture_size / BLUR_DIV) * g;
         }
     return result / sum;
 }
@@ -32,12 +32,18 @@ vec4 blurred(sampler2D texture, vec2 pos) {
 void main() {
 //    gl_FragColor = vec4(G(pos * 2.0 - 1.0, 0.5), 0.0, 0.0, 1.0);
 //    return;
+#if BLUR
     vec3 typ = blurred(texture, pos).xyz;
+#else
+    vec3 typ = texture2D(texture, pos).xyz;
+#endif
+#if !VIEW_PLAIN
     if (typ.x > typ.y) {
         typ = typ.x > typ.z ? vec3(1.0, 0.0, 0.0) : vec3(0.0, 0.0, 1.0);
     } else {
         typ = typ.y > typ.z ? vec3(0.0, 1.0, 0.0) : vec3(0.0, 0.0, 1.0);
     }
+#endif
     gl_FragColor = vec4(PLAIN_COLOR * typ.x + FOREST_COLOR * typ.y + SWAMP_COLOR * typ.z, 1.0);
 }
 #endif

@@ -57,11 +57,17 @@ impl<'a> PreprocessedShader<'a> {
             } else {
                 self.sources.push(line);
                 self.sources.push("\n");
+                if line.starts_with("uniform sampler2D ") && line.ends_with(';') {
+                    let name = &line["uniform sampler2D ".len()..line.len() - ";".len()];
+                    self.sources.push("uniform vec2 ");
+                    self.sources.push(name);
+                    self.sources.push("_size;\n");
+                }
             }
         }
     }
 
-    pub fn get_sources(&self) -> &[&str] {
-        &self.sources
+    pub fn get_source(&self) -> String {
+        std::slice::SliceConcatExt::concat(self.sources.as_slice())
     }
 }

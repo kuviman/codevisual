@@ -2,6 +2,7 @@ use ::*;
 
 mod raw {
     use ::*;
+
     pub struct Location<'a> {
         pub location: GLint,
         pub texture_count: &'a mut usize,
@@ -9,12 +10,14 @@ mod raw {
 }
 
 mod storage;
+
 pub use self::storage::*;
 
-pub(crate) use self::raw::Location as UniformLocation;
+pub ( crate ) use self::raw::Location as UniformLocation;
 
 pub trait Uniform {
     fn apply<'a>(&self, location: raw::Location<'a>);
+    fn walk_extra<C>(&self, name: &str, consumer: &mut C) where C: UniformConsumer {}
 }
 
 pub trait UniformConsumer {
@@ -33,6 +36,15 @@ impl Uniform for Vec2<f32> {
     fn apply<'a>(&self, location: raw::Location<'a>) {
         unsafe {
             gl::Uniform2f(location.location, self.x, self.y);
+        }
+    }
+}
+
+impl Uniform for Vec2<usize> {
+    fn apply<'a>(&self, location: raw::Location<'a>) {
+        println!("{:?}", self);
+        unsafe {
+            gl::Uniform2f(location.location, self.x as f32, self.y as f32);
         }
     }
 }
@@ -73,11 +85,17 @@ impl Uniform for Texture2d {
         }
         (*location.texture_count) += 1;
     }
+    fn walk_extra<C>(&self, name: &str, consumer: &mut C) where C: UniformConsumer {
+        consumer.consume(&(name.to_owned() + "_size"), &self.get_size());
+    }
 }
 
 impl<'a, U: Uniform> Uniform for &'a U {
     fn apply<'b>(&self, location: raw::Location<'b>) {
         (*self).apply(location);
+    }
+    fn walk_extra<C>(&self, name: &str, consumer: &mut C) where C: UniformConsumer {
+        (*self).walk_extra(name, consumer);
     }
 }
 
@@ -85,6 +103,11 @@ impl<U: Uniform> Uniform for Option<U> {
     fn apply<'b>(&self, location: raw::Location<'b>) {
         if let Some(ref value) = *self {
             value.apply(location);
+        }
+    }
+    fn walk_extra<C>(&self, name: &str, consumer: &mut C) where C: UniformConsumer {
+        if let Some(ref value) = *self {
+            value.walk_extra(name, consumer);
         }
     }
 }

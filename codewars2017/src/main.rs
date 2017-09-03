@@ -26,6 +26,8 @@ struct Settings {
     blur_radius: codevisual::SettingValue<i32>,
     blur_sigma: codevisual::SettingValue<f64>,
     blur_div: codevisual::SettingValue<f64>,
+    blur: codevisual::SettingValue<bool>,
+    view_plain: codevisual::SettingValue<bool>,
 }
 
 #[derive(Defines, Default, PartialEq, Clone)]
@@ -33,6 +35,8 @@ struct BlurDefines {
     BLUR_RADIUS: i32,
     BLUR_DIV: f32,
     BLUR_SIGMA: f32,
+    BLUR: bool,
+    VIEW_PLAIN: bool,
 }
 
 struct CodeWars2017 {
@@ -85,7 +89,9 @@ impl codevisual::Game for CodeWars2017 {
             settings: Settings {
                 blur_radius: app.add_setting_i32("Blur Radius", 0, 20, 10),
                 blur_sigma: app.add_setting_f64("Blur Sigma", 0.0, 2.0, 1.0),
-                blur_div: app.add_setting_f64("Blur Div", 1.0, 256.0, 64.0),
+                blur_div: app.add_setting_f64("Blur Div", 1.0, 16.0, 2.0),
+                blur: app.add_setting_bool("Blur", false),
+                view_plain: app.add_setting_bool("Plain view", false),
             }
         }
     }
@@ -103,6 +109,8 @@ impl codevisual::Game for CodeWars2017 {
         self.material.defines.BLUR_DIV = self.settings.blur_div.get() as f32;
         self.material.defines.BLUR_SIGMA = self.settings.blur_sigma.get() as f32;
         self.material.defines.BLUR_RADIUS = self.settings.blur_radius.get();
+        self.material.defines.BLUR = self.settings.blur.get();
+        self.material.defines.VIEW_PLAIN = self.settings.view_plain.get();
         ugli::draw(
             framebuffer,
             &self.material.ugli_program(),

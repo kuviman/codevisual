@@ -75,10 +75,6 @@ impl codevisual::Asset for GameLog {
                     return false;
                 }
                 let tick_info: TickInfo = serde_json::from_str(&line).unwrap();
-                println!("Parsed tick {}", tick_info.tickIndex);
-                if let Some(_) = tick_info.tickCount {
-                    println!("{:?}", tick_info);
-                }
                 ticks.write().unwrap().push(tick_info);
                 true
             };

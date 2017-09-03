@@ -1,6 +1,7 @@
 use ::*;
 
 mod parameters;
+
 pub use self::parameters::*;
 
 use framebuffer::attachment;
@@ -21,7 +22,7 @@ pub fn clear<FR, FC>(
     depth: Option<f32>,
 ) where
     FR: attachment::Access,
-    FC: attachment::Color<ReadAccess = FR, WriteAccess = attachment::HasAccess>,
+    FC: attachment::Color<ReadAccess=FR, WriteAccess=attachment::HasAccess>,
 {
     framebuffer.fbo.bind();
     let mut flags = 0;
@@ -56,7 +57,7 @@ pub fn draw<FR, FC, V, U>(
     draw_parameters: &DrawParameters,
 ) where
     FR: attachment::Access,
-    FC: attachment::Color<ReadAccess = FR, WriteAccess = attachment::HasAccess>,
+    FC: attachment::Color<ReadAccess=FR, WriteAccess=attachment::HasAccess>,
     V: VertexDataSource,
     U: UniformStorage,
 {
@@ -152,6 +153,7 @@ pub fn draw<FR, FC, V, U>(
                     texture_count: &mut self.texture_count,
                 });
             }
+            uniform.walk_extra(name, self);
         }
     }
 
@@ -189,8 +191,8 @@ pub fn draw<FR, FC, V, U>(
     }
     impl<'a> VertexDataConsumer for VDC<'a> {
         fn consume<D>(&mut self, data: &VertexBufferSlice<D>, divisor: Option<usize>)
-        where
-            D: VertexData,
+            where
+                D: VertexData,
         {
             if let Some(divisor) = divisor {
                 let instance_count = data.len() * divisor;
