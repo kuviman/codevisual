@@ -13,11 +13,6 @@ html( lang="en" )
         script( src="codevisual.js" )
     body
         div.codevisual-player
-            div.loading-screen
-                h3 Please, wait
-                h4 loading
-                div.progress
-                    div.resource-loading-progress-bar.progress-bar.progress-bar-stripped.active( role="progressbar" style="width:0;" )
             div.game-screen( style="display:none;" )
                 canvas
                 div.controls
@@ -38,6 +33,12 @@ html( lang="en" )
                 div.settings( style="display:none;" )
                     div.container-fluid
                         table.settings-container
+            div.loading-screen
+                div.loading-screen-container
+                    h3 Please, wait
+                    h4 loading
+                    div.progress
+                        div.resource-loading-progress-bar.progress-bar.progress-bar-stripped.active( role="progressbar" style="width:0;" )
             div.failed-screen( style="display:none;" )
                 h3 Whoops...
                 p.error-message Something went wrong

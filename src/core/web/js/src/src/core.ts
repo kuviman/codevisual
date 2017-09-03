@@ -32,7 +32,7 @@ namespace CodeVisual {
             }
         }
         export function before_main_loop() {
-            $loadingScreen.hide();
+            $loadingScreen.fadeOut();
             $gameScreen.show();
         }
         export function show_error(error: string) {
