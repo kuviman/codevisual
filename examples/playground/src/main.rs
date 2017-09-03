@@ -115,8 +115,6 @@ impl codevisual::Game for Playground {
             resources.clouds,
             &settings,
         );
-        #[cfg(target_os = "emscripten")]
-        codevisual::brijs::stream_fetch("game.log", |s| { println!("Got data: {:?}", s); });
         Self {
             app: app.clone(),
 
