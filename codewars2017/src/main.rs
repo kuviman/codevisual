@@ -24,13 +24,22 @@ pub ( crate ) use camera::*;
 
 struct Settings {
     blur_radius: codevisual::SettingValue<i32>,
+    blur_sigma: codevisual::SettingValue<f64>,
+    blur_div: codevisual::SettingValue<f64>,
+}
+
+#[derive(Defines, Default, PartialEq, Clone)]
+struct BlurDefines {
+    BLUR_RADIUS: i32,
+    BLUR_DIV: f32,
+    BLUR_SIGMA: f32,
 }
 
 struct CodeWars2017 {
     app: Rc<codevisual::Application>,
     camera: Camera,
     texture: ugli::Texture2d,
-    material: Material<(), codevisual::SingleShaderDefine<'static, i32>>,
+    material: Material<(), BlurDefines>,
     settings: Settings,
 }
 
@@ -72,9 +81,11 @@ impl codevisual::Game for CodeWars2017 {
                 })
             },
             material: Material::new(
-                app.ugli_context(), (), codevisual::SingleShaderDefine::new("BLUR_RADIUS", 0), include_str!("shader.glsl")),
+                app.ugli_context(), (), Default::default(), include_str!("shader.glsl")),
             settings: Settings {
                 blur_radius: app.add_setting_i32("Blur Radius", 0, 20, 10),
+                blur_sigma: app.add_setting_f64("Blur Sigma", 0.0, 2.0, 1.0),
+                blur_div: app.add_setting_f64("Blur Div", 1.0, 256.0, 64.0),
             }
         }
     }
@@ -89,7 +100,9 @@ impl codevisual::Game for CodeWars2017 {
             let size = self.app.window().get_size();
             vec2(size.x as f32, size.y as f32)
         });
-        self.material.defines.set_value(self.settings.blur_radius.get());
+        self.material.defines.BLUR_DIV = self.settings.blur_div.get() as f32;
+        self.material.defines.BLUR_SIGMA = self.settings.blur_sigma.get() as f32;
+        self.material.defines.BLUR_RADIUS = self.settings.blur_radius.get();
         ugli::draw(
             framebuffer,
             &self.material.ugli_program(),

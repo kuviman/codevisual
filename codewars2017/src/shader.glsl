@@ -22,9 +22,9 @@ vec4 blurred(sampler2D texture, vec2 pos) {
     const int OFF = BLUR_RADIUS;
     for (int i = -OFF; i <= OFF; i++)
         for (int j = -OFF; j <= OFF; j++) {
-            float g = G(vec2(i, j), 1.0);
+            float g = G(vec2(i, j), BLUR_SIGMA);
             sum += g;
-            result += texture2D(texture, pos + vec2(i, j) / 64.0) * g;
+            result += texture2D(texture, pos + vec2(i, j) / BLUR_DIV) * g;
         }
     return result / sum;
 }
