@@ -18,8 +18,8 @@ impl ResourceLoader {
     pub ( crate ) fn new(app: &Rc<Application>) -> Self {
         Self {
             app: app.clone(),
-            resource_count: Cell::new(0),
-            loaded_resource_count: Rc::new(Cell::new(0)),
+            resource_count: Cell::new(1),
+            loaded_resource_count: Rc::new(Cell::new(1)),
         }
     }
     pub fn add_one(&self) {
