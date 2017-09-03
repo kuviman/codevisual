@@ -3,8 +3,10 @@ extern crate codevisual;
 
 pub ( crate ) use codevisual::prelude::*;
 pub ( crate ) use codevisual::ugli;
+
 #[cfg(target_os = "emscripten")]
-pub ( crate ) use codevisual::brijs;
+#[macro_use]
+extern crate brijs;
 
 extern crate serde;
 #[macro_use]

@@ -51,18 +51,23 @@ impl codevisual::Asset for GameLog {
             let loader = loader.clone();
             loader.add_one();
             let ticks = game_log.ticks.clone();
-            brijs::wget(path, move |content| {
-                use std::io::{Read, BufRead};
-                for line in content.lines() {
-                    let tick_info: TickInfo = serde_json::from_str(&line).unwrap();
-                    println!("Parsed tick {}", tick_info.tickIndex);
-                    if let Some(_) = tick_info.tickCount {
-                        println!("{:?}", tick_info);
-                    }
-                    ticks.write().unwrap().push(tick_info);
+            let mut loaded = false;
+            let parse_line = move |addr: i32| {
+                let line = unsafe { CString::from_raw(addr as *mut _).into_string().unwrap() };
+                let tick_info: TickInfo = serde_json::from_str(&line).unwrap();
+                let mut ticks = ticks.write().unwrap();
+                ticks.push(tick_info);
+                if !loaded {
+                    loader.confirm_one();
+                    loaded = true;
                 }
-                loader.confirm_one();
-            });
+                run_js! {
+                    CodeWars.set_loaded_percent(&(100.0 * ticks.len() as f32 / ticks[0].tickCount.unwrap() as f32));
+                }
+            };
+            run_js! {
+                CodeWars.stream_download(path, brijs::Callback::from(parse_line));
+            }
         }
         #[cfg(not(target_os = "emscripten"))]
         {
