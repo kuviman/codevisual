@@ -16,6 +16,12 @@ impl ShaderDefine for bool {
     }
 }
 
+impl ShaderDefine for i32 {
+    fn as_glsl(&self) -> String {
+        format!("int({})", self)
+    }
+}
+
 impl ShaderDefine for () {
     fn as_glsl(&self) -> String {
         String::new()
@@ -56,6 +62,7 @@ impl<'a, A, B> ShaderDefineStorage for (&'a A, &'a B)
     }
 }
 
+#[derive(PartialEq, Clone)]
 pub struct SingleShaderDefine<'a, D: ShaderDefine> {
     name: &'a str,
     value: D,
@@ -64,6 +71,9 @@ pub struct SingleShaderDefine<'a, D: ShaderDefine> {
 impl<'a, D: ShaderDefine> SingleShaderDefine<'a, D> {
     pub fn new(name: &'a str, value: D) -> Self {
         Self { name, value }
+    }
+    pub fn set_value(&mut self, value: D) {
+        self.value = value;
     }
 }
 

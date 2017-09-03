@@ -19,7 +19,7 @@ const vec3 SWAMP_COLOR = vec3(0.1, 0.7, 0.5);
 vec4 blurred(sampler2D texture, vec2 pos) {
     vec4 result = vec4(0.0);
     float sum = 0.0;
-    const int OFF = 10;
+    const int OFF = BLUR_RADIUS;
     for (int i = -OFF; i <= OFF; i++)
         for (int j = -OFF; j <= OFF; j++) {
             float g = G(vec2(i, j), 1.0);

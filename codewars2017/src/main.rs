@@ -22,11 +22,16 @@ mod camera;
 
 pub ( crate ) use camera::*;
 
+struct Settings {
+    blur_radius: codevisual::SettingValue<i32>,
+}
+
 struct CodeWars2017 {
     app: Rc<codevisual::Application>,
     camera: Camera,
     texture: ugli::Texture2d,
-    material: Material,
+    material: Material<(), codevisual::SingleShaderDefine<'static, i32>>,
+    settings: Settings,
 }
 
 shader_library! {
@@ -36,7 +41,7 @@ shader_library! {
     }
 }
 
-type Material = codevisual::Material<ShaderLib>;
+type Material<U = (), D = ()> = codevisual::Material<ShaderLib, U, D>;
 
 resources! {
     Resources {
@@ -67,7 +72,10 @@ impl codevisual::Game for CodeWars2017 {
                 })
             },
             material: Material::new(
-                app.ugli_context(), (), (), include_str!("shader.glsl"))
+                app.ugli_context(), (), codevisual::SingleShaderDefine::new("BLUR_RADIUS", 0), include_str!("shader.glsl")),
+            settings: Settings {
+                blur_radius: app.add_setting_i32("Blur Radius", 0, 20, 10),
+            }
         }
     }
 
@@ -81,6 +89,7 @@ impl codevisual::Game for CodeWars2017 {
             let size = self.app.window().get_size();
             vec2(size.x as f32, size.y as f32)
         });
+        self.material.defines.set_value(self.settings.blur_radius.get());
         ugli::draw(
             framebuffer,
             &self.material.ugli_program(),
