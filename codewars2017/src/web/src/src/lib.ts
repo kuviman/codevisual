@@ -7,7 +7,8 @@ namespace CodeWars {
         });
         xhr.send();
 
-        const MAX_BYTES_AT_ONCE = 10 * 1024;
+        const MAX_BYTES_AT_ONCE = 16 * 1024;
+        const MAX_LINES_AT_ONCE = 16;
         let responsePos = 0;
         let line_start = 0;
         let finished = false;
@@ -31,10 +32,14 @@ namespace CodeWars {
         function update() {
             if (xhr.readyState == 3 || xhr.readyState == 4) {
                 let maxPos = Math.min(text.length, responsePos + MAX_BYTES_AT_ONCE);
+                let lineLimit = MAX_LINES_AT_ONCE;
                 while (responsePos < maxPos) {
                     if (text[responsePos++] == '\n') {
                         sendLine(text.substring(line_start, responsePos));
                         line_start = responsePos;
+                        if (--lineLimit <= 0) {
+                            break;
+                        }
                     }
                 }
                 if (responsePos == text.length) {
