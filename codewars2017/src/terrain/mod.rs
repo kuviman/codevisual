@@ -8,11 +8,11 @@ pub struct Terrain {
 }
 
 impl Terrain {
-    pub fn new(app: &Rc<codevisual::Application>, tick0: &gamelog::TickInfo) -> Self {
+    pub fn new(app: &Rc<codevisual::Application>, game_log: &gamelog::GameLog) -> Self {
         Self {
             app: app.clone(),
             texture: {
-                let terrain_data: &Vec<Vec<gamelog::TerrainType>> = tick0.terrainByCellXY.as_ref().unwrap();
+                let terrain_data: &Vec<Vec<gamelog::TerrainType>> = &game_log.terrain;
                 ugli::Texture2d::new_with(app.ugli_context(), vec2(terrain_data.len(), terrain_data[0].len()), |pos| {
                     use gamelog::TerrainType::*;
                     match terrain_data[pos.x][pos.y] {

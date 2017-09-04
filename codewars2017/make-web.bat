@@ -5,7 +5,7 @@ pushd ..
 
 call emsdk\emsdk_env.bat
 set PATH=C:\Users\vkudasov\.cargo\bin;%NODEJS_HOME%;C:\Users\vkudasov\AppData\Roaming\npm;%PATH%
-set EMMAKEN_CFLAGS=-s TOTAL_MEMORY=268435456 -s FETCH=1 -s FETCH_DEBUG=1
+set EMMAKEN_CFLAGS=-s ALLOW_MEMORY_GROWTH=1 -s FETCH=1 -s FETCH_DEBUG=1
 popd
 cargo build --release --target=asmjs-unknown-emscripten
 if !errorlevel! neq 0 exit /b !errorlevel!

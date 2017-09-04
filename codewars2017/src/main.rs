@@ -30,7 +30,7 @@ struct CodeWars2017 {
     app: Rc<codevisual::Application>,
     camera: Camera,
     terrain: Terrain,
-    game_log: gamelog::GameLog,
+    game_log_loader: gamelog::loader::Loader,
 }
 
 shader_library! {
@@ -44,7 +44,7 @@ type Material<U = (), D = ()> = codevisual::Material<ShaderLib, U, D>;
 
 resources! {
     Resources {
-        game_log: gamelog::GameLog = "game.log",
+        game_log_loader: gamelog::loader::Loader = "game.log",
     }
 }
 
@@ -57,12 +57,12 @@ impl codevisual::Game for CodeWars2017 {
 
     fn new(app: Rc<codevisual::Application>, resources: Self::Resources) -> Self {
         let app = &app;
-        let game_log: gamelog::GameLog = resources.game_log;
-        let terrain = Terrain::new(app, &game_log.ticks.read().unwrap()[0]);
+        let game_log_loader: gamelog::loader::Loader = resources.game_log_loader;
+        let terrain = Terrain::new(app, &game_log_loader.read());
         Self {
             app: app.clone(),
             camera: Camera::new(app),
-            game_log,
+            game_log_loader,
             terrain,
         }
     }
