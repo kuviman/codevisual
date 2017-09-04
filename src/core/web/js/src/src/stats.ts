@@ -81,7 +81,7 @@ namespace CodeVisual {
             q: ValueAndMax[] = [];
 
             max(): number {
-                return this.q.length == 0 ? -100500 : this.q[this.q.length - 1].max;
+                return this.q.length == 0 ? -Infinity : this.q[this.q.length - 1].max;
             }
 
             push(value: number) {
