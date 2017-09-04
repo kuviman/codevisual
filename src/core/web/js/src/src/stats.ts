@@ -69,17 +69,95 @@ namespace CodeVisual {
 
     namespace Stats {
         let PR = Math.round(window.devicePixelRatio || 1);
+        let HISTORY_LENGTH = 74;
         let WIDTH = 80 * PR, HEIGHT = 48 * PR,
             TEXT_X = 3 * PR, TEXT_Y = 2 * PR,
             GRAPH_X = 3 * PR, GRAPH_Y = 15 * PR,
-            GRAPH_WIDTH = 74 * PR, GRAPH_HEIGHT = 30 * PR;
+            GRAPH_WIDTH = HISTORY_LENGTH * PR, GRAPH_HEIGHT = 30 * PR;
+
+        type ValueAndMax = { value: number, max: number };
+
+        class MaxStack {
+            q: ValueAndMax[] = [];
+
+            max(): number {
+                return this.q.length == 0 ? -100500 : this.q[this.q.length - 1].max;
+            }
+
+            push(value: number) {
+                this.q.push({value: value, max: Math.max(value, this.max())});
+            }
+
+            pop(): number {
+                return this.q.pop().value;
+            }
+
+            get length(): number {
+                return this.q.length;
+            }
+        }
+
+        class MaxQueue {
+            q1: MaxStack = new MaxStack();
+            q2: MaxStack = new MaxStack();
+
+            max(): number {
+                return Math.max(this.q1.max(), this.q2.max());
+            }
+
+            push(value: number) {
+                this.q2.push(value);
+            }
+
+            pop(): number {
+                if (this.q1.length == 0) {
+                    while (this.q2.length != 0) {
+                        this.q1.push(this.q2.pop());
+                    }
+                }
+                return this.q1.pop();
+            }
+
+            get length(): number {
+                return this.q1.length + this.q2.length;
+            }
+        }
+
+        class MinMaxQueue {
+            minQueue: MaxQueue = new MaxQueue();
+            maxQueue: MaxQueue = new MaxQueue();
+
+            push(value: number) {
+                this.maxQueue.push(value);
+                this.minQueue.push(-value);
+            }
+
+            pop(): number {
+                this.minQueue.pop();
+                return this.maxQueue.pop();
+            }
+
+            max(): number {
+                return this.maxQueue.max();
+            }
+
+            min(): number {
+                return -this.minQueue.max();
+            }
+
+            get length(): number {
+                return this.maxQueue.length;
+            }
+        }
 
         export class Panel {
             private min = Infinity;
             private max = 0;
             private canvas: HTMLCanvasElement;
             private context: CanvasRenderingContext2D;
+            private minMaxQueue: MinMaxQueue = new MinMaxQueue();
             dom: Element;
+
             constructor(private name: string, private bg: string, private fg: string) {
                 let round = Math.round;
 
@@ -109,8 +187,12 @@ namespace CodeVisual {
             }
 
             update(value: number, maxValue: number) {
-                this.min = Math.min(this.min, value);
-                this.max = Math.max(this.max, value);
+                this.minMaxQueue.push(value);
+                this.min = this.minMaxQueue.min();
+                this.max = this.minMaxQueue.max();
+                if (this.minMaxQueue.length > HISTORY_LENGTH) {
+                    this.minMaxQueue.pop();
+                }
 
                 this.context.fillStyle = this.bg;
                 this.context.globalAlpha = 1;
@@ -132,9 +214,11 @@ namespace CodeVisual {
     export namespace internal {
         const stats = new Stats();
         let $stats: JQuery;
+
         export function update_stats() {
             stats.update();
         }
+
         on_init.push(() => {
             $player.find(".game-screen").append(stats.dom);
             $stats = $player.find(".stats");
