@@ -72,9 +72,10 @@ impl codevisual::Game for CodeWars2017 {
     }
 
     fn new(app: Rc<codevisual::Application>, resources: Self::Resources) -> Self {
+        let app = &app;
         Self {
             app: app.clone(),
-            camera: Camera::new(),
+            camera: Camera::new(app),
             texture: {
                 let ticks = resources.game_log.ticks.read().unwrap();
                 let terrain_data: &Vec<Vec<TerrainType>> = ticks[0].terrainByCellXY.as_ref().unwrap();
@@ -104,10 +105,6 @@ impl codevisual::Game for CodeWars2017 {
         let mut framebuffer = ugli::default_framebuffer(self.app.ugli_context());
         let framebuffer = &mut framebuffer;
         ugli::clear(framebuffer, Some(Color::rgb(0.0, 1.0, 1.0)), Some(1.0));
-        self.camera.update({
-            let size = self.app.window().get_size();
-            vec2(size.x as f32, size.y as f32)
-        });
         self.material.defines.BLUR_DIV = self.settings.blur_div.get() as f32;
         self.material.defines.BLUR_SIGMA = self.settings.blur_sigma.get() as f32;
         self.material.defines.BLUR_RADIUS = self.settings.blur_radius.get();
@@ -127,7 +124,9 @@ impl codevisual::Game for CodeWars2017 {
         );
     }
 
-    fn handle_event(&mut self, event: codevisual::Event) {}
+    fn handle_event(&mut self, event: codevisual::Event) {
+        self.camera.handle(event);
+    }
 }
 
 fn main() {
