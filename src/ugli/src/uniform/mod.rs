@@ -42,7 +42,6 @@ impl Uniform for Vec2<f32> {
 
 impl Uniform for Vec2<usize> {
     fn apply<'a>(&self, location: raw::Location<'a>) {
-        println!("{:?}", self);
         unsafe {
             gl::Uniform2f(location.location, self.x as f32, self.y as f32);
         }
