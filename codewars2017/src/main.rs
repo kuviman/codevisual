@@ -17,9 +17,6 @@ extern crate serde_json;
 extern crate codewars2017_web;
 
 mod gamelog;
-
-pub ( crate ) use gamelog::*;
-
 mod camera;
 
 pub ( crate ) use camera::*;
@@ -60,7 +57,7 @@ type Material<U = (), D = ()> = codevisual::Material<ShaderLib, U, D>;
 
 resources! {
     Resources {
-        game_log: GameLog = "game.log",
+        game_log: gamelog::GameLog = "game.log",
     }
 }
 
@@ -78,12 +75,13 @@ impl codevisual::Game for CodeWars2017 {
             camera: Camera::new(app),
             texture: {
                 let ticks = resources.game_log.ticks.read().unwrap();
-                let terrain_data: &Vec<Vec<TerrainType>> = ticks[0].terrainByCellXY.as_ref().unwrap();
+                let terrain_data: &Vec<Vec<gamelog::TerrainType>> = ticks[0].terrainByCellXY.as_ref().unwrap();
                 ugli::Texture2d::new_with(app.ugli_context(), vec2(terrain_data.len(), terrain_data[0].len()), |pos| {
+                    use gamelog::TerrainType::*;
                     match terrain_data[pos.x][pos.y] {
-                        TerrainType::PLAIN => Color::rgb(1.0, 0.0, 0.0),
-                        TerrainType::FOREST => Color::rgb(0.0, 1.0, 0.0),
-                        TerrainType::SWAMP => Color::rgb(0.0, 0.0, 1.0),
+                        PLAIN => Color::rgb(1.0, 0.0, 0.0),
+                        FOREST => Color::rgb(0.0, 1.0, 0.0),
+                        SWAMP => Color::rgb(0.0, 0.0, 1.0),
                     }
                 })
             },
