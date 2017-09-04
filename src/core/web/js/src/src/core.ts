@@ -3,6 +3,7 @@ declare var GL: { textures: WebGLTexture[] };
 
 namespace Module {
     export let canvas: HTMLCanvasElement;
+
     export function printErr(s: string) {
         if (s.indexOf("bad name in getProcAddress: ") == 0) {
             return;
@@ -20,6 +21,8 @@ namespace CodeVisual {
 
     export namespace internal {
         export const on_init = [] as [() => void];
+        export const on_before_main_loop = [] as [() => void];
+
         export function init() {
             $player = $(".codevisual-player");
 
@@ -31,10 +34,15 @@ namespace CodeVisual {
                 f();
             }
         }
+
         export function before_main_loop() {
             $loadingScreen.fadeOut();
             $gameScreen.show();
+            for (let f of on_before_main_loop) {
+                f();
+            }
         }
+
         export function show_error(error: string) {
             console.error(error);
             $player.addClass("error");
@@ -43,6 +51,7 @@ namespace CodeVisual {
             $failedScreen.show();
             $failedScreen.find(".error-message").text(error);
         }
+
         export function load_texture(path: string, texture_handle: number, on_load: (width: number, height: number) => void) {
             let texture = GL.textures[texture_handle];
             let image = new Image();
@@ -55,6 +64,7 @@ namespace CodeVisual {
             };
             image.src = path;
         }
+
         export function set_load_progress(loaded_count: number, total_count: number) {
             $player.find(".resource-loading-progress-bar").width(loaded_count * 100 / total_count + "%");
         }
