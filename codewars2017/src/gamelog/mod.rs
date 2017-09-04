@@ -32,7 +32,7 @@ pub struct GameLog {
 }
 
 impl GameLog {
-    fn new(mut tick0: loader::raw::TickInfo) -> Self {
+    fn new(mut tick0: loader::TickInfo) -> Self {
         let mut terrain = None;
         std::mem::swap(&mut tick0.terrainByCellXY, &mut terrain);
         let mut game_log = Self {
@@ -42,6 +42,6 @@ impl GameLog {
         game_log.add_tick(tick0);
         game_log
     }
-    fn add_tick(&mut self, tick_info: loader::raw::TickInfo) {}
+    fn add_tick(&mut self, tick_info: loader::TickInfo) {}
     fn finish(&mut self) {}
 }

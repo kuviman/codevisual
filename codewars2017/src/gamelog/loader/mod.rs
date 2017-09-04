@@ -1,16 +1,22 @@
 use ::*;
 use gamelog::*;
 
-pub mod raw;
+mod raw;
 
-use self::raw::*;
+pub use self::raw::*;
 
 #[derive(Debug, Clone)]
 pub struct Loader {
+    #[cfg(target_os = "emscripten")]
+    game_log: Rc<RefCell<Option<GameLog>>>,
+    #[cfg(not(target_os = "emscripten"))]
     game_log: Arc<RwLock<Option<GameLog>>>,
 }
 
 pub struct ReadGuard<'a> {
+    #[cfg(target_os = "emscripten")]
+    guard: Ref<'a, Option<GameLog>>,
+    #[cfg(not(target_os = "emscripten"))]
     guard: std::sync::RwLockReadGuard<'a, Option<GameLog>>,
 }
 
@@ -23,6 +29,9 @@ impl<'a> Deref for ReadGuard<'a> {
 }
 
 pub struct WriteGuard<'a> {
+    #[cfg(target_os = "emscripten")]
+    guard: RefMut<'a, Option<GameLog>>,
+    #[cfg(not(target_os = "emscripten"))]
     guard: std::sync::RwLockWriteGuard<'a, Option<GameLog>>,
 }
 
@@ -40,7 +49,32 @@ impl<'a> DerefMut for WriteGuard<'a> {
     }
 }
 
+#[cfg(target_os = "emscripten")]
 impl Loader {
+    pub fn new() -> Self {
+        Self {
+            game_log: Rc::new(RefCell::new(None)),
+        }
+    }
+    pub fn read(&self) -> ReadGuard {
+        ReadGuard {
+            guard: self.game_log.borrow()
+        }
+    }
+    pub fn write(&self) -> WriteGuard {
+        WriteGuard {
+            guard: self.game_log.borrow_mut()
+        }
+    }
+}
+
+#[cfg(not(target_os = "emscripten"))]
+impl Loader {
+    pub fn new() -> Self {
+        Self {
+            game_log: Arc::new(RwLock::new(None)),
+        }
+    }
     pub fn read(&self) -> ReadGuard {
         ReadGuard {
             guard: self.game_log.read().unwrap(),
@@ -65,9 +99,7 @@ impl codevisual::Resource for Loader {
 
 impl codevisual::Asset for Loader {
     fn load(loader: &Rc<codevisual::ResourceLoader>, path: &str) -> Self {
-        let sync = Self {
-            game_log: Arc::new(RwLock::new(None)),
-        };
+        let sync = Self::new();
         #[cfg(target_os = "emscripten")]
         {
             let loader = loader.clone();
@@ -75,23 +107,26 @@ impl codevisual::Asset for Loader {
             let sync = sync.clone();
             let mut loaded = false;
             let mut ticks = 0;
-            let parse_line = move |addr: i32| {
-                let line = unsafe { std::ffi::CStr::from_ptr(addr as *mut _).to_string_lossy() };
-                let tick_info: TickInfo = serde_json::from_str(&line).unwrap();
+            let mut parse_line = move |line: &str| {
+                let tick_info: TickInfo = serde_json::from_str(line).unwrap();
                 if loaded {
                     sync.write().add_tick(tick_info);
                 } else {
                     loader.confirm_one();
                     loaded = true;
-                    *sync.game_log.write().unwrap() = Some(GameLog::new(tick_info));
+                    *sync.game_log.borrow_mut() = Some(GameLog::new(tick_info));
                 }
                 ticks += 1;
                 run_js! {
                     CodeWars.set_loaded_percent(&(100.0 * ticks as f32 / sync.read().tick_count as f32));
                 }
             };
+            let callback = brijs::Callback::from(move |addr: i32| {
+                let line = unsafe { std::ffi::CStr::from_ptr(addr as *mut _).to_string_lossy() };
+                parse_line(&line);
+            });
             run_js! {
-                CodeWars.stream_download(path, brijs::Callback::from(parse_line));
+                CodeWars.stream_download(path, callback);
             }
         }
         #[cfg(not(target_os = "emscripten"))]

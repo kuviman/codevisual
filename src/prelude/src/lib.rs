@@ -40,7 +40,7 @@ mod range;
 pub use self::range::*;
 
 pub use std::rc::Rc;
-pub use std::cell::{Cell, RefCell, Ref};
+pub use std::cell::{Cell, RefCell, Ref, RefMut};
 pub use std::marker::PhantomData;
 pub use std::error::Error;
 pub use std::os::raw::{c_int, c_float, c_double, c_short, c_ushort, c_long, c_ulong, c_char,
