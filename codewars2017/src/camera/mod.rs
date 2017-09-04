@@ -11,7 +11,7 @@ const MAX_ATTACK_ANGLE: f32 = std::f32::consts::PI / 2.0;
 const DEFAULT_ATTACK_ANGLE: f32 = MIN_ATTACK_ANGLE * 0.25 + MAX_ATTACK_ANGLE * 0.75;
 
 const MAX_DISTANCE: f32 = 5.0;
-const MIN_DISTANCE: f32 = 1.0;
+const MIN_DISTANCE: f32 = 0.1;
 
 pub struct Camera {
     app: Rc<codevisual::Application>,

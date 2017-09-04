@@ -5,12 +5,25 @@ pub struct Terrain {
     texture: ugli::Texture2d,
     material: Material<(), BlurDefines>,
     settings: Settings,
+    resources: Resources,
+}
+
+resources! {
+    Resources {
+        plain_texture: ugli::Texture2d = "assets/grass.png",
+        forest_texture: ugli::Texture2d = "assets/darkgrass.png",
+        swamp_texture: ugli::Texture2d = "assets/dirt.png",
+    }
 }
 
 impl Terrain {
-    pub fn new(app: &Rc<codevisual::Application>, game_log: &gamelog::GameLog) -> Self {
+    pub fn new(app: &Rc<codevisual::Application>, mut resources: Resources, game_log: &gamelog::GameLog) -> Self {
+        resources.plain_texture.set_wrap_mode(ugli::WrapMode::Repeat);
+        resources.forest_texture.set_wrap_mode(ugli::WrapMode::Repeat);
+        resources.swamp_texture.set_wrap_mode(ugli::WrapMode::Repeat);
         Self {
             app: app.clone(),
+            resources,
             texture: {
                 let terrain_data: &Vec<Vec<gamelog::TerrainType>> = &game_log.terrain;
                 ugli::Texture2d::new_with(app.ugli_context(), vec2(terrain_data.len(), terrain_data[0].len()), |pos| {
@@ -45,7 +58,12 @@ impl Terrain {
             &self.material.ugli_program(),
             ugli::DrawMode::TriangleFan,
             &ugli::plain(&ugli::quad(self.app.ugli_context()).slice(..)),
-            (uniforms, uniforms!(texture: &self.texture)),
+            (uniforms, uniforms!{
+                texture: &self.texture,
+                plain_texture: &self.resources.plain_texture,
+                forest_texture: &self.resources.forest_texture,
+                swamp_texture: &self.resources.swamp_texture,
+            }),
             &ugli::DrawParameters {
                 depth_test: ugli::DepthTest::Off,
                 blend_mode: ugli::BlendMode::Off,

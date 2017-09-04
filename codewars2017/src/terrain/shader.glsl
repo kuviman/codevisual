@@ -12,9 +12,9 @@ void main() {
 
 #ifdef FRAGMENT
 uniform sampler2D texture;
-const vec3 PLAIN_COLOR = vec3(1.0, 1.0, 1.0);
-const vec3 FOREST_COLOR = vec3(0.0, 1.0, 0.0);
-const vec3 SWAMP_COLOR = vec3(0.1, 0.7, 0.5);
+uniform sampler2D plain_texture;
+uniform sampler2D forest_texture;
+uniform sampler2D swamp_texture;
 
 vec4 blurred(sampler2D texture, vec2 pos) {
     vec4 result = vec4(0.0);
@@ -44,6 +44,10 @@ void main() {
         typ = typ.y > typ.z ? vec3(0.0, 1.0, 0.0) : vec3(0.0, 0.0, 1.0);
     }
 #endif
+    vec2 ppos = pos * texture_size;
+    vec3 PLAIN_COLOR = texture2D(plain_texture, ppos).xyz;
+    vec3 FOREST_COLOR = texture2D(forest_texture, ppos).xyz;
+    vec3 SWAMP_COLOR = texture2D(swamp_texture, ppos).xyz;
     gl_FragColor = vec4(PLAIN_COLOR * typ.x + FOREST_COLOR * typ.y + SWAMP_COLOR * typ.z, 1.0);
 }
 #endif
