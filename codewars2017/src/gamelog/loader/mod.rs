@@ -76,7 +76,7 @@ impl codevisual::Asset for Loader {
             let mut loaded = false;
             let mut ticks = 0;
             let parse_line = move |addr: i32| {
-                let line = unsafe { CString::from_raw(addr as *mut _).into_string().unwrap() };
+                let line = unsafe { std::ffi::CStr::from_ptr(addr as *mut _).to_string_lossy() };
                 let tick_info: TickInfo = serde_json::from_str(&line).unwrap();
                 if loaded {
                     sync.write().add_tick(tick_info);

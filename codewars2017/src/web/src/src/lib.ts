@@ -7,26 +7,19 @@ namespace CodeWars {
         let finished = false;
         let lines: string[] = [];
 
-        const MAX_LINES_AT_ONCE = 10;
+        const MAX_LINES_AT_ONCE = 3;
+        const MAX_BYTES_AT_ONCE = 10 * 1024;
         let text = "";
 
         function checkXHR() {
             if (xhr.readyState == 3 || xhr.readyState == 4) {
                 let checkedCur = 0;
-                while (responsePos < text.length) {
-                    let pos = text.indexOf('\n', responsePos);
-                    if (pos < 0) {
-                        responsePos = text.length;
-                        break;
+                while (responsePos < text.length && checkedCur < MAX_BYTES_AT_ONCE) {
+                    if (text[responsePos++] == '\n') {
+                        lines.push(text.substring(line_start, responsePos));
+                        line_start = responsePos;
                     }
-                    responsePos = pos + 1;
-                    if (text[pos] == '\n') {
-                        lines.push(text.substring(line_start, pos));
-                        line_start = pos + 1;
-                        if (checkedCur++ >= MAX_LINES_AT_ONCE) {
-                            break;
-                        }
-                    }
+                    checkedCur++;
                 }
                 if (responsePos == text.length) {
                     text = xhr.responseText;
@@ -38,6 +31,9 @@ namespace CodeWars {
                     }
                 }
             }
+            if (!finished) {
+                setTimeout(checkXHR, 0);
+            }
         }
 
         xhr.addEventListener("error", function (e) {
@@ -46,25 +42,39 @@ namespace CodeWars {
         xhr.send();
         let lastLine = 0;
 
+        let buf_addr: number = 0;
+        let buf_len: number = 0;
+
         function update() {
-            if (lines.length - lastLine < MAX_LINES_AT_ONCE) {
-                checkXHR();
-            }
-            let updated: number = 0;
-            while (lastLine < lines.length && updated < MAX_LINES_AT_ONCE) {
-                let line = lines[lastLine];
-                let Module = (window as any).Module;
-                let addr = Module._malloc(line.length + 1);
-                Module.writeAsciiToMemory(line, addr);
-                callback(addr);
-                updated++;
-                lines[lastLine++] = undefined;
+            if (lines.length - lastLine >= MAX_LINES_AT_ONCE || finished) {
+                let updated: number = 0;
+                while (lastLine < lines.length && updated < MAX_LINES_AT_ONCE) {
+                    let line = lines[lastLine];
+                    let Module = (window as any).Module;
+                    if (line.length + 1 > buf_len) {
+                        if (buf_len != 0) {
+                            Module._free(buf_addr);
+                        }
+                        buf_len = line.length + 1;
+                        buf_addr = Module._malloc(buf_len);
+                    }
+                    Module.writeAsciiToMemory(line, buf_addr);
+                    callback(buf_addr);
+                    updated++;
+                    lines[lastLine++] = undefined;
+                }
             }
             if (!finished || lastLine < lines.length) {
-                setTimeout(update, 0);
+                setTimeout(update, (finished || lines.length - lastLine >= MAX_LINES_AT_ONCE) ? 0 : 50);
+            } else {
+                let Module = (window as any).Module;
+                if (buf_len != 0) {
+                    Module._free(buf_addr);
+                }
             }
         }
 
+        checkXHR();
         update();
     }
 
