@@ -5,9 +5,7 @@ authors = ["kuviman <kuviman@gmail.com>"]
 
 [dependencies]
 codevisual = { path = ".." }
-serde = "1.0"
-serde_derive = "1.0"
-serde_json = "1.0"
+codewars2017_log = { path = "src/gamelog" }
 
 [target.'cfg(target_os = "emscripten")'.dependencies]
 brijs = { path = "../src/brijs" }

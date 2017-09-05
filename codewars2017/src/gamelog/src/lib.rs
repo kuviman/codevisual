@@ -1,4 +1,19 @@
-use ::*;
+#[macro_use]
+extern crate codevisual;
+
+pub ( crate ) use codevisual::prelude::*;
+
+#[cfg(target_os = "emscripten")]
+#[macro_use]
+extern crate brijs;
+
+#[cfg(target_os = "emscripten")]
+extern crate codewars2017_web;
+
+extern crate serde;
+#[macro_use]
+extern crate serde_derive;
+extern crate serde_json;
 
 pub mod loader;
 
@@ -24,6 +39,8 @@ pub enum VehicleType {
     HELICOPTER,
     FIGHTER,
 }
+
+pub type ID = u32;
 
 #[derive(Debug)]
 pub struct GameLog {

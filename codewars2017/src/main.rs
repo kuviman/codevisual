@@ -8,15 +8,10 @@ pub ( crate ) use codevisual::ugli;
 #[macro_use]
 extern crate brijs;
 
-extern crate serde;
-#[macro_use]
-extern crate serde_derive;
-extern crate serde_json;
-
 #[cfg(target_os = "emscripten")]
 extern crate codewars2017_web;
 
-mod gamelog;
+extern crate codewars2017_log as gamelog;
 
 mod camera;
 

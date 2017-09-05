@@ -1,14 +1,13 @@
 use ::*;
-use gamelog::*;
 
 #[allow(non_snake_case)]
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Vehicle {
-    id: u32,
+    id: ID,
     x: Option<f32>,
     y: Option<f32>,
     radius: Option<f32>,
-    playerId: Option<u32>,
+    playerId: Option<ID>,
     durability: Option<i32>,
     maxDurability: Option<i32>,
     maxSpeed: Option<f32>,

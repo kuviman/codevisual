@@ -1,5 +1,4 @@
 use ::*;
-use gamelog::*;
 
 mod raw;
 
