@@ -42,7 +42,7 @@ impl Camera {
 
     pub fn projection_matrix(&self) -> Mat4<f32> {
         let window_size = self.app.window().get_size();
-        Mat4::perspective(self.fov / 2.0, window_size.x as f32 / window_size.y as f32, 1e-1, 1e5)
+        Mat4::perspective(self.fov, window_size.x as f32 / window_size.y as f32, 1e-1, 1e5)
     }
 
     pub fn view_matrix(&self) -> Mat4<f32> {
@@ -62,6 +62,31 @@ impl Camera {
             u_projection_matrix: self.projection_matrix(),
             u_view_matrix: self.view_matrix(),
         }
+    }
+
+    fn raytrace(&self, pos: Vec2) -> Vec2<f32> {
+        let window_size = self.app.window().get_size();
+        let pos = vec2(pos.x as f32 / window_size.x as f32 * 2.0 - 1.0, 1.0 - pos.y as f32 / window_size.y as f32 * 2.0);
+
+        let mat = self.view_matrix().inverse();
+        let eye = mat * vec4(0.0, 0.0, 0.0, 1.0);
+        let sn = (self.fov / 2.0).tan();
+        let w = window_size.x as f32 / window_size.y as f32 * sn;
+        let h = sn;
+        let v = mat * vec4(pos.x * w, pos.y * h, -1.0, 0.0);
+
+        let result = eye + v * (eye.z / v.z);
+        let result = vec2(result.x, result.y);
+
+        result
+    }
+
+    fn mouse_move(&mut self, prev_pos: Vec2, pos: Vec2) {
+        let prev_pos = self.raytrace(prev_pos);
+        let pos = self.raytrace(pos);
+        let dv = (pos - prev_pos);
+        self.position.x += dv.x;
+        self.position.y += dv.y;
     }
 
     pub fn handle(&mut self, event: codevisual::Event) {
@@ -85,25 +110,17 @@ impl Camera {
                 );
                 self.start_drag_rotation = Some(position);
             }
-            MouseMove { position: Vec2 { x, y } } => {
-                if let Some(Vec2 {
-                                x: prev_x,
-                                y: prev_y,
-                            }) = self.start_drag
-                    {
-                        let dv = vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
-                            self.app.window().get_size().y as f32;
-                        let dv = vec2(dv.x, dv.y / self.attack_angle.cos());
-                        let dv = Vec2::rotated(dv, -self.rotation);
-                        self.position.x -= dv.x * self.distance;
-                        self.position.y += dv.y * self.distance;
-                        self.start_drag = Some(vec2(x, y));
-                    }
+            MouseMove { position: pos } => {
+                if let Some(prev_pos) = self.start_drag {
+                    self.mouse_move(prev_pos, pos);
+                    self.start_drag = Some(pos);
+                }
                 if let Some(Vec2 {
                                 x: prev_x,
                                 y: prev_y,
                             }) = self.start_drag_rotation
                     {
+                        let Vec2 { x, y } = pos;
                         const SENS: f64 = 2.0;
                         let dv = vec2(x - prev_x, y - prev_y) * SENS /
                             self.app.window().get_size().y as f64;
@@ -131,19 +148,11 @@ impl Camera {
             }
             TouchMove { touches } => {
                 if touches.len() == 1 {
-                    let Vec2 { x, y } = touches[0].position;
-                    if let Some(Vec2 {
-                                    x: prev_x,
-                                    y: prev_y,
-                                }) = self.start_drag
-                        {
-                            let dv = vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
-                                self.app.window().get_size().y as f32 *
-                                self.distance;
-                            self.position.x -= dv.x;
-                            self.position.y += dv.y;
-                            self.start_drag = Some(vec2(x, y));
-                        }
+                    let pos = touches[0].position;
+                    if let Some(prev_pos) = self.start_drag {
+                        self.mouse_move(prev_pos, pos);
+                        self.start_drag = Some(pos);
+                    }
                 } else if touches.len() == 2 {
                     let now_dist = (touches[0].position - touches[1].position).len() as f32;
                     self.distance /= now_dist / self.prev_zoom_touchdist;

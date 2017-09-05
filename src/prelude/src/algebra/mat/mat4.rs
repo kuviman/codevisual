@@ -215,3 +215,14 @@ impl<T: Copy + Default, RHS: Copy> std::ops::Div<RHS> for Mat4<T>
         result
     }
 }
+
+impl std::ops::Mul<Vec4<f32>> for Mat4<f32> {
+    type Output = Vec4<f32>;
+
+    fn mul(self, rhs: Vec4<f32>) -> Self::Output {
+        let mul = |i| {
+            self[(i, 0)] * rhs.x + self[(i, 1)] * rhs.y + self[(i, 2)] * rhs.z + self[(i, 3)] * rhs.w
+        };
+        vec4(mul(0), mul(1), mul(2), mul(3))
+    }
+}
