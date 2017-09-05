@@ -61,8 +61,7 @@ impl codevisual::Game for CodeWars2017 {
         let game_log_loader: gamelog::loader::Loader = resources.game_log_loader;
         let terrain = Terrain::new(app, resources.terrain, &game_log_loader.read());
         let vehicles = Vehicles::new(app, &game_log_loader);
-        let mut camera = Camera::new(app);
-        camera.position = (terrain.size / 2.0).extend(0.0);
+        let camera = Camera::new(app, terrain.size);
         let current_time = Rc::new(Cell::new(0.0));
         #[cfg(target_os = "emscripten")]
         {

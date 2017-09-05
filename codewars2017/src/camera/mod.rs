@@ -10,12 +10,12 @@ const MIN_ATTACK_ANGLE: f32 = 0.5;
 const MAX_ATTACK_ANGLE: f32 = std::f32::consts::PI / 2.0;
 const DEFAULT_ATTACK_ANGLE: f32 = MIN_ATTACK_ANGLE * 0.25 + MAX_ATTACK_ANGLE * 0.75;
 
-const MAX_DISTANCE: f32 = 2000.0;
-const MIN_DISTANCE: f32 = 1.0;
+const MAX_DISTANCE: f32 = 500.0;
+const MIN_DISTANCE: f32 = 10.0;
 
 pub struct Camera {
     app: Rc<codevisual::Application>,
-    fov: f32,
+    fov: codevisual::SettingValue<f64>,
     pub position: Vec3<f32>,
     pub distance: f32,
     pub rotation: f32,
@@ -23,14 +23,16 @@ pub struct Camera {
     start_drag: Option<Vec2>,
     start_drag_rotation: Option<Vec2>,
     prev_zoom_touchdist: f32,
+    map_size: Vec2<f32>,
 }
 
 impl Camera {
-    pub fn new(app: &Rc<codevisual::Application>) -> Self {
+    pub fn new(app: &Rc<codevisual::Application>, map_size: Vec2<f32>) -> Self {
         Self {
-            fov: std::f32::consts::PI / 2.0,
+            fov: app.add_setting_f64("FOV", 0.1, std::f64::consts::PI - 0.1, std::f64::consts::PI / 2.0),
             app: app.clone(),
-            position: vec3(0.0, 0.0, 0.0),
+            position: (map_size / 2.0).extend(0.0),
+            map_size,
             distance: MAX_DISTANCE,
             rotation: 0.1,
             attack_angle: DEFAULT_ATTACK_ANGLE,
@@ -42,7 +44,7 @@ impl Camera {
 
     pub fn projection_matrix(&self) -> Mat4<f32> {
         let window_size = self.app.window().get_size();
-        Mat4::perspective(self.fov, window_size.x as f32 / window_size.y as f32, 1e-1, 1e5)
+        Mat4::perspective(self.fov.get() as f32, window_size.x as f32 / window_size.y as f32, 1e-1, 1e5)
     }
 
     pub fn view_matrix(&self) -> Mat4<f32> {
@@ -70,7 +72,7 @@ impl Camera {
 
         let mat = self.view_matrix().inverse();
         let eye = mat * vec4(0.0, 0.0, 0.0, 1.0);
-        let sn = (self.fov / 2.0).tan();
+        let sn = (self.fov.get() as f32 / 2.0).tan();
         let w = window_size.x as f32 / window_size.y as f32 * sn;
         let h = sn;
         let v = mat * vec4(pos.x * w, pos.y * h, -1.0, 0.0);
@@ -85,8 +87,8 @@ impl Camera {
         let prev_pos = self.raytrace(prev_pos);
         let pos = self.raytrace(pos);
         let dv = (pos - prev_pos);
-        self.position.x += dv.x;
-        self.position.y += dv.y;
+        self.position.x = (self.position.x + dv.x).max(0.0).min(self.map_size.x);
+        self.position.y = (self.position.y + dv.y).max(0.0).min(self.map_size.y);
     }
 
     pub fn handle(&mut self, event: codevisual::Event) {
