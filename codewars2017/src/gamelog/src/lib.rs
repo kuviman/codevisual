@@ -16,6 +16,11 @@ extern crate serde_derive;
 extern crate serde_json;
 
 pub mod loader;
+pub mod raw;
+
+mod vehicle;
+
+pub use vehicle::*;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub enum TerrainType {
@@ -31,34 +36,30 @@ pub enum WeatherType {
     RAIN,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-pub enum VehicleType {
-    ARRV,
-    IFV,
-    TANK,
-    HELICOPTER,
-    FIGHTER,
-}
-
 pub type ID = u32;
 
 #[derive(Debug)]
 pub struct GameLog {
     pub tick_count: usize,
     pub terrain: Vec<Vec<TerrainType>>,
+    pub vehicles: Vehicles,
 }
 
 impl GameLog {
-    fn new(mut tick0: loader::TickInfo) -> Self {
+    fn new(mut tick0: raw::TickInfo) -> Self {
         let mut terrain = None;
         std::mem::swap(&mut tick0.terrainByCellXY, &mut terrain);
         let mut game_log = Self {
             terrain: terrain.unwrap(),
             tick_count: tick0.tickCount.unwrap(),
+            vehicles: Vehicles::new(),
         };
         game_log.add_tick(tick0);
         game_log
     }
-    fn add_tick(&mut self, tick_info: loader::TickInfo) {}
+    fn add_tick(&mut self, tick_info: raw::TickInfo) {
+        let tick = tick_info.tickIndex;
+        self.vehicles.add_tick(tick, tick_info.vehicles);
+    }
     fn finish(&mut self) {}
 }

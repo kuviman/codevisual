@@ -1,8 +1,5 @@
 use ::*;
-
-mod raw;
-
-pub use self::raw::*;
+use raw::*;
 
 #[derive(Debug, Clone)]
 pub struct Loader {
