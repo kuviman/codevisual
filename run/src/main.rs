@@ -4,8 +4,13 @@ extern crate codevisual;
 pub ( crate ) use codevisual::prelude::*;
 pub ( crate ) use codevisual::ugli;
 
+mod unit;
+
+pub ( crate ) use unit::*;
+
 struct Run {
     app: Rc<codevisual::Application>,
+    player: Unit,
 }
 
 impl codevisual::Game for Run {
@@ -18,6 +23,7 @@ impl codevisual::Game for Run {
     fn new(app: &Rc<codevisual::Application>, resources: Self::Resources) -> Self {
         Self {
             app: app.clone(),
+            player: Unit::new(),
         }
     }
 
