@@ -81,7 +81,7 @@ impl Application {
 pub trait Game {
     type Resources: ResourceContainer;
     fn get_title() -> String;
-    fn new(app: Rc<Application>, resources: Self::Resources) -> Self;
+    fn new(app: &Rc<Application>, resources: Self::Resources) -> Self;
     fn update(&mut self, delta_time: f64);
     fn draw(&mut self);
     fn handle_event(&mut self, event: Event);
@@ -102,7 +102,7 @@ pub fn run<G: Game>() {
         }
         let mut resources_swapper = None;
         std::mem::swap(&mut *resources.borrow_mut(), &mut resources_swapper);
-        let mut game = G::new(app.clone(), resources_swapper.unwrap().unwrap());
+        let mut game = G::new(&app, resources_swapper.unwrap().unwrap());
 
         #[cfg(target_os = "emscripten")]
         run_js! {

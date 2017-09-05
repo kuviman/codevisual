@@ -6,7 +6,22 @@ pub struct Color {
     pub alpha: f32,
 }
 
+macro_rules! rgb {
+    ($r:expr, $g:expr, $b:expr) => { rgb!($r, $g, $b, 1.0) };
+    ($r:expr, $g:expr, $b:expr, $a: expr) => {
+        Color {
+            red: $r,
+            green: $g,
+            blue: $b,
+            alpha: $a,
+        }
+    };
+}
+
 impl Color {
+    pub const BLACK: Color = rgb!(0.0, 0.0, 0.0);
+    pub const WHITE: Color = rgb!(1.0, 1.0, 1.0);
+
     pub fn rgb(red: f32, green: f32, blue: f32) -> Self {
         Color {
             red,

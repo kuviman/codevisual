@@ -57,8 +57,7 @@ impl codevisual::Game for CodeWars2017 {
         String::from("CodeWars 2017")
     }
 
-    fn new(app: Rc<codevisual::Application>, resources: Self::Resources) -> Self {
-        let app = &app;
+    fn new(app: &Rc<codevisual::Application>, resources: Self::Resources) -> Self {
         let game_log_loader: gamelog::loader::Loader = resources.game_log_loader;
         let terrain = Terrain::new(app, resources.terrain, &game_log_loader.read());
         let vehicles = Vehicles::new(app, &game_log_loader);

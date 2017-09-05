@@ -1,6 +1,7 @@
 #![allow(unused_variables)]
 
 extern crate codevisual;
+
 use codevisual::prelude::*;
 use codevisual::ugli;
 
@@ -10,8 +11,8 @@ struct Tutorial {
 
 impl codevisual::Game for Tutorial {
     type Resources = ();
-    fn new(app: Rc<codevisual::Application>, resources: ()) -> Self {
-        Tutorial { app }
+    fn new(app: &Rc<codevisual::Application>, resources: ()) -> Self {
+        Tutorial { app: app.clone() }
     }
     fn get_title() -> String {
         String::from("CodeVisual Tutorial 01 - Hello, world!")

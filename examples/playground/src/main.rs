@@ -99,31 +99,31 @@ impl codevisual::Game for Playground {
         String::from("CodeVisual Playground")
     }
 
-    fn new(app: Rc<codevisual::Application>, resources: Resources) -> Self {
+    fn new(app: &Rc<codevisual::Application>, resources: Resources) -> Self {
         app.window().set_cursor_type(
             codevisual::CursorType::Pointer,
         );
-        let settings = Rc::new(Settings::new(&app));
+        let settings = Rc::new(Settings::new(app));
         let decor = Decor::new(
-            &app,
+            app,
             resources.decor,
             &resources.ground.map_texture,
             &settings,
         );
         let clouds = Clouds::new(
-            &app,
+            app,
             resources.clouds,
             &settings,
         );
         Self {
             app: app.clone(),
 
-            fog: fog::Fog::new(&app, &settings),
-            units: Units::new(&app, resources.units, &settings),
-            ground: Ground::new(&app, resources.ground, &settings),
+            fog: fog::Fog::new(app, &settings),
+            units: Units::new(app, resources.units, &settings),
+            ground: Ground::new(app, resources.ground, &settings),
             decor,
             clouds,
-            minimap: Minimap::new(&app, &settings),
+            minimap: Minimap::new(app, &settings),
 
             global_uniforms: GlobalUniforms {
                 u_time: 0.0,
