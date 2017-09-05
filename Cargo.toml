@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["kuviman <kuviman@gmail.com>"]
 
 [workspace]
-members = ["codewars2017"]
+members = ["codewars2017", "run"]
 
 [dependencies]
 prelude = { path = "src/prelude" }
