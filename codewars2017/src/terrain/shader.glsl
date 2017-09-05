@@ -1,12 +1,13 @@
 #include <codewars>
 
 varying vec2 pos;
+uniform vec2 map_size;
 
 #ifdef VERTEX
 attribute vec2 a_v;
 void main() {
     pos = (a_v + 1.0) / 2.0;
-    gl_Position = camera_matrix() * vec4(a_v, 0.0, 1.0);
+    gl_Position = camera_matrix() * vec4(pos * map_size, 0.0, 1.0);
 }
 #endif
 

@@ -1,4 +1,4 @@
-use std;
+use ::*;
 
 #[derive(Debug, Copy, Clone)]
 pub struct Vec3<T: Copy = f64> {
@@ -11,7 +11,15 @@ pub fn vec3<T: Copy>(x: T, y: T, z: T) -> Vec3<T> {
     Vec3 { x, y, z }
 }
 
-impl<T: Copy + std::ops::Div<Output = T>> std::ops::Div<T> for Vec3<T> {
+impl<T: Copy + std::ops::Neg> std::ops::Neg for Vec3<T> where T::Output: Copy {
+    type Output = Vec3<T::Output>;
+
+    fn neg(self) -> Self::Output {
+        vec3(-self.x, -self.y, -self.z)
+    }
+}
+
+impl<T: Copy + std::ops::Div<Output=T>> std::ops::Div<T> for Vec3<T> {
     type Output = Self;
     fn div(self, rhs: T) -> Self {
         Self {
@@ -22,7 +30,7 @@ impl<T: Copy + std::ops::Div<Output = T>> std::ops::Div<T> for Vec3<T> {
     }
 }
 
-impl<T: Copy + std::ops::Sub<Output = T>> std::ops::Sub for Vec3<T> {
+impl<T: Copy + std::ops::Sub<Output=T>> std::ops::Sub for Vec3<T> {
     type Output = Self;
     fn sub(self, rhs: Self) -> Self {
         Self {
@@ -33,7 +41,7 @@ impl<T: Copy + std::ops::Sub<Output = T>> std::ops::Sub for Vec3<T> {
     }
 }
 
-impl<T: Copy + std::ops::Mul<T, Output = T>> std::ops::Mul<T> for Vec3<T> {
+impl<T: Copy + std::ops::Mul<T, Output=T>> std::ops::Mul<T> for Vec3<T> {
     type Output = Self;
     fn mul(self, rhs: T) -> Self {
         Self {

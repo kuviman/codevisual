@@ -10,16 +10,16 @@ const MIN_ATTACK_ANGLE: f32 = 0.5;
 const MAX_ATTACK_ANGLE: f32 = std::f32::consts::PI / 2.0;
 const DEFAULT_ATTACK_ANGLE: f32 = MIN_ATTACK_ANGLE * 0.25 + MAX_ATTACK_ANGLE * 0.75;
 
-const MAX_DISTANCE: f32 = 5.0;
-const MIN_DISTANCE: f32 = 0.1;
+const MAX_DISTANCE: f32 = 2000.0;
+const MIN_DISTANCE: f32 = 1.0;
 
 pub struct Camera {
     app: Rc<codevisual::Application>,
     fov: f32,
-    position: Vec3<f32>,
-    distance: f32,
-    rotation: f32,
-    attack_angle: f32,
+    pub position: Vec3<f32>,
+    pub distance: f32,
+    pub rotation: f32,
+    pub attack_angle: f32,
     start_drag: Option<Vec2>,
     start_drag_rotation: Option<Vec2>,
     prev_zoom_touchdist: f32,
@@ -49,8 +49,8 @@ impl Camera {
         Mat4::translate(vec3(0.0, 0.0, -self.distance)) *
             Mat4::rotate_x(self.attack_angle - std::f32::consts::PI / 2.0) *
             Mat4::rotate_z(self.rotation) *
-            Mat4::translate(self.position) *
-            Mat4::scale(vec3(1.0, -1.0, 1.0))
+            Mat4::scale(vec3(1.0, -1.0, 1.0)) *
+            Mat4::translate(-self.position)
     }
 
     pub fn matrix(&self) -> Mat4<f32> {
@@ -95,7 +95,7 @@ impl Camera {
                             self.app.window().get_size().y as f32;
                         let dv = vec2(dv.x, dv.y / self.attack_angle.cos());
                         let dv = Vec2::rotated(dv, -self.rotation);
-                        self.position.x += dv.x * self.distance;
+                        self.position.x -= dv.x * self.distance;
                         self.position.y += dv.y * self.distance;
                         self.start_drag = Some(vec2(x, y));
                     }
@@ -140,7 +140,7 @@ impl Camera {
                             let dv = vec2((x - prev_x) as f32, -(y - prev_y) as f32) /
                                 self.app.window().get_size().y as f32 *
                                 self.distance;
-                            self.position.x += dv.x;
+                            self.position.x -= dv.x;
                             self.position.y += dv.y;
                             self.start_drag = Some(vec2(x, y));
                         }

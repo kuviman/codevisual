@@ -1,5 +1,4 @@
-use std;
-use algebra::*;
+use ::*;
 
 #[derive(Debug, Copy, Clone)]
 pub struct Mat4<T: Copy = f64> {

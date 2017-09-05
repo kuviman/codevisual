@@ -41,6 +41,7 @@ pub type ID = u32;
 #[derive(Debug)]
 pub struct GameLog {
     pub tick_count: usize,
+    pub map_size: Vec2<f32>,
     pub terrain: Vec<Vec<TerrainType>>,
     pub vehicles: Vehicles,
 }
@@ -53,6 +54,7 @@ impl GameLog {
             terrain: terrain.unwrap(),
             tick_count: tick0.tickCount.unwrap(),
             vehicles: Vehicles::new(),
+            map_size: vec2(tick0.width.unwrap() as f32, tick0.height.unwrap() as f32),
         };
         game_log.add_tick(tick0);
         game_log

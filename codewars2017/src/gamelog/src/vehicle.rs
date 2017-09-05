@@ -43,6 +43,12 @@ impl Vehicle {
 }
 
 #[derive(Debug)]
+pub struct FixedVehicle {
+    pub id: ID,
+    pub pos: Vec2<PosPrecision>,
+}
+
+#[derive(Debug)]
 pub struct Vehicles {
     pub map: HashMap<ID, Vehicle>
 }
@@ -67,5 +73,17 @@ impl Vehicles {
                 vehicle.add_tick(tick, None);
             }
         }
+    }
+    pub fn get(&self, tick: usize) -> Vec<FixedVehicle> {
+        let mut vehicles = Vec::new();
+        for vehicle in self.map.values() {
+            if vehicle.start_tick <= tick && tick < vehicle.start_tick + vehicle.positions.len() {
+                vehicles.push(FixedVehicle {
+                    id: vehicle.id,
+                    pos: vehicle.positions[tick - vehicle.start_tick],
+                });
+            }
+        }
+        vehicles
     }
 }

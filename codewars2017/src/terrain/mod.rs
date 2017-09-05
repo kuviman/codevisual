@@ -4,6 +4,7 @@ pub struct Terrain {
     app: Rc<codevisual::Application>,
     texture: ugli::Texture2d,
     material: Material<(), BlurDefines>,
+    pub size: Vec2<f32>,
     settings: Settings,
     resources: Resources,
 }
@@ -35,6 +36,7 @@ impl Terrain {
                     }
                 })
             },
+            size: vec2(game_log.map_size.x as f32, game_log.map_size.y as f32),
             material: Material::new(
                 app.ugli_context(), (), Default::default(), include_str!("shader.glsl")),
             settings: Settings {
@@ -58,11 +60,12 @@ impl Terrain {
             &self.material.ugli_program(),
             ugli::DrawMode::TriangleFan,
             &ugli::plain(&ugli::quad(self.app.ugli_context()).slice(..)),
-            (uniforms, uniforms!{
+            (uniforms, uniforms! {
                 texture: &self.texture,
                 plain_texture: &self.resources.plain_texture,
                 forest_texture: &self.resources.forest_texture,
                 swamp_texture: &self.resources.swamp_texture,
+                map_size: &self.size,
             }),
             &ugli::DrawParameters {
                 depth_test: ugli::DepthTest::Off,

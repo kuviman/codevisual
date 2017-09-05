@@ -21,10 +21,15 @@ mod terrain;
 
 use terrain::Terrain;
 
+mod vehicles;
+
+use vehicles::Vehicles;
+
 struct CodeWars2017 {
     app: Rc<codevisual::Application>,
     camera: Camera,
     terrain: Terrain,
+    vehicles: Vehicles,
     game_log_loader: gamelog::loader::Loader,
 }
 
@@ -55,11 +60,15 @@ impl codevisual::Game for CodeWars2017 {
         let app = &app;
         let game_log_loader: gamelog::loader::Loader = resources.game_log_loader;
         let terrain = Terrain::new(app, resources.terrain, &game_log_loader.read());
+        let vehicles = Vehicles::new(app, &game_log_loader);
+        let mut camera = Camera::new(app);
+        camera.position = (terrain.size / 2.0).extend(0.0);
         Self {
             app: app.clone(),
-            camera: Camera::new(app),
+            camera,
             game_log_loader,
             terrain,
+            vehicles,
         }
     }
 
@@ -69,7 +78,9 @@ impl codevisual::Game for CodeWars2017 {
         let mut framebuffer = ugli::default_framebuffer(self.app.ugli_context());
         let framebuffer = &mut framebuffer;
         ugli::clear(framebuffer, Some(Color::rgb(0.0, 1.0, 1.0)), Some(1.0));
-        self.terrain.draw(framebuffer, self.camera.uniforms());
+        let uniforms = self.camera.uniforms();
+        self.terrain.draw(framebuffer, &uniforms);
+        self.vehicles.draw(0, framebuffer, &uniforms);
     }
 
     fn handle_event(&mut self, event: codevisual::Event) {
