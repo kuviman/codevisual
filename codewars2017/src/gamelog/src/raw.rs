@@ -28,6 +28,55 @@ pub struct Vehicle {
     pub selected: Option<bool>,
 }
 
+#[derive(Serialize, Deserialize, Debug)]
+pub enum OrderType {
+    MOVE,
+    ROTATE,
+}
+
+#[allow(non_snake_case)]
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Order {
+    pub action: OrderType,
+    pub x: f32,
+    pub y: f32,
+    pub angle: f32,
+    pub maxSpeed: f32,
+    pub maxAngularSpeed: f32,
+    pub initialX: f32,
+    pub initialY: f32,
+    pub targetX: f32,
+    pub targetY: f32,
+    pub gameTime: usize,
+}
+
+#[allow(non_snake_case)]
+#[derive(Serialize, Deserialize, Debug)]
+pub struct DecoratedVehicle {
+    pub orderExecuted: Option<bool>,
+    pub order: Option<Order>,
+}
+
+#[allow(non_camel_case_types)]
+#[derive(Serialize, Deserialize, Debug)]
+pub enum EffectType {
+    VEHICLE_DEATH,
+    VEHICLE_CONDITION_CHANGE,
+}
+
+#[allow(non_snake_case)]
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Effect {
+    pub id: ID,
+    #[serde(rename = "type")]
+    pub typ: EffectType,
+    pub tick: usize,
+    pub x: f32,
+    pub y: f32,
+    pub angle: f32,
+    pub attributes: serde_json::Map<String, serde_json::Value>,
+}
+
 #[allow(non_snake_case)]
 #[derive(Serialize, Deserialize, Debug)]
 pub struct TickInfo {
@@ -39,4 +88,6 @@ pub struct TickInfo {
     pub terrainByCellXY: Option<Vec<Vec<TerrainType>>>,
     pub weatherByCellXY: Option<Vec<Vec<WeatherType>>>,
     pub vehicles: Option<Vec<Vehicle>>,
+    pub decoratedVehicleById: Option<HashMap<String, DecoratedVehicle>>,
+    pub effects: Option<Vec<Effect>>,
 }
