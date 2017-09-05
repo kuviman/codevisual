@@ -16,6 +16,7 @@ namespace CodeWars {
 
         let buf_addr = 0;
         let buf_len = 0;
+
         function sendLine(line: string) {
             let Module = (window as any).Module;
             if (line.length + 1 > buf_len) {
@@ -62,5 +63,33 @@ namespace CodeWars {
 
     export function set_loaded_percent(percent: number) {
         $(".timeline-loaded").width(percent + "%");
+    }
+
+    export function set_playback_position(tick: number, tickCount: number) {
+        $(".timeline-position").css("left", tick * 100 / tickCount + "%");
+    }
+
+    export function init(set_pos_callback: (pos: number) => void) {
+        function set_pos(e: any, elem: any) {
+            let pos = (e.pageX - elem.offset().left) / elem.width();
+            set_pos_callback(Math.round(1000 * pos));
+        }
+
+        let $timeline = $(".timeline");
+
+        function handler(this: any, e: any) {
+            // if (e.buttons as number & 1) {
+            set_pos(e, $timeline);
+            // }
+            return false;
+        }
+
+        $timeline.click(handler);
+
+        // TODO: not working on mobile
+        // $timeline.mousecapture({
+        //     "down": handler,
+        //     "move": handler
+        // });
     }
 }

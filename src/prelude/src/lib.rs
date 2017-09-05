@@ -50,6 +50,7 @@ pub use std::ops::{Deref, DerefMut, Range, RangeFrom, RangeTo, RangeFull};
 pub use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 pub use std::fmt::{Debug, Display, Formatter};
 pub use std::sync::{Arc, Mutex, RwLock};
+pub use std::cmp::{min, max};
 
 #[macro_export]
 macro_rules! display_error_description {

@@ -44,6 +44,7 @@ pub struct GameLog {
     pub map_size: Vec2<f32>,
     pub terrain: Vec<Vec<TerrainType>>,
     pub vehicles: Vehicles,
+    pub loaded_tick_count: usize,
 }
 
 impl GameLog {
@@ -55,11 +56,13 @@ impl GameLog {
             tick_count: tick0.tickCount.unwrap(),
             vehicles: Vehicles::new(),
             map_size: vec2(tick0.width.unwrap() as f32, tick0.height.unwrap() as f32),
+            loaded_tick_count: 0,
         };
         game_log.add_tick(tick0);
         game_log
     }
     fn add_tick(&mut self, tick_info: raw::TickInfo) {
+        self.loaded_tick_count += 1;
         let tick = tick_info.tickIndex;
         self.vehicles.add_tick(tick, tick_info.vehicles);
     }
