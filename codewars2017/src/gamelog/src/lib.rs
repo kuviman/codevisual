@@ -39,25 +39,35 @@ pub enum WeatherType {
 pub type ID = u32;
 
 type TerrainHolder = Arc<Vec<Vec<TerrainType>>>;
+type WeatherHolder = Arc<Vec<Vec<WeatherType>>>;
 
 #[derive(Debug)]
 pub struct GameLog {
     pub tick_count: usize,
     pub map_size: Vec2<f32>,
     pub terrain: TerrainHolder,
+    pub weather: WeatherHolder,
     pub vehicles: Vehicles,
     pub loaded_tick_count: usize,
 }
 
 impl GameLog {
     fn new(mut tick0: raw::TickInfo) -> Self {
-        let mut terrain = None;
-        std::mem::swap(&mut tick0.terrainByCellXY, &mut terrain);
-        let terrain = TerrainHolder::new(terrain.unwrap());
+        let terrain = {
+            let mut terrain = None;
+            std::mem::swap(&mut tick0.terrainByCellXY, &mut terrain);
+            TerrainHolder::new(terrain.unwrap())
+        };
+        let weather = {
+            let mut weather = None;
+            std::mem::swap(&mut tick0.weatherByCellXY, &mut weather);
+            WeatherHolder::new(weather.unwrap())
+        };
         let mut game_log = Self {
             terrain: terrain.clone(),
+            weather: weather.clone(),
             tick_count: tick0.tickCount.unwrap(),
-            vehicles: Vehicles::new(&terrain),
+            vehicles: Vehicles::new(&terrain, &weather),
             map_size: vec2(tick0.width.unwrap() as f32, tick0.height.unwrap() as f32),
             loaded_tick_count: 0,
         };

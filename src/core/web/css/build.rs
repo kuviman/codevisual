@@ -7,11 +7,15 @@ fn main() {
     let out_dir = std::env::var("OUT_DIR").unwrap();
 
     #[cfg(windows)]
-    let lessc_command = "lessc.cmd";
-    #[cfg(not(windows))]
-    let lessc_command = "lessc";
+    let css = Command::new("cmd")
+        .arg("/C")
+        .arg(format!("lessc --clean-css {}", Path::new("src").join("lib.less").to_str().unwrap()))
+        .output()
+        .expect("Could not complile Less")
+        .stdout;
 
-    let css = Command::new(lessc_command)
+    #[cfg(not(windows))]
+    let css = Command::new("lessc")
         .arg("--clean-css")
         .arg(Path::new("src").join("lib.less"))
         .output()

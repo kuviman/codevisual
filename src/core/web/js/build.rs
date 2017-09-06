@@ -6,10 +6,11 @@ use std::process::Command;
 #[cfg(windows)]
 fn compile_js(source: &Path, out: &Path) {
     let full_js_file = Path::new(&std::env::var("OUT_DIR").unwrap()).join("codevisual-lib-full.js");
+    println!("{:?}", std::env::vars());
     assert!(
-        Command::new("tsc.cmd")
-            .arg("--outFile")
-            .arg(&full_js_file)
+        Command::new("cmd")
+            .arg("/C")
+            .arg(format!("tsc --outFile {}", full_js_file.to_str().unwrap()))
             .current_dir(source)
             .status()
             .expect("Could not compile TypeScript")
@@ -17,8 +18,9 @@ fn compile_js(source: &Path, out: &Path) {
         "TypeScript compiler exited with error"
     );
     let js = {
-        let result = Command::new("google-closure-compiler-js.cmd")
-            .arg(&full_js_file)
+        let result = Command::new("cmd")
+            .arg("/C")
+            .arg(format!("google-closure-compiler-js {}", full_js_file.to_str().unwrap()))
             .output()
             .expect("Could not minify JavaScript");
         assert!(result.status.success(), "Could not minify JavaScript");

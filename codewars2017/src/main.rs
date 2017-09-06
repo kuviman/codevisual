@@ -32,6 +32,7 @@ struct CodeWars2017 {
     vehicles: Vehicles,
     game_log_loader: gamelog::loader::Loader,
     current_time: Rc<Cell<f32>>,
+    time_scale: codevisual::SettingValue<f64>,
 }
 
 shader_library! {
@@ -80,10 +81,12 @@ impl codevisual::Game for CodeWars2017 {
             terrain,
             vehicles,
             current_time,
+            time_scale: app.add_setting_f64("Time scale", 0.0, 4.0, 0.1),
         }
     }
 
     fn update(&mut self, delta_time: f64) {
+        let delta_time = delta_time * self.time_scale.get();
         let new_time = f32::min(
             self.current_time.get() + delta_time as f32,
             self.game_log_loader.read().loaded_tick_count as f32 / 60.0);

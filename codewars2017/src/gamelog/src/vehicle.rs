@@ -20,10 +20,16 @@ pub struct Vehicle {
     order: Option<raw::Order>,
     order_executed: bool,
     terrain: TerrainHolder,
+    weather: WeatherHolder,
+    aerial: bool,
 }
 
 impl Vehicle {
-    fn new(tick: usize, data: raw::Vehicle, terrain: &TerrainHolder, decoration: Option<raw::DecoratedVehicle>) -> Self {
+    fn new(tick: usize,
+           data: raw::Vehicle,
+           terrain: &TerrainHolder,
+           weather: &WeatherHolder,
+           decoration: Option<raw::DecoratedVehicle>) -> Self {
         let mut vehicle = Self {
             id: data.id,
             start_tick: tick,
@@ -32,6 +38,8 @@ impl Vehicle {
             order_executed: false,
             max_speed: data.maxSpeed.unwrap(),
             terrain: terrain.clone(),
+            weather: weather.clone(),
+            aerial: data.aerial.unwrap(),
         };
         vehicle.add_tick(tick, Some(data), decoration);
         vehicle
@@ -65,13 +73,29 @@ impl Vehicle {
     fn execute_order(&self, tick: usize) -> Vec2<PosPrecision> {
         let order = self.order.as_ref().unwrap();
         if let raw::OrderType::MOVE = order.action {
-            let terrain_k: f32 = 1.0;
+            let pos: Vec2<PosPrecision> = self.positions.last().unwrap().clone();
+            const CELL_SIZE: f32 = 32.0;
+            let cell = vec2(clamp((pos.x / CELL_SIZE) as usize, 0, self.terrain.len() - 1),
+                            clamp((pos.y / CELL_SIZE) as usize, 0, self.terrain[0].len() - 1));
+            let terrain_k: f32 = if self.aerial {
+                match self.terrain[cell.x][cell.y] {
+                    TerrainType::PLAIN => 1.0,
+                    TerrainType::FOREST => 0.8,
+                    TerrainType::SWAMP => 0.6,
+                }
+            } else {
+                match self.weather[cell.x][cell.y] {
+                    WeatherType::CLEAR => 1.0,
+                    WeatherType::CLOUD => 0.8,
+                    WeatherType::RAIN => 0.6,
+                }
+            };
             let mut speed = self.max_speed * terrain_k;
             if order.maxSpeed > 0.0 {
                 speed = speed.min(order.maxSpeed);
             }
             let speed = vec2(order.x, order.y).normalize() * speed;
-            let pos = *self.positions.last().unwrap() + speed;
+            let pos = pos + speed;
             vec2(pos.x as PosPrecision, pos.y as PosPrecision)
         } else {
             // TODO
@@ -89,14 +113,16 @@ pub struct FixedVehicle {
 #[derive(Debug)]
 pub struct Vehicles {
     terrain: TerrainHolder,
+    weather: WeatherHolder,
     map: HashMap<ID, Vehicle>,
 }
 
 impl Vehicles {
-    pub fn new(terrain: &TerrainHolder) -> Self {
+    pub fn new(terrain: &TerrainHolder, weather: &WeatherHolder) -> Self {
         Self {
             map: HashMap::new(),
             terrain: terrain.clone(),
+            weather: weather.clone(),
         }
     }
     pub fn add_tick(&mut self,
@@ -123,7 +149,7 @@ impl Vehicles {
                 if self.map.contains_key(&id) {
                     self.map.get_mut(&id).unwrap().add_tick(tick, Some(v), decorations.remove(&id));
                 } else {
-                    self.map.insert(id, Vehicle::new(tick, v, &self.terrain, decorations.remove(&id)));
+                    self.map.insert(id, Vehicle::new(tick, v, &self.terrain, &self.weather, decorations.remove(&id)));
                 }
             }
         }
