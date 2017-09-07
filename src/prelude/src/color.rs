@@ -38,4 +38,13 @@ impl Color {
             alpha,
         }
     }
+
+    pub fn hex(value: u32) -> Self {
+        Color {
+            red: ((value >> 16) & 0xff) as f32 / 255.0,
+            green: ((value >> 8) & 0xff) as f32 / 255.0,
+            blue: (value & 0xff) as f32 / 255.0,
+            alpha: (value >> 24) as f32 / 255.0,
+        }
+    }
 }

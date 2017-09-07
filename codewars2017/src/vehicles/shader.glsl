@@ -1,15 +1,28 @@
 #include <codewars>
 
+varying vec2 v_v;
+varying vec4 v_color;
+
 #ifdef VERTEX
+attribute vec2 a_v;
 attribute vec2 i_pos;
+attribute float i_radius;
+attribute vec4 i_color;
+attribute float i_height;
+
 void main() {
-    gl_Position = camera_matrix() * vec4(i_pos, 0.0, 1.0);
-    gl_PointSize = 3.0;
+    v_v = a_v;
+    v_color = i_color;
+    gl_Position = u_projection_matrix * (u_view_matrix * vec4(i_pos, i_height * u_sky_height, 1.0) + vec4(a_v * i_radius * 2.0 /* TODO */, 0.0, 0.0));
 }
 #endif
 
 #ifdef FRAGMENT
 void main() {
-    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    float ln = length(v_v - vec2(0.5, 0.5));
+    if (ln > 0.5) {
+        discard;
+    }
+    gl_FragColor = v_color;
 }
 #endif

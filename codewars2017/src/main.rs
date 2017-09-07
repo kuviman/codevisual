@@ -33,6 +33,7 @@ struct CodeWars2017 {
     game_log_loader: gamelog::loader::Loader,
     current_time: Rc<Cell<f32>>,
     time_scale: codevisual::SettingValue<f64>,
+    sky_height: codevisual::SettingValue<f64>,
 }
 
 shader_library! {
@@ -81,7 +82,8 @@ impl codevisual::Game for CodeWars2017 {
             terrain,
             vehicles,
             current_time,
-            time_scale: app.add_setting_f64("Time scale", 0.0, 4.0, 0.1),
+            time_scale: app.add_setting_f64("Time scale", 0.0, 4.0, 1.0),
+            sky_height: app.add_setting_f64("Sky height", 30.0, 300.0, 60.0),
         }
     }
 
@@ -104,9 +106,14 @@ impl codevisual::Game for CodeWars2017 {
         let mut framebuffer = ugli::default_framebuffer(self.app.ugli_context());
         let framebuffer = &mut framebuffer;
         ugli::clear(framebuffer, Some(Color::rgb(0.0, 1.0, 1.0)), Some(1.0));
-        let uniforms = self.camera.uniforms();
-        self.terrain.draw(framebuffer, &uniforms);
+        let uniforms = (
+            uniforms! {
+                u_sky_height: self.sky_height.get() as f32,
+                u_current_time: self.current_time.get() as f32,
+            },
+            self.camera.uniforms());
         self.vehicles.draw(tick, framebuffer, &uniforms);
+        self.terrain.draw(framebuffer, &uniforms);
     }
 
     fn handle_event(&mut self, event: codevisual::Event) {

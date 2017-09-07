@@ -1,6 +1,6 @@
 use ::*;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Copy, Clone)]
 pub enum VehicleType {
     ARRV,
     IFV,
@@ -22,6 +22,9 @@ pub struct Vehicle {
     terrain: TerrainHolder,
     weather: WeatherHolder,
     aerial: bool,
+    radius: f32,
+    typ: VehicleType,
+    player_id: ID,
 }
 
 impl Vehicle {
@@ -40,6 +43,9 @@ impl Vehicle {
             terrain: terrain.clone(),
             weather: weather.clone(),
             aerial: data.aerial.unwrap(),
+            radius: data.radius.unwrap(),
+            typ: data.typ.unwrap(),
+            player_id: data.playerId.unwrap(),
         };
         vehicle.add_tick(tick, Some(data), decoration);
         vehicle
@@ -57,7 +63,11 @@ impl Vehicle {
             let pos = if let (Some(x), Some(y)) = (data.x, data.y) {
                 vec2(x as PosPrecision, y as PosPrecision)
             } else {
-                self.execute_order(tick)
+                if self.order_executed {
+                    self.execute_order(tick)
+                } else {
+                    self.positions.last().unwrap().clone()
+                }
             };
             self.positions.push(pos);
         } else {
@@ -78,16 +88,16 @@ impl Vehicle {
             let cell = vec2(clamp((pos.x / CELL_SIZE) as usize, 0, self.terrain.len() - 1),
                             clamp((pos.y / CELL_SIZE) as usize, 0, self.terrain[0].len() - 1));
             let terrain_k: f32 = if self.aerial {
-                match self.terrain[cell.x][cell.y] {
-                    TerrainType::PLAIN => 1.0,
-                    TerrainType::FOREST => 0.8,
-                    TerrainType::SWAMP => 0.6,
-                }
-            } else {
                 match self.weather[cell.x][cell.y] {
                     WeatherType::CLEAR => 1.0,
                     WeatherType::CLOUD => 0.8,
                     WeatherType::RAIN => 0.6,
+                }
+            } else {
+                match self.terrain[cell.x][cell.y] {
+                    TerrainType::PLAIN => 1.0,
+                    TerrainType::FOREST => 0.8,
+                    TerrainType::SWAMP => 0.6,
                 }
             };
             let mut speed = self.max_speed * terrain_k;
@@ -106,8 +116,12 @@ impl Vehicle {
 
 #[derive(Debug)]
 pub struct FixedVehicle {
+    pub typ: VehicleType,
     pub id: ID,
     pub pos: Vec2<PosPrecision>,
+    pub radius: f32,
+    pub player_id: ID,
+    pub aerial: bool,
 }
 
 #[derive(Debug)]
@@ -174,6 +188,10 @@ impl Vehicles {
                 vehicles.push(FixedVehicle {
                     id: vehicle.id,
                     pos: vehicle.positions[tick - vehicle.start_tick],
+                    radius: vehicle.radius,
+                    typ: vehicle.typ,
+                    player_id: vehicle.player_id,
+                    aerial: vehicle.aerial,
                 });
             }
         }
