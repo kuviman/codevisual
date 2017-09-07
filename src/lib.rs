@@ -52,13 +52,13 @@ macro_rules! resources {
 #[macro_export]
 macro_rules! uniforms {
     () => {
-        &()
+        ()
     };
     ($name:ident : $value:expr) => {
-        &$crate::ugli::SingleUniform::new(stringify!($name), $value)
+        $crate::ugli::SingleUniform::new(stringify!($name), $value)
     };
     ($name:ident : $value:expr, $($names:ident : $values:expr),+) => {
-        &(uniforms!($name : $value), uniforms!($($names : $values),+))
+        (uniforms!($name : $value), uniforms!($($names : $values),+))
     };
     ($($name:ident : $value:expr),*,) => {
         uniforms!($($name : $value),*)
