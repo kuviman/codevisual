@@ -39,7 +39,7 @@ impl Color {
         }
     }
 
-    pub fn hex(value: u32) -> Self {
+    pub fn argb_hex(value: u32) -> Self {
         Color {
             red: ((value >> 16) & 0xff) as f32 / 255.0,
             green: ((value >> 8) & 0xff) as f32 / 255.0,

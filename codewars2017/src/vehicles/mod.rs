@@ -40,17 +40,17 @@ impl Vehicles {
             instance.i_radius = data.radius;
             use game_log::VehicleType::*;
             instance.i_color = match (data.typ, data.player_id) {
-                (TANK, 1) => Color::hex(0xFFFF0303),
-                (IFV, 1) => Color::hex(0xFFFEBA0E),
-                (HELICOPTER, 1) => Color::hex(0xFFEDEA00),
-                (ARRV, 1) => Color::hex(0xFF9E5507),
-                (FIGHTER, 1) => Color::hex(0xFFFFCED1),
+                (TANK, 1) => Color::argb_hex(0xFFFF0303),
+                (IFV, 1) => Color::argb_hex(0xFFFEBA0E),
+                (HELICOPTER, 1) => Color::argb_hex(0xFFEDEA00),
+                (ARRV, 1) => Color::argb_hex(0xFF9E5507),
+                (FIGHTER, 1) => Color::argb_hex(0xFFFFCED1),
 
-                (TANK, 2) => Color::hex(0xFF0042FF),
-                (IFV, 2) => Color::hex(0xFF7EBFF1),
-                (HELICOPTER, 2) => Color::hex(0xFF1CE6B9),
-                (ARRV, 2) => Color::hex(0xFF686969),
-                (FIGHTER, 2) => Color::hex(0xFF9290B2),
+                (TANK, 2) => Color::argb_hex(0xFF0042FF),
+                (IFV, 2) => Color::argb_hex(0xFF7EBFF1),
+                (HELICOPTER, 2) => Color::argb_hex(0xFF1CE6B9),
+                (ARRV, 2) => Color::argb_hex(0xFF686969),
+                (FIGHTER, 2) => Color::argb_hex(0xFF9290B2),
 
                 _ => panic!("WTF"),
             };
