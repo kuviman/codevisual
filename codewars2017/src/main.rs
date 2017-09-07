@@ -11,15 +11,15 @@ extern crate brijs;
 #[cfg(target_os = "emscripten")]
 extern crate codewars2017_web;
 
-extern crate codewars2017_log as gamelog;
+extern crate codewars2017_log as game_log;
 
 mod camera;
 
 pub ( crate ) use camera::*;
 
-mod terrain;
+mod game_map;
 
-use terrain::Terrain;
+use game_map::GameMap;
 
 mod vehicles;
 
@@ -28,9 +28,9 @@ use vehicles::Vehicles;
 struct CodeWars2017 {
     app: Rc<codevisual::Application>,
     camera: Camera,
-    terrain: Terrain,
+    terrain: GameMap,
     vehicles: Vehicles,
-    game_log_loader: gamelog::loader::Loader,
+    game_log_loader: game_log::loader::Loader,
     current_time: Rc<Cell<f32>>,
     time_scale: codevisual::SettingValue<f64>,
     sky_height: codevisual::SettingValue<f64>,
@@ -47,8 +47,8 @@ type Material<U = (), D = ()> = codevisual::Material<ShaderLib, U, D>;
 
 resources! {
     Resources {
-        game_log_loader: gamelog::loader::Loader = "game.log",
-        terrain: terrain::Resources = (),
+        game_log_loader: game_log::loader::Loader = "game.log",
+        terrain: game_map::Resources = (),
     }
 }
 
@@ -60,8 +60,8 @@ impl codevisual::Game for CodeWars2017 {
     }
 
     fn new(app: &Rc<codevisual::Application>, resources: Self::Resources) -> Self {
-        let game_log_loader: gamelog::loader::Loader = resources.game_log_loader;
-        let terrain = Terrain::new(app, resources.terrain, &game_log_loader.read());
+        let game_log_loader: game_log::loader::Loader = resources.game_log_loader;
+        let terrain = GameMap::new(app, resources.terrain, &game_log_loader.read());
         let vehicles = Vehicles::new(app, &game_log_loader);
         let camera = Camera::new(app, terrain.size);
         let current_time = Rc::new(Cell::new(0.0));

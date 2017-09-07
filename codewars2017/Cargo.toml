@@ -5,7 +5,7 @@ authors = ["kuviman <kuviman@gmail.com>"]
 
 [dependencies]
 codevisual = { path = ".." }
-codewars2017_log = { path = "src/gamelog" }
+codewars2017_log = { path = "src/game_log" }
 
 [target.'cfg(target_os = "emscripten")'.dependencies]
 brijs = { path = "../src/brijs" }

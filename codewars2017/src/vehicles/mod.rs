@@ -18,13 +18,13 @@ pub struct Vehicles {
     app: Rc<codevisual::Application>,
     instances: ugli::VertexBuffer<Instance>,
     material: codevisual::Material<ShaderLib>,
-    game_log_loader: gamelog::loader::Loader,
+    game_log_loader: game_log::loader::Loader,
 }
 
 const MAX_COUNT: usize = 2000;
 
 impl Vehicles {
-    pub fn new(app: &Rc<codevisual::Application>, game_log_loader: &gamelog::loader::Loader) -> Self {
+    pub fn new(app: &Rc<codevisual::Application>, game_log_loader: &game_log::loader::Loader) -> Self {
         Self {
             app: app.clone(),
             instances: ugli::VertexBuffer::new_dynamic(
@@ -38,7 +38,7 @@ impl Vehicles {
         for (instance, data) in self.instances.slice_mut(..data.len()).iter_mut().zip(&data) {
             instance.i_pos = vec2(data.pos.x as f32, data.pos.y as f32);
             instance.i_radius = data.radius;
-            use gamelog::VehicleType::*;
+            use game_log::VehicleType::*;
             instance.i_color = match (data.typ, data.player_id) {
                 (TANK, 1) => Color::hex(0xFFFF0303),
                 (IFV, 1) => Color::hex(0xFFFEBA0E),

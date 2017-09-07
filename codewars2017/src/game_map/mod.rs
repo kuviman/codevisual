@@ -5,7 +5,7 @@ struct RainVertex {
     a_v: Vec3<f32>
 }
 
-pub struct Terrain {
+pub struct GameMap {
     app: Rc<codevisual::Application>,
     texture: ugli::Texture2d,
     texture_weather: ugli::Texture2d,
@@ -27,8 +27,8 @@ resources! {
     }
 }
 
-impl Terrain {
-    pub fn new(app: &Rc<codevisual::Application>, mut resources: Resources, game_log: &gamelog::GameLog) -> Self {
+impl GameMap {
+    pub fn new(app: &Rc<codevisual::Application>, mut resources: Resources, game_log: &game_log::GameLog) -> Self {
         resources.plain_texture.set_wrap_mode(ugli::WrapMode::Repeat);
         resources.forest_texture.set_wrap_mode(ugli::WrapMode::Repeat);
         resources.swamp_texture.set_wrap_mode(ugli::WrapMode::Repeat);
@@ -36,9 +36,9 @@ impl Terrain {
             app: app.clone(),
             resources,
             texture: {
-                let terrain_data: &Vec<Vec<gamelog::TerrainType>> = &game_log.terrain;
+                let terrain_data: &Vec<Vec<game_log::TerrainType>> = &game_log.terrain;
                 let mut texture = ugli::Texture2d::new_with(app.ugli_context(), vec2(terrain_data.len(), terrain_data[0].len()), |pos| {
-                    use gamelog::TerrainType::*;
+                    use game_log::TerrainType::*;
                     match terrain_data[pos.x][pos.y] {
                         PLAIN => Color::rgb(1.0, 0.0, 0.0),
                         FOREST => Color::rgb(0.0, 1.0, 0.0),
@@ -49,9 +49,9 @@ impl Terrain {
                 texture
             },
             texture_weather: {
-                let weather_data: &Vec<Vec<gamelog::WeatherType>> = &game_log.weather;
+                let weather_data: &Vec<Vec<game_log::WeatherType>> = &game_log.weather;
                 let mut texture = ugli::Texture2d::new_with(app.ugli_context(), vec2(weather_data.len(), weather_data[0].len()), |pos| {
-                    use gamelog::WeatherType::*;
+                    use game_log::WeatherType::*;
                     match weather_data[pos.x][pos.y] {
                         CLEAR => Color::rgb(1.0, 0.0, 0.0),
                         CLOUD => Color::rgb(0.0, 1.0, 0.0),
@@ -78,10 +78,10 @@ impl Terrain {
             sky_enabled: app.add_setting_bool("Clouds", true),
             rain_mesh: ugli::VertexBuffer::new_static(app.ugli_context(), {
                 let mut vs = Vec::new();
-                let weather_data: &Vec<Vec<gamelog::WeatherType>> = &game_log.weather;
+                let weather_data: &Vec<Vec<game_log::WeatherType>> = &game_log.weather;
                 for i in 0..weather_data.len() as usize {
                     for j in 0..weather_data[0].len() as usize {
-                        if let gamelog::WeatherType::RAIN = weather_data[i][j] {
+                        if let game_log::WeatherType::RAIN = weather_data[i][j] {
                             const CELL_SIZE: f32 = 32.0;
 
                             vs.push(RainVertex { a_v: vec3(i as f32 * CELL_SIZE, j as f32 * CELL_SIZE, 0.0) });
