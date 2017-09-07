@@ -13,14 +13,14 @@ attribute float i_height;
 void main() {
     v_v = a_v;
     v_color = i_color;
-    gl_Position = u_projection_matrix * (u_view_matrix * vec4(i_pos, i_height * u_sky_height, 1.0) + vec4(a_v * i_radius * 2.0 /* TODO */, 0.0, 0.0));
+    gl_Position = u_projection_matrix * (u_view_matrix * vec4(i_pos, i_height * u_sky_height, 1.0) + vec4(a_v * i_radius, 0.0, 0.0));
 }
 #endif
 
 #ifdef FRAGMENT
 void main() {
-    float ln = length(v_v - vec2(0.5, 0.5));
-    if (ln > 0.5) {
+    float ln = length(v_v);
+    if (ln > 1.0) {
         discard;
     }
     gl_FragColor = v_color;
