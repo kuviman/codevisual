@@ -18,13 +18,13 @@ pub struct Vehicles {
     app: Rc<codevisual::Application>,
     instances: ugli::VertexBuffer<Instance>,
     material: codevisual::Material<ShaderLib>,
-    game_log_loader: game_log::loader::Loader,
+    game_log_loader: game_log::Loader,
 }
 
 const MAX_COUNT: usize = 2000;
 
 impl Vehicles {
-    pub fn new(app: &Rc<codevisual::Application>, game_log_loader: &game_log::loader::Loader) -> Self {
+    pub fn new(app: &Rc<codevisual::Application>, game_log_loader: &game_log::Loader) -> Self {
         Self {
             app: app.clone(),
             instances: ugli::VertexBuffer::new_dynamic(

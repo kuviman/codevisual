@@ -86,7 +86,7 @@ impl Camera {
     fn mouse_move(&mut self, prev_pos: Vec2, pos: Vec2) {
         let prev_pos = self.raytrace(prev_pos);
         let pos = self.raytrace(pos);
-        let dv = (pos - prev_pos);
+        let dv = pos - prev_pos;
         self.position.x = (self.position.x + dv.x).max(0.0).min(self.map_size.x);
         self.position.y = (self.position.y + dv.y).max(0.0).min(self.map_size.y);
     }

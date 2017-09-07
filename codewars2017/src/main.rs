@@ -13,6 +13,8 @@ extern crate codewars2017_web;
 
 extern crate codewars2017_log as game_log;
 
+pub ( crate ) use game_log::GameLog;
+
 mod camera;
 
 pub ( crate ) use camera::*;
@@ -23,6 +25,8 @@ use game_map::GameMap;
 
 mod vehicles;
 
+mod blur;
+
 use vehicles::Vehicles;
 
 struct CodeWars2017 {
@@ -30,7 +34,7 @@ struct CodeWars2017 {
     camera: Camera,
     terrain: GameMap,
     vehicles: Vehicles,
-    game_log_loader: game_log::loader::Loader,
+    game_log_loader: game_log::Loader,
     current_time: Rc<Cell<f32>>,
     time_scale: codevisual::SettingValue<f64>,
     sky_height: codevisual::SettingValue<f64>,
@@ -47,7 +51,7 @@ type Material<U = (), D = ()> = codevisual::Material<ShaderLib, U, D>;
 
 resources! {
     Resources {
-        game_log_loader: game_log::loader::Loader = "game.log",
+        game_log_loader: game_log::Loader = "game.log",
         terrain: game_map::Resources = (),
     }
 }
@@ -60,7 +64,7 @@ impl codevisual::Game for CodeWars2017 {
     }
 
     fn new(app: &Rc<codevisual::Application>, resources: Self::Resources) -> Self {
-        let game_log_loader: game_log::loader::Loader = resources.game_log_loader;
+        let game_log_loader: game_log::Loader = resources.game_log_loader;
         let terrain = GameMap::new(app, resources.terrain, &game_log_loader.read());
         let vehicles = Vehicles::new(app, &game_log_loader);
         let camera = Camera::new(app, terrain.size);
@@ -110,6 +114,7 @@ impl codevisual::Game for CodeWars2017 {
             uniforms! {
                 u_sky_height: self.sky_height.get() as f32,
                 u_current_time: self.current_time.get() as f32,
+                u_cell_size: 32.0, // TODO
             },
             self.camera.uniforms());
         self.vehicles.draw(tick, framebuffer, &uniforms);
