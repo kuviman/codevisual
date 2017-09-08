@@ -32,7 +32,7 @@ pub enum TerrainType {
     FOREST,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub enum WeatherType {
     CLOUD,
     CLEAR,

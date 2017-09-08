@@ -40,7 +40,7 @@ impl Ground {
                 swamp_texture: repeatable!(resources.swamp_texture),
                 terrain_map: {
                     let terrain_data: &Vec<Vec<game_log::TerrainType>> = &game_log.terrain;
-                    blur::gauss(app.ugli_context(), &ugli::Texture2d::new_with(
+                    let mut texture = ugli::Texture2d::new_with(
                         app.ugli_context(),
                         vec2(terrain_data.len(), terrain_data[0].len()),
                         |pos| {
@@ -50,7 +50,10 @@ impl Ground {
                                 FOREST => Color::rgb(0.0, 1.0, 0.0),
                                 SWAMP => Color::rgb(0.0, 0.0, 1.0),
                             }
-                        }))
+                        });
+                    //                    texture = blur::gauss(app.ugli_context(), &texture);
+                    texture.set_filter(ugli::Filter::Nearest);
+                    texture
                 }
             },
             geometry: ugli::Quad::new(app.ugli_context(), vec2(0.0, 0.0), game_log.map_size),
