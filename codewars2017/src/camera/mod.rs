@@ -23,6 +23,7 @@ pub struct Camera {
     start_drag: Option<Vec2>,
     start_drag_rotation: Option<Vec2>,
     prev_zoom_touchdist: f32,
+    prev_touch_angle: f32,
     map_size: Vec2<f32>,
 }
 
@@ -39,6 +40,7 @@ impl Camera {
             start_drag: None,
             start_drag_rotation: None,
             prev_zoom_touchdist: 0.0,
+            prev_touch_angle: 0.0,
         }
     }
 
@@ -144,8 +146,9 @@ impl Camera {
                     self.start_drag = Some(touches[0].position);
                 }
                 if touches.len() == 2 {
-                    self.prev_zoom_touchdist = (touches[0].position - touches[1].position)
-                        .len() as f32;
+                    let diff = touches[0].position - touches[1].position;
+                    self.prev_zoom_touchdist = diff.len() as f32;
+                    self.prev_touch_angle = f64::atan2(diff.x, diff.y) as f32;
                 }
             }
             TouchMove { touches } => {
@@ -156,9 +159,20 @@ impl Camera {
                         self.start_drag = Some(pos);
                     }
                 } else if touches.len() == 2 {
-                    let now_dist = (touches[0].position - touches[1].position).len() as f32;
+                    let diff = touches[0].position - touches[1].position;
+                    let now_dist = diff.len() as f32;
                     self.distance /= now_dist / self.prev_zoom_touchdist;
                     self.prev_zoom_touchdist = now_dist;
+                    let now_angle = f64::atan2(diff.x, diff.y) as f32;
+                    let mut angle_diff = now_angle - self.prev_touch_angle;
+                    while angle_diff > std::f32::consts::PI {
+                        angle_diff -= 2.0 * std::f32::consts::PI;
+                    }
+                    while angle_diff < -std::f32::consts::PI {
+                        angle_diff += 2.0 * std::f32::consts::PI;
+                    }
+                    self.rotation += angle_diff;
+                    self.prev_touch_angle = now_angle;
                 }
             }
             TouchEnd => {
