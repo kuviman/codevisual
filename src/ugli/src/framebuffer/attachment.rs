@@ -45,28 +45,12 @@ impl Color for DefaultColor {
     type WriteAccess = HasAccess;
 }
 
-pub trait Texture: Color {
-    fn get_texture(&self) -> &Texture2d;
-}
-
 impl<'a> Color for &'a Texture2d {
     type ReadAccess = HasAccess;
     type WriteAccess = NoAccess;
 }
 
-impl<'a> Texture for &'a Texture2d {
-    fn get_texture(&self) -> &Texture2d {
-        self
-    }
-}
-
 impl<'a> Color for &'a mut Texture2d {
     type ReadAccess = HasAccess;
     type WriteAccess = HasAccess;
-}
-
-impl<'a> Texture for &'a mut Texture2d {
-    fn get_texture(&self) -> &Texture2d {
-        self
-    }
 }
