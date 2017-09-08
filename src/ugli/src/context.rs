@@ -3,6 +3,7 @@ use ::*;
 pub struct Context {
     size: Cell<Vec2<usize>>,
     pub ( crate ) quad: RefCell<Option<Quad>>,
+    pub ( crate ) cube: RefCell<Option<Cube>>,
 }
 
 #[derive(Debug)]
@@ -36,6 +37,7 @@ impl Context {
         Ok(Context {
             size: Cell::new(vec2(1, 1)),
             quad: RefCell::new(None),
+            cube: RefCell::new(None),
         })
     }
     pub fn _set_size(&self, size: Vec2<usize>) {

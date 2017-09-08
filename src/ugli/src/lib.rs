@@ -46,6 +46,10 @@ mod quad;
 
 pub use quad::*;
 
+mod cube;
+
+pub use cube::*;
+
 fn check_gl_error() {
     assert_eq!(unsafe { gl::GetError() }, gl::NO_ERROR);
 }

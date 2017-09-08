@@ -41,6 +41,17 @@ impl<T: Copy + std::ops::Sub<Output=T>> std::ops::Sub for Vec3<T> {
     }
 }
 
+impl<T: Copy + std::ops::Add<Output=T>> std::ops::Add for Vec3<T> {
+    type Output = Self;
+    fn add(self, rhs: Self) -> Self {
+        Self {
+            x: self.x + rhs.x,
+            y: self.y + rhs.y,
+            z: self.z + rhs.z,
+        }
+    }
+}
+
 impl<T: Copy + std::ops::Mul<T, Output=T>> std::ops::Mul<T> for Vec3<T> {
     type Output = Self;
     fn mul(self, rhs: T) -> Self {
@@ -57,7 +68,7 @@ impl Vec3<f32> {
         Self {
             x: a.y * b.z - a.z * b.y,
             y: a.z * b.x - a.x * b.z,
-            z: a.x * b.y - a.y - b.x,
+            z: a.x * b.y - a.y * b.x,
         }
     }
 }
