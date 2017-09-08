@@ -12,6 +12,7 @@ pub type Resources = ();
 
 pub struct Weather {
     clouds: Clouds,
+    clouds_enabled: codevisual::SettingValue<bool>,
     rain: Rain,
     weather_map: ugli::Texture2d,
 }
@@ -35,12 +36,15 @@ impl Weather {
                         }
                     }))
             },
+            clouds_enabled: app.add_setting_bool("Clouds", true),
         }
     }
     pub fn draw<U: ugli::UniformStorage>(&mut self, framebuffer: &mut ugli::DefaultFramebuffer, uniforms: U) {
         let uniforms = (uniforms, uniforms!(weather_map: &self.weather_map));
         self.rain.draw(framebuffer, &uniforms);
-        self.clouds.draw(framebuffer, &uniforms);
+        if self.clouds_enabled.get() {
+            self.clouds.draw(framebuffer, &uniforms);
+        }
     }
     pub fn uniforms(&self) -> ugli::SingleUniform<&ugli::Texture2d> {
         uniforms!(weather_map: &self.weather_map)
