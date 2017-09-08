@@ -39,9 +39,35 @@ impl BlendMode {
     }
 }
 
+pub enum CullFace {
+    None,
+    Back,
+    Front,
+}
+
+impl CullFace {
+    fn apply(&self) {
+        use CullFace::*;
+        match *self {
+            None => unsafe {
+                gl::Disable(gl::CULL_FACE);
+            },
+            Back => unsafe {
+                gl::Enable(gl::CULL_FACE);
+                gl::CullFace(gl::BACK);
+            },
+            Front => unsafe {
+                gl::Enable(gl::CULL_FACE);
+                gl::CullFace(gl::FRONT);
+            },
+        }
+    }
+}
+
 pub struct DrawParameters {
     pub depth_test: DepthTest,
     pub blend_mode: BlendMode,
+    pub cull_face: CullFace,
     pub viewport: Option<(usize, usize, usize, usize)>,
     // TODO: Rect<usize>
 }
@@ -51,6 +77,7 @@ impl Default for DrawParameters {
         Self {
             depth_test: DepthTest::On,
             blend_mode: BlendMode::Off,
+            cull_face: CullFace::None,
             viewport: None,
         }
     }
@@ -60,6 +87,7 @@ impl DrawParameters {
     pub ( crate ) fn apply(&self) {
         self.depth_test.apply();
         self.blend_mode.apply();
+        self.cull_face.apply();
         if let Some((x, y, width, height)) = self.viewport {
             unsafe {
                 gl::Viewport(x as GLint, y as GLint, width as GLsizei, height as GLsizei);
