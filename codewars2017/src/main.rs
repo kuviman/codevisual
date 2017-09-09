@@ -25,13 +25,18 @@ use game_map::GameMap;
 
 mod vehicles;
 
+use vehicles::Vehicles;
+
 mod blur;
 
-use vehicles::Vehicles;
+mod skybox;
+
+use skybox::SkyBox;
 
 struct CodeWars2017 {
     app: Rc<codevisual::Application>,
     camera: Camera,
+    skybox: SkyBox,
     terrain: GameMap,
     vehicles: Vehicles,
     game_log_loader: game_log::Loader,
@@ -52,6 +57,7 @@ type Material<U = (), D = ()> = codevisual::Material<ShaderLib, U, D>;
 resources! {
     Resources {
         game_log_loader: game_log::Loader = "game.log",
+        skybox: skybox::Resources = (),
         terrain: game_map::Resources = (),
     }
 }
@@ -81,6 +87,7 @@ impl codevisual::Game for CodeWars2017 {
         }
         Self {
             app: app.clone(),
+            skybox: SkyBox::new(app, resources.skybox),
             camera,
             game_log_loader,
             terrain,
@@ -109,7 +116,6 @@ impl codevisual::Game for CodeWars2017 {
         let tick = min((self.current_time.get() * 60.0) as usize, self.game_log_loader.read().loaded_tick_count - 1);
         let mut framebuffer = self.app.ugli_context().default_framebuffer();
         let framebuffer = &mut framebuffer;
-        ugli::clear(framebuffer, Some(Color::rgb(0.0, 1.0, 1.0)), Some(1.0));
         let uniforms = (
             uniforms! {
                 u_sky_height: self.sky_height.get() as f32,
@@ -117,6 +123,8 @@ impl codevisual::Game for CodeWars2017 {
                 u_cell_size: 32.0, // TODO
             },
             self.camera.uniforms());
+        ugli::clear(framebuffer, None, Some(1.0));
+        self.skybox.draw(framebuffer, &uniforms);
         self.vehicles.draw(tick, framebuffer, &uniforms);
         self.terrain.draw(framebuffer, &uniforms);
     }
