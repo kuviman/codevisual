@@ -5,7 +5,7 @@ pub fn gauss(context: &Rc<ugli::Context>, texture: &ugli::Texture2d) -> ugli::Te
     let material: codevisual::Material = codevisual::Material::new(
         context, (), (), include_str!("shader.glsl"));
     ugli::draw(
-        &mut ugli::Framebuffer::new_color(context, &mut result),
+        &mut ugli::Framebuffer::new_color(context, ugli::ColorAttachment::Texture(&mut result)),
         &material.ugli_program(),
         ugli::Quad::DRAW_MODE,
         &ugli::plain(&ugli::quad(context).slice(..)),

@@ -50,7 +50,8 @@ impl Decor {
         let instances = {
             let mut instances = Vec::new();
             let map_size = map_texture.get_size();
-            let framebuffer = ugli::Framebuffer::new_color(context, map_texture);
+            let framebuffer = ugli::FramebufferRead::new_color(
+                context, ugli::ColorAttachmentRead::Texture(map_texture));
             let map = framebuffer.read_color();
             for _ in 0..density {
                 let x = random::<f32>();
@@ -89,7 +90,7 @@ impl Decor {
 
     pub fn draw<U: ugli::UniformStorage>(
         &mut self,
-        framebuffer: &mut ugli::DefaultFramebuffer,
+        framebuffer: &mut ugli::Framebuffer,
         uniforms: &U,
         percent: f64,
     ) {
@@ -231,7 +232,7 @@ impl AllDecor {
 
     pub fn draw<U: ugli::UniformStorage>(
         &mut self,
-        framebuffer: &mut ugli::DefaultFramebuffer,
+        framebuffer: &mut ugli::Framebuffer,
         uniforms: &U,
     ) {
         if self.settings.show_bushes.get() {

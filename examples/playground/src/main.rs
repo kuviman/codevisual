@@ -161,7 +161,7 @@ impl codevisual::Game for Playground {
             let size = self.app.window().get_size();
             vec2(size.x as f32, size.y as f32)
         };
-        let mut framebuffer = ugli::default_framebuffer(self.app.ugli_context());
+        let mut framebuffer = self.app.ugli_context().default_framebuffer();
         ugli::clear(&mut framebuffer, Some(Color::rgb(1.0, 1.0, 1.0)), Some(1.0));
 
         self.global_uniforms.u_time = self.current_time;

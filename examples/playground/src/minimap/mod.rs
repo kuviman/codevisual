@@ -12,7 +12,7 @@ impl Minimap {
             settings: settings.clone(),
         }
     }
-    pub fn render<U>(&self, framebuffer: &mut ugli::DefaultFramebuffer, units: &units::AllUnits, uniforms: &U) where U: ugli::UniformStorage {
+    pub fn render<U>(&self, framebuffer: &mut ugli::Framebuffer, units: &units::AllUnits, uniforms: &U) where U: ugli::UniformStorage {
         let h = framebuffer.get_size().y;
         let conv = |x| {
             x * h / 480

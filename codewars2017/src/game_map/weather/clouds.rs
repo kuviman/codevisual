@@ -51,11 +51,11 @@ impl Clouds {
         }
     }
 
-    pub fn draw<U: ugli::UniformStorage>(&mut self, framebuffer: &mut ugli::DefaultFramebuffer, uniforms: U) {
+    pub fn draw<U: ugli::UniformStorage>(&mut self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
         let texture = {
             let mut texture = ugli::Texture2d::new_uninitialized(self.app.ugli_context(), framebuffer.get_size());
             {
-                let mut framebuffer = ugli::Framebuffer::new_color(self.app.ugli_context(), &mut texture);
+                let mut framebuffer = ugli::Framebuffer::new_color(self.app.ugli_context(), ugli::ColorAttachment::Texture(&mut texture));
                 ugli::clear(&mut framebuffer, Some(Color::rgba(0.0, 0.0, 0.0, 0.0)), None);
                 ugli::draw(
                     &mut framebuffer,

@@ -1,7 +1,5 @@
 use ::*;
 
-use super::attachment::{self, Access, HasAccess};
-
 pub struct ColorData<'a> {
     width: usize,
     height: usize,
@@ -22,11 +20,13 @@ impl<'a> ColorData<'a> {
     }
 }
 
-impl<WriteAccess, Color> Framebuffer<HasAccess, WriteAccess, Color>
-    where WriteAccess: Access,
-          Color: attachment::Color<ReadAccess = HasAccess, WriteAccess = WriteAccess>
-{
-    pub fn read_color<'a>(&'a self) -> ColorData<'a> {
+impl<'a> FramebufferRead<'a> {
+    pub fn read_color(&self) -> ColorData {
+        if self.fbo.handle != 0 {
+            if let ColorAttachmentRead::None = self.color {
+                panic!("Framebuffer has no color attached");
+            }
+        }
         self.fbo.bind();
         unsafe {
             let mut buffer =

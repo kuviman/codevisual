@@ -4,8 +4,6 @@ mod parameters;
 
 pub use self::parameters::*;
 
-use framebuffer::attachment;
-
 pub enum DrawMode {
     Points,
     Lines,
@@ -16,14 +14,9 @@ pub enum DrawMode {
     TriangleFan,
 }
 
-pub fn clear<FR, FC>(
-    framebuffer: &mut Framebuffer<FR, attachment::HasAccess, FC>,
-    color: Option<Color>,
-    depth: Option<f32>,
-) where
-    FR: attachment::Access,
-    FC: attachment::Color<ReadAccess=FR, WriteAccess=attachment::HasAccess>,
-{
+pub fn clear(framebuffer: &mut Framebuffer,
+             color: Option<Color>,
+             depth: Option<f32>) {
     framebuffer.fbo.bind();
     let mut flags = 0;
     if let Some(color) = color {
@@ -48,19 +41,14 @@ pub fn clear<FR, FC>(
     }
 }
 
-pub fn draw<FR, FC, V, U>(
-    framebuffer: &mut Framebuffer<FR, attachment::HasAccess, FC>,
-    program: &Program,
-    mode: DrawMode,
-    vertices: &V,
-    uniforms: U,
-    draw_parameters: &DrawParameters,
-) where
-    FR: attachment::Access,
-    FC: attachment::Color<ReadAccess=FR, WriteAccess=attachment::HasAccess>,
-    V: VertexDataSource,
-    U: UniformStorage,
-{
+pub fn draw<V, U>(framebuffer: &mut Framebuffer,
+                  program: &Program,
+                  mode: DrawMode,
+                  vertices: &V,
+                  uniforms: U,
+                  draw_parameters: &DrawParameters)
+    where V: VertexDataSource,
+          U: UniformStorage {
     framebuffer.fbo.bind();
     unsafe {
         let size = framebuffer.get_size();

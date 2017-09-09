@@ -148,7 +148,7 @@ impl Units {
     }
     pub fn draw<U: ugli::UniformStorage>(
         &mut self,
-        framebuffer: &mut ugli::DefaultFramebuffer,
+        framebuffer: &mut ugli::Framebuffer,
         uniforms: &U,
     ) {
         self.material.defines.d_heightmap_enabled = self.settings.heightmap_enabled.get();
@@ -276,7 +276,7 @@ impl AllUnits {
             }
         {
             let texture = self.screen_used_texture.as_mut().unwrap();
-            let mut framebuffer = ugli::Framebuffer::new_color(context, texture);
+            let mut framebuffer = ugli::Framebuffer::new_color(context, ugli::ColorAttachment::Texture(texture));
             ugli::clear(&mut framebuffer, Some(Color::rgb(1.0, 1.0, 1.0)), None);
             ugli::draw(
                 &mut framebuffer,
@@ -299,7 +299,7 @@ impl AllUnits {
 
     pub fn draw<U: ugli::UniformStorage>(
         &mut self,
-        framebuffer: &mut ugli::DefaultFramebuffer,
+        framebuffer: &mut ugli::Framebuffer,
         uniforms: &U,
     ) {
         self.cars.draw(framebuffer, uniforms);

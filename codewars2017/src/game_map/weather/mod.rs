@@ -39,7 +39,7 @@ impl Weather {
             clouds_enabled: app.add_setting_bool("Clouds", true),
         }
     }
-    pub fn draw<U: ugli::UniformStorage>(&mut self, framebuffer: &mut ugli::DefaultFramebuffer, uniforms: U) {
+    pub fn draw<U: ugli::UniformStorage>(&mut self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
         let uniforms = (uniforms, uniforms!(weather_map: &self.weather_map));
         self.rain.draw(framebuffer, &uniforms);
         if self.clouds_enabled.get() {

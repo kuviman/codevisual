@@ -33,7 +33,7 @@ impl Vehicles {
             game_log_loader: game_log_loader.clone(),
         }
     }
-    pub fn draw<U: ugli::UniformStorage>(&mut self, tick: usize, framebuffer: &mut ugli::DefaultFramebuffer, uniforms: U) {
+    pub fn draw<U: ugli::UniformStorage>(&mut self, tick: usize, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
         let data = self.game_log_loader.read().vehicles.get(tick);
         for (instance, data) in self.instances.slice_mut(..data.len()).iter_mut().zip(&data) {
             instance.i_pos = vec2(data.pos.x as f32, data.pos.y as f32);

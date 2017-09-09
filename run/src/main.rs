@@ -30,7 +30,7 @@ impl codevisual::Game for Run {
     fn update(&mut self, delta_time: f64) {}
 
     fn draw(&mut self) {
-        let mut framebuffer = ugli::default_framebuffer(self.app.ugli_context());
+        let mut framebuffer = self.app.ugli_context().default_framebuffer();
         let framebuffer = &mut framebuffer;
         ugli::clear(framebuffer, Some(Color::BLACK), None);
     }

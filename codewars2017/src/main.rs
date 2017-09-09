@@ -107,7 +107,7 @@ impl codevisual::Game for CodeWars2017 {
 
     fn draw(&mut self) {
         let tick = min((self.current_time.get() * 60.0) as usize, self.game_log_loader.read().loaded_tick_count - 1);
-        let mut framebuffer = ugli::default_framebuffer(self.app.ugli_context());
+        let mut framebuffer = self.app.ugli_context().default_framebuffer();
         let framebuffer = &mut framebuffer;
         ugli::clear(framebuffer, Some(Color::rgb(0.0, 1.0, 1.0)), Some(1.0));
         let uniforms = (

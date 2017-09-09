@@ -108,7 +108,7 @@ impl Ground {
 
     pub fn draw<U: ugli::UniformStorage>(
         &mut self,
-        framebuffer: &mut ugli::DefaultFramebuffer,
+        framebuffer: &mut ugli::Framebuffer,
         uniforms: &U,
     ) {
         self.material.defines.d_fog_enabled = self.settings.fog_enabled.get();

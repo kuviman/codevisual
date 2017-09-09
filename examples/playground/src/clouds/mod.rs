@@ -31,7 +31,8 @@ impl Clouds {
     ) -> Self {
         let mut data = Vec::new();
         let map_size = resources.cloud_map.get_size();
-        let framebuffer = ugli::Framebuffer::new_color(app.ugli_context(), &resources.cloud_map);
+        let framebuffer = ugli::FramebufferRead::new_color(
+            app.ugli_context(), ugli::ColorAttachmentRead::Texture(&resources.cloud_map));
         let map = framebuffer.read_color();
         for _ in 0..70000 {
             let x = random::<f32>();
@@ -55,7 +56,7 @@ impl Clouds {
 
     pub fn draw<U: ugli::UniformStorage>(
         &mut self,
-        framebuffer: &mut ugli::DefaultFramebuffer,
+        framebuffer: &mut ugli::Framebuffer,
         uniforms: &U,
     ) {
         ugli::draw(

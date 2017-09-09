@@ -20,7 +20,7 @@ impl codevisual::Game for Tutorial {
     fn update(&mut self, delta_time: f64) {}
     fn draw(&mut self) {
         ugli::clear(
-            &mut ugli::default_framebuffer(self.app.ugli_context()),
+            &mut self.app.ugli_context().default_framebuffer(),
             Some(Color::rgb(0.2, 1.0, 0.2)),
             None,
         );

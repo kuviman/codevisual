@@ -44,7 +44,8 @@ impl Fog {
     }
     pub fn prepare<U: ugli::UniformStorage>(&mut self, units: &units::AllUnits, uniforms: &U) {
         let context = self.app.ugli_context();
-        let mut framebuffer = ugli::Framebuffer::new_color(context, &mut self.uniforms.u_fog_map);
+        let mut framebuffer = ugli::Framebuffer::new_color(
+            context, ugli::ColorAttachment::Texture(&mut self.uniforms.u_fog_map));
         ugli::clear(&mut framebuffer, Some(Color::rgb(0.0, 0.0, 0.0)), None);
         for instances in &[&units.cars.instances, &units.helis.instances] {
             ugli::draw(

@@ -61,7 +61,7 @@ impl Ground {
         }
     }
 
-    pub fn draw<U: ugli::UniformStorage>(&mut self, framebuffer: &mut ugli::DefaultFramebuffer, uniforms: U) {
+    pub fn draw<U: ugli::UniformStorage>(&mut self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
         ugli::draw(
             framebuffer,
             &self.material.ugli_program(),

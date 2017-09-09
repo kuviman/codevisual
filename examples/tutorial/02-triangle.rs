@@ -73,12 +73,12 @@ impl codevisual::Game for Tutorial {
     fn update(&mut self, delta_time: f64) {}
     fn draw(&mut self) {
         ugli::clear(
-            &mut ugli::default_framebuffer(self.app.ugli_context()),
+            &mut self.app.ugli_context().default_framebuffer(),
             Some(Color::rgb(0.0, 0.0, 0.0)),
             None,
         );
         ugli::draw(
-            &mut ugli::default_framebuffer(self.app.ugli_context()),
+            &mut self.app.ugli_context().default_framebuffer(),
             &self.material.ugli_program(),
             ugli::DrawMode::Triangles,
             &ugli::plain(&self.vertices.slice(..)),

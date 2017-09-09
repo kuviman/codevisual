@@ -30,7 +30,7 @@ impl GameMap {
         }
     }
 
-    pub fn draw<U: ugli::UniformStorage>(&mut self, framebuffer: &mut ugli::DefaultFramebuffer, uniforms: U) {
+    pub fn draw<U: ugli::UniformStorage>(&mut self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
         self.ground.draw(framebuffer, (&uniforms, self.weather.uniforms()));
         self.weather.draw(framebuffer, &uniforms);
     }
