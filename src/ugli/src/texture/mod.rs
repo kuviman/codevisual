@@ -1,10 +1,12 @@
 use ::*;
 
+#[derive(Debug, PartialEq, Eq, Copy, Clone)]
 pub enum WrapMode {
     Repeat,
     Clamp,
 }
 
+#[derive(Debug, PartialEq, Eq, Copy, Clone)]
 pub enum Filter {
     Nearest,
     Linear,
@@ -46,7 +48,13 @@ impl Texture2d {
         }
     }
 
+    fn is_pot(&self) -> bool {
+        let size = self.size.get();
+        size.x & (size.x - 1) == 0 && size.y & (size.y - 1) == 0
+    }
+
     pub fn set_wrap_mode(&mut self, wrap_mode: WrapMode) {
+        assert!(self.is_pot() || wrap_mode == WrapMode::Clamp);
         let wrap_mode = match wrap_mode {
             WrapMode::Clamp => gl::CLAMP_TO_EDGE,
             WrapMode::Repeat => gl::REPEAT,
@@ -59,6 +67,7 @@ impl Texture2d {
     }
 
     pub fn set_filter(&mut self, filter: Filter) {
+        assert!(self.is_pot() || filter == Filter::Nearest || filter == Filter::Linear);
         let filter = match filter {
             Filter::Nearest => gl::NEAREST,
             Filter::Linear => gl::LINEAR,
