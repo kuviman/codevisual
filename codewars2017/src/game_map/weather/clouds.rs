@@ -55,8 +55,12 @@ impl Clouds {
         let texture = {
             let mut texture = ugli::Texture2d::new_uninitialized(self.app.ugli_context(), framebuffer.get_size());
             {
-                let mut framebuffer = ugli::Framebuffer::new_color(self.app.ugli_context(), ugli::ColorAttachment::Texture(&mut texture));
-                ugli::clear(&mut framebuffer, Some(Color::rgba(0.0, 0.0, 0.0, 0.0)), None);
+                let mut depth = ugli::Renderbuffer::<ugli::DepthComponent>::new(framebuffer.get_size());
+                let mut framebuffer = ugli::Framebuffer::new(
+                    self.app.ugli_context(),
+                    ugli::ColorAttachment::Texture(&mut texture),
+                    ugli::DepthAttachment::Renderbuffer(&mut depth));
+                ugli::clear(&mut framebuffer, Some(Color::rgba(0.0, 0.0, 0.0, 0.0)), Some(1.0));
                 ugli::draw(
                     &mut framebuffer,
                     &self.material.ugli_program(),

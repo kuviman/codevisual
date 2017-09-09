@@ -1,0 +1,29 @@
+use ::*;
+
+pub struct Renderbuffer<T: Pixel = Color> {
+    pub ( crate ) handle: GLuint,
+    phantom_data: PhantomData<T>,
+}
+
+impl<T: Pixel> Drop for Renderbuffer<T> {
+    fn drop(&mut self) {
+        unsafe {
+            gl::DeleteRenderbuffers(1, &self.handle);
+        }
+    }
+}
+
+impl<T: Pixel> Renderbuffer<T> {
+    pub fn new(size: Vec2<usize>) -> Self {
+        unsafe {
+            let mut handle: GLuint = std::mem::uninitialized();
+            gl::GenRenderbuffers(1, &mut handle);
+            gl::BindRenderbuffer(gl::RENDERBUFFER, handle);
+            gl::RenderbufferStorage(gl::RENDERBUFFER, T::GL_FORMAT, size.x as GLsizei, size.y as GLsizei);
+            Self {
+                handle,
+                phantom_data: PhantomData,
+            }
+        }
+    }
+}

@@ -13,6 +13,11 @@ pub enum ColorAttachmentRead<'a> {
     Texture(&'a Texture2d),
 }
 
+pub enum DepthAttachmentRead<'a> {
+    None,
+    Renderbuffer(&'a Renderbuffer<DepthComponent>),
+}
+
 pub struct FramebufferRead<'a> {
     pub ( crate ) fbo: FBO,
     color: ColorAttachmentRead<'a>,
@@ -20,7 +25,7 @@ pub struct FramebufferRead<'a> {
 }
 
 impl<'a> FramebufferRead<'a> {
-    pub fn new_color(context: &Context, color: ColorAttachmentRead<'a>) -> Self {
+    pub fn new(context: &Context, color: ColorAttachmentRead<'a>, depth: DepthAttachmentRead<'a>) -> Self {
         let fbo = FBO::new(context);
         fbo.bind();
         let mut size = None;
@@ -39,8 +44,25 @@ impl<'a> FramebufferRead<'a> {
                 size = Some(texture.get_size());
             }
         }
+        match depth {
+            DepthAttachmentRead::None => {}
+            DepthAttachmentRead::Renderbuffer(ref renderbuffer) => {
+                unsafe {
+                    gl::FramebufferRenderbuffer(
+                        gl::FRAMEBUFFER,
+                        gl::DEPTH_ATTACHMENT,
+                        gl::RENDERBUFFER,
+                        renderbuffer.handle
+                    );
+                }
+                // TODO: update/check size
+            }
+        }
         fbo.check();
         Self { fbo, color, size: size.unwrap() }
+    }
+    pub fn new_color(context: &Context, color: ColorAttachmentRead<'a>) -> Self {
+        Self::new(context, color, DepthAttachmentRead::None)
     }
     pub fn get_size(&self) -> Vec2<usize> {
         self.size
@@ -52,18 +74,32 @@ pub enum ColorAttachment<'a> {
     Texture(&'a mut Texture2d),
 }
 
+pub enum DepthAttachment<'a> {
+    None,
+    Renderbuffer(&'a mut Renderbuffer<DepthComponent>),
+}
+
 pub struct Framebuffer<'a> {
     read: FramebufferRead<'a>,
 }
 
 impl<'a> Framebuffer<'a> {
-    pub fn new_color(context: &Context, color: ColorAttachment<'a>) -> Self {
+    pub fn new(context: &Context, color: ColorAttachment<'a>, depth: DepthAttachment<'a>) -> Self {
         Self {
-            read: FramebufferRead::new_color(context, match color {
-                ColorAttachment::None => ColorAttachmentRead::None,
-                ColorAttachment::Texture(texture) => ColorAttachmentRead::Texture(texture),
-            })
+            read: FramebufferRead::new(
+                context,
+                match color {
+                    ColorAttachment::None => ColorAttachmentRead::None,
+                    ColorAttachment::Texture(texture) => ColorAttachmentRead::Texture(texture),
+                },
+                match depth {
+                    DepthAttachment::None => DepthAttachmentRead::None,
+                    DepthAttachment::Renderbuffer(renderbuffer) => DepthAttachmentRead::Renderbuffer(renderbuffer),
+                })
         }
+    }
+    pub fn new_color(context: &Context, color: ColorAttachment<'a>) -> Self {
+        Self::new(context, color, DepthAttachment::None)
     }
 }
 
