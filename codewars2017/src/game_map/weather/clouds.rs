@@ -12,6 +12,7 @@ pub struct Clouds {
     geometry: ugli::Cube,
     instances: ugli::VertexBuffer<Vertex>,
     material: Material,
+    tmp: Option<(ugli::Texture2d, ugli::Renderbuffer<ugli::DepthComponent>)>,
 }
 
 impl Clouds {
@@ -48,35 +49,39 @@ impl Clouds {
                 ugli::VertexBuffer::new_static(app.ugli_context(), vs)
             },
             material: Material::new(app.ugli_context(), (), (), include_str!("clouds.glsl")),
+            tmp: None,
         }
     }
 
     pub fn draw<U: ugli::UniformStorage>(&mut self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
-        let texture = {
-            let mut texture = ugli::Texture2d::new_uninitialized(self.app.ugli_context(), framebuffer.get_size());
-            {
-                let mut depth = ugli::Renderbuffer::<ugli::DepthComponent>::new(framebuffer.get_size());
-                let mut framebuffer = ugli::Framebuffer::new(
-                    self.app.ugli_context(),
-                    ugli::ColorAttachment::Texture(&mut texture),
-                    ugli::DepthAttachment::Renderbuffer(&mut depth));
-                ugli::clear(&mut framebuffer, Some(Color::rgba(0.0, 0.0, 0.0, 0.0)), Some(1.0));
-                ugli::draw(
-                    &mut framebuffer,
-                    &self.material.ugli_program(),
-                    ugli::DrawMode::Triangles,
-                    &ugli::instanced(&self.geometry.slice(..), &self.instances.slice(..)),
-                    uniforms,
-                    &ugli::DrawParameters {
-                        depth_test: ugli::DepthTest::On,
-                        blend_mode: ugli::BlendMode::Alpha,
-                        cull_face: ugli::CullFace::Front,
-                        ..Default::default()
-                    }
-                );
-            }
-            texture
-        };
+        if self.tmp.as_ref().map_or(true, |&(ref texture, _)| texture.get_size() != framebuffer.get_size()) {
+            self.tmp = Some((
+                ugli::Texture2d::new_uninitialized(self.app.ugli_context(), framebuffer.get_size()),
+                ugli::Renderbuffer::<ugli::DepthComponent>::new(framebuffer.get_size())
+            ))
+        }
+        {
+            let tmp = self.tmp.as_mut().unwrap();
+            let mut framebuffer = ugli::Framebuffer::new(
+                self.app.ugli_context(),
+                ugli::ColorAttachment::Texture(&mut tmp.0),
+                ugli::DepthAttachment::Renderbuffer(&mut tmp.1));
+            ugli::clear(&mut framebuffer, Some(Color::rgba(0.0, 0.0, 0.0, 0.0)), Some(1.0));
+            ugli::draw(
+                &mut framebuffer,
+                &self.material.ugli_program(),
+                ugli::DrawMode::Triangles,
+                &ugli::instanced(&self.geometry.slice(..), &self.instances.slice(..)),
+                uniforms,
+                &ugli::DrawParameters {
+                    depth_test: ugli::DepthTest::On,
+                    blend_mode: ugli::BlendMode::Alpha,
+                    cull_face: ugli::CullFace::Front,
+                    ..Default::default()
+                }
+            );
+        }
+        let texture = &self.tmp.as_ref().unwrap().0;
         let material: codevisual::Material = codevisual::Material::new(
             self.app.ugli_context(), (), (), include_str!("fullscreen.glsl"));
         ugli::draw(
