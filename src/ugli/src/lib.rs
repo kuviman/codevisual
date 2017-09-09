@@ -74,7 +74,7 @@ impl Sealed for Color {}
 pub struct DepthComponent(GLfloat);
 
 impl Pixel for DepthComponent {
-    const GL_FORMAT: GLenum = gl::DEPTH_COMPONENT;
+    const GL_FORMAT: GLenum = gl::DEPTH_COMPONENT16;
 }
 
 impl Sealed for DepthComponent {}
