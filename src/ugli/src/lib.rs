@@ -74,6 +74,9 @@ impl Sealed for Color {}
 pub struct DepthComponent(GLfloat);
 
 impl Pixel for DepthComponent {
+    #[cfg(not(target_os = "emscripten"))]
+    const GL_FORMAT: GLenum = gl::DEPTH_COMPONENT;
+    #[cfg(target_os = "emscripten")]
     const GL_FORMAT: GLenum = gl::DEPTH_COMPONENT16;
 }
 
