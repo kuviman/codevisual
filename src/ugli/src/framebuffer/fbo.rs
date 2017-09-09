@@ -29,7 +29,8 @@ impl FBO {
         unsafe {
             assert_eq!(
                 gl::CheckFramebufferStatus(gl::FRAMEBUFFER),
-                gl::FRAMEBUFFER_COMPLETE
+                gl::FRAMEBUFFER_COMPLETE,
+                "Framebuffer check failed"
             );
         }
     }
