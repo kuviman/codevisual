@@ -108,8 +108,7 @@ impl Vehicle {
             let pos = pos + speed;
             vec2(pos.x as PosPrecision, pos.y as PosPrecision)
         } else {
-            // TODO
-            vec2(0.0 as PosPrecision, 0.0 as PosPrecision)
+            unimplemented!();
         }
     }
 }
