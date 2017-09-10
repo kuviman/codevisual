@@ -89,7 +89,10 @@ impl Clouds {
             &material.ugli_program(),
             ugli::DrawMode::TriangleFan,
             &ugli::plain(&ugli::quad(self.app.ugli_context()).slice(..)),
-            uniforms!(texture: texture),
+            uniforms! {
+                texture: texture,
+                alpha: 0.5,
+            },
             &ugli::DrawParameters {
                 depth_test: ugli::DepthTest::Off,
                 blend_mode: ugli::BlendMode::Alpha,

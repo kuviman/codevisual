@@ -10,10 +10,10 @@ void main() {
 #endif
 
 #ifdef FRAGMENT
-
+uniform float alpha;
 uniform sampler2D texture;
 void main() {
     gl_FragColor = texture2D(texture, v_pos);
-    gl_FragColor.w *= 0.5;
+    gl_FragColor.w *= alpha;
 }
 #endif
