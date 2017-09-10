@@ -75,7 +75,7 @@ impl Clouds {
                 uniforms,
                 &ugli::DrawParameters {
                     depth_test: ugli::DepthTest::On,
-                    blend_mode: ugli::BlendMode::Alpha,
+                    blend_mode: ugli::BlendMode::Off,
                     cull_face: ugli::CullFace::Front,
                     ..Default::default()
                 }
