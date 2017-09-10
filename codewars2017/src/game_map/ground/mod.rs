@@ -51,9 +51,27 @@ impl Ground {
                                 SWAMP => Color::rgb(0.0, 0.0, 1.0),
                             }
                         });
-                    //                    texture = blur::gauss(app.ugli_context(), &texture);
-                    texture.set_filter(ugli::Filter::Nearest);
-                    texture
+                    // texture.set_filter(ugli::Filter::Nearest);
+                    let mut result = ugli::Texture2d::new_uninitialized(
+                        app.ugli_context(), texture.get_size() * 8);
+                    {
+                        let mut framebuffer = ugli::Framebuffer::new_color(
+                            app.ugli_context(), ugli::ColorAttachment::Texture(&mut result));
+                        let prepare_material = Material::new(
+                            app.ugli_context(), (), (),
+                            include_str!("prepare.glsl"));
+                        ugli::draw(&mut framebuffer,
+                                   &prepare_material.ugli_program(),
+                                   ugli::DrawMode::TriangleFan,
+                                   &ugli::plain(&ugli::quad(app.ugli_context()).slice(..)),
+                                   uniforms!(texture: texture),
+                                   &ugli::DrawParameters {
+                                       depth_test: ugli::DepthTest::Off,
+                                       blend_mode: ugli::BlendMode::Off,
+                                       ..Default::default()
+                                   });
+                    }
+                    result
                 }
             },
             geometry: ugli::Quad::new(app.ugli_context(), vec2(0.0, 0.0), game_log.map_size),
