@@ -69,10 +69,24 @@ namespace CodeWars {
         $(".timeline-position").css("left", tick * 100 / tickCount + "%");
     }
 
-    export function init(set_pos_callback: (pos: number) => void) {
+    export function set_play_button_callback(callback: () => void) {
+        $(".play-stop-button").click(function () {
+            callback();
+        });
+    }
+
+    export function set_paused(paused: boolean) {
+        let $glyph = $(".play-stop-button .glyphicon");
+        let PAUSE_ICON = "glyphicon-pause";
+        let PLAY_ICON = "glyphicon-play";
+        $glyph.removeClass(paused ? PAUSE_ICON : PLAY_ICON);
+        $glyph.addClass(paused ? PLAY_ICON : PAUSE_ICON);
+    }
+
+    export function set_timeline_callback(callback: (pos: number) => void) {
         function set_pos(e: any, elem: any) {
             let pos = (e.pageX - elem.offset().left) / elem.width();
-            set_pos_callback(Math.round(1000 * pos));
+            callback(Math.round(1000 * pos));
         }
 
         let $timeline = $(".timeline");

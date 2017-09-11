@@ -35,6 +35,7 @@ use skybox::SkyBox;
 
 struct CodeWars2017 {
     app: Rc<codevisual::Application>,
+    paused: Rc<Cell<bool>>,
     camera: Camera,
     skybox: SkyBox,
     terrain: GameMap,
@@ -75,18 +76,31 @@ impl codevisual::Game for CodeWars2017 {
         let vehicles = Vehicles::new(app, &game_log_loader);
         let camera = Camera::new(app, terrain.size);
         let current_time = Rc::new(Cell::new(0.0));
+        let paused = Rc::new(Cell::new(false));
         #[cfg(target_os = "emscripten")]
         {
             let current_time = current_time.clone();
             let game_log_loader = game_log_loader.clone();
             run_js! {
-                CodeWars.init(brijs::Callback::from(move |pos: i32| {
+                CodeWars.set_timeline_callback(brijs::Callback::from(move |pos: i32| {
                     current_time.set(pos as f32 / 1000.0 * game_log_loader.read().tick_count as f32 / 60.0);
+                }));
+            }
+        }
+        #[cfg(target_os = "emscripten")]
+        {
+            let paused = paused.clone();
+            run_js! {
+                CodeWars.set_paused(&paused.get());
+                CodeWars.set_play_button_callback(brijs::Callback::from(move |_: ()| {
+                    paused.set(!paused.get());
+                    run_js!{ CodeWars.set_paused(&paused.get()); };
                 }));
             }
         }
         Self {
             app: app.clone(),
+            paused,
             skybox: SkyBox::new(app, resources.skybox),
             camera,
             game_log_loader,
@@ -99,11 +113,13 @@ impl codevisual::Game for CodeWars2017 {
     }
 
     fn update(&mut self, delta_time: f64) {
-        let delta_time = delta_time * self.time_scale.get();
-        let new_time = f32::min(
-            self.current_time.get() + delta_time as f32,
-            self.game_log_loader.read().loaded_tick_count as f32 / 60.0);
-        self.current_time.set(f32::max(self.current_time.get(), new_time));
+        if !self.paused.get() {
+            let delta_time = delta_time * self.time_scale.get();
+            let new_time = f32::min(
+                self.current_time.get() + delta_time as f32,
+                self.game_log_loader.read().loaded_tick_count as f32 / 60.0);
+            self.current_time.set(f32::max(self.current_time.get(), new_time));
+        }
         #[cfg(target_os = "emscripten")]
         run_js! {
             CodeWars.set_playback_position(
@@ -113,20 +129,23 @@ impl codevisual::Game for CodeWars2017 {
     }
 
     fn draw(&mut self) {
-        let tick = min((self.current_time.get() * 60.0) as usize, self.game_log_loader.read().loaded_tick_count - 1);
-        let mut framebuffer = self.app.ugli_context().default_framebuffer();
-        let framebuffer = &mut framebuffer;
-        let uniforms = (
-            uniforms! {
+        let tick = (self.current_time.get() * 60.0) as usize;
+        let max_tick = self.game_log_loader.read().loaded_tick_count - 1;
+        if !self.paused.get() && tick <= max_tick {
+            let mut framebuffer = self.app.ugli_context().default_framebuffer();
+            let framebuffer = &mut framebuffer;
+            let uniforms = (
+                uniforms! {
                 u_sky_height: self.sky_height.get() as f32,
                 u_current_time: self.current_time.get() as f32,
                 u_cell_size: 32.0, // TODO
             },
-            self.camera.uniforms());
-        ugli::clear(framebuffer, None, Some(1.0));
-        self.skybox.draw(framebuffer, &uniforms);
-        self.vehicles.draw(tick, framebuffer, &uniforms);
-        self.terrain.draw(framebuffer, &uniforms);
+                self.camera.uniforms());
+            ugli::clear(framebuffer, None, Some(1.0));
+            self.skybox.draw(framebuffer, &uniforms);
+            self.vehicles.draw(tick, framebuffer, &uniforms);
+            self.terrain.draw(framebuffer, &uniforms);
+        }
     }
 
     fn handle_event(&mut self, event: codevisual::Event) {
