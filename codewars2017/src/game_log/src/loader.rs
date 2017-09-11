@@ -102,17 +102,21 @@ impl codevisual::Asset for Loader {
             loader.add_one();
             let sync = sync.clone();
             let mut loaded = false;
+            let mut confirmed = false;
             let mut ticks = 0;
             let mut parse_line = move |line: &str| {
                 let tick_info: TickInfo = serde_json::from_str(line).unwrap();
                 if loaded {
                     sync.write().add_tick(tick_info);
                 } else {
-                    loader.confirm_one();
                     loaded = true;
                     *sync.game_log.borrow_mut() = Some(GameLog::new(tick_info));
                 }
                 ticks += 1;
+                if ticks > 1000 && !confirmed {
+                    confirmed = true;
+                    loader.confirm_one();
+                }
                 run_js! {
                     CodeWars.set_loaded_percent(&(100.0 * ticks as f32 / sync.read().tick_count as f32));
                 }

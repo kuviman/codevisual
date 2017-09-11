@@ -1,4 +1,7 @@
 namespace CodeWars {
+    let currentTick: number = 0;
+    let paused: boolean = false;
+
     export function stream_download(path: string, callback: (addr: number) => void) {
         let xhr = new XMLHttpRequest();
         xhr.open('GET', path);
@@ -16,6 +19,7 @@ namespace CodeWars {
 
         let buf_addr = 0;
         let buf_len = 0;
+        let downloadedTicks = 0;
 
         function sendLine(line: string) {
             let Module = (window as any).Module;
@@ -28,12 +32,18 @@ namespace CodeWars {
             }
             Module.writeAsciiToMemory(line, buf_addr);
             callback(buf_addr);
+            downloadedTicks++;
         }
 
         function update() {
             if (xhr.readyState == 3 || xhr.readyState == 4) {
                 let maxPos = Math.min(text.length, responsePos + MAX_BYTES_AT_ONCE);
                 let lineLimit = MAX_LINES_AT_ONCE;
+                let left = downloadedTicks - currentTick;
+                while (left > 100 && lineLimit > 1 && !paused) {
+                    left -= 100;
+                    lineLimit--;
+                }
                 while (responsePos < maxPos) {
                     if (text[responsePos++] == '\n') {
                         sendLine(text.substring(line_start, responsePos));
@@ -66,6 +76,7 @@ namespace CodeWars {
     }
 
     export function set_playback_position(tick: number, tickCount: number) {
+        currentTick = tick;
         $(".timeline-position").css("left", tick * 100 / tickCount + "%");
     }
 
@@ -75,7 +86,8 @@ namespace CodeWars {
         });
     }
 
-    export function set_paused(paused: boolean) {
+    export function set_paused(new_paused: boolean) {
+        paused = new_paused;
         let $glyph = $(".play-stop-button .glyphicon");
         let PAUSE_ICON = "glyphicon-pause";
         let PLAY_ICON = "glyphicon-play";
