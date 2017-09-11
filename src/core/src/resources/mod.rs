@@ -14,6 +14,14 @@ pub struct ResourceLoader {
     loaded_resource_count: Rc<Cell<usize>>,
 }
 
+impl Deref for ResourceLoader {
+    type Target = Rc<Application>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.app
+    }
+}
+
 impl ResourceLoader {
     pub ( crate ) fn new(app: &Rc<Application>) -> Self {
         Self {

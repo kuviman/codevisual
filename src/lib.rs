@@ -14,7 +14,6 @@ pub extern crate brijs;
 #[macro_export]
 macro_rules! resources {
     ($name:ident { $($field_name:ident : $field_type:ty = $field_value:tt),*, }) => {
-        #[derive(Debug)]
         pub struct $name {
             $(pub $field_name : $field_type),*
         }

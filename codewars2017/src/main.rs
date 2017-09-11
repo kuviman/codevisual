@@ -33,6 +33,8 @@ mod skybox;
 
 use skybox::SkyBox;
 
+mod obj;
+
 struct CodeWars2017 {
     app: Rc<codevisual::Application>,
     paused: Rc<Cell<bool>>,
@@ -60,6 +62,7 @@ resources! {
         game_log_loader: game_log::Loader = "game.log",
         skybox: skybox::Resources = (),
         terrain: game_map::Resources = (),
+        vehicles: vehicles::Resources = (),
     }
 }
 
@@ -73,7 +76,7 @@ impl codevisual::Game for CodeWars2017 {
     fn new(app: &Rc<codevisual::Application>, resources: Self::Resources) -> Self {
         let game_log_loader: game_log::Loader = resources.game_log_loader;
         let terrain = GameMap::new(app, resources.terrain, &game_log_loader.read());
-        let vehicles = Vehicles::new(app, &game_log_loader);
+        let vehicles = Vehicles::new(app, resources.vehicles, &game_log_loader);
         let camera = Camera::new(app, terrain.size);
         let current_time = Rc::new(Cell::new(0.0));
         let paused = Rc::new(Cell::new(false));

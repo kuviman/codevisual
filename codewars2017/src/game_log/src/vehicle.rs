@@ -14,8 +14,10 @@ pub struct Vehicle {
     pub id: ID,
     pub start_tick: usize,
     pub positions: Vec<Vec2<u16>>,
+    angles: Vec<u8>,
     max_speed: f32,
     last_pos: Vec2<f32>,
+    last_angle: f32,
     order: Option<raw::Order>,
     order_executed: bool,
     terrain: TerrainHolder,
@@ -36,6 +38,7 @@ impl Vehicle {
             id: data.id,
             start_tick: tick,
             positions: Vec::new(),
+            angles: Vec::new(),
             order: None,
             order_executed: false,
             max_speed: data.maxSpeed.unwrap(),
@@ -46,13 +49,24 @@ impl Vehicle {
             typ: data.typ.unwrap(),
             player_id: data.playerId.unwrap(),
             last_pos: vec2(data.x.unwrap(), data.y.unwrap()),
+            last_angle: 0.0,
         };
         vehicle.add_tick(tick, Some(data), decoration);
         vehicle
     }
     fn add_pos(&mut self, pos: Vec2<f32>) {
+        let mut angle = self.last_angle;
+        let dv = pos - self.last_pos;
+        if dv.len() > 0.1 {
+            angle = f32::atan2(dv.y, dv.x);
+            if angle < 0.0 {
+                angle += 2.0 * std::f32::consts::PI;
+            }
+        }
         self.positions.push(vec2((pos.x * 10.0) as u16, (pos.y * 10.0) as u16));
+        self.angles.push((angle * 255.0 / 2.0 / std::f32::consts::PI) as u8);
         self.last_pos = pos;
+        self.last_angle = angle;
     }
     fn add_tick(&mut self, tick: usize, data: Option<raw::Vehicle>, decoration: Option<raw::DecoratedVehicle>) {
         if let Some(decoration) = decoration {
@@ -124,6 +138,7 @@ pub struct FixedVehicle {
     pub radius: f32,
     pub player_id: ID,
     pub aerial: bool,
+    pub angle: f32,
 }
 
 type MMAP<K, V> = VecMap<K, V>;
@@ -198,6 +213,7 @@ impl Vehicles {
                     typ: vehicle.typ,
                     player_id: vehicle.player_id,
                     aerial: vehicle.aerial,
+                    angle: vehicle.angles[tick - vehicle.start_tick] as f32 * (2.0 * std::f32::consts::PI / 255.0),
                 });
             }
         }
