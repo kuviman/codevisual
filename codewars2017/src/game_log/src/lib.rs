@@ -25,6 +25,10 @@ mod vehicle;
 
 pub use vehicle::*;
 
+mod vecmap;
+
+pub use vecmap::*;
+
 #[derive(Serialize, Deserialize, Debug)]
 pub enum TerrainType {
     PLAIN,

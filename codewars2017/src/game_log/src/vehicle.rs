@@ -9,14 +9,13 @@ pub enum VehicleType {
     FIGHTER,
 }
 
-type PosPrecision = f32;
-
 #[derive(Debug)]
 pub struct Vehicle {
     pub id: ID,
     pub start_tick: usize,
-    pub positions: Vec<Vec2<PosPrecision>>,
+    pub positions: Vec<Vec2<u16>>,
     max_speed: f32,
+    last_pos: Vec2<f32>,
     order: Option<raw::Order>,
     order_executed: bool,
     terrain: TerrainHolder,
@@ -46,9 +45,14 @@ impl Vehicle {
             radius: data.radius.unwrap(),
             typ: data.typ.unwrap(),
             player_id: data.playerId.unwrap(),
+            last_pos: vec2(data.x.unwrap(), data.y.unwrap()),
         };
         vehicle.add_tick(tick, Some(data), decoration);
         vehicle
+    }
+    fn add_pos(&mut self, pos: Vec2<f32>) {
+        self.positions.push(vec2((pos.x * 10.0) as u16, (pos.y * 10.0) as u16));
+        self.last_pos = pos;
     }
     fn add_tick(&mut self, tick: usize, data: Option<raw::Vehicle>, decoration: Option<raw::DecoratedVehicle>) {
         if let Some(decoration) = decoration {
@@ -61,29 +65,29 @@ impl Vehicle {
         }
         if let Some(data) = data {
             let pos = if let (Some(x), Some(y)) = (data.x, data.y) {
-                vec2(x as PosPrecision, y as PosPrecision)
+                vec2(x, y)
             } else {
                 if self.order_executed {
                     self.execute_order(tick)
                 } else {
-                    self.positions.last().unwrap().clone()
+                    self.last_pos
                 }
             };
-            self.positions.push(pos);
+            self.add_pos(pos);
         } else {
             if self.start_tick + self.positions.len() == tick {
-                let mut pos = self.positions.last().unwrap().clone();
+                let mut pos = self.last_pos;
                 if self.order_executed {
                     pos = self.execute_order(tick);
                 }
-                self.positions.push(pos);
+                self.add_pos(pos);
             }
         }
     }
-    fn execute_order(&self, tick: usize) -> Vec2<PosPrecision> {
+    fn execute_order(&self, tick: usize) -> Vec2<f32> {
         let order = self.order.as_ref().unwrap();
         if let raw::OrderType::MOVE = order.action {
-            let pos: Vec2<PosPrecision> = self.positions.last().unwrap().clone();
+            let pos: Vec2<f32> = self.last_pos;
             const CELL_SIZE: f32 = 32.0;
             let cell = vec2(clamp((pos.x / CELL_SIZE) as usize, 0, self.terrain.len() - 1),
                             clamp((pos.y / CELL_SIZE) as usize, 0, self.terrain[0].len() - 1));
@@ -105,8 +109,7 @@ impl Vehicle {
                 speed = speed.min(order.maxSpeed);
             }
             let speed = vec2(order.x, order.y).normalize() * speed;
-            let pos = pos + speed;
-            vec2(pos.x as PosPrecision, pos.y as PosPrecision)
+            pos + speed
         } else {
             unimplemented!();
         }
@@ -117,25 +120,31 @@ impl Vehicle {
 pub struct FixedVehicle {
     pub typ: VehicleType,
     pub id: ID,
-    pub pos: Vec2<PosPrecision>,
+    pub pos: Vec2<f32>,
     pub radius: f32,
     pub player_id: ID,
     pub aerial: bool,
 }
 
+type MMAP<K, V> = VecMap<K, V>;
+
 #[derive(Debug)]
 pub struct Vehicles {
     terrain: TerrainHolder,
     weather: WeatherHolder,
-    map: HashMap<ID, Vehicle>,
+    map: MMAP<ID, Vehicle>,
+    decorations: MMAP<ID, raw::DecoratedVehicle>,
+    last_updated_tick: MMAP<ID, usize>,
 }
 
 impl Vehicles {
     pub fn new(terrain: &TerrainHolder, weather: &WeatherHolder) -> Self {
         Self {
-            map: HashMap::new(),
+            map: VecMap::new(),
             terrain: terrain.clone(),
             weather: weather.clone(),
+            decorations: VecMap::new(),
+            last_updated_tick: VecMap::new(),
         }
     }
     pub fn add_tick(&mut self,
@@ -143,40 +152,35 @@ impl Vehicles {
                     data: Option<Vec<raw::Vehicle>>,
                     decorations: Option<HashMap<String, raw::DecoratedVehicle>>,
                     effects: &Option<Vec<raw::Effect>>) {
-        let mut decorations: HashMap<ID, raw::DecoratedVehicle> = {
-            let mut result = HashMap::new();
-            if let Some(decorations) = decorations {
-                for decoration in decorations {
-                    let id: ID = std::str::FromStr::from_str(&decoration.0).unwrap();
-                    result.insert(id, decoration.1);
-                }
+        if let Some(decorations) = decorations {
+            for decoration in decorations {
+                let id: ID = std::str::FromStr::from_str(&decoration.0).unwrap();
+                self.decorations.insert(id, decoration.1);
             }
-            result
-        };
+        }
 
-        let mut updated_ids: HashSet<ID> = HashSet::new();
         if let Some(data) = data {
             for v in data {
                 let id = v.id;
-                updated_ids.insert(id);
+                self.last_updated_tick.insert(id, tick);
                 if self.map.contains_key(&id) {
-                    self.map.get_mut(&id).unwrap().add_tick(tick, Some(v), decorations.remove(&id));
+                    self.map.get_mut(&id).unwrap().add_tick(tick, Some(v), self.decorations.remove(&id));
                 } else {
-                    self.map.insert(id, Vehicle::new(tick, v, &self.terrain, &self.weather, decorations.remove(&id)));
+                    self.map.insert(id, Vehicle::new(tick, v, &self.terrain, &self.weather, self.decorations.remove(&id)));
                 }
             }
         }
         if let &Some(ref effects) = effects {
             for effect in effects {
                 if let raw::EffectType::VEHICLE_DEATH = effect.typ {
-                    updated_ids.insert(effect.attributes.get("id").unwrap().as_i64().unwrap() as ID);
+                    self.last_updated_tick.insert(effect.attributes.get("id").unwrap().as_i64().unwrap() as ID, tick);
                 }
             }
         }
         for vehicle in self.map.values_mut() {
             let id = vehicle.id;
-            if !updated_ids.contains(&id) {
-                vehicle.add_tick(tick, None, decorations.remove(&id));
+            if *self.last_updated_tick.get(&id).unwrap_or(&usize::max_value()) != tick {
+                vehicle.add_tick(tick, None, self.decorations.remove(&id));
             }
         }
     }
@@ -186,7 +190,10 @@ impl Vehicles {
             if vehicle.start_tick <= tick && tick < vehicle.start_tick + vehicle.positions.len() {
                 vehicles.push(FixedVehicle {
                     id: vehicle.id,
-                    pos: vehicle.positions[tick - vehicle.start_tick],
+                    pos: {
+                        let pos = vehicle.positions[tick - vehicle.start_tick];
+                        vec2(pos.x as f32 / 10.0, pos.y as f32 / 10.0)
+                    },
                     radius: vehicle.radius,
                     typ: vehicle.typ,
                     player_id: vehicle.player_id,

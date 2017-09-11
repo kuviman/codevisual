@@ -136,13 +136,13 @@ impl codevisual::Game for CodeWars2017 {
             let framebuffer = &mut framebuffer;
             let uniforms = (
                 uniforms! {
-                u_sky_height: self.sky_height.get() as f32,
-                u_current_time: self.current_time.get() as f32,
-                u_cell_size: 32.0, // TODO
-            },
+                    u_sky_height: self.sky_height.get() as f32,
+                    u_current_time: self.current_time.get() as f32,
+                    u_cell_size: 32.0, // TODO
+                },
                 self.camera.uniforms());
-            ugli::clear(framebuffer, None, Some(1.0));
             self.skybox.draw(framebuffer, &uniforms);
+            ugli::clear(framebuffer, None, Some(1.0));
             self.vehicles.draw(tick, framebuffer, &uniforms);
             self.terrain.draw(framebuffer, &uniforms);
         }

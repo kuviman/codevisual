@@ -12,6 +12,7 @@ pub struct Clouds {
     geometry: ugli::Cube,
     instances: ugli::VertexBuffer<Vertex>,
     material: Material,
+    fs_material: Material,
     tmp: Option<(ugli::Texture2d, ugli::Renderbuffer<ugli::DepthComponent>)>,
 }
 
@@ -49,6 +50,7 @@ impl Clouds {
                 ugli::VertexBuffer::new_static(app.ugli_context(), vs)
             },
             material: Material::new(app.ugli_context(), (), (), include_str!("clouds.glsl")),
+            fs_material: Material::new(app.ugli_context(), (), (), include_str!("fullscreen.glsl")),
             tmp: None,
         }
     }
@@ -82,11 +84,9 @@ impl Clouds {
             );
         }
         let texture = &self.tmp.as_ref().unwrap().0;
-        let material: codevisual::Material = codevisual::Material::new(
-            self.app.ugli_context(), (), (), include_str!("fullscreen.glsl"));
         ugli::draw(
             framebuffer,
-            &material.ugli_program(),
+            &self.fs_material.ugli_program(),
             ugli::DrawMode::TriangleFan,
             &ugli::plain(&ugli::quad(self.app.ugli_context()).slice(..)),
             uniforms! {
