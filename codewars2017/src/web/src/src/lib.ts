@@ -1,6 +1,6 @@
 namespace CodeWars {
     let currentTick: number = 0;
-    let paused: boolean = false;
+    let paused: boolean = true;
 
     export function stream_download(path: string, callback: (addr: number) => void) {
         let xhr = new XMLHttpRequest();
