@@ -87,4 +87,7 @@ impl GameLog {
         self.vehicles.add_tick(tick, tick_info.vehicles, tick_info.decoratedVehicleById, &tick_info.effects);
     }
     fn finish(&mut self) {}
+    fn is_loaded(&self) -> bool {
+        self.loaded_tick_count == self.tick_count
+    }
 }

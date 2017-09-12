@@ -75,15 +75,23 @@ impl Vehicles {
             let data = self.game_log_loader.read().vehicles.get(tick);
 
             let mut car_instances = self.cars.instances.slice_mut(..data.len());
-            let mut car_instances = car_instances.iter_mut().enumerate();
+            let mut car_instances = car_instances.iter_mut();
+            let mut car_count = 0;
             let mut heli_instances = self.helis.instances.slice_mut(..data.len());
-            let mut heli_instances = heli_instances.iter_mut().enumerate();
+            let mut heli_instances = heli_instances.iter_mut();
+            let mut heli_count = 0;
 
             for data in &data {
                 use game_log::VehicleType::*;
                 let instance = match data.typ {
-                    TANK | IFV | ARRV => car_instances.next().unwrap().1,
-                    HELICOPTER | FIGHTER => heli_instances.next().unwrap().1,
+                    TANK | IFV | ARRV => {
+                        car_count += 1;
+                        car_instances.next().unwrap()
+                    }
+                    HELICOPTER | FIGHTER => {
+                        heli_count += 1;
+                        heli_instances.next().unwrap()
+                    }
                 };
                 instance.i_pos = vec2(data.pos.x as f32, data.pos.y as f32);
                 instance.i_radius = data.radius;
@@ -106,7 +114,7 @@ impl Vehicles {
                 instance.i_height = if data.aerial { 1.0 } else { 0.0 };
             }
 
-            (car_instances.next().unwrap().0, heli_instances.next().unwrap().0)
+            (car_count, heli_count)
         };
         self.cars.count = counts.0;
         self.helis.count = counts.1;

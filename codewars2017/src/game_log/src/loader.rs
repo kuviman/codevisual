@@ -35,13 +35,13 @@ impl<'a> Deref for WriteGuard<'a> {
     type Target = GameLog;
 
     fn deref(&self) -> &Self::Target {
-        self.guard.as_ref().unwrap()
+        self.guard.as_ref().expect("GameLog is not yet created")
     }
 }
 
 impl<'a> DerefMut for WriteGuard<'a> {
     fn deref_mut(&mut self) -> &mut Self::Target {
-        self.guard.as_mut().unwrap()
+        self.guard.as_mut().expect("GameLog is not yet created")
     }
 }
 
@@ -73,12 +73,12 @@ impl Loader {
     }
     pub fn read(&self) -> ReadGuard {
         ReadGuard {
-            guard: self.game_log.read().unwrap(),
+            guard: self.game_log.read().expect("Failed to lock GameLog for read"),
         }
     }
     pub fn write(&self) -> WriteGuard {
         WriteGuard {
-            guard: self.game_log.write().unwrap(),
+            guard: self.game_log.write().expect("Failed to lock GameLog for write"),
         }
     }
 }
@@ -113,7 +113,7 @@ impl codevisual::Asset for Loader {
                     *sync.game_log.borrow_mut() = Some(GameLog::new(tick_info));
                 }
                 ticks += 1;
-                if ticks > 1000 && !confirmed {
+                if (ticks > 1000 || sync.read().is_loaded()) && !confirmed {
                     confirmed = true;
                     loader.confirm_one();
                 }
