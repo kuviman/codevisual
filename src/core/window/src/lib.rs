@@ -49,7 +49,7 @@ impl Window {
             use glutin::GlContext;
             let glutin_events_loop = glutin::EventsLoop::new();
             let glutin_window = glutin::GlWindow::new(
-                glutin::WindowBuilder::new().with_title(title),
+                glutin::WindowBuilder::new().with_title(title).with_visibility(false),
                 glutin::ContextBuilder::new().with_vsync(true),
                 &glutin_events_loop,
             ).unwrap();
@@ -68,6 +68,11 @@ impl Window {
             }
         };
         window
+    }
+
+    #[cfg(not(target_os = "emscripten"))]
+    pub fn show(&self) {
+        self.glutin_window.show();
     }
 
     pub fn swap_buffers(&self) {

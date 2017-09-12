@@ -110,6 +110,9 @@ pub fn run<G: Game>() {
             CodeVisual.internal.before_main_loop();
         }
 
+        #[cfg(not(target_os = "emscripten"))]
+        app.window.show();
+
         #[cfg(target_os = "emscripten")]
         let mut prev_time = brijs::get_now();
         #[cfg(not(target_os = "emscripten"))]
