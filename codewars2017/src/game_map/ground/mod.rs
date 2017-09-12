@@ -16,11 +16,19 @@ resources! {
     }
 }
 
+#[derive(Vertex)]
+struct UndergroundVertex {
+    a_v: Vec3<f32>,
+    a_vn: Vec3<f32>,
+}
+
 pub struct Ground {
     app: Rc<codevisual::Application>,
     uniforms: Uniforms,
     geometry: ugli::Quad,
     material: Material,
+    underground_material: Material,
+    underground_geometry: ugli::VertexBuffer<UndergroundVertex>,
 }
 
 impl Ground {
@@ -76,6 +84,53 @@ impl Ground {
             },
             geometry: ugli::Quad::new(app.ugli_context(), vec2(0.0, 0.0), game_log.map_size),
             material: Material::new(app.ugli_context(), (), (), include_str!("ground.glsl")),
+
+            underground_material: Material::new(app.ugli_context(), (), (), include_str!("underground.glsl")),
+            underground_geometry: {
+                let mut vs = Vec::new();
+                {
+                    const SIZE: usize = 16;
+                    let mut height_map: Vec<Vec<f32>> = Vec::new();
+                    for i in 0..SIZE + 1 {
+                        let mut row = Vec::new();
+                        for j in 0..SIZE + 1 {
+                            row.push(random::<f32>() * 10.0 - 50.0);
+                        }
+                        height_map.push(row);
+                    }
+                    let mut add_v = |i: usize, j: usize, k: bool| {
+                        vs.push(UndergroundVertex {
+                            a_v: vec3(i as f32 / SIZE as f32 * game_log.map_size.x,
+                                      j as f32 / SIZE as f32 * game_log.map_size.y,
+                                      if k { height_map[i][j] } else { 0.0 }),
+                            a_vn: vec3(0.0, 0.0, 0.0),
+                        });
+                    };
+                    for i in 0..SIZE {
+                        for j in vec![0, SIZE] {
+                            add_v(i, j, false);
+                            add_v(i, j, true);
+                            add_v(i + 1, j, true);
+
+                            add_v(i, j, false);
+                            add_v(i + 1, j, true);
+                            add_v(i + 1, j, false);
+                        }
+                    }
+                    for j in 0..SIZE {
+                        for i in vec![0, SIZE] {
+                            add_v(i, j, false);
+                            add_v(i, j, true);
+                            add_v(i, j + 1, true);
+
+                            add_v(i, j, false);
+                            add_v(i, j + 1, true);
+                            add_v(i, j + 1, false);
+                        }
+                    }
+                }
+                ugli::VertexBuffer::new_static(app.ugli_context(), vs)
+            }
         }
     }
 
@@ -85,7 +140,19 @@ impl Ground {
             &self.material.ugli_program(),
             ugli::DrawMode::TriangleFan,
             &ugli::plain(&self.geometry.slice(..)),
-            (uniforms, &self.uniforms),
+            (&uniforms, &self.uniforms),
+            &ugli::DrawParameters {
+                depth_test: ugli::DepthTest::On,
+                blend_mode: ugli::BlendMode::Off,
+                ..Default::default()
+            }
+        );
+        ugli::draw(
+            framebuffer,
+            &self.underground_material.ugli_program(),
+            ugli::DrawMode::Triangles,
+            &ugli::plain(&self.underground_geometry.slice(..)),
+            (&uniforms, &self.uniforms),
             &ugli::DrawParameters {
                 depth_test: ugli::DepthTest::On,
                 blend_mode: ugli::BlendMode::Off,
