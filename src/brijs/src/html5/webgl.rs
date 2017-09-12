@@ -28,5 +28,5 @@ pub fn create_gl_context() -> Result<ugli::Context, GLContextCreationError> {
         }
         emscripten_webgl_make_context_current(context);
     }
-    Ok(ugli::Context::init(get_proc_address).unwrap())
+    Ok(ugli::Context::init(get_proc_address).expect("Could not initialize OpenGL context"))
 }

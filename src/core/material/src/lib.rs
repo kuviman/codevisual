@@ -40,16 +40,16 @@ pub fn compile_ugli_program<Lib>(
         ugli_context,
         ugli::ShaderType::Vertex,
         &[&PreprocessedShader::new::<Lib>(&sources).get_source()],
-    ).unwrap();
+    ).expect("Could not compile vertex shader");
 
     sources[0] = "#define FRAGMENT";
     let fragment_shader = ugli::Shader::new(
         ugli_context,
         ugli::ShaderType::Fragment,
         &[&PreprocessedShader::new::<Lib>(&sources).get_source()],
-    ).unwrap();
+    ).expect("Could not compile fragment shader");
 
-    ugli::Program::new(ugli_context, &[&vertex_shader, &fragment_shader]).unwrap()
+    ugli::Program::new(ugli_context, &[&vertex_shader, &fragment_shader]).expect("Could not link program")
 }
 
 pub struct Material<Lib = ShaderPrelude, U = (), D = ()>

@@ -12,7 +12,7 @@ pub fn wget<F: FnOnce(&str) + 'static>(url: &str, on_load: F) {
     let callback = Box::new(Box::new(on_load));
     unsafe {
         emscripten_async_wget_data(
-            CString::new(url).unwrap().as_ptr(),
+            CString::new(url).expect("Could not convert url to C string").as_ptr(),
             Box::into_raw(callback) as *mut _,
             Some(on_load_wrapper::<F>),
             None,
@@ -25,6 +25,6 @@ pub fn wget<F: FnOnce(&str) + 'static>(url: &str, on_load: F) {
     ) {
         let mut callback = Box::<Box<F>>::from_raw(callback as *mut _);
         let data = std::slice::from_raw_parts(data as *mut u8, data_size as usize);
-        callback(std::str::from_utf8(data).unwrap());
+        callback(std::str::from_utf8(data).expect("Could not convert wget data to str"));
     }
 }

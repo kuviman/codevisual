@@ -52,7 +52,7 @@ impl<'a> PreprocessedShader<'a> {
             if line.starts_with("#include <") && line.ends_with('>') {
                 let path = &line["#include <".len()..line.len() - ">".len()];
                 if self.included_headers.insert(path) {
-                    self.preprocess::<Lib>(Lib::get(path).unwrap());
+                    self.preprocess::<Lib>(Lib::get(path).expect(&format!("{:?} not found in library", path)));
                 }
             } else {
                 self.sources.push(line);
