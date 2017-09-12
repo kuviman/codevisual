@@ -49,7 +49,7 @@ impl Window {
             use glutin::GlContext;
             let glutin_events_loop = glutin::EventsLoop::new();
             let glutin_window = glutin::GlWindow::new(
-                glutin::WindowBuilder::new().with_title(title).with_visibility(false),
+                glutin::WindowBuilder::new().with_title(title), //.with_visibility(false),
                 glutin::ContextBuilder::new().with_vsync(true),
                 &glutin_events_loop,
             ).unwrap();
