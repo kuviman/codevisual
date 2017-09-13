@@ -1,6 +1,6 @@
 use ::*;
 
-pub fn build_pug<S: AsRef<Path>, D: AsRef<Path>>(src: S, dst: D) {
+pub fn compile_pug<S: AsRef<Path>, D: AsRef<Path>>(src: S, dst: D) {
     let src = src.as_ref();
     let dst = dst.as_ref();
     let dst = Path::new(&std::env::var("OUT_DIR").unwrap()).join(dst);
