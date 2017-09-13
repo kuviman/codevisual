@@ -88,6 +88,13 @@ impl codevisual::Game for CodeWars2017 {
         #[cfg(target_os = "emscripten")]
         codewars2017_web::init_play_pause_button(paused.clone());
 
+        #[cfg(target_os = "emscripten")]
+        {
+            let game_log = game_log_loader.read();
+            let (name1, name2) = game_log.players.get_names();
+            codewars2017_web::set_names(name1, name2);
+        }
+
         Self {
             app: app.clone(),
             paused,

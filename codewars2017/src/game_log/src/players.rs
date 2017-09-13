@@ -3,6 +3,7 @@ use ::*;
 #[derive(Debug)]
 pub struct Player {
     id: ID,
+    name: String,
     scores: Vec<(usize, i32)>,
 }
 
@@ -10,6 +11,7 @@ impl Player {
     fn new(player: &raw::Player) -> Self {
         Self {
             id: player.id,
+            name: player.name.as_ref().unwrap().clone(),
             scores: Vec::new(),
         }
     }
@@ -43,6 +45,9 @@ impl Players {
                 map
             }
         }
+    }
+    pub fn get_names(&self) -> (&str, &str) {
+        (&self.players.get(&1).unwrap().name, &self.players.get(&2).unwrap().name)
     }
     pub fn get_scores(&self, tick: usize) -> (i32, i32) {
         let score1 = self.players.get(&1).unwrap().get_score(tick);

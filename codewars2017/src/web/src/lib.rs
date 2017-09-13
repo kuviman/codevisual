@@ -61,3 +61,9 @@ pub fn set_scores(score1: i32, score2: i32) {
         CodeWars.set_scores(&score1, &score2);
     }
 }
+
+pub fn set_names(name1: &str, name2: &str) {
+    run_js! {
+        CodeWars.set_names(name1, name2);
+    }
+}

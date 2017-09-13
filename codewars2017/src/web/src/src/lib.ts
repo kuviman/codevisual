@@ -128,4 +128,9 @@ namespace CodeWars {
         $(".codewars-overlay .score-1").text(score1.toString());
         $(".codewars-overlay .score-2").text(score2.toString());
     }
+
+    export function set_names(name1: string, name2: string) {
+        $(".codewars-overlay .name-1").text(name1);
+        $(".codewars-overlay .name-2").text(name2);
+    }
 }
