@@ -99,13 +99,12 @@ impl Vehicle {
         }
     }
     fn execute_order(&self, tick: usize) -> Vec2<f32> {
-        let order = self.order.as_ref().unwrap();
-        if let raw::OrderType::MOVE = order.action {
-            let pos: Vec2<f32> = self.last_pos;
+        let pos: Vec2<f32> = self.last_pos;
+        let terrain_k: f32 = {
             const CELL_SIZE: f32 = 32.0;
             let cell = vec2(clamp((pos.x / CELL_SIZE) as usize, 0, self.terrain.len() - 1),
                             clamp((pos.y / CELL_SIZE) as usize, 0, self.terrain[0].len() - 1));
-            let terrain_k: f32 = if self.aerial {
+            if self.aerial {
                 match self.weather[cell.x][cell.y] {
                     WeatherType::CLEAR => 1.0,
                     WeatherType::CLOUD => 0.8,
@@ -117,15 +116,37 @@ impl Vehicle {
                     TerrainType::FOREST => 0.8,
                     TerrainType::SWAMP => 0.6,
                 }
-            };
-            let mut speed = self.max_speed * terrain_k;
+            }
+        };
+        let order = self.order.as_ref().unwrap();
+        let mut speed = self.max_speed * terrain_k;
+        if let raw::OrderType::MOVE = order.action {
             if order.maxSpeed > 0.0 {
                 speed = speed.min(order.maxSpeed);
             }
-            let speed = vec2(order.x, order.y).normalize() * speed;
-            pos + speed
+            let mut dv = vec2(order.targetX, order.targetY) - pos;
+            if dv.len() > speed {
+                dv = dv.normalize() * speed;
+            }
+            pos + dv
         } else {
-            unimplemented!();
+            let origin = vec2(order.x, order.y);
+            let r = pos - origin;
+            let angular_speed = if order.maxAngularSpeed > 0.0 {
+                order.maxAngularSpeed.min(speed / r.len())
+            } else {
+                if order.maxSpeed > 0.0 {
+                    speed = speed.min(order.maxSpeed);
+                }
+                speed / r.len()
+            };
+            let nr = Vec2::rotated(r, angular_speed * order.angle.signum());
+            let npos = origin + nr;
+            if (vec2(order.targetX, order.targetY) - pos).len() < (npos - pos).len() {
+                vec2(order.targetX, order.targetY)
+            } else {
+                npos
+            }
         }
     }
 }

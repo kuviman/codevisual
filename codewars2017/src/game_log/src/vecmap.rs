@@ -59,7 +59,7 @@ impl<K: AsUsize + Copy, V> VecMap<K, V> {
     }
     pub fn contains_key(&self, id: &K) -> bool {
         let id = id.as_usize();
-        if id > self.data.len() {
+        if id >= self.data.len() {
             false
         } else {
             self.data[id].is_some()

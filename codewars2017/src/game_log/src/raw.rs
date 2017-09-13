@@ -60,6 +60,8 @@ pub struct DecoratedVehicle {
 #[allow(non_camel_case_types)]
 #[derive(Serialize, Deserialize, Debug)]
 pub enum EffectType {
+    VEHICLE_ATTACK,
+    VEHICLE_REPAIR,
     VEHICLE_DEATH,
     VEHICLE_CONDITION_CHANGE,
 }
