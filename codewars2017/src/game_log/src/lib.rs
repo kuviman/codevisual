@@ -25,6 +25,10 @@ mod vecmap;
 
 pub use vecmap::*;
 
+mod players;
+
+pub use players::*;
+
 #[derive(Serialize, Deserialize, Debug)]
 pub enum TerrainType {
     PLAIN,
@@ -51,6 +55,7 @@ pub struct GameLog {
     pub terrain: TerrainHolder,
     pub weather: WeatherHolder,
     pub vehicles: Vehicles,
+    pub players: Players,
     pub loaded_tick_count: usize,
 }
 
@@ -71,6 +76,7 @@ impl GameLog {
             weather: weather.clone(),
             tick_count: tick0.tickCount.unwrap(),
             vehicles: Vehicles::new(&terrain, &weather),
+            players: Players::new(tick0.players.as_ref().unwrap()),
             map_size: vec2(tick0.width.unwrap() as f32, tick0.height.unwrap() as f32),
             loaded_tick_count: 0,
         };
@@ -81,6 +87,7 @@ impl GameLog {
         self.loaded_tick_count += 1;
         let tick = tick_info.tickIndex;
         self.vehicles.add_tick(tick, tick_info.vehicles, tick_info.decoratedVehicleById, &tick_info.effects);
+        self.players.add_tick(tick, tick_info.players);
     }
     fn finish(&mut self) {}
     fn is_loaded(&self) -> bool {

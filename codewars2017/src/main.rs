@@ -119,6 +119,10 @@ impl codevisual::Game for CodeWars2017 {
         let tick = (self.current_time.get() * 60.0) as usize;
         let max_tick = self.game_log_loader.read().loaded_tick_count - 1;
         if !self.paused.get() && tick <= max_tick {
+            let (score1, score2) = self.game_log_loader.read().players.get_scores(tick);
+            #[cfg(target_os = "emscripten")]
+            codewars2017_web::set_scores(score1, score2);
+
             let mut framebuffer = self.app.ugli_context().default_framebuffer();
             let framebuffer = &mut framebuffer;
             let uniforms = (

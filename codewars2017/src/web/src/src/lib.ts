@@ -118,4 +118,14 @@ namespace CodeWars {
         //     "move": handler
         // });
     }
+
+    export function init_overlay(html: string, css: string) {
+        $("<style>" + css + "</style>").appendTo("head");
+        $(".codevisual-player .game-screen").append($(html));
+    }
+
+    export function set_scores(score1: number, score2: number) {
+        $(".codewars-overlay .score-1").text(score1.toString());
+        $(".codewars-overlay .score-2").text(score2.toString());
+    }
 }

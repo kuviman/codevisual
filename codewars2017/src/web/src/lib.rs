@@ -6,9 +6,14 @@ extern crate prelude;
 pub ( crate ) use prelude::*;
 
 pub const JS_SOURCE: &str = include_str!(concat!(env!("OUT_DIR"), "/lib.js"));
+pub const OVERLAY_HTML: &str = include_str!(concat!(env!("OUT_DIR"), "/overlay.html"));
+pub const OVERLAY_CSS: &str = include_str!(concat!(env!("OUT_DIR"), "/overlay.css"));
 
 pub fn init() {
     brijs::run_script(JS_SOURCE);
+    run_js! {
+        CodeWars.init_overlay(OVERLAY_HTML, OVERLAY_CSS);
+    }
 }
 
 pub fn init_play_pause_button(paused: Rc<Cell<bool>>) {
@@ -48,5 +53,11 @@ pub fn stream_download<F: FnMut(&str) + 'static>(path: &str, mut callback: F) {
     });
     run_js! {
         CodeWars.stream_download(path, callback);
+    }
+}
+
+pub fn set_scores(score1: i32, score2: i32) {
+    run_js! {
+        CodeWars.set_scores(&score1, &score2);
     }
 }

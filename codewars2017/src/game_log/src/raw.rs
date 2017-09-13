@@ -79,6 +79,15 @@ pub struct Effect {
 
 #[allow(non_snake_case)]
 #[derive(Serialize, Deserialize, Debug)]
+pub struct Player {
+    pub id: ID,
+    pub name: Option<String>,
+    pub strategyCrashed: Option<bool>,
+    pub score: Option<i32>,
+}
+
+#[allow(non_snake_case)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct TickInfo {
     pub tickIndex: usize,
     pub tickCount: Option<usize>,
@@ -90,4 +99,5 @@ pub struct TickInfo {
     pub vehicles: Option<Vec<Vehicle>>,
     pub decoratedVehicleById: Option<HashMap<String, DecoratedVehicle>>,
     pub effects: Option<Vec<Effect>>,
+    pub players: Option<Vec<Player>>,
 }
