@@ -114,7 +114,7 @@ impl codevisual::Game for CodeWars2017 {
             let delta_time = delta_time * self.time_scale.get();
             let new_time = f32::min(
                 self.current_time.get() + delta_time as f32,
-                self.game_log_loader.read().loaded_tick_count as f32 / 60.0);
+                (self.game_log_loader.read().loaded_tick_count - 1) as f32 / 60.0);
             self.current_time.set(f32::max(self.current_time.get(), new_time));
         }
         #[cfg(target_os = "emscripten")]
