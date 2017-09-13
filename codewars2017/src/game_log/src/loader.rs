@@ -117,17 +117,9 @@ impl codevisual::Asset for Loader {
                     confirmed = true;
                     loader.confirm_one();
                 }
-                run_js! {
-                    CodeWars.set_loaded_percent(&(100.0 * ticks as f32 / sync.read().tick_count as f32));
-                }
+                codewars2017_web::set_loaded_percent(100.0 * ticks as f32 / sync.read().tick_count as f32);
             };
-            let callback = brijs::Callback::from(move |addr: i32| {
-                let line = unsafe { std::ffi::CStr::from_ptr(addr as *mut _).to_string_lossy() };
-                parse_line(&line);
-            });
-            run_js! {
-                CodeWars.stream_download(path, callback);
-            }
+            codewars2017_web::stream_download(path, parse_line);
         }
         #[cfg(not(target_os = "emscripten"))]
         {

@@ -5,3 +5,7 @@ authors = ["kuviman <kuviman@gmail.com>"]
 
 [build-dependencies]
 web_build = { path = "../../../src/web_build" }
+
+[dependencies]
+brijs = { path = "../../../src/brijs" }
+prelude = { path = "../../../src/prelude" }

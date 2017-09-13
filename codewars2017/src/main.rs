@@ -5,10 +5,6 @@ pub ( crate ) use codevisual::prelude::*;
 pub ( crate ) use codevisual::ugli;
 
 #[cfg(target_os = "emscripten")]
-#[macro_use]
-extern crate brijs;
-
-#[cfg(target_os = "emscripten")]
 extern crate codewars2017_web;
 
 extern crate codewars2017_log as game_log;
@@ -80,27 +76,18 @@ impl codevisual::Game for CodeWars2017 {
         let camera = Camera::new(app, terrain.size);
         let current_time = Rc::new(Cell::new(0.0));
         let paused = Rc::new(Cell::new(false));
+
         #[cfg(target_os = "emscripten")]
         {
             let current_time = current_time.clone();
             let game_log_loader = game_log_loader.clone();
-            run_js! {
-                CodeWars.set_timeline_callback(brijs::Callback::from(move |pos: i32| {
-                    current_time.set(pos as f32 / 1000.0 * game_log_loader.read().tick_count as f32 / 60.0);
-                }));
-            }
+            codewars2017_web::set_timeline_callback(move |pos| {
+                current_time.set(pos * game_log_loader.read().tick_count as f32 / 60.0);
+            });
         }
         #[cfg(target_os = "emscripten")]
-        {
-            let paused = paused.clone();
-            run_js! {
-                CodeWars.set_paused(&paused.get());
-                CodeWars.set_play_button_callback(brijs::Callback::from(move |_: ()| {
-                    paused.set(!paused.get());
-                    run_js!{ CodeWars.set_paused(&paused.get()); };
-                }));
-            }
-        }
+        codewars2017_web::init_play_pause_button(paused.clone());
+
         Self {
             app: app.clone(),
             paused,
@@ -124,11 +111,8 @@ impl codevisual::Game for CodeWars2017 {
             self.current_time.set(f32::max(self.current_time.get(), new_time));
         }
         #[cfg(target_os = "emscripten")]
-        run_js! {
-            CodeWars.set_playback_position(
-                &((self.current_time.get() * 60.0) as usize),
-                &self.game_log_loader.read().tick_count);
-        };
+        codewars2017_web::set_playback_position((self.current_time.get() * 60.0) as usize,
+                                                self.game_log_loader.read().tick_count);
     }
 
     fn draw(&mut self) {
@@ -158,7 +142,7 @@ impl codevisual::Game for CodeWars2017 {
 
 fn main() {
     #[cfg(target_os = "emscripten")]
-    brijs::run_script(codewars2017_web::JS_SOURCE);
+    codewars2017_web::init();
     #[cfg(not(target_os = "emscripten"))]
     std::env::set_current_dir("static").unwrap();
     codevisual::run::<CodeWars2017>()

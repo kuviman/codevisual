@@ -8,5 +8,4 @@ codevisual = { path = ".." }
 codewars2017_log = { path = "src/game_log" }
 
 [target.'cfg(target_os = "emscripten")'.dependencies]
-brijs = { path = "../src/brijs" }
 codewars2017_web = { path = "src/web" }
