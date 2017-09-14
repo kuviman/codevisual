@@ -105,7 +105,7 @@ impl codevisual::Game for CodeWars2017 {
             vehicles,
             current_time,
             time_scale: app.add_setting_f64("Time scale", 0.0, 4.0, 1.0),
-            sky_height: app.add_setting_f64("Sky height", 0.0, 300.0, 60.0),
+            sky_height: app.add_setting_f64("Sky height", 0.0, 300.0, 20.0),
         }
     }
 

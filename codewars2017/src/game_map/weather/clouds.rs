@@ -13,6 +13,7 @@ pub struct Clouds {
     instances: ugli::VertexBuffer<Vertex>,
     material: Material,
     fs_material: Material,
+    alpha: codevisual::SettingValue<f64>,
     tmp: Option<(ugli::Texture2d, ugli::Renderbuffer<ugli::DepthComponent>)>,
 }
 
@@ -51,6 +52,7 @@ impl Clouds {
             },
             material: Material::new(app.ugli_context(), (), (), include_str!("clouds.glsl")),
             fs_material: Material::new(app.ugli_context(), (), (), include_str!("fullscreen.glsl")),
+            alpha: app.add_setting_f64("Clouds opacity", 0.0, 1.0, 0.3),
             tmp: None,
         }
     }
@@ -91,7 +93,7 @@ impl Clouds {
             &ugli::plain(&ugli::quad(self.app.ugli_context()).slice(..)),
             uniforms! {
                 texture: texture,
-                alpha: 0.5,
+                alpha: self.alpha.get() as f32,
             },
             &ugli::DrawParameters {
                 depth_test: ugli::DepthTest::Off,
