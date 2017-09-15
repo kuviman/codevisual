@@ -1,7 +1,7 @@
 use ::*;
 
 #[derive(Vertex, Debug, Clone)]
-struct Instance {
+pub struct Instance {
     i_pos: Vec2<f32>,
     i_height: f32,
     i_radius: f32,
@@ -121,5 +121,12 @@ impl Vehicles {
 
         self.cars.draw(framebuffer, &uniforms);
         self.helis.draw(framebuffer, &uniforms);
+    }
+
+    pub fn get_instances(&self) -> Vec<ugli::VertexBufferSlice<Instance>> {
+        [&self.cars, &self.helis].into_iter().map(|vehicles| {
+            let vehicles: &SameVehicles = vehicles;
+            vehicles.instances.slice(..vehicles.count)
+        }).collect()
     }
 }

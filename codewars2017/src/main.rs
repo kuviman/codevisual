@@ -29,6 +29,10 @@ mod skybox;
 
 use skybox::SkyBox;
 
+mod minimap;
+
+use minimap::Minimap;
+
 mod obj;
 
 struct CodeWars2017 {
@@ -36,8 +40,9 @@ struct CodeWars2017 {
     paused: Rc<Cell<bool>>,
     camera: Camera,
     skybox: SkyBox,
-    terrain: GameMap,
+    map: GameMap,
     vehicles: Vehicles,
+    minimap: Minimap,
     game_log_loader: game_log::Loader,
     current_time: Rc<Cell<f32>>,
     time_scale: codevisual::SettingValue<f64>,
@@ -57,7 +62,7 @@ resources! {
     Resources {
         game_log_loader: game_log::Loader = "game.log",
         skybox: skybox::Resources = (),
-        terrain: game_map::Resources = (),
+        map: game_map::Resources = (),
         vehicles: vehicles::Resources = (),
     }
 }
@@ -71,11 +76,12 @@ impl codevisual::Game for CodeWars2017 {
 
     fn new(app: &Rc<codevisual::Application>, resources: Self::Resources) -> Self {
         let game_log_loader: game_log::Loader = resources.game_log_loader;
-        let terrain = GameMap::new(app, resources.terrain, &game_log_loader.read());
+        let map = GameMap::new(app, resources.map, &game_log_loader.read());
         let vehicles = Vehicles::new(app, resources.vehicles, &game_log_loader);
-        let camera = Camera::new(app, terrain.size);
+        let camera = Camera::new(app, map.size);
         let current_time = Rc::new(Cell::new(0.0));
         let paused = Rc::new(Cell::new(false));
+        let minimap = Minimap::new(app, &game_log_loader.read());
 
         #[cfg(target_os = "emscripten")]
         {
@@ -101,8 +107,9 @@ impl codevisual::Game for CodeWars2017 {
             skybox: SkyBox::new(app, resources.skybox),
             camera,
             game_log_loader,
-            terrain,
+            map,
             vehicles,
+            minimap,
             current_time,
             time_scale: app.add_setting_f64("Time scale", 0.0, 4.0, 1.0),
             sky_height: app.add_setting_f64("Sky height", 0.0, 300.0, 20.0),
@@ -142,7 +149,8 @@ impl codevisual::Game for CodeWars2017 {
             self.skybox.draw(framebuffer, &uniforms);
             ugli::clear(framebuffer, None, Some(1.0));
             self.vehicles.draw(tick, framebuffer, &uniforms);
-            self.terrain.draw(framebuffer, &uniforms);
+            self.map.draw(framebuffer, &uniforms);
+            self.minimap.draw(&self.vehicles, &self.map, &self.camera, framebuffer, &uniforms);
         }
     }
 

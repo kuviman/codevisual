@@ -6,11 +6,11 @@ pub struct CameraUniforms {
     u_view_matrix: Mat4<f32>,
 }
 
-const MIN_ATTACK_ANGLE: f32 = 0.5;
+const MIN_ATTACK_ANGLE: f32 = std::f32::consts::PI / 3.0;
 const MAX_ATTACK_ANGLE: f32 = std::f32::consts::PI / 2.0;
 const DEFAULT_ATTACK_ANGLE: f32 = MIN_ATTACK_ANGLE * 0.25 + MAX_ATTACK_ANGLE * 0.75;
 
-const MAX_DISTANCE: f32 = 500.0;
+const MAX_DISTANCE: f32 = 1000.0;
 const MIN_DISTANCE: f32 = 10.0;
 
 pub struct Camera {
@@ -30,7 +30,7 @@ pub struct Camera {
 impl Camera {
     pub fn new(app: &Rc<codevisual::Application>, map_size: Vec2<f32>) -> Self {
         Self {
-            fov: app.add_setting_f64("FOV", 0.1, std::f64::consts::PI - 0.1, std::f64::consts::PI / 2.0),
+            fov: app.add_setting_f64("FOV", 0.1, std::f64::consts::PI / 2.0, std::f64::consts::PI / 4.0),
             app: app.clone(),
             position: (map_size / 2.0).extend(0.0),
             map_size,
@@ -68,27 +68,28 @@ impl Camera {
         }
     }
 
-    fn raytrace(&self, pos: Vec2) -> Vec2<f32> {
+    fn raytrace_window(&self, pos: Vec2) -> Vec2<f32> {
         let window_size = self.app.window().get_size();
-        let pos = vec2(pos.x as f32 / window_size.x as f32 * 2.0 - 1.0, 1.0 - pos.y as f32 / window_size.y as f32 * 2.0);
+        self.raytrace(vec2(pos.x as f32 / window_size.x as f32 * 2.0 - 1.0, 1.0 - pos.y as f32 / window_size.y as f32 * 2.0))
+    }
 
+    pub fn raytrace(&self, pos: Vec2<f32>) -> Vec2<f32> {
+        let window_size = self.app.window().get_size();
         let mat = self.view_matrix().inverse();
         let eye = mat * vec4(0.0, 0.0, 0.0, 1.0);
-        let sn = (self.fov.get() as f32 / 2.0).tan();
-        let w = window_size.x as f32 / window_size.y as f32 * sn;
-        let h = sn;
+        let tan = (self.fov.get() as f32 / 2.0).tan();
+        let w = window_size.x as f32 / window_size.y as f32 * tan;
+        let h = tan;
         let v = mat * vec4(pos.x * w, pos.y * h, -1.0, 0.0);
-
-        let result = eye + v * (eye.z / v.z);
+        let result = eye - v * (eye.z / v.z);
         let result = vec2(result.x, result.y);
-
         result
     }
 
     fn mouse_move(&mut self, prev_pos: Vec2, pos: Vec2) {
-        let prev_pos = self.raytrace(prev_pos);
-        let pos = self.raytrace(pos);
-        let dv = pos - prev_pos;
+        let prev_pos = self.raytrace_window(prev_pos);
+        let pos = self.raytrace_window(pos);
+        let dv = prev_pos - pos;
         self.position.x = (self.position.x + dv.x).max(0.0).min(self.map_size.x);
         self.position.y = (self.position.y + dv.y).max(0.0).min(self.map_size.y);
     }
