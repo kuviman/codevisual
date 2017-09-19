@@ -11,8 +11,17 @@ pub struct Instance {
 
 resources! {
     Resources {
-        car: obj::Model = "assets/car",
-        heli: obj::Model = "assets/heli",
+        tank_1: obj::Model = "assets/car",
+        ifv_1: obj::Model = "assets/car",
+        arrv_1: obj::Model = "assets/car",
+        fighter_1: obj::Model = "assets/heli",
+        helicopter_1: obj::Model = "assets/heli",
+
+        tank_2: obj::Model = "assets/car",
+        ifv_2: obj::Model = "assets/car",
+        arrv_2: obj::Model = "assets/car",
+        fighter_2: obj::Model = "assets/heli",
+        helicopter_2: obj::Model = "assets/heli",
     }
 }
 
@@ -54,8 +63,7 @@ impl SameVehicles {
 
 pub struct Vehicles {
     app: Rc<codevisual::Application>,
-    cars: SameVehicles,
-    helis: SameVehicles,
+    vehicles_by_type: HashMap<(game_log::VehicleType, game_log::ID), SameVehicles>,
     game_log_loader: game_log::Loader,
 }
 
@@ -65,66 +73,65 @@ impl Vehicles {
     pub fn new(app: &Rc<codevisual::Application>, resources: Resources, game_log_loader: &game_log::Loader) -> Self {
         Self {
             app: app.clone(),
-            cars: SameVehicles::new(app, resources.car),
-            helis: SameVehicles::new(app, resources.heli),
+            vehicles_by_type: {
+                use game_log::VehicleType::*;
+                let mut map = HashMap::new();
+                map.insert((TANK, 1), SameVehicles::new(app, resources.tank_1));
+                map.insert((IFV, 1), SameVehicles::new(app, resources.ifv_1));
+                map.insert((ARRV, 1), SameVehicles::new(app, resources.arrv_1));
+                map.insert((HELICOPTER, 1), SameVehicles::new(app, resources.helicopter_1));
+                map.insert((FIGHTER, 1), SameVehicles::new(app, resources.fighter_1));
+                map.insert((TANK, 2), SameVehicles::new(app, resources.tank_2));
+                map.insert((IFV, 2), SameVehicles::new(app, resources.ifv_2));
+                map.insert((ARRV, 2), SameVehicles::new(app, resources.arrv_2));
+                map.insert((HELICOPTER, 2), SameVehicles::new(app, resources.helicopter_2));
+                map.insert((FIGHTER, 2), SameVehicles::new(app, resources.fighter_2));
+                map
+            },
             game_log_loader: game_log_loader.clone(),
         }
     }
     pub fn draw<U: ugli::UniformStorage>(&mut self, tick: usize, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
-        let counts = {
-            let data = self.game_log_loader.read().vehicles.get(tick);
+        let data = self.game_log_loader.read().vehicles.get(tick);
 
-            let mut car_instances = self.cars.instances.slice_mut(..data.len());
-            let mut car_instances = car_instances.iter_mut();
-            let mut car_count = 0;
-            let mut heli_instances = self.helis.instances.slice_mut(..data.len());
-            let mut heli_instances = heli_instances.iter_mut();
-            let mut heli_count = 0;
+        for (&(typ, player_id), vehicles) in self.vehicles_by_type.iter_mut() {
+            {
+                let mut instances = vehicles.instances.slice_mut(..data.len());
+                let mut instances = instances.iter_mut();
+                vehicles.count = 0;
+                for data in &data {
+                    use game_log::VehicleType::*;
+                    if (typ, player_id) == (data.typ, data.player_id) {
+                        vehicles.count += 1;
+                        let mut instance = instances.next().unwrap();
+                        instance.i_pos = vec2(data.pos.x as f32, data.pos.y as f32);
+                        instance.i_radius = data.radius;
+                        instance.i_color = match (typ, player_id) {
+                            (TANK, 1) => Color::argb_hex(0xFFFF0303),
+                            (IFV, 1) => Color::argb_hex(0xFFFEBA0E),
+                            (HELICOPTER, 1) => Color::argb_hex(0xFFEDEA00),
+                            (ARRV, 1) => Color::argb_hex(0xFF9E5507),
+                            (FIGHTER, 1) => Color::argb_hex(0xFFFFCED1),
 
-            for data in &data {
-                use game_log::VehicleType::*;
-                let instance = match data.typ {
-                    TANK | IFV | ARRV => {
-                        car_count += 1;
-                        car_instances.next().unwrap()
+                            (TANK, 2) => Color::argb_hex(0xFF0042FF),
+                            (IFV, 2) => Color::argb_hex(0xFF7EBFF1),
+                            (HELICOPTER, 2) => Color::argb_hex(0xFF1CE6B9),
+                            (ARRV, 2) => Color::argb_hex(0xFF686969),
+                            (FIGHTER, 2) => Color::argb_hex(0xFF9290B2),
+
+                            _ => panic!("WTF"),
+                        };
+                        instance.i_angle = data.angle;
+                        instance.i_height = if data.aerial { 1.0 } else { 0.0 };
                     }
-                    HELICOPTER | FIGHTER => {
-                        heli_count += 1;
-                        heli_instances.next().unwrap()
-                    }
-                };
-                instance.i_pos = vec2(data.pos.x as f32, data.pos.y as f32);
-                instance.i_radius = data.radius;
-                instance.i_color = match (data.typ, data.player_id) {
-                    (TANK, 1) => Color::argb_hex(0xFFFF0303),
-                    (IFV, 1) => Color::argb_hex(0xFFFEBA0E),
-                    (HELICOPTER, 1) => Color::argb_hex(0xFFEDEA00),
-                    (ARRV, 1) => Color::argb_hex(0xFF9E5507),
-                    (FIGHTER, 1) => Color::argb_hex(0xFFFFCED1),
-
-                    (TANK, 2) => Color::argb_hex(0xFF0042FF),
-                    (IFV, 2) => Color::argb_hex(0xFF7EBFF1),
-                    (HELICOPTER, 2) => Color::argb_hex(0xFF1CE6B9),
-                    (ARRV, 2) => Color::argb_hex(0xFF686969),
-                    (FIGHTER, 2) => Color::argb_hex(0xFF9290B2),
-
-                    _ => panic!("WTF"),
-                };
-                instance.i_angle = data.angle;
-                instance.i_height = if data.aerial { 1.0 } else { 0.0 };
+                }
             }
-
-            (car_count, heli_count)
-        };
-        self.cars.count = counts.0;
-        self.helis.count = counts.1;
-
-        self.cars.draw(framebuffer, &uniforms);
-        self.helis.draw(framebuffer, &uniforms);
+            vehicles.draw(framebuffer, &uniforms);
+        }
     }
 
     pub fn get_instances(&self) -> Vec<ugli::VertexBufferSlice<Instance>> {
-        [&self.cars, &self.helis].into_iter().map(|vehicles| {
+        self.vehicles_by_type.values().map(|vehicles| {
             let vehicles: &SameVehicles = vehicles;
             vehicles.instances.slice(..vehicles.count)
         }).collect()

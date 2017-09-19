@@ -1,6 +1,6 @@
 use ::*;
 
-#[derive(Serialize, Deserialize, Debug, Copy, Clone)]
+#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum VehicleType {
     ARRV,
     IFV,
