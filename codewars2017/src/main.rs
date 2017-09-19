@@ -75,6 +75,9 @@ impl codevisual::Game for CodeWars2017 {
     }
 
     fn new(app: &Rc<codevisual::Application>, resources: Self::Resources) -> Self {
+        #[cfg(target_os = "emscripten")]
+        codewars2017_web::init_overlay();
+
         let game_log_loader: game_log::Loader = resources.game_log_loader;
         let map = GameMap::new(app, resources.map, &game_log_loader.read());
         let vehicles = Vehicles::new(app, resources.vehicles, &game_log_loader);
@@ -162,6 +165,7 @@ impl codevisual::Game for CodeWars2017 {
 fn main() {
     #[cfg(target_os = "emscripten")]
     codewars2017_web::init();
+
     #[cfg(not(target_os = "emscripten"))]
     std::env::set_current_dir("static").unwrap();
     codevisual::run::<CodeWars2017>()

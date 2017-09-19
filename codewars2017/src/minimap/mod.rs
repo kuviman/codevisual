@@ -7,6 +7,7 @@ struct BoundVertex {
 
 pub struct Minimap {
     app: Rc<codevisual::Application>,
+    map: ugli::Texture2d,
     vehicle_material: Material,
     background_material: Material,
     bound_material: Material,
@@ -21,6 +22,28 @@ impl Minimap {
             background_material: Material::new(app.ugli_context(), (), (), include_str!("background.glsl")),
             bound_material: Material::new(app.ugli_context(), (), (), include_str!("bound.glsl")),
             bound_geometry: ugli::VertexBuffer::new_dynamic(app.ugli_context(), vec![BoundVertex { a_pos: vec2(0.0, 0.0) }; 4]),
+            map: {
+                let mut map = ugli::Texture2d::new_with(
+                    app.ugli_context(),
+                    vec2(game_log.terrain.len(), game_log.terrain[0].len()),
+                    |pos| {
+                        use game_log::TerrainType::*;
+                        let terrain_color = match game_log.terrain[pos.x][pos.y] {
+                            PLAIN => Color::rgb(0.5, 1.0, 0.5),
+                            FOREST => Color::rgb(0.0, 1.0, 0.0),
+                            SWAMP => Color::rgb(0.0, 0.5, 0.5),
+                        };
+                        use game_log::WeatherType::*;
+                        let weather_color = match game_log.weather[pos.x][pos.y] {
+                            CLEAR => Color::rgba(0.0, 0.0, 0.0, 0.0),
+                            CLOUD => Color::rgba(1.0, 1.0, 1.0, 0.3),
+                            RAIN => Color::rgba(0.5, 0.5, 0.7, 0.3),
+                        };
+                        Color::mix(terrain_color, weather_color, 1.0 - weather_color.alpha, weather_color.alpha)
+                    });
+                map.set_filter(ugli::Filter::Nearest);
+                map
+            },
         }
     }
     pub fn draw<U: ugli::UniformStorage>(&mut self,
@@ -43,7 +66,7 @@ impl Minimap {
             &self.background_material.ugli_program(),
             ugli::Quad::DRAW_MODE,
             &ugli::plain(&ugli::quad(self.app.ugli_context()).slice(..)),
-            &uniforms,
+            (&uniforms, uniforms!(map: &self.map)),
             &ugli::DrawParameters {
                 depth_test: ugli::DepthTest::Off,
                 blend_mode: ugli::BlendMode::Alpha,

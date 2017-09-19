@@ -11,6 +11,9 @@ pub const OVERLAY_CSS: &str = include_str!(concat!(env!("OUT_DIR"), "/overlay.cs
 
 pub fn init() {
     brijs::run_script(JS_SOURCE);
+}
+
+pub fn init_overlay() {
     run_js! {
         CodeWars.init_overlay(OVERLAY_HTML, OVERLAY_CSS);
     }

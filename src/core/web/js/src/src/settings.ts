@@ -1,5 +1,5 @@
 namespace CodeVisual {
-    interface Setting {
+    export interface Setting {
         addTo(parent: JQuery): void;
     }
 
@@ -66,7 +66,7 @@ namespace CodeVisual {
         }
     }
 
-    class Settings {
+    export class Settings {
         add(setting: Setting) {
             setting.addTo($settingsContainer);
         }

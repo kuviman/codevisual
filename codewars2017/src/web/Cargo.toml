@@ -5,6 +5,7 @@ authors = ["kuviman <kuviman@gmail.com>"]
 
 [build-dependencies]
 web_build = { path = "../../../src/web_build" }
+codevisual_core_js = { path = "../../../src/core/web/js" }
 
 [dependencies]
 brijs = { path = "../../../src/brijs" }

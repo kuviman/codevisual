@@ -72,23 +72,23 @@ namespace CodeWars {
     }
 
     export function set_loaded_percent(percent: number) {
-        $(".timeline-loaded").width(percent + "%");
+        CodeVisual.$player.find(".timeline-loaded").width(percent + "%");
     }
 
     export function set_playback_position(tick: number, tickCount: number) {
         currentTick = tick;
-        $(".timeline-position").css("left", tick * 100 / tickCount + "%");
+        CodeVisual.$player.find(".timeline-position").css("left", tick * 100 / tickCount + "%");
     }
 
     export function set_play_button_callback(callback: () => void) {
-        $(".play-stop-button").click(function () {
+        CodeVisual.$player.find(".play-stop-button").click(function () {
             callback();
         });
     }
 
     export function set_paused(new_paused: boolean) {
         paused = new_paused;
-        let $glyph = $(".play-stop-button .glyphicon");
+        let $glyph = CodeVisual.$player.find(".play-stop-button .glyphicon");
         let PAUSE_ICON = "glyphicon-pause";
         let PLAY_ICON = "glyphicon-play";
         $glyph.removeClass(paused ? PAUSE_ICON : PLAY_ICON);
@@ -121,16 +121,16 @@ namespace CodeWars {
 
     export function init_overlay(html: string, css: string) {
         $("<style>" + css + "</style>").appendTo("head");
-        $(".codevisual-player .game-screen").append($(html));
+        CodeVisual.$player.find(".game-screen").append($(html));
     }
 
     export function set_scores(score1: number, score2: number) {
-        $(".codewars-overlay .score-1").text(score1.toString());
-        $(".codewars-overlay .score-2").text(score2.toString());
+        CodeVisual.$player.find(".codewars-overlay .score-1").text(score1.toString());
+        CodeVisual.$player.find(".codewars-overlay .score-2").text(score2.toString());
     }
 
     export function set_names(name1: string, name2: string) {
-        $(".codewars-overlay .name-1").text(name1);
-        $(".codewars-overlay .name-2").text(name2);
+        CodeVisual.$player.find(".codewars-overlay .name-1").text(name1);
+        CodeVisual.$player.find(".codewars-overlay .name-2").text(name2);
     }
 }
