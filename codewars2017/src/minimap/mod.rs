@@ -102,7 +102,7 @@ impl Minimap {
         ugli::draw(
             framebuffer,
             &self.bound_material.ugli_program(),
-            ugli::DrawMode::TriangleFan,
+            ugli::DrawMode::LineLoop,
             &ugli::plain(&self.bound_geometry.slice(..)),
             &uniforms,
             &ugli::DrawParameters {

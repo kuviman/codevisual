@@ -11,17 +11,17 @@ pub struct Instance {
 
 resources! {
     Resources {
-        tank_1: obj::Model = "assets/car",
-        ifv_1: obj::Model = "assets/car",
-        arrv_1: obj::Model = "assets/car",
-        fighter_1: obj::Model = "assets/heli",
-        helicopter_1: obj::Model = "assets/heli",
+        tank_1: obj::Model = "assets/vehicles/Tank",
+        ifv_1: obj::Model = "assets/vehicles/BTR",
+        arrv_1: obj::Model = "assets/vehicles/Truck",
+        fighter_1: obj::Model = "assets/vehicles/Fighter",
+        helicopter_1: obj::Model = "assets/vehicles/Helicopter",
 
-        tank_2: obj::Model = "assets/car",
-        ifv_2: obj::Model = "assets/car",
-        arrv_2: obj::Model = "assets/car",
-        fighter_2: obj::Model = "assets/heli",
-        helicopter_2: obj::Model = "assets/heli",
+        tank_2: obj::Model = "assets/vehicles/Tank",
+        ifv_2: obj::Model = "assets/vehicles/BTR",
+        arrv_2: obj::Model = "assets/vehicles/Truck",
+        fighter_2: obj::Model = "assets/vehicles/Fighter",
+        helicopter_2: obj::Model = "assets/vehicles/Helicopter",
     }
 }
 
@@ -107,11 +107,7 @@ impl Vehicles {
                         instance.i_pos = vec2(data.pos.x as f32, data.pos.y as f32);
                         instance.i_radius = data.radius;
                         instance.i_color = match (typ, player_id) {
-                            (TANK, 1) => Color::argb_hex(0xFFFF0303),
-                            (IFV, 1) => Color::argb_hex(0xFFFEBA0E),
-                            (HELICOPTER, 1) => Color::argb_hex(0xFFEDEA00),
-                            (ARRV, 1) => Color::argb_hex(0xFF9E5507),
-                            (FIGHTER, 1) => Color::argb_hex(0xFFFFCED1),
+                            (_, 1) => Color::WHITE,
 
                             (TANK, 2) => Color::argb_hex(0xFF0042FF),
                             (IFV, 2) => Color::argb_hex(0xFF7EBFF1),

@@ -8,7 +8,7 @@ pub struct CameraUniforms {
 
 const MIN_ATTACK_ANGLE: f32 = std::f32::consts::PI / 3.0;
 const MAX_ATTACK_ANGLE: f32 = std::f32::consts::PI / 2.0;
-const DEFAULT_ATTACK_ANGLE: f32 = MIN_ATTACK_ANGLE * 0.25 + MAX_ATTACK_ANGLE * 0.75;
+const DEFAULT_ATTACK_ANGLE: f32 = MIN_ATTACK_ANGLE;
 
 const MAX_DISTANCE: f32 = 1000.0;
 const MIN_DISTANCE: f32 = 10.0;
@@ -35,7 +35,7 @@ impl Camera {
             position: (map_size / 2.0).extend(0.0),
             map_size,
             distance: MAX_DISTANCE,
-            rotation: 0.1,
+            rotation: 0.0,
             attack_angle: DEFAULT_ATTACK_ANGLE,
             start_drag: None,
             start_drag_rotation: None,

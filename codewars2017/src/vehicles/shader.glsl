@@ -2,6 +2,7 @@
 
 varying vec2 v_vt;
 varying vec4 v_color;
+varying float v_light;
 
 #ifdef VERTEX
 attribute vec3 a_v;
@@ -19,6 +20,7 @@ void main() {
     v_color = i_color;
     float sn = sin(i_angle);
     float cs = cos(i_angle);
+    v_light = max(0.0, dot(a_vn, normalize(vec3(1.0, 2.0, 10.0))));
     gl_Position = camera_matrix() * vec4(
         vec3(a_v.x * cs - a_v.y * sn, a_v.x * sn + a_v.y * cs, a_v.z) * i_radius +
         vec3(i_pos, i_height * u_sky_height), 1.0);
@@ -32,5 +34,6 @@ void main() {
     if (gl_FragColor.w < 0.5) {
         discard;
     }
+    gl_FragColor.xyz *= v_light * 0.3 + 0.7;
 }
 #endif

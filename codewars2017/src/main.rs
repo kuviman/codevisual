@@ -63,7 +63,7 @@ type Material<U = (), D = ()> = codevisual::Material<ShaderLib, U, D>;
 
 resources! {
     Resources {
-        game_log_loader: game_log::Loader = "game_1000.log",
+        game_log_loader: game_log::Loader = "game.log",
         skybox: skybox::Resources = (),
         map: game_map::Resources = (),
         vehicles: vehicles::Resources = (),

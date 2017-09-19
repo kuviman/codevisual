@@ -15,7 +15,8 @@ pub struct ModelFuture {
 
 impl codevisual::ResourceFuture<Model> for ModelFuture {
     fn unwrap(self) -> Model {
-        let texture = self.texture.unwrap();
+        let mut texture = self.texture.unwrap();
+        texture.gen_mipmaps();
         let geometry = {
             let source = self.geometry.unwrap();
 
@@ -31,7 +32,7 @@ impl codevisual::ResourceFuture<Model> for ModelFuture {
                     let x: f32 = parts.next().unwrap().parse().unwrap();
                     let y: f32 = parts.next().unwrap().parse().unwrap();
                     let z: f32 = parts.next().unwrap().parse().unwrap();
-                    v.push(vec3(x, z, y));
+                    v.push(vec3(-x, z, y) / 2.0); //TODO: no negation, no division
                 } else if line.starts_with("vn") {
                     let mut parts = line.split_whitespace();
                     parts.next();
