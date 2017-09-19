@@ -35,6 +35,10 @@ use minimap::Minimap;
 
 mod obj;
 
+mod settings;
+
+pub ( crate ) use settings::Settings;
+
 struct CodeWars2017 {
     app: Rc<codevisual::Application>,
     paused: Rc<Cell<bool>>,
@@ -45,8 +49,7 @@ struct CodeWars2017 {
     minimap: Minimap,
     game_log_loader: game_log::Loader,
     current_time: Rc<Cell<f32>>,
-    time_scale: codevisual::SettingValue<f64>,
-    sky_height: codevisual::SettingValue<f64>,
+    settings: Rc<Settings>,
 }
 
 shader_library! {
@@ -60,7 +63,7 @@ type Material<U = (), D = ()> = codevisual::Material<ShaderLib, U, D>;
 
 resources! {
     Resources {
-        game_log_loader: game_log::Loader = "game.log",
+        game_log_loader: game_log::Loader = "game_1000.log",
         skybox: skybox::Resources = (),
         map: game_map::Resources = (),
         vehicles: vehicles::Resources = (),
@@ -78,10 +81,12 @@ impl codevisual::Game for CodeWars2017 {
         #[cfg(target_os = "emscripten")]
         codewars2017_web::init_overlay();
 
+        let settings = Settings::new(app);
+
         let game_log_loader: game_log::Loader = resources.game_log_loader;
-        let map = GameMap::new(app, resources.map, &game_log_loader.read());
+        let map = GameMap::new(app, resources.map, &settings, &game_log_loader.read());
         let vehicles = Vehicles::new(app, resources.vehicles, &game_log_loader);
-        let camera = Camera::new(app, map.size);
+        let camera = Camera::new(app, &settings, map.size);
         let current_time = Rc::new(Cell::new(0.0));
         let paused = Rc::new(Cell::new(false));
         let minimap = Minimap::new(app, &game_log_loader.read());
@@ -114,14 +119,13 @@ impl codevisual::Game for CodeWars2017 {
             vehicles,
             minimap,
             current_time,
-            time_scale: app.add_setting_f64("Time scale", 0.0, 4.0, 1.0),
-            sky_height: app.add_setting_f64("Sky height", 0.0, 300.0, 20.0),
+            settings,
         }
     }
 
     fn update(&mut self, delta_time: f64) {
         if !self.paused.get() {
-            let delta_time = delta_time * self.time_scale.get();
+            let delta_time = delta_time * self.settings.time_scale.get();
             let new_time = f32::min(
                 self.current_time.get() + delta_time as f32,
                 (self.game_log_loader.read().loaded_tick_count - 1) as f32 / 60.0);
@@ -144,16 +148,24 @@ impl codevisual::Game for CodeWars2017 {
             let framebuffer = &mut framebuffer;
             let uniforms = (
                 uniforms! {
-                    u_sky_height: self.sky_height.get() as f32,
+                    u_sky_height: self.settings.sky_height.get() as f32,
                     u_current_time: self.current_time.get() as f32,
                     u_cell_size: 32.0, // TODO
                 },
                 self.camera.uniforms());
-            self.skybox.draw(framebuffer, &uniforms);
+            if self.settings.draw_skybox.get() {
+                self.skybox.draw(framebuffer, &uniforms);
+            }
             ugli::clear(framebuffer, None, Some(1.0));
-            self.vehicles.draw(tick, framebuffer, &uniforms);
-            self.map.draw(framebuffer, &uniforms);
-            self.minimap.draw(&self.vehicles, &self.map, &self.camera, framebuffer, &uniforms);
+            if self.settings.draw_vehicles.get() {
+                self.vehicles.draw(tick, framebuffer, &uniforms);
+            }
+            if self.settings.draw_map.get() {
+                self.map.draw(framebuffer, &uniforms);
+            }
+            if self.settings.draw_minimap.get() {
+                self.minimap.draw(&self.vehicles, &self.map, &self.camera, framebuffer, &uniforms);
+            }
         }
     }
 

@@ -28,9 +28,9 @@ pub struct Camera {
 }
 
 impl Camera {
-    pub fn new(app: &Rc<codevisual::Application>, map_size: Vec2<f32>) -> Self {
+    pub fn new(app: &Rc<codevisual::Application>, settings: &Rc<Settings>, map_size: Vec2<f32>) -> Self {
         Self {
-            fov: app.add_setting_f64("FOV", 0.1, std::f64::consts::PI / 2.0, std::f64::consts::PI / 4.0),
+            fov: settings.fov.clone(),
             app: app.clone(),
             position: (map_size / 2.0).extend(0.0),
             map_size,

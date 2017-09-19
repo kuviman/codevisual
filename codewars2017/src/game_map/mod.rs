@@ -21,11 +21,11 @@ resources! {
 }
 
 impl GameMap {
-    pub fn new(app: &Rc<codevisual::Application>, resources: Resources, game_log: &game_log::GameLog) -> Self {
+    pub fn new(app: &Rc<codevisual::Application>, resources: Resources, settings: &Rc<Settings>, game_log: &game_log::GameLog) -> Self {
         Self {
             app: app.clone(),
             ground: Ground::new(app, resources.ground, game_log),
-            weather: Weather::new(app, resources.weather, game_log),
+            weather: Weather::new(app, resources.weather, settings, game_log),
             size: vec2(game_log.map_size.x as f32, game_log.map_size.y as f32),
         }
     }

@@ -12,15 +12,15 @@ pub type Resources = ();
 
 pub struct Weather {
     clouds: Clouds,
-    clouds_enabled: codevisual::SettingValue<bool>,
+    settings: Rc<Settings>,
     rain: Rain,
     weather_map: ugli::Texture2d,
 }
 
 impl Weather {
-    pub fn new(app: &Rc<codevisual::Application>, resources: Resources, game_log: &GameLog) -> Self {
+    pub fn new(app: &Rc<codevisual::Application>, resources: Resources, settings: &Rc<Settings>, game_log: &GameLog) -> Self {
         Self {
-            clouds: Clouds::new(app, game_log),
+            clouds: Clouds::new(app, settings, game_log),
             rain: Rain::new(app, game_log),
             weather_map: {
                 let weather_data: &Vec<Vec<game_log::WeatherType>> = &game_log.weather;
@@ -36,13 +36,13 @@ impl Weather {
                         }
                     }))
             },
-            clouds_enabled: app.add_setting_bool("Clouds", true),
+            settings: settings.clone(),
         }
     }
     pub fn draw<U: ugli::UniformStorage>(&mut self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
         let uniforms = (uniforms, uniforms!(weather_map: &self.weather_map));
         self.rain.draw(framebuffer, &uniforms);
-        if self.clouds_enabled.get() {
+        if self.settings.clouds_enabled.get() {
             self.clouds.draw(framebuffer, &uniforms);
         }
     }
