@@ -77,6 +77,8 @@ namespace CodeWars {
 
     export function set_playback_position(tick: number, tickCount: number) {
         currentTick = tick;
+        CodeVisual.$player.find(".current-tick").text(tick.toString());
+        CodeVisual.$player.find(".tick-count").text(tickCount.toString());
         CodeVisual.$player.find(".timeline-position").css("left", tick * 100 / tickCount + "%");
     }
 
