@@ -135,4 +135,12 @@ namespace CodeWars {
         CodeVisual.$player.find(".codewars-overlay .name-1").text(name1);
         CodeVisual.$player.find(".codewars-overlay .name-2").text(name2);
     }
+
+    export function get_controls_offset(): number {
+        let height = CodeVisual.$player.height();
+        return Math.round((
+            CodeVisual.$player.position().top + height -
+            CodeVisual.$player.find(".controls").position().top)
+            / height * 10000);
+    }
 }

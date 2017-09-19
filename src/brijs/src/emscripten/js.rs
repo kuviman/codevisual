@@ -7,6 +7,13 @@ pub fn run_script(script: &str) {
     }
 }
 
+pub fn run_script_i32(script: &str) -> i32 {
+    let script = CString::new(script).expect("Could not convert script to C string");
+    unsafe {
+        ::emscripten_sys::emscripten_run_script_int(script.as_ptr()) as i32
+    }
+}
+
 #[macro_export]
 macro_rules! format_placeholders {
     () => ("");
@@ -31,7 +38,7 @@ pub trait IntoJson {
     fn into_json(self) -> String;
 }
 
-impl<'a, T: ?Sized + serde::Serialize> IntoJson for &'a T {
+impl<'a, T: ? Sized + serde::Serialize> IntoJson for &'a T {
     fn into_json(self) -> String {
         ::serde_json::to_string(self).expect("Could not convert to JSON")
     }

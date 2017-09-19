@@ -52,7 +52,12 @@ impl Minimap {
                                          camera: &Camera,
                                          framebuffer: &mut ugli::Framebuffer,
                                          uniforms: U) {
-        let matrix: Mat4<f32> = Mat4::translate(vec3(-0.7, -0.5, 0.0)) *
+        #[cfg(target_os = "emscripten")]
+        let offset = codewars2017_web::get_controls_offset() * 2.0;
+        #[cfg(not(target_os = "emscripten"))]
+        let offset = 0.0;
+
+        let matrix: Mat4<f32> = Mat4::translate(vec3(-0.7, -0.6 + offset, 0.0)) *
             Mat4::scale(vec3(0.2 * framebuffer.get_size().y as f32 / framebuffer.get_size().x as f32, 0.2, 0.2)) *
             Mat4::rotate_z(camera.rotation) *
             Mat4::scale(vec3(1.0, -1.0, 1.0));

@@ -19,6 +19,10 @@ pub fn init_overlay() {
     }
 }
 
+pub fn get_controls_offset() -> f32 {
+    brijs::run_script_i32("CodeWars.get_controls_offset()") as f32 / 10000.0
+}
+
 pub fn init_play_pause_button(paused: Rc<Cell<bool>>) {
     run_js! {
         CodeWars.set_paused(&paused.get());
