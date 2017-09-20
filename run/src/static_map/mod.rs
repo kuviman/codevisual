@@ -27,7 +27,7 @@ impl StaticMap {
     pub fn draw<U: ugli::UniformStorage>(&mut self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
         ugli::draw(framebuffer,
                    &self.material.ugli_program(),
-                   ugli::DrawMode::LineLoop,
+                   ugli::DrawMode::LineLoop { line_width: 1.0 },
                    &ugli::plain(&self.geometry.slice(..)),
                    &uniforms,
                    &ugli::DrawParameters {

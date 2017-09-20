@@ -29,6 +29,10 @@ mod players;
 
 pub use players::*;
 
+mod effects;
+
+pub use effects::*;
+
 #[derive(Serialize, Deserialize, Debug)]
 pub enum TerrainType {
     PLAIN,
@@ -56,6 +60,7 @@ pub struct GameLog {
     pub weather: WeatherHolder,
     pub vehicles: Vehicles,
     pub players: Players,
+    pub effects: Effects,
     pub loaded_tick_count: usize,
 }
 
@@ -77,6 +82,7 @@ impl GameLog {
             tick_count: tick0.tickCount.unwrap(),
             vehicles: Vehicles::new(&terrain, &weather),
             players: Players::new(tick0.players.as_ref().unwrap()),
+            effects: Effects::new(),
             map_size: vec2(tick0.width.unwrap() as f32, tick0.height.unwrap() as f32),
             loaded_tick_count: 0,
         };
@@ -88,6 +94,7 @@ impl GameLog {
         let tick = tick_info.tickIndex;
         self.vehicles.add_tick(tick, tick_info.vehicles, tick_info.decoratedVehicleById, &tick_info.effects);
         self.players.add_tick(tick, tick_info.players);
+        self.effects.add_tick(tick, tick_info.effects);
     }
     fn finish(&mut self) {}
     fn is_loaded(&self) -> bool {

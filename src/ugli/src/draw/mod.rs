@@ -6,9 +6,15 @@ pub use self::parameters::*;
 
 pub enum DrawMode {
     Points,
-    Lines,
-    LineStrip,
-    LineLoop,
+    Lines {
+        line_width: f32,
+    },
+    LineStrip {
+        line_width: f32,
+    },
+    LineLoop {
+        line_width: f32,
+    },
     Triangles,
     TriangleStrip,
     TriangleFan,
@@ -78,15 +84,18 @@ pub fn draw<V, U>(framebuffer: &mut Framebuffer,
     }
     let gl_mode = match mode {
         DrawMode::Points => gl::POINTS,
-        DrawMode::Lines => {
+        DrawMode::Lines { line_width } => {
+            unsafe { gl::LineWidth(line_width as GLfloat); }
             assert!(vertex_count % 2 == 0);
             gl::LINES
         }
-        DrawMode::LineStrip => {
+        DrawMode::LineStrip { line_width } => {
+            unsafe { gl::LineWidth(line_width as GLfloat); }
             assert!(vertex_count >= 2);
             gl::LINE_STRIP
         }
-        DrawMode::LineLoop => {
+        DrawMode::LineLoop { line_width } => {
+            unsafe { gl::LineWidth(line_width as GLfloat); }
             assert!(vertex_count >= 3);
             gl::LINE_LOOP
         }

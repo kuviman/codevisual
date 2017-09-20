@@ -39,6 +39,10 @@ mod settings;
 
 pub ( crate ) use settings::Settings;
 
+mod effects;
+
+use effects::Effects;
+
 struct CodeWars2017 {
     app: Rc<codevisual::Application>,
     paused: Rc<Cell<bool>>,
@@ -47,6 +51,7 @@ struct CodeWars2017 {
     map: GameMap,
     vehicles: Vehicles,
     minimap: Minimap,
+    effects: Effects,
     game_log_loader: game_log::Loader,
     current_time: Rc<Cell<f32>>,
     settings: Rc<Settings>,
@@ -90,6 +95,7 @@ impl codevisual::Game for CodeWars2017 {
         let current_time = Rc::new(Cell::new(0.0));
         let paused = Rc::new(Cell::new(false));
         let minimap = Minimap::new(app, &game_log_loader.read());
+        let effects = Effects::new(app, &settings, &game_log_loader);
 
         #[cfg(target_os = "emscripten")]
         {
@@ -117,6 +123,7 @@ impl codevisual::Game for CodeWars2017 {
             game_log_loader,
             map,
             vehicles,
+            effects,
             minimap,
             current_time,
             settings,
@@ -163,6 +170,7 @@ impl codevisual::Game for CodeWars2017 {
             if self.settings.draw_map.get() {
                 self.map.draw(framebuffer, &uniforms);
             }
+            self.effects.draw(framebuffer, &uniforms, tick);
             if self.settings.draw_minimap.get() {
                 self.minimap.draw(&self.vehicles, &self.map, &self.camera, framebuffer, &uniforms);
             }

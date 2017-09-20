@@ -22,7 +22,7 @@ pub struct Vehicle {
     order_executed: bool,
     terrain: TerrainHolder,
     weather: WeatherHolder,
-    aerial: bool,
+    pub aerial: bool,
     radius: f32,
     typ: VehicleType,
     player_id: ID,
@@ -220,22 +220,41 @@ impl Vehicles {
             }
         }
     }
+
+    fn fix(&self, vehicle: &Vehicle, tick: usize) -> Option<FixedVehicle> {
+        if vehicle.start_tick <= tick && tick < vehicle.start_tick + vehicle.positions.len() {
+            Some(FixedVehicle {
+                id: vehicle.id,
+                pos: {
+                    let pos = vehicle.positions[tick - vehicle.start_tick];
+                    vec2(pos.x as f32 / 10.0, pos.y as f32 / 10.0)
+                },
+                radius: vehicle.radius,
+                typ: vehicle.typ,
+                player_id: vehicle.player_id,
+                aerial: vehicle.aerial,
+                angle: vehicle.angles[tick - vehicle.start_tick] as f32 * (2.0 * std::f32::consts::PI / 255.0),
+            })
+        } else {
+            None
+        }
+    }
+
+    pub fn get_by_id(&self, id: ID) -> Option<&Vehicle> {
+        self.map.get(&id)
+    }
+
+    pub fn get_pos_by_id(&self, tick: usize, id: ID) -> Vec2<f32> {
+        let vehicle = self.map.get(&id).unwrap();
+        let pos = vehicle.positions[min(tick - vehicle.start_tick, vehicle.positions.len() - 1)];
+        vec2(pos.x as f32 / 10.0, pos.y as f32 / 10.0)
+    }
+
     pub fn get(&self, tick: usize) -> Vec<FixedVehicle> {
         let mut vehicles = Vec::new();
         for vehicle in self.map.values() {
-            if vehicle.start_tick <= tick && tick < vehicle.start_tick + vehicle.positions.len() {
-                vehicles.push(FixedVehicle {
-                    id: vehicle.id,
-                    pos: {
-                        let pos = vehicle.positions[tick - vehicle.start_tick];
-                        vec2(pos.x as f32 / 10.0, pos.y as f32 / 10.0)
-                    },
-                    radius: vehicle.radius,
-                    typ: vehicle.typ,
-                    player_id: vehicle.player_id,
-                    aerial: vehicle.aerial,
-                    angle: vehicle.angles[tick - vehicle.start_tick] as f32 * (2.0 * std::f32::consts::PI / 255.0),
-                });
+            if let Some(fixed_vehicle) = self.fix(vehicle, tick) {
+                vehicles.push(fixed_vehicle);
             }
         }
         vehicles
