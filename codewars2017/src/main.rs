@@ -72,6 +72,7 @@ resources! {
         skybox: skybox::Resources = (),
         map: game_map::Resources = (),
         vehicles: vehicles::Resources = (),
+        effects: effects::Resources = (),
     }
 }
 
@@ -95,7 +96,7 @@ impl codevisual::Game for CodeWars2017 {
         let current_time = Rc::new(Cell::new(0.0));
         let paused = Rc::new(Cell::new(false));
         let minimap = Minimap::new(app, &game_log_loader.read());
-        let effects = Effects::new(app, &settings, &game_log_loader);
+        let effects = Effects::new(app, resources.effects, &settings, &game_log_loader);
 
         #[cfg(target_os = "emscripten")]
         {

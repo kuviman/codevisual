@@ -10,6 +10,7 @@ pub struct Settings {
     pub fov: codevisual::SettingValue<f64>,
     pub clouds_alpha: codevisual::SettingValue<f64>,
     pub clouds_enabled: codevisual::SettingValue<bool>,
+    pub draw_attack_rays: codevisual::SettingValue<bool>,
 }
 
 impl Settings {
@@ -21,6 +22,7 @@ impl Settings {
             draw_vehicles: app.add_setting_bool("Draw vehicles", true),
             draw_map: app.add_setting_bool("Draw map", true),
             draw_minimap: app.add_setting_bool("Draw minimap", true),
+            draw_attack_rays: app.add_setting_bool("Draw attack rays", false),
             fov: app.add_setting_f64("FOV", 0.1, std::f64::consts::PI / 2.0, std::f64::consts::PI / 4.0),
             clouds_alpha: app.add_setting_f64("Clouds opacity", 0.0, 1.0, 0.3),
             clouds_enabled: app.add_setting_bool("Clouds", true),

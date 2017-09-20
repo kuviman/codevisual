@@ -62,6 +62,10 @@ pub fn draw<V, U>(framebuffer: &mut Framebuffer,
     }
     draw_parameters.apply();
     program.bind();
+    let uniforms = (SingleUniform::new("u_framebuffer_size",
+                                       vec2(framebuffer.get_size().x as f32,
+                                            framebuffer.get_size().y as f32)),
+                    uniforms);
     uniforms.walk_uniforms(&mut UC {
         program,
         texture_count: 0,

@@ -2,6 +2,7 @@ use ::*;
 
 #[derive(Debug)]
 pub struct AttackOrRepairEffect {
+    pub start_tick: usize,
     pub vehicle_id: ID,
     pub target_id: ID,
 }
@@ -52,13 +53,17 @@ impl Effects {
             for effect in effects {
                 match effect.typ {
                     raw::EffectType::VEHICLE_ATTACK => {
-                        add_to(&mut self.attacks, tick, AttackOrRepairEffect {
-                            vehicle_id: effect.attributes.get("vehicleId").unwrap().as_i64().unwrap() as ID,
-                            target_id: effect.attributes.get("targetId").unwrap().as_i64().unwrap() as ID,
-                        });
+                        for tick_ext in tick..tick + 5 {
+                            add_to(&mut self.attacks, tick_ext, AttackOrRepairEffect {
+                                start_tick: tick,
+                                vehicle_id: effect.attributes.get("vehicleId").unwrap().as_i64().unwrap() as ID,
+                                target_id: effect.attributes.get("targetId").unwrap().as_i64().unwrap() as ID,
+                            });
+                        }
                     }
                     raw::EffectType::VEHICLE_REPAIR => {
                         add_to(&mut self.repairs, tick, AttackOrRepairEffect {
+                            start_tick: tick,
                             vehicle_id: effect.attributes.get("vehicleId").unwrap().as_i64().unwrap() as ID,
                             target_id: effect.attributes.get("targetId").unwrap().as_i64().unwrap() as ID,
                         });
