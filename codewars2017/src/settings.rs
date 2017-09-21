@@ -11,6 +11,7 @@ pub struct Settings {
     pub clouds_alpha: codevisual::SettingValue<f64>,
     pub clouds_enabled: codevisual::SettingValue<bool>,
     pub draw_attack_rays: codevisual::SettingValue<bool>,
+    pub shadows_enabled: codevisual::SettingValue<bool>,
 }
 
 impl Settings {
@@ -26,6 +27,7 @@ impl Settings {
             fov: app.add_setting_f64("FOV", 0.1, std::f64::consts::PI / 2.0, std::f64::consts::PI / 4.0),
             clouds_alpha: app.add_setting_f64("Clouds opacity", 0.0, 1.0, 0.3),
             clouds_enabled: app.add_setting_bool("Clouds", true),
+            shadows_enabled: app.add_setting_bool("Shadows", true),
         })
     }
 }

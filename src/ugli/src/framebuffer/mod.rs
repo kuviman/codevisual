@@ -16,6 +16,7 @@ pub enum ColorAttachmentRead<'a> {
 pub enum DepthAttachmentRead<'a> {
     None,
     Renderbuffer(&'a Renderbuffer<DepthComponent>),
+    Texture(&'a DepthTexture),
 }
 
 pub struct FramebufferRead<'a> {
@@ -57,6 +58,18 @@ impl<'a> FramebufferRead<'a> {
                 }
                 // TODO: update/check size
             }
+            DepthAttachmentRead::Texture(ref texture) => {
+                unsafe {
+                    gl::FramebufferTexture2D(
+                        gl::FRAMEBUFFER,
+                        gl::DEPTH_ATTACHMENT,
+                        gl::TEXTURE_2D,
+                        texture.handle,
+                        0,
+                    );
+                }
+                size = Some(texture.get_size());
+            }
         }
         fbo.check();
         Self { fbo, color, size: size.unwrap() }
@@ -77,6 +90,7 @@ pub enum ColorAttachment<'a> {
 pub enum DepthAttachment<'a> {
     None,
     Renderbuffer(&'a mut Renderbuffer<DepthComponent>),
+    Texture(&'a mut DepthTexture),
 }
 
 pub struct Framebuffer<'a> {
@@ -95,6 +109,7 @@ impl<'a> Framebuffer<'a> {
                 match depth {
                     DepthAttachment::None => DepthAttachmentRead::None,
                     DepthAttachment::Renderbuffer(renderbuffer) => DepthAttachmentRead::Renderbuffer(renderbuffer),
+                    DepthAttachment::Texture(texture) => DepthAttachmentRead::Texture(texture),
                 })
         }
     }

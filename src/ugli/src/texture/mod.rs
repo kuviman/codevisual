@@ -12,12 +12,13 @@ pub enum Filter {
     Linear,
 }
 
-pub struct Texture2d {
+pub struct Texture<P: Pixel> {
     pub ( crate ) handle: GLuint,
     size: Cell<Vec2<usize>>,
+    phantom_data: PhantomData<P>,
 }
 
-impl Drop for Texture2d {
+impl<P: Pixel> Drop for Texture<P> {
     fn drop(&mut self) {
         unsafe {
             gl::DeleteTextures(1, &self.handle);
@@ -25,13 +26,16 @@ impl Drop for Texture2d {
     }
 }
 
+pub type Texture2d = Texture<Color>;
+pub type DepthTexture = Texture<DepthComponent>;
+
 impl Debug for Texture2d {
     fn fmt(&self, formatter: &mut Formatter) -> std::fmt::Result {
         write!(formatter, "Texture2d {{ size: {:?} }}", self.size.get())
     }
 }
 
-impl Texture2d {
+impl<P: Pixel> Texture<P> {
     fn new_raw(size: Vec2<usize>) -> Self {
         unsafe {
             let mut handle: GLuint = std::mem::uninitialized();
@@ -41,6 +45,7 @@ impl Texture2d {
             let mut texture = Self {
                 handle,
                 size: Cell::new(size),
+                phantom_data: PhantomData,
             };
             texture.set_filter(Filter::Linear);
             texture.set_wrap_mode(WrapMode::Clamp);
@@ -53,6 +58,23 @@ impl Texture2d {
         size.x & (size.x - 1) == 0 && size.y & (size.y - 1) == 0
     }
 
+    pub fn new_uninitialized(_: &Context, size: Vec2<usize>) -> Self {
+        let texture = Self::new_raw(size);
+        unsafe {
+            gl::TexImage2D(
+                gl::TEXTURE_2D,
+                0,
+                P::GL_TEXTURE_FORMAT as GLint,
+                size.x as GLsizei,
+                size.y as GLsizei,
+                0,
+                P::GL_TEXTURE_FORMAT,
+                P::GL_TEXTURE_TYPE,
+                std::ptr::null(),
+            );
+        }
+        texture
+    }
     pub fn set_wrap_mode(&mut self, wrap_mode: WrapMode) {
         assert!(self.is_pot() || wrap_mode == WrapMode::Clamp);
         let wrap_mode = match wrap_mode {
@@ -78,6 +100,20 @@ impl Texture2d {
         }
     }
 
+    pub fn get_size(&self) -> Vec2<usize> {
+        self.size.get()
+    }
+
+    pub fn _set_size(&self, size: Vec2<usize>) {
+        self.size.set(size);
+    }
+
+    pub fn _get_handle(&self) -> GLuint {
+        self.handle
+    }
+}
+
+impl Texture2d {
     pub fn gen_mipmaps(&mut self) {
         unsafe {
             gl::BindTexture(gl::TEXTURE_2D, self.handle);
@@ -88,24 +124,6 @@ impl Texture2d {
                 gl::LINEAR_MIPMAP_LINEAR as GLint,
             );
         }
-    }
-
-    pub fn new_uninitialized(_: &Context, size: Vec2<usize>) -> Self {
-        let texture = Texture2d::new_raw(size);
-        unsafe {
-            gl::TexImage2D(
-                gl::TEXTURE_2D,
-                0,
-                gl::RGBA as GLint,
-                size.x as GLsizei,
-                size.y as GLsizei,
-                0,
-                gl::RGBA as GLenum,
-                gl::UNSIGNED_BYTE,
-                std::ptr::null(),
-            );
-        }
-        texture
     }
 
     pub fn new_with<F: FnMut(Vec2<usize>) -> Color>(_: &Context, size: Vec2<usize>, mut f: F) -> Self {
@@ -155,17 +173,5 @@ impl Texture2d {
         }
         texture.gen_mipmaps();
         texture
-    }
-
-    pub fn get_size(&self) -> Vec2<usize> {
-        self.size.get()
-    }
-
-    pub fn _set_size(&self, size: Vec2<usize>) {
-        self.size.set(size);
-    }
-
-    pub fn _get_handle(&self) -> GLuint {
-        self.handle
     }
 }

@@ -43,6 +43,10 @@ mod effects;
 
 use effects::Effects;
 
+mod shadow_map;
+
+use shadow_map::ShadowMap;
+
 struct CodeWars2017 {
     app: Rc<codevisual::Application>,
     paused: Rc<Cell<bool>>,
@@ -52,6 +56,7 @@ struct CodeWars2017 {
     vehicles: Vehicles,
     minimap: Minimap,
     effects: Effects,
+    shadow_map: ShadowMap,
     game_log_loader: game_log::Loader,
     current_time: Rc<Cell<f32>>,
     settings: Rc<Settings>,
@@ -61,6 +66,7 @@ shader_library! {
     ShaderLib {
         "codewars" => include_str!("lib.glsl"),
         "camera" => include_str!("camera/lib.glsl"),
+        "shadow" => include_str!("shadow_map/lib.glsl"),
     }
 }
 
@@ -97,6 +103,7 @@ impl codevisual::Game for CodeWars2017 {
         let paused = Rc::new(Cell::new(false));
         let minimap = Minimap::new(app, &game_log_loader.read());
         let effects = Effects::new(app, resources.effects, &settings, &game_log_loader);
+        let shadow_map = ShadowMap::new(app);
 
         #[cfg(target_os = "emscripten")]
         {
@@ -126,6 +133,7 @@ impl codevisual::Game for CodeWars2017 {
             vehicles,
             effects,
             minimap,
+            shadow_map,
             current_time,
             settings,
         }
@@ -165,8 +173,17 @@ impl codevisual::Game for CodeWars2017 {
                 self.skybox.draw(framebuffer, &uniforms);
             }
             ugli::clear(framebuffer, None, Some(1.0));
+
+            self.vehicles.update_to(tick);
+
+            let uniforms = (&uniforms, if self.settings.shadows_enabled.get() {
+                Some(ugli::SingleUniform::new(
+                    "u_shadow_map",
+                    self.shadow_map.prepare(&self.vehicles, framebuffer, &uniforms)))
+            } else { None });
+
             if self.settings.draw_vehicles.get() {
-                self.vehicles.draw(tick, framebuffer, &uniforms);
+                self.vehicles.draw(framebuffer, &uniforms);
             }
             if self.settings.draw_map.get() {
                 self.map.draw(framebuffer, &uniforms);
@@ -175,6 +192,21 @@ impl codevisual::Game for CodeWars2017 {
             if self.settings.draw_minimap.get() {
                 self.minimap.draw(&self.vehicles, &self.map, &self.camera, framebuffer, &uniforms);
             }
+
+            // TODO: remove
+            let tmp = Material::new(self.app.ugli_context(), (), (),
+                                    include_str!("fullscreen_texture.glsl"));
+            ugli::draw(
+                framebuffer,
+                &tmp
+                    .ugli_program(),
+                ugli::Quad::DRAW_MODE,
+                &ugli::plain(&ugli::quad(self.app.ugli_context()).slice(..)),
+                uniforms, &ugli::DrawParameters {
+                    depth_test: ugli::DepthTest::Off,
+                    blend_mode: ugli::BlendMode::Alpha,
+                    ..Default::default()
+                });
         }
     }
 

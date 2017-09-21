@@ -75,7 +75,7 @@ impl Uniform for Color {
     }
 }
 
-impl Uniform for Texture2d {
+impl<P: Pixel> Uniform for Texture<P> {
     fn apply<'a>(&self, location: raw::Location<'a>) {
         unsafe {
             gl::ActiveTexture(gl::TEXTURE0 + (*location.texture_count) as GLenum);

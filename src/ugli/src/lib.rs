@@ -61,11 +61,15 @@ mod private {
 pub ( crate ) use private::*;
 
 pub trait Pixel: Sealed {
-    const GL_FORMAT: GLenum;
+    const GL_TEXTURE_FORMAT: GLenum;
+    const GL_FRAMEBUFFER_FORMAT: GLenum;
+    const GL_TEXTURE_TYPE: GLenum;
 }
 
 impl Pixel for Color {
-    const GL_FORMAT: GLenum = gl::RGBA;
+    const GL_TEXTURE_FORMAT: GLenum = gl::RGBA;
+    const GL_FRAMEBUFFER_FORMAT: GLenum = gl::RGBA;
+    const GL_TEXTURE_TYPE: GLenum = gl::UNSIGNED_BYTE;
 }
 
 impl Sealed for Color {}
@@ -74,10 +78,12 @@ impl Sealed for Color {}
 pub struct DepthComponent(GLfloat);
 
 impl Pixel for DepthComponent {
+    const GL_TEXTURE_FORMAT: GLenum = gl::DEPTH_COMPONENT;
     #[cfg(not(target_os = "emscripten"))]
-    const GL_FORMAT: GLenum = gl::DEPTH_COMPONENT;
+    const GL_FRAMEBUFFER_FORMAT: GLenum = gl::DEPTH_COMPONENT;
     #[cfg(target_os = "emscripten")]
-    const GL_FORMAT: GLenum = gl::DEPTH_COMPONENT16;
+    const GL_FRAMEBUFFER_FORMAT: GLenum = gl::DEPTH_COMPONENT16;
+    const GL_TEXTURE_TYPE: GLenum = gl::UNSIGNED_INT;
 }
 
 impl Sealed for DepthComponent {}

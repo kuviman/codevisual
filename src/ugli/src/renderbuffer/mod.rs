@@ -19,7 +19,7 @@ impl<T: Pixel> Renderbuffer<T> {
             let mut handle: GLuint = std::mem::uninitialized();
             gl::GenRenderbuffers(1, &mut handle);
             gl::BindRenderbuffer(gl::RENDERBUFFER, handle);
-            gl::RenderbufferStorage(gl::RENDERBUFFER, T::GL_FORMAT, size.x as GLsizei, size.y as GLsizei);
+            gl::RenderbufferStorage(gl::RENDERBUFFER, T::GL_FRAMEBUFFER_FORMAT, size.x as GLsizei, size.y as GLsizei);
             Self {
                 handle,
                 phantom_data: PhantomData,

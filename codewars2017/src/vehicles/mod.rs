@@ -31,12 +31,12 @@ impl Instance {
     }
 }
 
-struct SameVehicles {
+pub struct SameVehicles {
     app: Rc<codevisual::Application>,
-    instances: ugli::VertexBuffer<Instance>,
-    count: usize,
+    pub instances: ugli::VertexBuffer<Instance>,
+    pub count: usize,
     material: Material,
-    model: obj::Model,
+    pub model: obj::Model,
 }
 
 impl SameVehicles {
@@ -50,7 +50,7 @@ impl SameVehicles {
             material: Material::new(app.ugli_context(), (), (), include_str!("shader.glsl")),
         }
     }
-    pub fn draw<U: ugli::UniformStorage>(&mut self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
+    pub fn draw<U: ugli::UniformStorage>(&self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
         ugli::draw(framebuffer, &self.material.ugli_program(), ugli::DrawMode::Triangles,
                    &ugli::instanced(&self.model.geometry.slice(..),
                                     &self.instances.slice(..self.count)),
@@ -63,7 +63,7 @@ impl SameVehicles {
 
 pub struct Vehicles {
     app: Rc<codevisual::Application>,
-    vehicles_by_type: HashMap<(game_log::VehicleType, game_log::ID), SameVehicles>,
+    pub vehicles_by_type: HashMap<(game_log::VehicleType, game_log::ID), SameVehicles>,
     game_log_loader: game_log::Loader,
 }
 
@@ -91,37 +91,40 @@ impl Vehicles {
             game_log_loader: game_log_loader.clone(),
         }
     }
-    pub fn draw<U: ugli::UniformStorage>(&mut self, tick: usize, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
+
+    pub fn update_to(&mut self, tick: usize) {
         let data = self.game_log_loader.read().vehicles.get(tick);
-
         for (&(typ, player_id), vehicles) in self.vehicles_by_type.iter_mut() {
-            {
-                let mut instances = vehicles.instances.slice_mut(..data.len());
-                let mut instances = instances.iter_mut();
-                vehicles.count = 0;
-                for data in &data {
-                    use game_log::VehicleType::*;
-                    if (typ, player_id) == (data.typ, data.player_id) {
-                        vehicles.count += 1;
-                        let mut instance = instances.next().unwrap();
-                        instance.i_pos = vec2(data.pos.x as f32, data.pos.y as f32);
-                        instance.i_radius = data.radius;
-                        instance.i_color = match (typ, player_id) {
-                            (_, 1) => Color::WHITE,
+            let mut instances = vehicles.instances.slice_mut(..data.len());
+            let mut instances = instances.iter_mut();
+            vehicles.count = 0;
+            for data in &data {
+                use game_log::VehicleType::*;
+                if (typ, player_id) == (data.typ, data.player_id) {
+                    vehicles.count += 1;
+                    let mut instance = instances.next().unwrap();
+                    instance.i_pos = vec2(data.pos.x as f32, data.pos.y as f32);
+                    instance.i_radius = data.radius;
+                    instance.i_color = match (typ, player_id) {
+                        (_, 1) => Color::WHITE,
 
-                            (TANK, 2) => Color::argb_hex(0xFF0042FF),
-                            (IFV, 2) => Color::argb_hex(0xFF7EBFF1),
-                            (HELICOPTER, 2) => Color::argb_hex(0xFF1CE6B9),
-                            (ARRV, 2) => Color::argb_hex(0xFF686969),
-                            (FIGHTER, 2) => Color::argb_hex(0xFF9290B2),
+                        (TANK, 2) => Color::argb_hex(0xFF0042FF),
+                        (IFV, 2) => Color::argb_hex(0xFF7EBFF1),
+                        (HELICOPTER, 2) => Color::argb_hex(0xFF1CE6B9),
+                        (ARRV, 2) => Color::argb_hex(0xFF686969),
+                        (FIGHTER, 2) => Color::argb_hex(0xFF9290B2),
 
-                            _ => panic!("WTF"),
-                        };
-                        instance.i_angle = data.angle;
-                        instance.i_height = if data.aerial { 1.0 } else { 0.0 };
-                    }
+                        _ => panic!("WTF"),
+                    };
+                    instance.i_angle = data.angle;
+                    instance.i_height = if data.aerial { 1.0 } else { 0.0 };
                 }
             }
+        }
+    }
+
+    pub fn draw<U: ugli::UniformStorage>(&self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
+        for vehicles in self.vehicles_by_type.values() {
             vehicles.draw(framebuffer, &uniforms);
         }
     }

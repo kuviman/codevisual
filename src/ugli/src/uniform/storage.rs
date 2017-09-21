@@ -51,3 +51,10 @@ impl<A: UniformStorage, B: UniformStorage> UniformStorage for (A, B) {
         self.1.walk_uniforms(consumer);
     }
 }
+
+impl<U: UniformStorage> UniformStorage for Option<U> {
+    fn walk_uniforms<C>(&self, consumer: &mut C) where
+        C: UniformConsumer {
+        self.as_ref().map(|u| u.walk_uniforms(consumer));
+    }
+}

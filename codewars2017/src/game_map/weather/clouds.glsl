@@ -15,7 +15,7 @@ attribute vec3 a_cube_pos;
 void main() {
     v_pos = i_pos.xy;
     v_type = i_type;
-    v_light = max(0.0, dot(a_n, normalize(vec3(1.0, 2.0, 10.0))));
+    v_light = max(0.0, dot(a_n, u_light_direction));
     float size = i_size + sin(u_current_time * 2.0 + snoise(i_pos.xy) * 10.0) * 0.4;
     gl_Position = camera_matrix() * vec4(a_v * size + i_pos + vec3(0.0, 0.0, u_sky_height), 1.0);
 }
