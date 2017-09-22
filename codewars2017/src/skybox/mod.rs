@@ -13,11 +13,11 @@ resources! {
 }
 
 impl SkyBox {
-    pub fn new(app: &Rc<codevisual::Application>, resources: Resources) -> Self {
+    pub fn new(app: &Rc<codevisual::Application>, resources: Resources, settings: &Rc<Settings>) -> Self {
         Self {
             app: app.clone(),
             texture: resources.texture,
-            material: Material::new(app.ugli_context(), (), (), include_str!("shader.glsl")),
+            material: Material::new(app.ugli_context(), settings, include_str!("shader.glsl")),
         }
     }
     pub fn draw<U: ugli::UniformStorage>(&mut self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {

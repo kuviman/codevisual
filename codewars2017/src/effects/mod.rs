@@ -33,8 +33,8 @@ impl Effects {
             settings: settings.clone(),
             particle_texture: resources.particle_texture,
             game_log_loader: game_log_loader.clone(),
-            material: Material::new(app.ugli_context(), (), (), include_str!("shader.glsl")),
-            particle_material: Material::new(app.ugli_context(), (), (), include_str!("particle.glsl")),
+            material: Material::new(app.ugli_context(), settings, include_str!("shader.glsl")),
+            particle_material: Material::new(app.ugli_context(), settings, include_str!("particle.glsl")),
             geometry: ugli::VertexBuffer::new_dynamic(
                 app.ugli_context(),
                 vec![Vertex {

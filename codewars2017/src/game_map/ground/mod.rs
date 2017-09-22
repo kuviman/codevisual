@@ -32,7 +32,7 @@ pub struct Ground {
 }
 
 impl Ground {
-    pub fn new(app: &Rc<codevisual::Application>, resources: Resources, game_log: &GameLog) -> Self {
+    pub fn new(app: &Rc<codevisual::Application>, resources: Resources, game_log: &GameLog, settings: &Rc<Settings>) -> Self {
         macro_rules! repeatable {
             ($tex:expr) => {{
                 let mut texture = $tex;
@@ -66,7 +66,7 @@ impl Ground {
                         let mut framebuffer = ugli::Framebuffer::new_color(
                             app.ugli_context(), ugli::ColorAttachment::Texture(&mut result));
                         let prepare_material = Material::new(
-                            app.ugli_context(), (), (),
+                            app.ugli_context(), settings,
                             include_str!("prepare.glsl"));
                         ugli::draw(&mut framebuffer,
                                    &prepare_material.ugli_program(),
@@ -83,9 +83,9 @@ impl Ground {
                 }
             },
             geometry: ugli::Quad::new(app.ugli_context(), vec2(0.0, 0.0), game_log.map_size),
-            material: Material::new(app.ugli_context(), (), (), include_str!("ground.glsl")),
+            material: Material::new(app.ugli_context(), settings, include_str!("ground.glsl")),
 
-            underground_material: Material::new(app.ugli_context(), (), (), include_str!("underground.glsl")),
+            underground_material: Material::new(app.ugli_context(), settings, include_str!("underground.glsl")),
             underground_geometry: {
                 let mut vs = Vec::new();
                 {

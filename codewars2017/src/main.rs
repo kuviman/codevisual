@@ -70,7 +70,46 @@ shader_library! {
     }
 }
 
-type Material<U = (), D = ()> = codevisual::Material<ShaderLib, U, D>;
+struct Material {
+    inner: RefCell<codevisual::Material<ShaderLib, (), settings::ShaderDefines>>,
+    settings: Rc<Settings>,
+}
+
+struct UgliProgramGuard<'a> {
+    program: *const ugli::Program,
+    phantom_data: PhantomData<&'a i32>,
+}
+
+impl<'a> Deref for UgliProgramGuard<'a> {
+    type Target = ugli::Program;
+
+    fn deref(&self) -> &Self::Target {
+        unsafe { &*self.program }
+    }
+}
+
+impl Material {
+    fn new(context: &Rc<ugli::Context>,
+           settings: &Rc<Settings>,
+           program_source: &str) -> Self {
+        Self {
+            inner: RefCell::new(codevisual::Material::new(
+                context, (), settings.get_shader_defines(), program_source)),
+            settings: settings.clone(),
+        }
+    }
+
+    fn ugli_program(&self) -> UgliProgramGuard {
+        self.inner.borrow_mut().defines = self.settings.get_shader_defines();
+        let borrow = self.inner.borrow();
+        let program = borrow.ugli_program();
+        let program = { &*program } as *const _; // TODO: possible without unsafe?
+        UgliProgramGuard {
+            program,
+            phantom_data: PhantomData,
+        }
+    }
+}
 
 resources! {
     Resources {
@@ -97,13 +136,14 @@ impl codevisual::Game for CodeWars2017 {
 
         let game_log_loader: game_log::Loader = resources.game_log_loader;
         let map = GameMap::new(app, resources.map, &settings, &game_log_loader.read());
-        let vehicles = Vehicles::new(app, resources.vehicles, &game_log_loader);
+        let vehicles = Vehicles::new(app, &settings, resources.vehicles, &game_log_loader);
         let camera = Camera::new(app, &settings, map.size);
         let current_time = Rc::new(Cell::new(0.0));
         let paused = Rc::new(Cell::new(false));
-        let minimap = Minimap::new(app, &game_log_loader.read());
+        let minimap = Minimap::new(app, &game_log_loader.read(), &settings);
         let effects = Effects::new(app, resources.effects, &settings, &game_log_loader);
-        let shadow_map = ShadowMap::new(app);
+        let shadow_map = ShadowMap::new(app, &settings);
+        let skybox = SkyBox::new(app, resources.skybox, &settings);
 
         #[cfg(target_os = "emscripten")]
         {
@@ -126,7 +166,7 @@ impl codevisual::Game for CodeWars2017 {
         Self {
             app: app.clone(),
             paused,
-            skybox: SkyBox::new(app, resources.skybox),
+            skybox,
             camera,
             game_log_loader,
             map,
@@ -192,21 +232,6 @@ impl codevisual::Game for CodeWars2017 {
             if self.settings.draw_minimap.get() {
                 self.minimap.draw(&self.vehicles, &self.map, &self.camera, framebuffer, &uniforms);
             }
-
-            // TODO: remove
-            let tmp = Material::new(self.app.ugli_context(), (), (),
-                                    include_str!("fullscreen_texture.glsl"));
-            ugli::draw(
-                framebuffer,
-                &tmp
-                    .ugli_program(),
-                ugli::Quad::DRAW_MODE,
-                &ugli::plain(&ugli::quad(self.app.ugli_context()).slice(..)),
-                uniforms, &ugli::DrawParameters {
-                    depth_test: ugli::DepthTest::Off,
-                    blend_mode: ugli::BlendMode::Alpha,
-                    ..Default::default()
-                });
         }
     }
 

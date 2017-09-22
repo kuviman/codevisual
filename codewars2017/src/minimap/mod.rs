@@ -15,12 +15,12 @@ pub struct Minimap {
 }
 
 impl Minimap {
-    pub fn new(app: &Rc<codevisual::Application>, game_log: &GameLog) -> Self {
+    pub fn new(app: &Rc<codevisual::Application>, game_log: &GameLog, settings: &Rc<Settings>) -> Self {
         Self {
             app: app.clone(),
-            vehicle_material: Material::new(app.ugli_context(), (), (), include_str!("vehicle.glsl")),
-            background_material: Material::new(app.ugli_context(), (), (), include_str!("background.glsl")),
-            bound_material: Material::new(app.ugli_context(), (), (), include_str!("bound.glsl")),
+            vehicle_material: Material::new(app.ugli_context(), settings, include_str!("vehicle.glsl")),
+            background_material: Material::new(app.ugli_context(), settings, include_str!("background.glsl")),
+            bound_material: Material::new(app.ugli_context(), settings, include_str!("bound.glsl")),
             bound_geometry: ugli::VertexBuffer::new_dynamic(app.ugli_context(), vec![BoundVertex { a_pos: vec2(0.0, 0.0) }; 4]),
             map: {
                 let mut map = ugli::Texture2d::new_with(

@@ -8,7 +8,7 @@ pub struct Minimap {
 impl Minimap {
     pub fn new(app: &codevisual::Application, settings: &Rc<Settings>) -> Self {
         Self {
-            material: codevisual::Material::new(app.ugli_context(), (), (), include_str!("shader.glsl")),
+            material: codevisual::Material::new(app.ugli_context(), settings, (), (), include_str!("shader.glsl")),
             settings: settings.clone(),
         }
     }

@@ -7,12 +7,12 @@ pub struct ShadowMap {
 }
 
 impl ShadowMap {
-    pub fn new(app: &Rc<codevisual::Application>) -> Self {
+    pub fn new(app: &Rc<codevisual::Application>, settings: &Rc<Settings>) -> Self {
         Self {
             app: app.clone(),
             map: None,
             vehicle_material: Material::new(
-                app.ugli_context(), (), (), include_str!("vehicle.glsl")),
+                app.ugli_context(), settings, include_str!("vehicle.glsl")),
         }
     }
 

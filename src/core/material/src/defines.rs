@@ -51,7 +51,7 @@ impl<'a, D> ShaderDefineStorage for &'a D
     }
 }
 
-impl<'a, A, B> ShaderDefineStorage for (&'a A, &'a B)
+impl<A, B> ShaderDefineStorage for (A, B)
     where
         A: ShaderDefineStorage,
         B: ShaderDefineStorage,

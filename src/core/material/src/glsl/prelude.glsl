@@ -1,7 +1,4 @@
 #ifdef EMSCRIPTEN
-#if GL_EXT_frag_depth
-#extension GL_EXT_frag_depth : enable
-#endif
 precision highp float;
 #endif
 

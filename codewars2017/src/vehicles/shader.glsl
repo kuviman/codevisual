@@ -22,7 +22,7 @@ void main() {
     v_color = i_color;
     float sn = sin(i_angle);
     float cs = cos(i_angle);
-    v_light = max(0.0, dot(a_vn, u_light_direction));
+    v_light = get_light(a_vn);
     v_pos = vec3(a_v.x * cs - a_v.y * sn, a_v.x * sn + a_v.y * cs, a_v.z) * i_radius +
         vec3(i_pos, i_height * u_sky_height);
     gl_Position = camera_matrix() * vec4(v_pos, 1.0);
@@ -36,7 +36,6 @@ void main() {
     if (gl_FragColor.w < 0.5) {
         discard;
     }
-    gl_FragColor.xyz *= v_light * 0.3 + 0.7;
-    gl_FragColor.xyz *= shadow(v_pos);
+    gl_FragColor.xyz *= min(v_light, get_shadow(v_pos)) * (1.0 - u_ambient_light) + u_ambient_light;
 }
 #endif

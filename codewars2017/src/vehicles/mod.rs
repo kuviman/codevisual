@@ -40,14 +40,14 @@ pub struct SameVehicles {
 }
 
 impl SameVehicles {
-    fn new(app: &Rc<codevisual::Application>, model: obj::Model) -> Self {
+    fn new(app: &Rc<codevisual::Application>, settings: &Rc<Settings>, model: obj::Model) -> Self {
         Self {
             app: app.clone(),
             count: 0,
             model,
             instances: ugli::VertexBuffer::new_dynamic(
                 app.ugli_context(), vec![Instance::new(); MAX_COUNT]),
-            material: Material::new(app.ugli_context(), (), (), include_str!("shader.glsl")),
+            material: Material::new(app.ugli_context(), settings, include_str!("shader.glsl")),
         }
     }
     pub fn draw<U: ugli::UniformStorage>(&self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
@@ -70,22 +70,22 @@ pub struct Vehicles {
 const MAX_COUNT: usize = 2000;
 
 impl Vehicles {
-    pub fn new(app: &Rc<codevisual::Application>, resources: Resources, game_log_loader: &game_log::Loader) -> Self {
+    pub fn new(app: &Rc<codevisual::Application>, settings: &Rc<Settings>, resources: Resources, game_log_loader: &game_log::Loader) -> Self {
         Self {
             app: app.clone(),
             vehicles_by_type: {
                 use game_log::VehicleType::*;
                 let mut map = HashMap::new();
-                map.insert((TANK, 1), SameVehicles::new(app, resources.tank_1));
-                map.insert((IFV, 1), SameVehicles::new(app, resources.ifv_1));
-                map.insert((ARRV, 1), SameVehicles::new(app, resources.arrv_1));
-                map.insert((HELICOPTER, 1), SameVehicles::new(app, resources.helicopter_1));
-                map.insert((FIGHTER, 1), SameVehicles::new(app, resources.fighter_1));
-                map.insert((TANK, 2), SameVehicles::new(app, resources.tank_2));
-                map.insert((IFV, 2), SameVehicles::new(app, resources.ifv_2));
-                map.insert((ARRV, 2), SameVehicles::new(app, resources.arrv_2));
-                map.insert((HELICOPTER, 2), SameVehicles::new(app, resources.helicopter_2));
-                map.insert((FIGHTER, 2), SameVehicles::new(app, resources.fighter_2));
+                map.insert((TANK, 1), SameVehicles::new(app, settings, resources.tank_1));
+                map.insert((IFV, 1), SameVehicles::new(app, settings, resources.ifv_1));
+                map.insert((ARRV, 1), SameVehicles::new(app, settings, resources.arrv_1));
+                map.insert((HELICOPTER, 1), SameVehicles::new(app, settings, resources.helicopter_1));
+                map.insert((FIGHTER, 1), SameVehicles::new(app, settings, resources.fighter_1));
+                map.insert((TANK, 2), SameVehicles::new(app, settings, resources.tank_2));
+                map.insert((IFV, 2), SameVehicles::new(app, settings, resources.ifv_2));
+                map.insert((ARRV, 2), SameVehicles::new(app, settings, resources.arrv_2));
+                map.insert((HELICOPTER, 2), SameVehicles::new(app, settings, resources.helicopter_2));
+                map.insert((FIGHTER, 2), SameVehicles::new(app, settings, resources.fighter_2));
                 map
             },
             game_log_loader: game_log_loader.clone(),

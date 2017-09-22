@@ -1,5 +1,10 @@
 use ::*;
 
+#[derive(Defines, PartialEq, Clone)]
+pub struct ShaderDefines {
+    shadows_enabled: bool,
+}
+
 pub struct Settings {
     pub time_scale: codevisual::SettingValue<f64>,
     pub sky_height: codevisual::SettingValue<f64>,
@@ -29,5 +34,10 @@ impl Settings {
             clouds_enabled: app.add_setting_bool("Clouds", true),
             shadows_enabled: app.add_setting_bool("Shadows", true),
         })
+    }
+    pub fn get_shader_defines(&self) -> ShaderDefines {
+        ShaderDefines {
+            shadows_enabled: self.shadows_enabled.get(),
+        }
     }
 }

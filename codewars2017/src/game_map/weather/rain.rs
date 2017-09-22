@@ -11,9 +11,9 @@ pub struct Rain {
 }
 
 impl Rain {
-    pub fn new(app: &Rc<codevisual::Application>, game_log: &GameLog) -> Self {
+    pub fn new(app: &Rc<codevisual::Application>, game_log: &GameLog, settings: &Rc<Settings>) -> Self {
         Self {
-            material: Material::new(app.ugli_context(), (), (), include_str!("rain.glsl")),
+            material: Material::new(app.ugli_context(), settings, include_str!("rain.glsl")),
             geometry: ugli::VertexBuffer::new_static(app.ugli_context(), {
                 let mut vs = Vec::new();
                 let weather_data: &Vec<Vec<game_log::WeatherType>> = &game_log.weather;

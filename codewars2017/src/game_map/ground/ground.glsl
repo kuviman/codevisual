@@ -1,5 +1,4 @@
 #include <codewars>
-// TODO optional
 #include <shadow>
 
 varying vec2 v_pos;
@@ -34,8 +33,6 @@ void main() {
 
     vec3 weather_typ = texture2D(weather_map, v_quad_pos).xyz;
     gl_FragColor.xyz *= 1.0 - weather_typ.y * 0.5 - weather_typ.z * 0.8;
-
-    // TODO: optional
-    gl_FragColor.xyz *= shadow(vec3(v_pos, 0.0));
+    gl_FragColor.xyz *= get_shadow(vec3(v_pos, 0.0)) * (1.0 - u_ambient_light) + u_ambient_light;
 }
 #endif

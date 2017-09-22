@@ -21,7 +21,7 @@ impl Weather {
     pub fn new(app: &Rc<codevisual::Application>, resources: Resources, settings: &Rc<Settings>, game_log: &GameLog) -> Self {
         Self {
             clouds: Clouds::new(app, settings, game_log),
-            rain: Rain::new(app, game_log),
+            rain: Rain::new(app, game_log, settings),
             weather_map: {
                 let weather_data: &Vec<Vec<game_log::WeatherType>> = &game_log.weather;
                 blur::gauss(app.ugli_context(), &ugli::Texture2d::new_with(

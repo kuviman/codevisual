@@ -50,8 +50,8 @@ impl Clouds {
                 }
                 ugli::VertexBuffer::new_static(app.ugli_context(), vs)
             },
-            material: Material::new(app.ugli_context(), (), (), include_str!("clouds.glsl")),
-            fs_material: Material::new(app.ugli_context(), (), (), include_str!("fullscreen.glsl")),
+            material: Material::new(app.ugli_context(), settings, include_str!("clouds.glsl")),
+            fs_material: Material::new(app.ugli_context(), settings, include_str!("fullscreen.glsl")),
             settings: settings.clone(),
             tmp: None,
         }
