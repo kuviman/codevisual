@@ -39,7 +39,7 @@ impl codevisual::ResourceFuture<Model> for ModelFuture {
                     let x: f32 = parts.next().unwrap().parse().unwrap();
                     let y: f32 = parts.next().unwrap().parse().unwrap();
                     let z: f32 = parts.next().unwrap().parse().unwrap();
-                    vn.push(vec3(x, z, y));
+                    vn.push(vec3(-x, z, y)); //TODO: no negation
                 } else if line.starts_with("vt") {
                     let mut parts = line.split_whitespace();
                     parts.next();
