@@ -33,7 +33,7 @@ mod effects;
 
 pub use effects::*;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub enum TerrainType {
     PLAIN,
     SWAMP,

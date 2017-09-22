@@ -4,6 +4,7 @@ pub struct ShadowMap {
     app: Rc<codevisual::Application>,
     map: Option<ugli::DepthTexture>,
     vehicle_material: Material,
+    trees_material: Material,
 }
 
 impl ShadowMap {
@@ -13,11 +14,14 @@ impl ShadowMap {
             map: None,
             vehicle_material: Material::new(
                 app.ugli_context(), settings, include_str!("vehicle.glsl")),
+            trees_material: Material::new(
+                app.ugli_context(), settings, include_str!("trees.glsl")),
         }
     }
 
     pub fn prepare<'a, U: ugli::UniformStorage>(&'a mut self,
                                                 vehicles: &vehicles::Vehicles,
+                                                trees: &game_map::Trees,
                                                 framebuffer: &mut ugli::Framebuffer,
                                                 uniforms: U) -> &'a ugli::DepthTexture {
         let need_size = framebuffer.get_size() * 2;
@@ -50,6 +54,19 @@ impl ShadowMap {
                         ..Default::default()
                     });
             }
+            ugli::draw(
+                framebuffer,
+                &self.trees_material.ugli_program(),
+                ugli::DrawMode::Triangles,
+                &ugli::instanced(&trees.model.geometry.slice(..),
+                                 &trees.instances.slice(..)),
+                &uniforms,
+                &ugli::DrawParameters {
+                    depth_test: ugli::DepthTest::On,
+                    blend_mode: ugli::BlendMode::Off,
+                    cull_face: ugli::CullFace::None,
+                    ..Default::default()
+                });
         }
         texture
     }

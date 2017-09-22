@@ -219,7 +219,7 @@ impl codevisual::Game for CodeWars2017 {
             let uniforms = (&uniforms, if self.settings.shadows_enabled.get() {
                 Some(ugli::SingleUniform::new(
                     "u_shadow_map",
-                    self.shadow_map.prepare(&self.vehicles, framebuffer, &uniforms)))
+                    self.shadow_map.prepare(&self.vehicles, &self.map.trees, framebuffer, &uniforms)))
             } else { None });
 
             if self.settings.draw_vehicles.get() {
