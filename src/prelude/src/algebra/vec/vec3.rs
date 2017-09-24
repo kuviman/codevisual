@@ -63,7 +63,7 @@ impl<T: Copy + std::ops::Mul<T, Output=T>> std::ops::Mul<T> for Vec3<T> {
     }
 }
 
-impl Vec3<f32> {
+impl<T: std::ops::Mul<Output=T> + std::ops::Sub<Output=T> + Copy> Vec3<T> {
     pub fn cross(a: Self, b: Self) -> Self {
         Self {
             x: a.y * b.z - a.z * b.y,
