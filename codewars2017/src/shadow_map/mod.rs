@@ -57,19 +57,21 @@ impl ShadowMap {
                         ..Default::default()
                     });
             }
-            ugli::draw(
-                framebuffer,
-                &self.trees_material.ugli_program(),
-                ugli::DrawMode::Triangles,
-                &ugli::instanced(&trees.model.geometry.slice(..),
-                                 &trees.instances.slice(..)),
-                &uniforms,
-                &ugli::DrawParameters {
-                    depth_test: ugli::DepthTest::On,
-                    blend_mode: ugli::BlendMode::Off,
-                    cull_face: ugli::CullFace::None,
-                    ..Default::default()
-                });
+            for &(_, ref instances) in &trees.instances_with_textures {
+                ugli::draw(
+                    framebuffer,
+                    &self.trees_material.ugli_program(),
+                    ugli::DrawMode::Triangles,
+                    &ugli::instanced(&trees.geometry.slice(..),
+                                     &instances.slice(..)),
+                    &uniforms,
+                    &ugli::DrawParameters {
+                        depth_test: ugli::DepthTest::On,
+                        blend_mode: ugli::BlendMode::Off,
+                        cull_face: ugli::CullFace::None,
+                        ..Default::default()
+                    });
+            }
         }
         depth
     }
