@@ -1,6 +1,9 @@
 use ::*;
 
 impl Window {
+    pub fn is_key_pressed(&self, key: Key) -> bool {
+        self.pressed_keys.borrow().contains(&key)
+    }
     pub fn get_events(&self) -> Vec<Event> {
         let mut events = Vec::new();
         {
@@ -34,6 +37,22 @@ impl Window {
                         });
                     }
                 }
+                glutin::WindowEvent::KeyboardInput { input, .. } => {
+                    if let Some(key) = input.virtual_keycode {
+                        if let Some(key) = from_glutin_key(key) {
+                            events.push(match input.state {
+                                glutin::ElementState::Pressed => {
+                                    self.pressed_keys.borrow_mut().insert(key);
+                                    Event::KeyDown { key: key }
+                                }
+                                glutin::ElementState::Released => {
+                                    self.pressed_keys.borrow_mut().remove(&key);
+                                    Event::KeyUp { key: key }
+                                }
+                            });
+                        }
+                    }
+                }
                 _ => {}
             };
             self.glutin_events_loop.borrow_mut().poll_events(|e| {
@@ -44,4 +63,41 @@ impl Window {
         }
         events
     }
+}
+
+fn from_glutin_key(key: glutin::VirtualKeyCode) -> Option<Key> {
+    use glutin::VirtualKeyCode as GKey;
+    Some(match key {
+        GKey::A => Key::A,
+        GKey::B => Key::B,
+        GKey::C => Key::C,
+        GKey::D => Key::D,
+        GKey::E => Key::E,
+        GKey::F => Key::F,
+        GKey::G => Key::G,
+        GKey::H => Key::H,
+        GKey::I => Key::I,
+        GKey::J => Key::J,
+        GKey::K => Key::K,
+        GKey::L => Key::L,
+        GKey::M => Key::M,
+        GKey::N => Key::N,
+        GKey::O => Key::O,
+        GKey::P => Key::P,
+        GKey::Q => Key::Q,
+        GKey::R => Key::R,
+        GKey::S => Key::S,
+        GKey::T => Key::T,
+        GKey::U => Key::U,
+        GKey::V => Key::V,
+        GKey::W => Key::W,
+        GKey::X => Key::X,
+        GKey::Y => Key::Y,
+        GKey::Z => Key::Z,
+        GKey::Escape => Key::Escape,
+        GKey::Space => Key::Space,
+        GKey::LShift => Key::LShift,
+        GKey::RShift => Key::RShift,
+        _ => return None,
+    })
 }

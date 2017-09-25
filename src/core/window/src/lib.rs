@@ -28,6 +28,7 @@ pub struct Window {
     glutin_window: glutin::GlWindow,
     #[cfg(not(target_os = "emscripten"))]
     glutin_events_loop: RefCell<glutin::EventsLoop>,
+    pressed_keys: RefCell<HashSet<Key>>,
     should_close: Cell<bool>,
     mouse_pos: Cell<Vec2>,
     ugli_context: Rc<ugli::Context>,
@@ -42,6 +43,7 @@ impl Window {
                 ugli_context,
                 should_close: Cell::new(false),
                 mouse_pos: Cell::new(vec2(0.0, 0.0)),
+                pressed_keys: RefCell::new(HashSet::new()),
             }
         };
         #[cfg(not(target_os = "emscripten"))]
@@ -65,6 +67,7 @@ impl Window {
                 ugli_context,
                 should_close: Cell::new(false),
                 mouse_pos: Cell::new(vec2(0.0, 0.0)),
+                pressed_keys: RefCell::new(HashSet::new()),
             }
         };
         window

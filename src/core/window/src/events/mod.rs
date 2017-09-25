@@ -27,4 +27,44 @@ pub enum Event {
     TouchStart { touches: Vec<TouchPoint> },
     TouchMove { touches: Vec<TouchPoint> },
     TouchEnd,
+    KeyDown { key: Key },
+    KeyUp { key: Key },
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+pub enum Key {
+    A,
+    B,
+    C,
+    D,
+    E,
+    F,
+    G,
+    H,
+    I,
+    J,
+    K,
+    L,
+    M,
+    N,
+    O,
+    P,
+    Q,
+    R,
+    S,
+    T,
+    U,
+    V,
+    W,
+    X,
+    Y,
+    Z,
+
+    Escape,
+    Space,
+
+    LShift,
+    RShift,
+
+    Unknown,
 }
