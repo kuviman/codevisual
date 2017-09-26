@@ -26,7 +26,11 @@ void main() {
     v_light = get_light(n);
     v_pos = vec3(a_v.x * cs - a_v.y * sn, a_v.x * sn + a_v.y * cs, a_v.z) * i_radius +
         vec3(i_pos, i_height * u_sky_height);
+#ifdef SHADOW_CAST_MATERIAL
+    set_shadow_pos(v_pos);
+#else
     gl_Position = camera_matrix() * vec4(v_pos, 1.0);
+#endif
 }
 #endif
 
@@ -34,9 +38,6 @@ void main() {
 uniform sampler2D texture;
 void main() {
     gl_FragColor = texture2D(texture, v_vt) * v_color;
-    if (gl_FragColor.w < 0.5) {
-        discard;
-    }
     gl_FragColor.xyz *= min(v_light, get_shadow(v_pos)) * (1.0 - u_ambient_light) + u_ambient_light;
 }
 #endif

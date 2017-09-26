@@ -47,6 +47,12 @@ mod shadow_map;
 
 use shadow_map::ShadowMap;
 
+pub ( crate ) use shadow_map::ShadowCastMaterial;
+
+mod material;
+
+pub ( crate ) use material::*;
+
 struct CodeWars2017 {
     app: Rc<codevisual::Application>,
     paused: Rc<Cell<bool>>,
@@ -67,47 +73,6 @@ shader_library! {
         "codewars" => include_str!("lib.glsl"),
         "camera" => include_str!("camera/lib.glsl"),
         "shadow" => include_str!("shadow_map/lib.glsl"),
-    }
-}
-
-struct Material {
-    inner: RefCell<codevisual::Material<ShaderLib, (), settings::ShaderDefines>>,
-    settings: Rc<Settings>,
-}
-
-struct UgliProgramGuard<'a> {
-    program: *const ugli::Program,
-    phantom_data: PhantomData<&'a i32>,
-}
-
-impl<'a> Deref for UgliProgramGuard<'a> {
-    type Target = ugli::Program;
-
-    fn deref(&self) -> &Self::Target {
-        unsafe { &*self.program }
-    }
-}
-
-impl Material {
-    fn new(context: &Rc<ugli::Context>,
-           settings: &Rc<Settings>,
-           program_source: &str) -> Self {
-        Self {
-            inner: RefCell::new(codevisual::Material::new(
-                context, (), settings.get_shader_defines(), program_source)),
-            settings: settings.clone(),
-        }
-    }
-
-    fn ugli_program(&self) -> UgliProgramGuard {
-        self.inner.borrow_mut().defines = self.settings.get_shader_defines();
-        let borrow = self.inner.borrow();
-        let program = borrow.ugli_program();
-        let program = { &*program } as *const _; // TODO: possible without unsafe?
-        UgliProgramGuard {
-            program,
-            phantom_data: PhantomData,
-        }
     }
 }
 
@@ -217,9 +182,15 @@ impl codevisual::Game for CodeWars2017 {
             self.vehicles.update_to(tick);
 
             let uniforms = (&uniforms, if self.settings.shadows_enabled.get() {
+                let mut shadow_map = self.shadow_map.get_framebuffer(framebuffer.get_size());
+                {
+                    let framebuffer: &mut ugli::Framebuffer = &mut shadow_map;
+                    self.vehicles.draw_shadows(framebuffer, &uniforms);
+                    self.map.trees.draw_shadows(framebuffer, &uniforms);
+                }
                 Some(ugli::SingleUniform::new(
                     "u_shadow_map",
-                    self.shadow_map.prepare(&self.vehicles, &self.map.trees, framebuffer, &uniforms)))
+                    shadow_map.get_texture()))
             } else { None });
 
             if self.settings.draw_vehicles.get() {

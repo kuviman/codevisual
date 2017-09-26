@@ -35,7 +35,7 @@ pub struct SameVehicles {
     app: Rc<codevisual::Application>,
     pub instances: ugli::VertexBuffer<Instance>,
     pub count: usize,
-    material: Material,
+    material: ShadowCastMaterial,
     pub model: obj::Model,
 }
 
@@ -47,7 +47,7 @@ impl SameVehicles {
             model,
             instances: ugli::VertexBuffer::new_dynamic(
                 app.ugli_context(), vec![Instance::new(); MAX_COUNT]),
-            material: Material::new(app.ugli_context(), settings, include_str!("shader.glsl")),
+            material: ShadowCastMaterial::new(app.ugli_context(), settings, include_str!("shader.glsl")),
         }
     }
     pub fn draw<U: ugli::UniformStorage>(&self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
@@ -58,6 +58,21 @@ impl SameVehicles {
                    &ugli::DrawParameters {
                        ..Default::default()
                    });
+    }
+    pub fn draw_shadows<U: ugli::UniformStorage>(&self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
+        ugli::draw(
+            framebuffer,
+            &self.material.shadow_material.ugli_program(),
+            ugli::DrawMode::Triangles,
+            &ugli::instanced(&self.model.geometry.slice(..),
+                             &self.instances.slice(..self.count)),
+            &uniforms,
+            &ugli::DrawParameters {
+                depth_test: ugli::DepthTest::On,
+                blend_mode: ugli::BlendMode::Off,
+                cull_face: ugli::CullFace::None,
+                ..Default::default()
+            });
     }
 }
 
@@ -126,6 +141,12 @@ impl Vehicles {
     pub fn draw<U: ugli::UniformStorage>(&self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
         for vehicles in self.vehicles_by_type.values() {
             vehicles.draw(framebuffer, &uniforms);
+        }
+    }
+
+    pub fn draw_shadows<U: ugli::UniformStorage>(&self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
+        for vehicles in self.vehicles_by_type.values() {
+            vehicles.draw_shadows(framebuffer, &uniforms);
         }
     }
 

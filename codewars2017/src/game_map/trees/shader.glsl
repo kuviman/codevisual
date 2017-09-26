@@ -23,6 +23,11 @@ void main() {
     v_pos = vec3(a_v.x * cs - a_v.y * sn, a_v.x * sn + a_v.y * cs, a_v.z) * i_size +
         vec3(i_pos, 0.0);
     gl_Position = camera_matrix() * vec4(v_pos, 1.0);
+#ifdef SHADOW_CAST_MATERIAL
+    set_shadow_pos(v_pos);
+#else
+    gl_Position = camera_matrix() * vec4(v_pos, 1.0);
+#endif
 }
 #endif
 

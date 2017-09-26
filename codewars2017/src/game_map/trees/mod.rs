@@ -20,7 +20,7 @@ pub struct Trees {
     app: Rc<codevisual::Application>,
     pub geometry: ugli::VertexBuffer<obj::VertexData>,
     pub instances_with_textures: Vec<(ugli::Texture2d, ugli::VertexBuffer<Instance>)>,
-    material: Material,
+    material: ShadowCastMaterial,
 }
 
 impl Trees {
@@ -48,7 +48,7 @@ impl Trees {
         Self {
             app: app.clone(),
             geometry: resources.model.geometry,
-            material: Material::new(app.ugli_context(), settings, include_str!("shader.glsl")),
+            material: ShadowCastMaterial::new(app.ugli_context(), settings, include_str!("shader.glsl")),
             instances_with_textures,
         }
     }
@@ -67,6 +67,23 @@ impl Trees {
                     ..Default::default()
                 }
             );
+        }
+    }
+    pub fn draw_shadows<U: ugli::UniformStorage>(&mut self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
+        for &(_, ref instances) in &self.instances_with_textures {
+            ugli::draw(
+                framebuffer,
+                &self.material.shadow_material.ugli_program(),
+                ugli::DrawMode::Triangles,
+                &ugli::instanced(&self.geometry.slice(..),
+                                 &instances.slice(..)),
+                &uniforms,
+                &ugli::DrawParameters {
+                    depth_test: ugli::DepthTest::On,
+                    blend_mode: ugli::BlendMode::Off,
+                    cull_face: ugli::CullFace::None,
+                    ..Default::default()
+                });
         }
     }
 }

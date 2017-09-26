@@ -3,8 +3,30 @@ use ::*;
 pub struct ShadowMap {
     app: Rc<codevisual::Application>,
     map: Option<(ugli::Texture2d, ugli::DepthTexture)>,
-    vehicle_material: Material,
-    trees_material: Material,
+}
+
+pub struct ShadowMapFramebuffer<'a> {
+    framebuffer: ugli::Framebuffer<'a>,
+    texture: *const ugli::DepthTexture,
+}
+
+impl<'a> Deref for ShadowMapFramebuffer<'a> {
+    type Target = ugli::Framebuffer<'a>;
+    fn deref(&self) -> &Self::Target {
+        &self.framebuffer
+    }
+}
+
+impl<'a> DerefMut for ShadowMapFramebuffer<'a> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.framebuffer
+    }
+}
+
+impl<'a> ShadowMapFramebuffer<'a> {
+    pub fn get_texture(self) -> &'a ugli::DepthTexture {
+        unsafe { &*self.texture }
+    }
 }
 
 impl ShadowMap {
@@ -12,19 +34,11 @@ impl ShadowMap {
         Self {
             app: app.clone(),
             map: None,
-            vehicle_material: Material::new(
-                app.ugli_context(), settings, include_str!("vehicle.glsl")),
-            trees_material: Material::new(
-                app.ugli_context(), settings, include_str!("trees.glsl")),
         }
     }
 
-    pub fn prepare<'a, U: ugli::UniformStorage>(&'a mut self,
-                                                vehicles: &vehicles::Vehicles,
-                                                trees: &game_map::Trees,
-                                                framebuffer: &mut ugli::Framebuffer,
-                                                uniforms: U) -> &'a ugli::DepthTexture {
-        let need_size = framebuffer.get_size();
+    pub fn get_framebuffer(&mut self, size: Vec2<usize>) -> ShadowMapFramebuffer {
+        let need_size = size;
         if self.map.as_ref().map_or(true, |map| map.0.get_size() != need_size) {
             // TODO: need only depth, but fails on MacOS
             self.map = Some((
@@ -35,44 +49,39 @@ impl ShadowMap {
         }
         let map = self.map.as_mut().unwrap();
         let (color, depth) = (&mut map.0, &mut map.1);
-        {
-            let mut framebuffer = ugli::Framebuffer::new(
-                self.app.ugli_context(),
-                ugli::ColorAttachment::Texture(color),
-                ugli::DepthAttachment::Texture(depth));
-            let framebuffer = &mut framebuffer;
-            ugli::clear(framebuffer, None, Some(1.0));
-            for vehicles in vehicles.vehicles_by_type.values() {
-                ugli::draw(
-                    framebuffer,
-                    &self.vehicle_material.ugli_program(),
-                    ugli::DrawMode::Triangles,
-                    &ugli::instanced(&vehicles.model.geometry.slice(..),
-                                     &vehicles.instances.slice(..vehicles.count)),
-                    &uniforms,
-                    &ugli::DrawParameters {
-                        depth_test: ugli::DepthTest::On,
-                        blend_mode: ugli::BlendMode::Off,
-                        cull_face: ugli::CullFace::None,
-                        ..Default::default()
-                    });
-            }
-            for &(_, ref instances) in &trees.instances_with_textures {
-                ugli::draw(
-                    framebuffer,
-                    &self.trees_material.ugli_program(),
-                    ugli::DrawMode::Triangles,
-                    &ugli::instanced(&trees.geometry.slice(..),
-                                     &instances.slice(..)),
-                    &uniforms,
-                    &ugli::DrawParameters {
-                        depth_test: ugli::DepthTest::On,
-                        blend_mode: ugli::BlendMode::Off,
-                        cull_face: ugli::CullFace::None,
-                        ..Default::default()
-                    });
-            }
+        let depth_ptr = depth as *const _;
+        let mut framebuffer = ugli::Framebuffer::new(
+            self.app.ugli_context(),
+            ugli::ColorAttachment::Texture(color),
+            ugli::DepthAttachment::Texture(depth));
+        ugli::clear(&mut framebuffer, None, Some(1.0));
+        ShadowMapFramebuffer {
+            framebuffer,
+            texture: depth_ptr,
         }
-        depth
+    }
+}
+
+pub struct ShadowCastMaterial {
+    pub material: Material,
+    pub shadow_material: Material,
+}
+
+impl ShadowCastMaterial {
+    pub fn new(context: &Rc<ugli::Context>,
+               settings: &Rc<Settings>,
+               program_source: &str) -> Self {
+        Self {
+            material: Material::new(context, settings, program_source),
+            shadow_material: Material::new(context, settings, &format!(
+                "{}\n{}", include_str!("shadow_material.glsl"), program_source)),
+        }
+    }
+}
+
+impl Deref for ShadowCastMaterial {
+    type Target = Material;
+    fn deref(&self) -> &Self::Target {
+        &self.material
     }
 }
