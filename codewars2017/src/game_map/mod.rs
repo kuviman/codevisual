@@ -10,8 +10,8 @@ pub use self::trees::Trees;
 
 pub struct GameMap {
     app: Rc<codevisual::Application>,
-    ground: Ground,
-    weather: Weather,
+    pub ground: Ground,
+    pub weather: Weather,
     pub trees: Trees,
     pub size: Vec2<f32>,
 }
@@ -33,11 +33,5 @@ impl GameMap {
             trees: Trees::new(app, resources.trees, game_log, settings),
             size: vec2(game_log.map_size.x as f32, game_log.map_size.y as f32),
         }
-    }
-
-    pub fn draw<U: ugli::UniformStorage>(&mut self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
-        self.ground.draw(framebuffer, (&uniforms, self.weather.uniforms()));
-        self.trees.draw(framebuffer, &uniforms);
-        self.weather.draw(framebuffer, &uniforms);
     }
 }

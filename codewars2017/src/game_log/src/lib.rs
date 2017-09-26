@@ -17,9 +17,9 @@ pub use loader::Loader;
 
 pub mod raw;
 
-mod vehicle;
+mod vehicles;
 
-pub use vehicle::*;
+pub use vehicles::*;
 
 mod vecmap;
 
@@ -32,6 +32,10 @@ pub use players::*;
 mod effects;
 
 pub use effects::*;
+
+mod facilities;
+
+pub use facilities::*;
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Eq)]
 pub enum TerrainType {
@@ -65,6 +69,7 @@ pub struct GameLog {
     pub terrain: TerrainHolder,
     pub weather: WeatherHolder,
     pub vehicles: Vehicles,
+    pub facilities: Facilities,
     pub players: Players,
     pub effects: Effects,
     pub loaded_tick_count: usize,
@@ -82,6 +87,11 @@ impl GameLog {
             std::mem::swap(&mut tick0.weatherByCellXY, &mut weather);
             WeatherHolder::new(weather.unwrap())
         };
+        let facilities = {
+            let mut facilities = None;
+            std::mem::swap(&mut tick0.facilities, &mut facilities);
+            Facilities::new(facilities.unwrap())
+        };
         let mut game_log = Self {
             terrain: terrain.clone(),
             weather: weather.clone(),
@@ -89,6 +99,7 @@ impl GameLog {
             vehicles: Vehicles::new(&terrain, &weather),
             players: Players::new(tick0.players.as_ref().unwrap()),
             effects: Effects::new(),
+            facilities,
             map_size: vec2(tick0.width.unwrap() as f32, tick0.height.unwrap() as f32),
             loaded_tick_count: 0,
         };

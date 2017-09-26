@@ -53,6 +53,10 @@ mod material;
 
 pub ( crate ) use material::*;
 
+mod facilities;
+
+use facilities::Facilities;
+
 struct CodeWars2017 {
     app: Rc<codevisual::Application>,
     paused: Rc<Cell<bool>>,
@@ -60,6 +64,7 @@ struct CodeWars2017 {
     skybox: SkyBox,
     map: GameMap,
     vehicles: Vehicles,
+    facilities: Facilities,
     minimap: Minimap,
     effects: Effects,
     shadow_map: ShadowMap,
@@ -83,6 +88,7 @@ resources! {
         map: game_map::Resources = (),
         vehicles: vehicles::Resources = (),
         effects: effects::Resources = (),
+        facilities: facilities::Resources = (),
     }
 }
 
@@ -109,6 +115,7 @@ impl codevisual::Game for CodeWars2017 {
         let effects = Effects::new(app, resources.effects, &settings, &game_log_loader);
         let shadow_map = ShadowMap::new(app, &settings);
         let skybox = SkyBox::new(app, resources.skybox, &settings);
+        let facilities = Facilities::new(app, resources.facilities, &settings, &game_log_loader.read());
 
         #[cfg(target_os = "emscripten")]
         {
@@ -136,6 +143,7 @@ impl codevisual::Game for CodeWars2017 {
             game_log_loader,
             map,
             vehicles,
+            facilities,
             effects,
             minimap,
             shadow_map,
@@ -187,15 +195,19 @@ impl codevisual::Game for CodeWars2017 {
                     let framebuffer: &mut ugli::Framebuffer = &mut shadow_map;
                     self.vehicles.draw_shadows(framebuffer, &uniforms);
                     self.map.trees.draw_shadows(framebuffer, &uniforms);
+                    self.facilities.draw_shadows(framebuffer, &uniforms);
                 }
                 Some(ugli::SingleUniform::new(
                     "u_shadow_map",
                     shadow_map.get_texture()))
             } else { None });
 
+            self.map.ground.draw(framebuffer, &uniforms);
+            self.map.trees.draw(framebuffer, &uniforms);
             self.vehicles.draw(framebuffer, &uniforms);
-            self.map.draw(framebuffer, &uniforms);
+            self.facilities.draw(framebuffer, &uniforms);
             self.effects.draw(framebuffer, &uniforms, tick);
+            self.map.weather.draw(framebuffer, &uniforms);
             if self.settings.draw_minimap.get() {
                 self.minimap.draw(&self.vehicles, &self.map, &self.camera, framebuffer, &uniforms);
             }

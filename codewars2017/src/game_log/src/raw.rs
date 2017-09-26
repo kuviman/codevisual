@@ -28,6 +28,17 @@ pub struct Vehicle {
     pub selected: Option<bool>,
 }
 
+#[allow(non_snake_case)]
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Facility {
+    pub id: ID,
+    #[serde(rename = "type")]
+    pub typ: Option<FacilityType>,
+    pub ownerPlayerId: Option<i8>,
+    pub left: Option<f32>,
+    pub top: Option<f32>,
+}
+
 #[derive(Serialize, Deserialize, Debug)]
 pub enum OrderType {
     MOVE,
@@ -100,6 +111,7 @@ pub struct TickInfo {
     pub weatherByCellXY: Option<Vec<Vec<WeatherType>>>,
     pub vehicles: Option<Vec<Vehicle>>,
     pub decoratedVehicleById: Option<HashMap<String, DecoratedVehicle>>,
+    pub facilities: Option<Vec<Facility>>,
     pub effects: Option<Vec<Effect>>,
     pub players: Option<Vec<Player>>,
 }
