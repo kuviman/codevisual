@@ -49,7 +49,13 @@ pub enum WeatherType {
 
 pub type ID = u32;
 
+#[cfg(target_os = "emscripten")]
+type TerrainHolder = Rc<Vec<Vec<TerrainType>>>;
+#[cfg(not(target_os = "emscripten"))]
 type TerrainHolder = Arc<Vec<Vec<TerrainType>>>;
+#[cfg(target_os = "emscripten")]
+type WeatherHolder = Rc<Vec<Vec<WeatherType>>>;
+#[cfg(not(target_os = "emscripten"))]
 type WeatherHolder = Arc<Vec<Vec<WeatherType>>>;
 
 #[derive(Debug)]
