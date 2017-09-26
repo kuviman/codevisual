@@ -15,7 +15,7 @@ resources! {
         ifv_1: obj::Model = "assets/vehicles/BTR",
         arrv_1: obj::Model = "assets/vehicles/Truck",
         fighter_1: obj::Model = "assets/vehicles/Fighter",
-        helicopter_1: obj::Model = "assets/vehicles/Helicopter",
+        helicopter_1: obj::ModelParts = "assets/vehicles/Helicopter",
 
         tank_2: obj::Model = "assets/vehicles/Tank",
         ifv_2: obj::Model = "assets/vehicles/BTR",
@@ -33,52 +33,60 @@ impl Instance {
 
 pub struct SameVehicles {
     app: Rc<codevisual::Application>,
-    pub instances: ugli::VertexBuffer<Instance>,
-    pub count: usize,
-    material: ShadowCastMaterial,
-    pub model: obj::Model,
+    instances: ugli::VertexBuffer<Instance>,
+    count: usize,
+    texture: ugli::Texture2d,
+    parts: Vec<(ShadowCastMaterial, ugli::VertexBuffer<obj::VertexData>)>,
 }
 
 impl SameVehicles {
-    fn new(app: &Rc<codevisual::Application>, settings: &Rc<Settings>, model: obj::Model) -> Self {
+    fn new(app: &Rc<codevisual::Application>,
+           settings: &Rc<Settings>,
+           texture: ugli::Texture2d,
+           parts: Vec<(ShadowCastMaterial, ugli::VertexBuffer<obj::VertexData>)>) -> Self {
         Self {
             app: app.clone(),
             count: 0,
-            model,
             instances: ugli::VertexBuffer::new_dynamic(
                 app.ugli_context(), vec![Instance::new(); MAX_COUNT]),
-            material: ShadowCastMaterial::new(app.ugli_context(), settings, include_str!("shader.glsl")),
+            texture,
+            parts,
         }
     }
     pub fn draw<U: ugli::UniformStorage>(&self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
-        ugli::draw(framebuffer, &self.material.ugli_program(), ugli::DrawMode::Triangles,
-                   &ugli::instanced(&self.model.geometry.slice(..),
-                                    &self.instances.slice(..self.count)),
-                   (uniforms, uniforms!(texture: &self.model.texture)),
-                   &ugli::DrawParameters {
-                       ..Default::default()
-                   });
+        let uniforms = (uniforms, uniforms!(texture: &self.texture));
+        for &(ref material, ref geometry) in &self.parts {
+            ugli::draw(framebuffer, &material.ugli_program(), ugli::DrawMode::Triangles,
+                       &ugli::instanced(&geometry.slice(..),
+                                        &self.instances.slice(..self.count)),
+                       &uniforms,
+                       &ugli::DrawParameters {
+                           ..Default::default()
+                       });
+        }
     }
     pub fn draw_shadows<U: ugli::UniformStorage>(&self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
-        ugli::draw(
-            framebuffer,
-            &self.material.shadow_material.ugli_program(),
-            ugli::DrawMode::Triangles,
-            &ugli::instanced(&self.model.geometry.slice(..),
-                             &self.instances.slice(..self.count)),
-            &uniforms,
-            &ugli::DrawParameters {
-                depth_test: ugli::DepthTest::On,
-                blend_mode: ugli::BlendMode::Off,
-                cull_face: ugli::CullFace::None,
-                ..Default::default()
-            });
+        for &(ref material, ref geometry) in &self.parts {
+            ugli::draw(
+                framebuffer,
+                &material.shadow_material.ugli_program(),
+                ugli::DrawMode::Triangles,
+                &ugli::instanced(&geometry.slice(..),
+                                 &self.instances.slice(..self.count)),
+                &uniforms,
+                &ugli::DrawParameters {
+                    depth_test: ugli::DepthTest::On,
+                    blend_mode: ugli::BlendMode::Off,
+                    cull_face: ugli::CullFace::None,
+                    ..Default::default()
+                });
+        }
     }
 }
 
 pub struct Vehicles {
     app: Rc<codevisual::Application>,
-    pub vehicles_by_type: HashMap<(game_log::VehicleType, game_log::ID), SameVehicles>,
+    vehicles_by_type: HashMap<(game_log::VehicleType, game_log::ID), SameVehicles>,
     game_log_loader: game_log::Loader,
 }
 
@@ -91,16 +99,48 @@ impl Vehicles {
             vehicles_by_type: {
                 use game_log::VehicleType::*;
                 let mut map = HashMap::new();
-                map.insert((TANK, 1), SameVehicles::new(app, settings, resources.tank_1));
-                map.insert((IFV, 1), SameVehicles::new(app, settings, resources.ifv_1));
-                map.insert((ARRV, 1), SameVehicles::new(app, settings, resources.arrv_1));
-                map.insert((HELICOPTER, 1), SameVehicles::new(app, settings, resources.helicopter_1));
-                map.insert((FIGHTER, 1), SameVehicles::new(app, settings, resources.fighter_1));
-                map.insert((TANK, 2), SameVehicles::new(app, settings, resources.tank_2));
-                map.insert((IFV, 2), SameVehicles::new(app, settings, resources.ifv_2));
-                map.insert((ARRV, 2), SameVehicles::new(app, settings, resources.arrv_2));
-                map.insert((HELICOPTER, 2), SameVehicles::new(app, settings, resources.helicopter_2));
-                map.insert((FIGHTER, 2), SameVehicles::new(app, settings, resources.fighter_2));
+                let program_source = include_str!("shader.glsl");
+                macro_rules! material {
+                    ($source:expr) => {
+                        ShadowCastMaterial::new(app.ugli_context(), settings, $source)
+                    };
+                }
+                map.insert((TANK, 1), SameVehicles::new(
+                    app, settings, resources.tank_1.texture,
+                    vec![(material!(program_source), resources.tank_1.geometry)]));
+                map.insert((ARRV, 1), SameVehicles::new(
+                    app, settings, resources.arrv_1.texture,
+                    vec![(material!(program_source), resources.arrv_1.geometry)]));
+                map.insert((HELICOPTER, 1), SameVehicles::new(
+                    app, settings, resources.helicopter_1.texture,
+                    resources.helicopter_1.parts.into_iter().map(|(name, geometry)| {
+                        (match name.as_str() {
+                            "HelicopterScrew_Untitled.003" => material!(&format!("#define HELICOPTER\n{}", program_source)),
+                            "Helicopter_Untitled.002" => material!(program_source),
+                            _ => unreachable!("Unexpected obj part name: {}", name)
+                        }, geometry)
+                    }).collect()));
+                map.insert((FIGHTER, 1), SameVehicles::new(
+                    app, settings, resources.fighter_1.texture,
+                    vec![(material!(program_source), resources.fighter_1.geometry)]));
+                map.insert((IFV, 1), SameVehicles::new(
+                    app, settings, resources.ifv_1.texture,
+                    vec![(material!(program_source), resources.ifv_1.geometry)]));
+                map.insert((TANK, 2), SameVehicles::new(
+                    app, settings, resources.tank_2.texture,
+                    vec![(material!(program_source), resources.tank_2.geometry)]));
+                map.insert((ARRV, 2), SameVehicles::new(
+                    app, settings, resources.arrv_2.texture,
+                    vec![(material!(program_source), resources.arrv_2.geometry)]));
+                map.insert((HELICOPTER, 2), SameVehicles::new(
+                    app, settings, resources.helicopter_2.texture,
+                    vec![(material!(program_source), resources.helicopter_2.geometry)]));
+                map.insert((FIGHTER, 2), SameVehicles::new(
+                    app, settings, resources.fighter_2.texture,
+                    vec![(material!(program_source), resources.fighter_2.geometry)]));
+                map.insert((IFV, 2), SameVehicles::new(
+                    app, settings, resources.ifv_2.texture,
+                    vec![(material!(program_source), resources.ifv_2.geometry)]));
                 map
             },
             game_log_loader: game_log_loader.clone(),

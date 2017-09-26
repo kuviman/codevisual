@@ -20,6 +20,9 @@ attribute float i_angle;
 void main() {
     v_vt = a_vt;
     v_color = i_color;
+#ifdef HELICOPTER
+    float i_angle = u_current_time * 100.0;
+#endif
     float sn = sin(i_angle);
     float cs = cos(i_angle);
     vec3 n = vec3(a_vn.x * cs - a_vn.y * sn, a_vn.x * sn + a_vn.y * cs, a_vn.z);
