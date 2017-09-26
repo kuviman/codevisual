@@ -17,11 +17,11 @@ resources! {
         fighter_1: obj::Model = "assets/vehicles/Fighter",
         helicopter_1: obj::ModelParts = "assets/vehicles/Helicopter",
 
-        tank_2: obj::Model = "assets/vehicles/Tank",
-        ifv_2: obj::Model = "assets/vehicles/BTR",
-        arrv_2: obj::Model = "assets/vehicles/Truck",
-        fighter_2: obj::Model = "assets/vehicles/Fighter",
-        helicopter_2: obj::Model = "assets/vehicles/Helicopter",
+        tank_2: obj::Model = "assets/superlowpoly",
+        ifv_2: obj::Model = "assets/superlowpoly",
+        arrv_2: obj::Model = "assets/superlowpoly",
+        fighter_2: obj::Model = "assets/superlowpoly",
+        helicopter_2: obj::Model = "assets/superlowpoly",
     }
 }
 
