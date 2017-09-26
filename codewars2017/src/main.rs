@@ -158,7 +158,8 @@ impl codevisual::Game for CodeWars2017 {
     }
 
     fn draw(&mut self) {
-        let tick = (self.current_time.get() * 60.0) as usize;
+        let tick_time = (self.current_time.get() * 60.0);
+        let tick = tick_time as usize;
         let max_tick = self.game_log_loader.read().loaded_tick_count - 1;
         if !self.paused.get() && tick <= max_tick {
             let (score1, score2) = self.game_log_loader.read().players.get_scores(tick);
@@ -177,7 +178,7 @@ impl codevisual::Game for CodeWars2017 {
             self.skybox.draw(framebuffer, &uniforms);
             ugli::clear(framebuffer, None, Some(1.0));
 
-            self.vehicles.update_to(tick);
+            self.vehicles.update_to(tick_time);
 
             let uniforms = (&uniforms, if self.settings.shadows_enabled.get() {
                 let mut shadow_map = self.shadow_map.get_framebuffer(framebuffer.get_size());

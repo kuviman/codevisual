@@ -149,6 +149,29 @@ impl Vehicle {
             }
         }
     }
+    fn fix(&self, tick: f32) -> Option<FixedVehicle> {
+        let tick_fract = tick.fract();
+        let tick = tick as usize;
+        if self.start_tick <= tick && tick < self.start_tick + self.positions.len() {
+            Some(FixedVehicle {
+                id: self.id,
+                pos: {
+                    let pos = self.positions[tick - self.start_tick];
+                    let pos2 = self.positions.get(tick + 1 - self.start_tick).unwrap_or(&pos);
+                    let pos = vec2(pos.x as f32 / 10.0, pos.y as f32 / 10.0);
+                    let pos2 = vec2(pos2.x as f32 / 10.0, pos2.y as f32 / 10.0);
+                    pos2 * tick_fract + pos * (1.0 - tick_fract)
+                },
+                radius: self.radius,
+                typ: self.typ,
+                player_id: self.player_id,
+                aerial: self.aerial,
+                angle: self.angles[tick - self.start_tick] as f32 * (2.0 * std::f32::consts::PI / 255.0),
+            })
+        } else {
+            None
+        }
+    }
 }
 
 #[derive(Debug)]
@@ -221,25 +244,6 @@ impl Vehicles {
         }
     }
 
-    fn fix(&self, vehicle: &Vehicle, tick: usize) -> Option<FixedVehicle> {
-        if vehicle.start_tick <= tick && tick < vehicle.start_tick + vehicle.positions.len() {
-            Some(FixedVehicle {
-                id: vehicle.id,
-                pos: {
-                    let pos = vehicle.positions[tick - vehicle.start_tick];
-                    vec2(pos.x as f32 / 10.0, pos.y as f32 / 10.0)
-                },
-                radius: vehicle.radius,
-                typ: vehicle.typ,
-                player_id: vehicle.player_id,
-                aerial: vehicle.aerial,
-                angle: vehicle.angles[tick - vehicle.start_tick] as f32 * (2.0 * std::f32::consts::PI / 255.0),
-            })
-        } else {
-            None
-        }
-    }
-
     pub fn get_by_id(&self, id: ID) -> Option<&Vehicle> {
         self.map.get(&id)
     }
@@ -250,10 +254,10 @@ impl Vehicles {
         vec2(pos.x as f32 / 10.0, pos.y as f32 / 10.0)
     }
 
-    pub fn get(&self, tick: usize) -> Vec<FixedVehicle> {
+    pub fn get(&self, tick: f32) -> Vec<FixedVehicle> {
         let mut vehicles = Vec::new();
         for vehicle in self.map.values() {
-            if let Some(fixed_vehicle) = self.fix(vehicle, tick) {
+            if let Some(fixed_vehicle) = vehicle.fix(tick) {
                 vehicles.push(fixed_vehicle);
             }
         }

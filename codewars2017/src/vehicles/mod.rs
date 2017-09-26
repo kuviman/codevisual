@@ -147,7 +147,7 @@ impl Vehicles {
         }
     }
 
-    pub fn update_to(&mut self, tick: usize) {
+    pub fn update_to(&mut self, tick: f32) {
         let data = self.game_log_loader.read().vehicles.get(tick);
         for (&(typ, player_id), vehicles) in self.vehicles_by_type.iter_mut() {
             let mut instances = vehicles.instances.slice_mut(..data.len());
