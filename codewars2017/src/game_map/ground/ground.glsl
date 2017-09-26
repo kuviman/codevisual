@@ -15,7 +15,6 @@ void main() {
 #endif
 
 #ifdef FRAGMENT
-uniform sampler2D weather_map; // TODO: should be in separate lib
 uniform sampler2D terrain_map;
 uniform sampler2D plain_texture;
 uniform sampler2D forest_texture;
@@ -30,9 +29,6 @@ void main() {
     vec3 SWAMP_COLOR = texture2D(swamp_texture, cellPos).xyz;
 
     gl_FragColor = vec4(PLAIN_COLOR * typ.x + FOREST_COLOR * typ.y + SWAMP_COLOR * typ.z, 1.0);
-
-    vec3 weather_typ = texture2D(weather_map, v_quad_pos).xyz;
-    gl_FragColor.xyz *= 1.0 - weather_typ.y * 0.5 - weather_typ.z * 0.8;
     gl_FragColor.xyz *= get_shadow(vec3(v_pos, 0.0)) * (1.0 - u_ambient_light) + u_ambient_light;
 }
 #endif

@@ -175,8 +175,9 @@ impl codevisual::Game for CodeWars2017 {
                     u_cell_size: 32.0, // TODO
                 },
                 self.camera.uniforms());
-            self.skybox.draw(framebuffer, &uniforms);
-            ugli::clear(framebuffer, None, Some(1.0));
+            //            self.skybox.draw(framebuffer, &uniforms);
+            //            ugli::clear(framebuffer, None, Some(1.0));
+            ugli::clear(framebuffer, Some(Color::BLACK), Some(1.0));
 
             self.vehicles.update_to(tick_time);
 
