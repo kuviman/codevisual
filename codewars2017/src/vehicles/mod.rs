@@ -17,11 +17,11 @@ resources! {
         fighter_1: obj::Model = "assets/vehicles/Fighter",
         helicopter_1: obj::ModelParts = "assets/vehicles/Helicopter",
 
-        tank_2: obj::Model = "assets/superlowpoly",
-        ifv_2: obj::Model = "assets/superlowpoly",
-        arrv_2: obj::Model = "assets/superlowpoly",
-        fighter_2: obj::Model = "assets/superlowpoly",
-        helicopter_2: obj::Model = "assets/superlowpoly",
+        tank_2: obj::Model = "assets/lowpoly/Tank",
+        ifv_2: obj::Model = "assets/lowpoly/BTR",
+        arrv_2: obj::Model = "assets/lowpoly/Truck",
+        fighter_2: obj::Model = "assets/lowpoly/Fighter",
+        helicopter_2: obj::ModelParts = "assets/lowpoly/Helicopter",
     }
 }
 
@@ -134,7 +134,13 @@ impl Vehicles {
                     vec![(material!(program_source), resources.arrv_2.geometry)]));
                 map.insert((HELICOPTER, 2), SameVehicles::new(
                     app, settings, resources.helicopter_2.texture,
-                    vec![(material!(program_source), resources.helicopter_2.geometry)]));
+                    resources.helicopter_2.parts.into_iter().map(|(name, geometry)| {
+                        (match name.as_str() {
+                            "HelicopterScrew_Untitled.003" => material!(&format!("#define HELICOPTER\n{}", program_source)),
+                            "Helicopter_Untitled.002" => material!(program_source),
+                            _ => unreachable!("Unexpected obj part name: {}", name)
+                        }, geometry)
+                    }).collect()));
                 map.insert((FIGHTER, 2), SameVehicles::new(
                     app, settings, resources.fighter_2.texture,
                     vec![(material!(program_source), resources.fighter_2.geometry)]));
