@@ -5,7 +5,6 @@ pub struct Instance {
     i_pos: Vec2<f32>,
     i_height: f32,
     i_radius: f32,
-    i_color: Color,
     i_angle: f32,
 }
 
@@ -166,17 +165,6 @@ impl Vehicles {
                     let mut instance = instances.next().unwrap();
                     instance.i_pos = vec2(data.pos.x as f32, data.pos.y as f32);
                     instance.i_radius = data.radius;
-                    instance.i_color = match (typ, player_id) {
-                        (_, 1) => Color::WHITE,
-
-                        (TANK, 2) => Color::argb_hex(0xFF0042FF),
-                        (IFV, 2) => Color::argb_hex(0xFF7EBFF1),
-                        (HELICOPTER, 2) => Color::argb_hex(0xFF1CE6B9),
-                        (ARRV, 2) => Color::argb_hex(0xFF686969),
-                        (FIGHTER, 2) => Color::argb_hex(0xFF9290B2),
-
-                        _ => panic!("WTF"),
-                    };
                     instance.i_angle = data.angle;
                     instance.i_height = if data.aerial { 1.0 } else { 0.0 };
                 }

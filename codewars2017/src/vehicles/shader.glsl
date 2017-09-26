@@ -3,7 +3,6 @@
 
 varying vec3 v_pos;
 varying vec2 v_vt;
-varying vec4 v_color;
 varying float v_light;
 
 #ifdef VERTEX
@@ -13,13 +12,11 @@ attribute vec2 a_vt;
 
 attribute vec2 i_pos;
 attribute float i_radius;
-attribute vec4 i_color;
 attribute float i_height;
 attribute float i_angle;
 
 void main() {
     v_vt = a_vt;
-    v_color = i_color;
 #ifdef HELICOPTER
     float i_angle = u_current_time * 100.0;
 #endif
@@ -40,7 +37,7 @@ void main() {
 #ifdef FRAGMENT
 uniform sampler2D texture;
 void main() {
-    gl_FragColor = texture2D(texture, v_vt) * v_color;
+    gl_FragColor = texture2D(texture, v_vt);
     gl_FragColor.xyz *= min(v_light, get_shadow(v_pos)) * (1.0 - u_ambient_light) + u_ambient_light;
 }
 #endif
