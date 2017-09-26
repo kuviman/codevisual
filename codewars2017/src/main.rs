@@ -174,9 +174,7 @@ impl codevisual::Game for CodeWars2017 {
                     u_cell_size: 32.0, // TODO
                 },
                 self.camera.uniforms());
-            if self.settings.draw_skybox.get() {
-                self.skybox.draw(framebuffer, &uniforms);
-            }
+            self.skybox.draw(framebuffer, &uniforms);
             ugli::clear(framebuffer, None, Some(1.0));
 
             self.vehicles.update_to(tick);
@@ -193,12 +191,8 @@ impl codevisual::Game for CodeWars2017 {
                     shadow_map.get_texture()))
             } else { None });
 
-            if self.settings.draw_vehicles.get() {
-                self.vehicles.draw(framebuffer, &uniforms);
-            }
-            if self.settings.draw_map.get() {
-                self.map.draw(framebuffer, &uniforms);
-            }
+            self.vehicles.draw(framebuffer, &uniforms);
+            self.map.draw(framebuffer, &uniforms);
             self.effects.draw(framebuffer, &uniforms, tick);
             if self.settings.draw_minimap.get() {
                 self.minimap.draw(&self.vehicles, &self.map, &self.camera, framebuffer, &uniforms);
