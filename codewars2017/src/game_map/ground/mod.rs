@@ -61,7 +61,7 @@ impl Ground {
                         });
                     // texture.set_filter(ugli::Filter::Nearest);
                     let mut result = ugli::Texture2d::new_uninitialized(
-                        app.ugli_context(), texture.get_size() * 8);
+                        app.ugli_context(), texture.get_size() * 16);
                     {
                         let mut framebuffer = ugli::Framebuffer::new_color(
                             app.ugli_context(), ugli::ColorAttachment::Texture(&mut result));

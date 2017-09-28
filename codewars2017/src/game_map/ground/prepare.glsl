@@ -26,7 +26,7 @@ void main() {
             mx = vec3(0.0, 0.0, 1.0);
     }
     float diff = max(typ.x, max(typ.y, typ.z)) * 2.0 - 1.0;
-    float k = min(diff * 4.0, 1.0);
+    float k = max(0.0, min(diff * 4.0, 1.0));
     gl_FragColor = vec4(mx * k + typ * (1.0 - k), 1.0);
 }
 #endif
