@@ -11,8 +11,8 @@ struct Uniforms {
 resources! {
     Resources {
         plain_texture: ugli::Texture2d = "assets/grass.png",
-        forest_texture: ugli::Texture2d = "assets/darkgrass.png",
-        swamp_texture: ugli::Texture2d = "assets/dirt.png",
+        forest_texture: ugli::Texture2d = "assets/forest.png",
+        swamp_texture: ugli::Texture2d = "assets/swamp.png",
     }
 }
 
@@ -147,17 +147,17 @@ impl Ground {
                 ..Default::default()
             }
         );
-//        ugli::draw(
-//            framebuffer,
-//            &self.underground_material.ugli_program(),
-//            ugli::DrawMode::Triangles,
-//            &ugli::plain(&self.underground_geometry.slice(..)),
-//            (&uniforms, &self.uniforms),
-//            &ugli::DrawParameters {
-//                depth_test: ugli::DepthTest::On,
-//                blend_mode: ugli::BlendMode::Off,
-//                ..Default::default()
-//            }
-//        );
+        //        ugli::draw(
+        //            framebuffer,
+        //            &self.underground_material.ugli_program(),
+        //            ugli::DrawMode::Triangles,
+        //            &ugli::plain(&self.underground_geometry.slice(..)),
+        //            (&uniforms, &self.uniforms),
+        //            &ugli::DrawParameters {
+        //                depth_test: ugli::DepthTest::On,
+        //                blend_mode: ugli::BlendMode::Off,
+        //                ..Default::default()
+        //            }
+        //        );
     }
 }
