@@ -133,6 +133,44 @@ impl codevisual::ResourceFuture<Model> for ModelFuture {
     }
 }
 
+pub struct RawModel {
+    pub geometry: ugli::VertexBuffer<VertexData>,
+}
+
+pub struct RawModelFuture {
+    app: Rc<codevisual::Application>,
+    geometry: codevisual::StringResourceFuture,
+}
+
+impl codevisual::Resource for RawModel {
+    type Future = RawModelFuture;
+}
+
+impl codevisual::Asset for RawModel {
+    fn load(loader: &Rc<codevisual::ResourceLoader>, path: &str) -> RawModelFuture {
+        RawModelFuture {
+            app: (loader as &Rc<codevisual::Application>).clone(),
+            geometry: <String as codevisual::Asset>::load(
+                loader, &format!("{}.obj", path)),
+        }
+    }
+}
+
+impl codevisual::ResourceFuture<RawModel> for RawModelFuture {
+    fn unwrap(self) -> RawModel {
+        let geometry = {
+            let mut geometry = Vec::new();
+            for (_, mut data) in parse_obj(&self.geometry.unwrap()) {
+                geometry.append(&mut data);
+            }
+            ugli::VertexBuffer::new_static(self.app.ugli_context(), geometry)
+        };
+        RawModel {
+            geometry,
+        }
+    }
+}
+
 pub struct ModelParts {
     pub parts: Vec<(String, ugli::VertexBuffer<VertexData>)>,
     pub texture: ugli::Texture2d,

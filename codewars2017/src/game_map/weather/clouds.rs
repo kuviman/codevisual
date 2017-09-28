@@ -1,38 +1,41 @@
 use ::*;
 
 #[derive(Vertex)]
-struct Vertex {
+struct Instance {
     i_pos: Vec3<f32>,
     i_type: f32,
     i_size: f32,
+    i_rotation: f32,
 }
 
 pub struct Clouds {
     app: Rc<codevisual::Application>,
-    geometry: ugli::Cube,
-    instances: ugli::VertexBuffer<Vertex>,
+    geometry: ugli::VertexBuffer<obj::VertexData>,
+    instances: ugli::VertexBuffer<Instance>,
     material: Material,
     fs_material: Material,
     settings: Rc<Settings>,
     tmp: Option<(ugli::Texture2d, ugli::Renderbuffer<ugli::DepthComponent>)>,
 }
 
+resources! {
+    Resources {
+        cloud_model: obj::RawModel = "assets/Cloud",
+    }
+}
+
 impl Clouds {
-    pub fn new(app: &Rc<codevisual::Application>, settings: &Rc<Settings>, game_log: &GameLog) -> Self {
+    pub fn new(app: &Rc<codevisual::Application>, resources: Resources, settings: &Rc<Settings>, game_log: &GameLog) -> Self {
         Self {
             app: app.clone(),
-            geometry: {
-                const SIZE: f32 = 1.7;
-                const DEPTH: f32 = 0.5;
-                ugli::Cube::new(app.ugli_context(), vec3(-SIZE, -SIZE, -DEPTH), vec3(SIZE, SIZE, DEPTH))
-            },
+            geometry: resources.cloud_model.geometry,
             instances: {
-                let mut vs: Vec<Vertex> = Vec::new();
+                let mut vs: Vec<Instance> = Vec::new();
                 for i in 0..game_log.weather.len() {
                     for j in 0..game_log.weather[i].len() {
                         if game_log.weather[i][j] != game_log::WeatherType::CLEAR {
                             for _ in 0..1 {
-                                vs.push(Vertex {
+                                vs.push(Instance {
                                     i_pos: vec3(
                                         i as f32 * 32.0 + 8.0 + random::<f32>() * 16.0,
                                         j as f32 * 32.0 + 8.0 + random::<f32>() * 16.0,
@@ -42,7 +45,8 @@ impl Clouds {
                                         game_log::WeatherType::CLOUD => 0.0,
                                         _ => panic!("WTF"),
                                     },
-                                    i_size: random::<f32>() * 5.0 + 4.0,
+                                    i_size: random::<f32>() * 10.0 + 10.0,
+                                    i_rotation: random::<f32>() * std::f32::consts::PI * 2.0,
                                 });
                             }
                         }

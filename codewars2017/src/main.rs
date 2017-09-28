@@ -166,7 +166,7 @@ impl codevisual::Game for CodeWars2017 {
     }
 
     fn draw(&mut self) {
-        let tick_time = (self.current_time.get() * 60.0);
+        let tick_time = self.current_time.get() * 60.0;
         let tick = tick_time as usize;
         let max_tick = self.game_log_loader.read().loaded_tick_count - 1;
         if !self.paused.get() && tick <= max_tick {

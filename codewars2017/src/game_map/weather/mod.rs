@@ -8,7 +8,11 @@ mod rain;
 
 use self::rain::*;
 
-pub type Resources = ();
+resources! {
+    Resources {
+        clouds: clouds::Resources = (),
+    }
+}
 
 pub struct Weather {
     clouds: Clouds,
@@ -20,7 +24,7 @@ pub struct Weather {
 impl Weather {
     pub fn new(app: &Rc<codevisual::Application>, resources: Resources, settings: &Rc<Settings>, game_log: &GameLog) -> Self {
         Self {
-            clouds: Clouds::new(app, settings, game_log),
+            clouds: Clouds::new(app, resources.clouds, settings, game_log),
             rain: Rain::new(app, game_log, settings),
             weather_map: {
                 let weather_data: &Vec<Vec<game_log::WeatherType>> = &game_log.weather;
@@ -41,7 +45,7 @@ impl Weather {
     }
     pub fn draw<U: ugli::UniformStorage>(&mut self, framebuffer: &mut ugli::Framebuffer, uniforms: U) {
         let uniforms = (uniforms, uniforms!(weather_map: &self.weather_map));
-//        self.rain.draw(framebuffer, &uniforms);
+        //        self.rain.draw(framebuffer, &uniforms);
         if self.settings.clouds_enabled.get() {
             self.clouds.draw(framebuffer, &uniforms);
         }
