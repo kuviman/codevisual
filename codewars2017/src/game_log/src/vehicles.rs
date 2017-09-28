@@ -23,6 +23,7 @@ pub struct Vehicle {
     terrain: TerrainHolder,
     weather: WeatherHolder,
     pub aerial: bool,
+    attack_angles: TimedVec<f32>,
     radius: f32,
     typ: VehicleType,
     player_id: ID,
@@ -50,6 +51,7 @@ impl Vehicle {
             player_id: data.playerId.unwrap(),
             last_pos: vec2(data.x.unwrap(), data.y.unwrap()),
             last_angle: 0.0,
+            attack_angles: TimedVec::new(),
         };
         vehicle.add_tick(tick, Some(data), decoration);
         vehicle
@@ -167,6 +169,7 @@ impl Vehicle {
                 player_id: self.player_id,
                 aerial: self.aerial,
                 angle: self.angles[tick - self.start_tick] as f32 * (2.0 * std::f32::consts::PI / 255.0),
+                attack_angle: *self.attack_angles.get(tick).unwrap_or(&0.0),
             })
         } else {
             None
@@ -183,6 +186,7 @@ pub struct FixedVehicle {
     pub player_id: ID,
     pub aerial: bool,
     pub angle: f32,
+    pub attack_angle: f32,
 }
 
 type MMAP<K, V> = VecMap<K, V>;
@@ -231,8 +235,20 @@ impl Vehicles {
         }
         if let &Some(ref effects) = effects {
             for effect in effects {
-                if let raw::EffectType::VEHICLE_DEATH = effect.typ {
-                    self.last_updated_tick.insert(effect.attributes.get("id").unwrap().as_i64().unwrap() as ID, tick);
+                match effect.typ {
+                    raw::EffectType::VEHICLE_DEATH => {
+                        self.last_updated_tick.insert(
+                            effect.attributes.get("id").unwrap().as_i64().unwrap() as ID, tick);
+                    }
+                    raw::EffectType::VEHICLE_ATTACK => {
+                        let vehicle_id = effect.attributes.get("vehicleId").unwrap().as_i64().unwrap() as ID;
+                        let target_id = effect.attributes.get("targetId").unwrap().as_i64().unwrap() as ID;
+                        let target_pos = self.map.get(&target_id).unwrap().last_pos;
+                        let vehicle = self.map.get_mut(&vehicle_id).unwrap();
+                        let dv = target_pos - vehicle.last_pos;
+                        vehicle.attack_angles.push(tick, dv.y.atan2(dv.x) - vehicle.last_angle);
+                    }
+                    _ => {}
                 }
             }
         }

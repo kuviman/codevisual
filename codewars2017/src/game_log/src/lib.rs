@@ -25,6 +25,10 @@ mod vecmap;
 
 pub use vecmap::*;
 
+mod timed_vec;
+
+pub use timed_vec::*;
+
 mod players;
 
 pub use players::*;

@@ -18,6 +18,7 @@ void main() {
     v_vt = a_vt;
     v_light = get_light(a_vn);
     v_pos = a_v * RADIUS + vec3(i_pos, 0.0);
+    v_pos.z /= 2.2;
 #ifdef SHADOW_CAST_MATERIAL
     set_shadow_pos(v_pos);
 #else

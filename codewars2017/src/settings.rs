@@ -20,10 +20,10 @@ impl Settings {
     pub fn new(app: &Rc<codevisual::Application>) -> Rc<Self> {
         Rc::new(Self {
             time_scale: app.add_setting_f64("Time scale", 0.0, 4.0, 1.0),
-            sky_height: app.add_setting_f64("Sky height", 0.0, 300.0, 20.0),
+            sky_height: app.add_setting_f64("Sky height", 0.0, 300.0, 30.0),
             draw_minimap: app.add_setting_bool("Minimap", true),
             draw_attack_rays: app.add_setting_bool("Draw attack rays", false),
-            fov: app.add_setting_f64("FOV", 0.1, std::f64::consts::PI / 2.0, std::f64::consts::PI / 4.0),
+            fov: app.add_setting_f64("FOV", 0.1, std::f64::consts::PI / 2.0, std::f64::consts::PI / 3.0),
             clouds_alpha: app.add_setting_f64("Clouds opacity", 0.0, 1.0, 0.3),
             clouds_enabled: app.add_setting_bool("Clouds", true),
             shadows_enabled: app.add_setting_bool("Shadows", true),

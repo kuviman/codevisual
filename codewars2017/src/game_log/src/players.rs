@@ -4,7 +4,7 @@ use ::*;
 pub struct Player {
     id: ID,
     name: String,
-    scores: Vec<(usize, i32)>,
+    scores: TimedVec<i32>,
 }
 
 impl Player {
@@ -12,19 +12,16 @@ impl Player {
         Self {
             id: player.id,
             name: player.name.as_ref().unwrap().clone(),
-            scores: Vec::new(),
+            scores: TimedVec::new(),
         }
     }
     fn add_tick(&mut self, tick: usize, player: raw::Player) {
         if let Some(score) = player.score {
-            self.scores.push((tick, score));
+            self.scores.push(tick, score);
         }
     }
     fn get_score(&self, tick: usize) -> i32 {
-        match self.scores.binary_search_by_key(&tick, |x| x.0) {
-            Ok(index) => self.scores[index].1,
-            Err(index) => self.scores[index - 1].1,
-        }
+        *self.scores.get(tick).unwrap_or(&0)
     }
 }
 
