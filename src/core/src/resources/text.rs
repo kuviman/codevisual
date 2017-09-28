@@ -41,7 +41,7 @@ impl Asset for String {
         {
             use std::io::Read;
             std::fs::File::open(path)
-                .unwrap()
+                .expect(&format!("Could not read text file `{}`", path))
                 .read_to_string(&mut *resource.value.borrow_mut())
                 .unwrap();
             resource.loaded.set(true);

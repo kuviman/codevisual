@@ -12,7 +12,7 @@ attribute vec2 a_vt;
 
 attribute vec2 i_pos;
 
-#define RADIUS float(0.25)
+#define RADIUS float(32.0)
 
 void main() {
     v_vt = a_vt;

@@ -39,7 +39,7 @@ impl Trees {
                     instances.push(Instance {
                         i_pos: vec2(pos.x * game_log.map_size.x, pos.y * game_log.map_size.y),
                         i_rotation: random::<f32>() * 2.0 * std::f32::consts::PI,
-                        i_size: random::<f32>() * 0.03 + 0.08,
+                        i_size: random::<f32>() * 0.5 + 2.0,
                     });
                 }
             }

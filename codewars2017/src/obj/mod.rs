@@ -68,6 +68,23 @@ fn parse_obj(source: &str) -> Vec<(String, Vec<VertexData>)> {
             current_name = String::from(&line[2..]);
         }
     }
+    let mut min_x: f32 = 1e9;
+    let mut max_x: f32 = -1e9;
+    let mut min_y: f32 = 1e9;
+    let mut max_y: f32 = -1e9;
+    for &Vec3 { x, y, .. } in &v {
+        min_x = min_x.min(x);
+        max_x = max_x.max(x);
+        min_y = min_y.min(y);
+        max_y = max_y.max(y);
+    }
+    let center = vec3(min_x + max_x, min_y + max_y, 0.0) / 2.0;
+    let div = (max_y - min_y).max(max_x - min_x) / 2.0;
+    for &mut (_, ref mut v) in &mut result {
+        for v in v.iter_mut() {
+            v.a_v = (v.a_v - center) / div;
+        }
+    }
     result
 }
 

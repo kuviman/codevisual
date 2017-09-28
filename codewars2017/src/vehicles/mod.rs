@@ -6,21 +6,22 @@ pub struct Instance {
     i_height: f32,
     i_radius: f32,
     i_angle: f32,
+    i_color: Color,
 }
 
 resources! {
     Resources {
-        tank_1: obj::Model = "assets/vehicles/Tank",
-        ifv_1: obj::Model = "assets/vehicles/BTR",
-        arrv_1: obj::Model = "assets/vehicles/Truck",
-        fighter_1: obj::Model = "assets/vehicles/Fighter",
-        helicopter_1: obj::ModelParts = "assets/vehicles/Helicopter",
+        tank_1: obj::Model = "assets/vehicles/player_1/Tank",
+        ifv_1: obj::Model = "assets/vehicles/player_1/BTR",
+        arrv_1: obj::Model = "assets/vehicles/player_1/Truck",
+        fighter_1: obj::Model = "assets/vehicles/player_1/Fighter",
+        helicopter_1: obj::ModelParts = "assets/vehicles/player_1/Helicopter",
 
-        tank_2: obj::Model = "assets/lowpoly/Tank",
-        ifv_2: obj::Model = "assets/lowpoly/BTR",
-        arrv_2: obj::Model = "assets/lowpoly/Truck",
-        fighter_2: obj::Model = "assets/lowpoly/Fighter",
-        helicopter_2: obj::ModelParts = "assets/lowpoly/Helicopter",
+        tank_2: obj::Model = "assets/vehicles/player_2/Tank",
+        ifv_2: obj::Model = "assets/vehicles/player_2/BTR",
+        arrv_2: obj::Model = "assets/vehicles/player_2/Truck",
+        fighter_2: obj::Model = "assets/vehicles/player_2/Fighter",
+        helicopter_2: obj::ModelParts = "assets/vehicles/player_2/Helicopter",
     }
 }
 
@@ -135,8 +136,8 @@ impl Vehicles {
                     app, settings, resources.helicopter_2.texture,
                     resources.helicopter_2.parts.into_iter().map(|(name, geometry)| {
                         (match name.as_str() {
-                            "HelicopterScrew_Untitled.003" => material!(&format!("#define HELICOPTER\n{}", program_source)),
-                            "Helicopter_Untitled.002" => material!(program_source),
+                            "HelicopterScrew_B" => material!(&format!("#define HELICOPTER\n{}", program_source)),
+                            "Helicopter_B" => material!(program_source),
                             _ => unreachable!("Unexpected obj part name: {}", name)
                         }, geometry)
                     }).collect()));
@@ -167,6 +168,21 @@ impl Vehicles {
                     instance.i_radius = data.radius;
                     instance.i_angle = data.angle;
                     instance.i_height = if data.aerial { 1.0 } else { 0.0 };
+                    instance.i_color = match (data.typ, data.player_id) {
+                        (TANK, 1) => Color::argb_hex(0xFFFF0303),
+                        (IFV, 1) => Color::argb_hex(0xFFFEBA0E),
+                        (HELICOPTER, 1) => Color::argb_hex(0xFFEDEA00),
+                        (ARRV, 1) => Color::argb_hex(0xFF9E5507),
+                        (FIGHTER, 1) => Color::argb_hex(0xFFFFCED1),
+
+                        (TANK, 2) => Color::argb_hex(0xFF0042FF),
+                        (IFV, 2) => Color::argb_hex(0xFF7EBFF1),
+                        (HELICOPTER, 2) => Color::argb_hex(0xFF1CE6B9),
+                        (ARRV, 2) => Color::argb_hex(0xFF686969),
+                        (FIGHTER, 2) => Color::argb_hex(0xFF9290B2),
+
+                        _ => panic!("WTF"),
+                    };
                 }
             }
         }

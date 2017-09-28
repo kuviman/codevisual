@@ -124,7 +124,8 @@ impl codevisual::Asset for Loader {
         #[cfg(not(target_os = "emscripten"))]
         {
             use std::io::{Read, BufRead};
-            let mut reader = std::io::BufReader::new(std::fs::File::open(path).unwrap());
+            let mut reader = std::io::BufReader::new(
+                std::fs::File::open(path).expect(&format!("Game log not found at `{}`", path)));
             let mut parse_line = {
                 let sync = sync.clone();
                 move || {

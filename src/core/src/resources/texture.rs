@@ -47,7 +47,7 @@ impl Asset for ugli::Texture2d {
         };
         #[cfg(not(target_os = "emscripten"))]
         return {
-            let image = image::open(path).unwrap().to_rgba();
+            let image = image::open(path).expect(&format!("Could not load texture from `{}`", path)).to_rgba();
             let texture =
                 ugli::Texture2d::from_image(loader.app.ugli_context(), image);
             Self::Future {
