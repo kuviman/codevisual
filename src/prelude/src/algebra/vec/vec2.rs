@@ -16,25 +16,24 @@ impl<T> Vec2<T> {
     }
 }
 
-impl Vec2<f32> {
+impl<T: Copy + num::Num> Vec2<T> {
+    pub fn dot(a: Self, b: Self) -> T {
+        a.x * b.x + a.y * b.y
+    }
+}
+
+impl<T: num::Float> Vec2<T> {
     pub fn normalize(self) -> Self {
         self / self.len()
     }
-    pub fn len(self) -> f32 {
-        f32::sqrt(self.x * self.x + self.y * self.y)
+    pub fn len(self) -> T {
+        T::sqrt(self.x * self.x + self.y * self.y)
     }
-    pub fn rotated(v: Self, angle: f32) -> Self {
-        let sin = angle.sin();
-        let cos = angle.cos();
+    pub fn rotated(v: Self, angle: T) -> Self {
+        let (sin, cos) = T::sin_cos(angle);
         Self {
             x: v.x * cos - v.y * sin,
             y: v.x * sin + v.y * cos,
         }
-    }
-}
-
-impl Vec2<f64> {
-    pub fn len(self) -> f64 {
-        f64::sqrt(self.x * self.x + self.y * self.y)
     }
 }

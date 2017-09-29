@@ -1,4 +1,5 @@
 pub extern crate rand;
+pub extern crate num;
 
 #[cfg(target_os = "emscripten")]
 pub fn thread_rng() -> Box<rand::Rng> {
@@ -53,9 +54,7 @@ pub use std::fmt::{Debug, Display, Formatter};
 pub use std::sync::{Arc, Mutex, RwLock};
 pub use std::cmp::{min, max, Ord};
 
-pub fn clamp<T: Ord>(x: T, min: T, max: T) -> T {
-    std::cmp::max(std::cmp::min(x, max), min)
-}
+pub use num::clamp;
 
 #[macro_export]
 macro_rules! display_error_description {

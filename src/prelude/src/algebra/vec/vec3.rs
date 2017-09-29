@@ -17,7 +17,10 @@ impl<T> Vec3<T> {
     }
 }
 
-impl Vec3<f32> {
+impl<T: Copy + num::Num> Vec3<T> {
+    pub fn dot(a: Self, b: Self) -> T {
+        a.x * b.x + a.y * b.y + a.z * b.z
+    }
     pub fn cross(a: Self, b: Self) -> Self {
         Self {
             x: a.y * b.z - a.z * b.y,
