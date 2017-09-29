@@ -14,3 +14,18 @@ pub use pug::*;
 mod ts;
 
 pub use ts::*;
+
+fn command(cmd: &str) -> Command {
+    #[cfg(windows)]
+    return {
+        let mut command = Command::new("cmd");
+        command.arg("/C").arg(cmd);
+        command
+    };
+    #[cfg(not(windows))]
+    return {
+        let mut command = Command::new("sh");
+        command.arg("-c").arg(cmd);
+        command
+    };
+}
