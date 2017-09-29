@@ -47,6 +47,7 @@ pub use std::os::raw::{c_int, c_float, c_double, c_short, c_ushort, c_long, c_ul
                        c_void};
 pub use std::ffi::CString;
 pub use std::ops::{Deref, DerefMut, Range, RangeFrom, RangeTo, RangeFull};
+pub use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign, Neg};
 pub use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 pub use std::fmt::{Debug, Display, Formatter};
 pub use std::sync::{Arc, Mutex, RwLock};

@@ -1,69 +1,23 @@
 use ::*;
 
-#[derive(Debug, Copy, Clone)]
-pub struct Vec3<T: Copy = f64> {
+#[derive(Debug, Copy, Clone, Eq, PartialEq)]
+pub struct Vec3<T = f64> {
     pub x: T,
     pub y: T,
     pub z: T,
 }
 
-pub fn vec3<T: Copy>(x: T, y: T, z: T) -> Vec3<T> {
+pub fn vec3<T>(x: T, y: T, z: T) -> Vec3<T> {
     Vec3 { x, y, z }
 }
 
-impl<T: Copy + std::ops::Neg> std::ops::Neg for Vec3<T> where T::Output: Copy {
-    type Output = Vec3<T::Output>;
-
-    fn neg(self) -> Self::Output {
-        vec3(-self.x, -self.y, -self.z)
+impl<T> Vec3<T> {
+    pub fn extend(self, w: T) -> Vec4<T> {
+        vec4(self.x, self.y, self.z, w)
     }
 }
 
-impl<T: Copy + std::ops::Div<Output=T>> std::ops::Div<T> for Vec3<T> {
-    type Output = Self;
-    fn div(self, rhs: T) -> Self {
-        Self {
-            x: self.x / rhs,
-            y: self.y / rhs,
-            z: self.z / rhs,
-        }
-    }
-}
-
-impl<T: Copy + std::ops::Sub<Output=T>> std::ops::Sub for Vec3<T> {
-    type Output = Self;
-    fn sub(self, rhs: Self) -> Self {
-        Self {
-            x: self.x - rhs.x,
-            y: self.y - rhs.y,
-            z: self.z - rhs.z,
-        }
-    }
-}
-
-impl<T: Copy + std::ops::Add<Output=T>> std::ops::Add for Vec3<T> {
-    type Output = Self;
-    fn add(self, rhs: Self) -> Self {
-        Self {
-            x: self.x + rhs.x,
-            y: self.y + rhs.y,
-            z: self.z + rhs.z,
-        }
-    }
-}
-
-impl<T: Copy + std::ops::Mul<T, Output=T>> std::ops::Mul<T> for Vec3<T> {
-    type Output = Self;
-    fn mul(self, rhs: T) -> Self {
-        Self {
-            x: self.x * rhs,
-            y: self.y * rhs,
-            z: self.z * rhs,
-        }
-    }
-}
-
-impl<T: std::ops::Mul<Output=T> + std::ops::Sub<Output=T> + Copy> Vec3<T> {
+impl Vec3<f32> {
     pub fn cross(a: Self, b: Self) -> Self {
         Self {
             x: a.y * b.z - a.z * b.y,
