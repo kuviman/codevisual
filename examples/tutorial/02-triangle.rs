@@ -1,5 +1,3 @@
-#![allow(unused_variables)]
-
 #[macro_use]
 extern crate codevisual;
 
@@ -38,7 +36,7 @@ void main() {
 
 impl codevisual::Game for Tutorial {
     type Resources = ();
-    fn new(app: &Rc<codevisual::Application>, resources: ()) -> Self {
+    fn new(app: &Rc<codevisual::Application>, _: ()) -> Self {
         let context = app.ugli_context();
 
         Tutorial {
@@ -70,15 +68,14 @@ impl codevisual::Game for Tutorial {
     fn get_title() -> String {
         String::from("CodeVisual Tutorial 02 - Triangle")
     }
-    fn update(&mut self, delta_time: f64) {}
-    fn draw(&mut self) {
+    fn draw(&mut self, framebuffer: &mut ugli::Framebuffer) {
         ugli::clear(
-            &mut self.app.ugli_context().default_framebuffer(),
+            framebuffer,
             Some(Color::rgb(0.0, 0.0, 0.0)),
             None,
         );
         ugli::draw(
-            &mut self.app.ugli_context().default_framebuffer(),
+            framebuffer,
             &self.material.ugli_program(),
             ugli::DrawMode::Triangles,
             &ugli::plain(&self.vertices.slice(..)),
@@ -89,7 +86,6 @@ impl codevisual::Game for Tutorial {
             },
         );
     }
-    fn handle_event(&mut self, event: codevisual::Event) {}
 }
 
 fn main() {

@@ -80,11 +80,13 @@ impl Application {
 
 pub trait Game {
     type Resources: ResourceContainer;
-    fn get_title() -> String;
+    fn get_title() -> String {
+        String::from("CodeVisual application")
+    }
     fn new(app: &Rc<Application>, resources: Self::Resources) -> Self;
-    fn update(&mut self, delta_time: f64);
-    fn draw(&mut self);
-    fn handle_event(&mut self, event: Event);
+    fn update(&mut self, delta_time: f64) {}
+    fn draw(&mut self, framebuffer: &mut ugli::Framebuffer);
+    fn handle_event(&mut self, event: Event) {}
 }
 
 pub fn run<G: Game>() {
@@ -140,7 +142,7 @@ pub fn run<G: Game>() {
 
             game.update(delta_time.min(0.1)); // TODO: configure
 
-            game.draw();
+            game.draw(&mut app.ugli_context().default_framebuffer());
 
             #[cfg(target_os = "emscripten")]
             run_js! {

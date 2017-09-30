@@ -156,13 +156,12 @@ impl codevisual::Game for Playground {
         self.units.update(delta_time);
     }
 
-    fn draw(&mut self) {
+    fn draw(&mut self, framebuffer: &mut ugli::Framebuffer) {
         self.global_uniforms.u_screen_size = {
             let size = self.app.window().get_size();
             vec2(size.x as f32, size.y as f32)
         };
-        let mut framebuffer = self.app.ugli_context().default_framebuffer();
-        ugli::clear(&mut framebuffer, Some(Color::rgb(1.0, 1.0, 1.0)), Some(1.0));
+        ugli::clear(framebuffer, Some(Color::rgb(1.0, 1.0, 1.0)), Some(1.0));
 
         self.global_uniforms.u_time = self.current_time;
         self.global_uniforms.u_projection_matrix = {
@@ -180,11 +179,11 @@ impl codevisual::Game for Playground {
             self.fog.prepare(&self.units, &self.global_uniforms);
         }
         let uniforms = (&self.global_uniforms, &self.fog.uniforms);
-        self.units.draw(&mut framebuffer, &(
+        self.units.draw(framebuffer, &(
             &uniforms,
             &self.ground.uniforms,
         ));
-        self.ground.draw(&mut framebuffer, &uniforms);
+        self.ground.draw(framebuffer, &uniforms);
         {
             let uniforms = (
                 &uniforms,
@@ -202,16 +201,16 @@ impl codevisual::Game for Playground {
                     },
                 },
             );
-            self.decor.draw(&mut framebuffer, &(
+            self.decor.draw(framebuffer, &(
                 &uniforms,
                 &self.ground.uniforms,
             ));
         }
         if self.settings.clouds_enabled.get() {
-            self.clouds.draw(&mut framebuffer, &uniforms);
+            self.clouds.draw(framebuffer, &uniforms);
         }
         self.minimap.render(
-            &mut framebuffer,
+            framebuffer,
             &self.units,
             &uniforms,
         );

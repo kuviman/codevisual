@@ -50,7 +50,7 @@ impl Clouds {
         Self {
             uniforms: Uniforms { u_texture: resources.cloud_texture },
             data: ugli::VertexBuffer::new_static(app.ugli_context(), data),
-            material: codevisual::Material::new(app.ugli_context(), settings, (), (), include_str!("shader.glsl")),
+            material: codevisual::Material::new(app.ugli_context(), (), (), include_str!("shader.glsl")),
         }
     }
 
