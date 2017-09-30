@@ -1,13 +1,149 @@
 use ::*;
 
 #[derive(Debug, Copy, Clone)]
-pub struct Mat4<T: Copy + Default = f64> {
+pub struct Mat4<T: Num + Copy = f64> {
     values: [T; 16],
 }
 
-impl<T: Copy + Default> Mat4<T> {
+impl<T: Num + Copy> Index<(usize, usize)> for Mat4<T> {
+    type Output = T;
+    fn index(&self, index: (usize, usize)) -> &Self::Output {
+        &self.values[index.1 * 4 + index.0]
+    }
+}
+
+impl<T: Num + Copy> IndexMut<(usize, usize)> for Mat4<T> {
+    fn index_mut(&mut self, index: (usize, usize)) -> &mut Self::Output {
+        &mut self.values[index.1 * 4 + index.0]
+    }
+}
+
+impl<T: Num + Copy> Add for Mat4<T> {
+    type Output = Self;
+    fn add(self, rhs: Self) -> Self {
+        let mut result = self;
+        result += rhs;
+        result
+    }
+}
+
+impl<T: Num + Copy> AddAssign for Mat4<T> {
+    fn add_assign(&mut self, rhs: Self) {
+        for i in 0..16 {
+            self.values[i] = self.values[i] + rhs.values[i];
+        }
+    }
+}
+
+impl<T: Num + Copy> Sub for Mat4<T> {
+    type Output = Self;
+    fn sub(self, rhs: Self) -> Self {
+        let mut result = self;
+        result -= rhs;
+        result
+    }
+}
+
+impl<T: Num + Copy> SubAssign for Mat4<T> {
+    fn sub_assign(&mut self, rhs: Self) {
+        for i in 0..16 {
+            self.values[i] = self.values[i] - rhs.values[i];
+        }
+    }
+}
+
+impl<T: Num + Copy + Neg<Output=T>> Neg for Mat4<T> {
+    type Output = Self;
+    fn neg(self) -> Self {
+        let mut result = self;
+        for i in 0..16 {
+            result.values[i] = -self.values[i];
+        }
+        result
+    }
+}
+
+impl<T: Num + Copy> Mul for Mat4<T> {
+    type Output = Self;
+    fn mul(self, rhs: Self) -> Self {
+        let mut result = Self { values: [T::zero(); 16] };
+        for i in 0..4 {
+            for j in 0..4 {
+                let cur = &mut result[(i, j)];
+                for t in 0..4 {
+                    *cur = *cur + self[(i, t)] * rhs[(t, j)];
+                }
+            }
+        }
+        result
+    }
+}
+
+impl<T: Num + Copy> MulAssign for Mat4<T> {
+    fn mul_assign(&mut self, rhs: Self) {
+        *self = *self * rhs;
+    }
+}
+
+impl<T: Num + Copy> Mul<T> for Mat4<T> {
+    type Output = Self;
+    fn mul(self, rhs: T) -> Self {
+        let mut result = self;
+        result *= rhs;
+        result
+    }
+}
+
+impl<T: Num + Copy> MulAssign<T> for Mat4<T> {
+    fn mul_assign(&mut self, rhs: T) {
+        for i in 0..16 {
+            self.values[i] = self.values[i] * rhs;
+        }
+    }
+}
+
+impl<T: Num + Copy> Div<T> for Mat4<T> {
+    type Output = Self;
+    fn div(self, rhs: T) -> Self {
+        let mut result = self;
+        result /= rhs;
+        result
+    }
+}
+
+impl<T: Num + Copy> DivAssign<T> for Mat4<T> {
+    fn div_assign(&mut self, rhs: T) {
+        for i in 0..16 {
+            self.values[i] = self.values[i] * rhs;
+        }
+    }
+}
+
+impl<T: Float> Mul<Vec4<T>> for Mat4<T> {
+    type Output = Vec4<T>;
+
+    fn mul(self, rhs: Vec4<T>) -> Vec4<T> {
+        let mul = |i| {
+            self[(i, 0)] * rhs.x + self[(i, 1)] * rhs.y + self[(i, 2)] * rhs.z + self[(i, 3)] * rhs.w
+        };
+        vec4(mul(0), mul(1), mul(2), mul(3))
+    }
+}
+
+impl<T: Num + Copy> Mat4<T> {
+    pub fn zero() -> Self {
+        Self { values: [T::zero(); 16] }
+    }
+    pub fn identity() -> Self {
+        let mut result = Self::zero();
+        for i in 0..4 {
+            result[(i, i)] = T::one();
+        }
+        result
+    }
+
     pub fn transpose(self) -> Self {
-        let mut result: Self = unsafe { std::mem::uninitialized() };
+        let mut result = self;
         for i in 0..4 {
             for j in 0..4 {
                 result[(i, j)] = self[(j, i)]
@@ -15,9 +151,7 @@ impl<T: Copy + Default> Mat4<T> {
         }
         result
     }
-}
 
-impl<T: Copy + Default> Mat4<T> where T: std::ops::Mul<T, Output=T> + std::ops::Add<T, Output=T> + std::ops::Sub<T, Output=T> + std::ops::Div<T, Output=T> {
     pub fn inverse(self) -> Self {
         let a00 = self[(0, 0)];
         let a01 = self[(0, 1)];
@@ -70,44 +204,35 @@ impl<T: Copy + Default> Mat4<T> where T: std::ops::Mul<T, Output=T> + std::ops::
                 a20 * b03 - a21 * b01 + a22 * b00]
         }.transpose() / det
     }
-}
 
-impl Mat4<f32> {
-    pub fn identity() -> Self {
-        let mut result = Self { values: [0.0; 16] };
-        for i in 0..4 {
-            result[(i, i)] = 1.0;
-        }
-        result
-    }
-
-    pub fn scale_uniform(factor: f32) -> Self {
-        let mut result = Self { values: [0.0; 16] };
+    pub fn scale_uniform(factor: T) -> Self {
+        let mut result = Self::zero();
         result[(0, 0)] = factor;
         result[(1, 1)] = factor;
         result[(2, 2)] = factor;
-        result[(3, 3)] = 1.0;
+        result[(3, 3)] = T::one();
         result
     }
-
-    pub fn scale(factor: Vec3<f32>) -> Self {
-        let mut result = Self { values: [0.0; 16] };
+    pub fn scale(factor: Vec3<T>) -> Self {
+        let mut result = Self::zero();
         result[(0, 0)] = factor.x;
         result[(1, 1)] = factor.y;
         result[(2, 2)] = factor.z;
-        result[(3, 3)] = 1.0;
+        result[(3, 3)] = T::one();
         result
     }
 
-    pub fn translate(dv: Vec3<f32>) -> Self {
+    pub fn translate(dv: Vec3<T>) -> Self {
         let mut result = Self::identity();
         result[(0, 3)] = dv.x;
         result[(1, 3)] = dv.y;
         result[(2, 3)] = dv.z;
         result
     }
+}
 
-    pub fn rotate_x(angle: f32) -> Self {
+impl<T: Float> Mat4<T> {
+    pub fn rotate_x(angle: T) -> Self {
         let mut result = Self::identity();
         let cs = angle.cos();
         let sn = angle.sin();
@@ -117,8 +242,7 @@ impl Mat4<f32> {
         result[(2, 2)] = cs;
         result
     }
-
-    pub fn rotate_y(angle: f32) -> Self {
+    pub fn rotate_y(angle: T) -> Self {
         let mut result = Self::identity();
         let cs = angle.cos();
         let sn = angle.sin();
@@ -128,8 +252,7 @@ impl Mat4<f32> {
         result[(0, 0)] = cs;
         result
     }
-
-    pub fn rotate_z(angle: f32) -> Self {
+    pub fn rotate_z(angle: T) -> Self {
         let mut result = Self::identity();
         let cs = angle.cos();
         let sn = angle.sin();
@@ -140,89 +263,36 @@ impl Mat4<f32> {
         result
     }
 
-    pub fn perspective(fov: f32, aspect: f32, near: f32, far: f32) -> Self {
-        let ymax = near * (fov / 2.0).tan();
+    pub fn perspective(fov: T, aspect: T, near: T, far: T) -> Self {
+        let ymax = near * (fov / (T::one() + T::one())).tan();
         let xmax = ymax * aspect;
         Self::frustum(-xmax, xmax, -ymax, ymax, near, far)
     }
 
-    pub fn frustum(left: f32, right: f32, bottom: f32, top: f32, near: f32, far: f32) -> Self {
-        let temp = 2.0 * near;
-        let temp2 = right - left;
-        let temp3 = top - bottom;
-        let temp4 = far - near;
+    pub fn frustum(left: T, right: T, bottom: T, top: T, near: T, far: T) -> Self {
+        let double_near = near + near;
+        let width = right - left;
+        let height = top - bottom;
+        let depth = far - near;
         Self {
             values: [
-                temp / temp2,
-                0.0,
-                0.0,
-                0.0,
-                0.0,
-                temp / temp3,
-                0.0,
-                0.0,
-                (right + left) / temp2,
-                (top + bottom) / temp3,
-                (-far - near) / temp4,
-                -1.0,
-                0.0,
-                0.0,
-                (-temp * far) / temp4,
-                0.0,
+                double_near / width,
+                T::zero(),
+                T::zero(),
+                T::zero(),
+                T::zero(),
+                double_near / height,
+                T::zero(),
+                T::zero(),
+                (right + left) / width,
+                (top + bottom) / height,
+                (-far - near) / depth,
+                -T::one(),
+                T::zero(),
+                T::zero(),
+                (-double_near * far) / depth,
+                T::zero(),
             ],
         }
-    }
-}
-
-impl<T: Copy + Default> std::ops::Index<(usize, usize)> for Mat4<T> {
-    type Output = T;
-    fn index(&self, index: (usize, usize)) -> &Self::Output {
-        &self.values[index.1 * 4 + index.0]
-    }
-}
-
-impl<T: Copy + Default> std::ops::IndexMut<(usize, usize)> for Mat4<T> {
-    fn index_mut(&mut self, index: (usize, usize)) -> &mut Self::Output {
-        &mut self.values[index.1 * 4 + index.0]
-    }
-}
-
-impl std::ops::Mul for Mat4<f32> {
-    type Output = Self;
-    fn mul(self, rhs: Self) -> Self {
-        let mut result = Self { values: [0.0; 16] };
-        for i in 0..4 {
-            for j in 0..4 {
-                let cur = &mut result[(i, j)];
-                for t in 0..4 {
-                    *cur += self[(i, t)] * rhs[(t, j)];
-                }
-            }
-        }
-        result
-    }
-}
-
-impl<T: Copy + Default, RHS: Copy> std::ops::Div<RHS> for Mat4<T>
-    where T: std::ops::Div<RHS>, T::Output: Copy + Default {
-    type Output = Mat4<T::Output>;
-
-    fn div(self, rhs: RHS) -> Self::Output {
-        let mut result: Self::Output = Mat4 { values: [T::Output::default(); 16] };
-        for (s, d) in self.values.iter().zip(result.values.iter_mut()) {
-            *d = *s / rhs;
-        }
-        result
-    }
-}
-
-impl std::ops::Mul<Vec4<f32>> for Mat4<f32> {
-    type Output = Vec4<f32>;
-
-    fn mul(self, rhs: Vec4<f32>) -> Self::Output {
-        let mul = |i| {
-            self[(i, 0)] * rhs.x + self[(i, 1)] * rhs.y + self[(i, 2)] * rhs.z + self[(i, 3)] * rhs.w
-        };
-        vec4(mul(0), mul(1), mul(2), mul(3))
     }
 }

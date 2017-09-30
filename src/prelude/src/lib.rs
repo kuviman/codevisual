@@ -1,7 +1,6 @@
 #![deny(warnings)]
 
 pub extern crate rand;
-pub extern crate num;
 
 #[cfg(target_os = "emscripten")]
 pub fn thread_rng() -> Box<rand::Rng> {
@@ -30,6 +29,10 @@ pub fn random<R: rand::Rand>() -> R {
     R::rand(&mut thread_rng())
 }
 
+pub extern crate num;
+
+pub use num::{Float, Num};
+
 mod color;
 
 pub use self::color::*;
@@ -51,6 +54,7 @@ pub use std::os::raw::{c_int, c_float, c_double, c_short, c_ushort, c_long, c_ul
 pub use std::ffi::CString;
 pub use std::ops::{Deref, DerefMut, Range, RangeFrom, RangeTo, RangeFull};
 pub use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign, Neg};
+pub use std::ops::{Index, IndexMut};
 pub use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 pub use std::fmt::{Debug, Display, Formatter};
 pub use std::sync::{Arc, Mutex, RwLock};

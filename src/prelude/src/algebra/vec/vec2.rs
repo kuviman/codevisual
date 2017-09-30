@@ -16,13 +16,13 @@ impl<T> Vec2<T> {
     }
 }
 
-impl<T: Copy + num::Num> Vec2<T> {
+impl<T: Num + Copy> Vec2<T> {
     pub fn dot(a: Self, b: Self) -> T {
         a.x * b.x + a.y * b.y
     }
 }
 
-impl<T: num::Float> Vec2<T> {
+impl<T: Float> Vec2<T> {
     pub fn normalize(self) -> Self {
         self / self.len()
     }
