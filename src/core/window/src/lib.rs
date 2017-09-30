@@ -1,3 +1,5 @@
+#![deny(warnings)]
+
 extern crate prelude;
 
 use prelude::*;
@@ -38,6 +40,7 @@ impl Window {
     pub fn new(title: &str) -> Self {
         #[cfg(target_os = "emscripten")]
         let window = {
+            println!("Starting {}", title);
             let ugli_context = Rc::new(brijs::create_gl_context().unwrap());
             Self {
                 ugli_context,
@@ -87,7 +90,8 @@ impl Window {
     }
 
     pub fn get_size(&self) -> Vec2<usize> {
-        #[cfg(target_os = "emscripten")] return brijs::get_canvas_size();
+        #[cfg(target_os = "emscripten")]
+        return brijs::get_canvas_size();
         #[cfg(not(target_os = "emscripten"))]
         return {
             let (width, height) = self.glutin_window.get_inner_size_pixels().unwrap_or((1, 1));
@@ -102,5 +106,13 @@ impl Window {
 
     pub fn should_close(&self) -> bool {
         self.should_close.get()
+    }
+
+    pub fn get_events(&self) -> Vec<Event> {
+        self.internal_get_events()
+    }
+
+    pub fn is_key_pressed(&self, key: Key) -> bool {
+        self.pressed_keys.borrow().contains(&key)
     }
 }

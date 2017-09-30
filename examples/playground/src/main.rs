@@ -113,7 +113,6 @@ impl codevisual::Game for Playground {
         let clouds = Clouds::new(
             app,
             resources.clouds,
-            &settings,
         );
         Self {
             app: app.clone(),

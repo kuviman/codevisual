@@ -1,5 +1,3 @@
-use ::*;
-
 pub trait ShaderDefine {
     fn as_glsl(&self) -> String;
 }
@@ -39,7 +37,7 @@ pub trait ShaderDefineStorage {
 }
 
 impl ShaderDefineStorage for () {
-    fn as_glsl(&self, sources: &mut Vec<String>) {}
+    fn as_glsl(&self, _: &mut Vec<String>) {}
 }
 
 impl<'a, D> ShaderDefineStorage for &'a D

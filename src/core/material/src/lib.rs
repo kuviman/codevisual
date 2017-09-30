@@ -1,11 +1,10 @@
+#![deny(warnings)]
+
 extern crate prelude;
 
 pub ( crate ) use prelude::*;
 
 extern crate ugli;
-
-#[macro_use]
-extern crate codevisual_derive;
 
 mod defines;
 

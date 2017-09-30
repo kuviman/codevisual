@@ -1,3 +1,5 @@
+#![deny(warnings)]
+
 pub extern crate rand;
 pub extern crate num;
 

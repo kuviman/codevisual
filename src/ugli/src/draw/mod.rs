@@ -73,7 +73,8 @@ pub fn draw<V, U>(framebuffer: &mut Framebuffer,
 
     #[cfg(not(target_os = "emscripten"))]
     let vao = VAO::new();
-    #[cfg(not(target_os = "emscripten"))] vao.bind();
+    #[cfg(not(target_os = "emscripten"))]
+    vao.bind();
 
     let mut vertex_count = None;
     let mut instance_count = None;
@@ -158,9 +159,12 @@ pub fn draw<V, U>(framebuffer: &mut Framebuffer,
         }
     }
 
+    #[cfg(not(target_os = "emscripten"))]
     struct VAO {
         handle: GLuint,
     }
+
+    #[cfg(not(target_os = "emscripten"))]
     impl VAO {
         fn new() -> Self {
             Self {
@@ -177,6 +181,8 @@ pub fn draw<V, U>(framebuffer: &mut Framebuffer,
             }
         }
     }
+
+    #[cfg(not(target_os = "emscripten"))]
     impl Drop for VAO {
         fn drop(&mut self) {
             unsafe {

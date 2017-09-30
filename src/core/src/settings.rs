@@ -1,3 +1,5 @@
+#![allow(dead_code, unused_variables)]
+
 use ::*;
 
 enum Setting {
@@ -17,7 +19,7 @@ enum Setting {
 
 #[cfg(target_os = "emscripten")]
 impl brijs::IntoJson for Setting {
-    fn into_json(mut self) -> String {
+    fn into_json(self) -> String {
         match self {
             Setting::Bool {
                 name,
@@ -56,7 +58,7 @@ pub type SettingValue<T> = Rc<Cell<T>>;
 impl Application {
     fn add_setting(&self, setting: Setting) {
         #[cfg(target_os = "emscripten")]
-        run_js!{
+            run_js! {
             CodeVisual.settings.add(setting);
         }
     }
@@ -106,7 +108,7 @@ impl Application {
             self.add_setting(Setting::I32 {
                 name: String::from(name),
                 default_value: ((default_value - min_value) / (max_value - min_value) *
-                                    MAX_INT as f64) as i32,
+                    MAX_INT as f64) as i32,
                 min_value: 0,
                 max_value: MAX_INT,
                 setter: Box::new(move |x| {

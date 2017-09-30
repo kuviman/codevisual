@@ -23,7 +23,7 @@ pub fn wget<F: FnOnce(&str) + 'static>(url: &str, on_load: F) {
         data: *mut c_void,
         data_size: c_int,
     ) {
-        let mut callback = Box::<Box<F>>::from_raw(callback as *mut _);
+        let callback = Box::<Box<F>>::from_raw(callback as *mut _);
         let data = std::slice::from_raw_parts(data as *mut u8, data_size as usize);
         callback(std::str::from_utf8(data).expect("Could not convert wget data to str"));
     }

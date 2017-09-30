@@ -1,3 +1,5 @@
+#![deny(warnings)]
+
 pub extern crate prelude;
 
 #[allow(unused_imports)]

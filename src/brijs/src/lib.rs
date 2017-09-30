@@ -1,3 +1,5 @@
+#![deny(warnings)]
+
 extern crate emscripten_sys;
 extern crate serde;
 extern crate serde_json;
@@ -20,9 +22,6 @@ use emscripten_sys::*;
 type EM_BOOL = c_int;
 
 const EM_TRUE: EM_BOOL = 1;
-
-const EMSCRIPTEN_FETCH_LOAD_TO_MEMORY: u32 = 1;
-const EMSCRIPTEN_FETCH_STREAM_DATA: u32 = 2;
 
 const CANVAS_SELECTOR: &[c_char] = b"#canvas\0";
 const USE_CAPTURE: EM_BOOL = 1;

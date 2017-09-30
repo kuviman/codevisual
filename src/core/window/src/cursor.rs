@@ -31,10 +31,12 @@ impl Window {
     }
 
     pub fn set_cursor_position(&self, position: Vec2) {
+        #![allow(unused_variables)]
         #[cfg(target_os = "emscripten")]
         unimplemented!();
         #[cfg(not(target_os = "emscripten"))]
-        self.glutin_window.set_cursor_position(position.x as i32, position.y as i32);
+        self.glutin_window.set_cursor_position(position.x as i32, position.y as i32)
+            .expect("Failed to set cursor position");
     }
 
     pub fn get_cursor_position(&self) -> Vec2 {
@@ -45,6 +47,7 @@ impl Window {
         #[cfg(target_os = "emscripten")]
         unimplemented!();
         #[cfg(not(target_os = "emscripten"))]
-        self.glutin_window.set_cursor_state(glutin::CursorState::Grab);
+        self.glutin_window.set_cursor_state(glutin::CursorState::Grab)
+            .expect("Failed to grab cursor");
     }
 }

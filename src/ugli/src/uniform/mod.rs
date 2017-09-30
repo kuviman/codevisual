@@ -17,7 +17,9 @@ pub ( crate ) use self::raw::Location as UniformLocation;
 
 pub trait Uniform {
     fn apply<'a>(&self, location: raw::Location<'a>);
-    fn walk_extra<C>(&self, name: &str, consumer: &mut C) where C: UniformConsumer {}
+    fn walk_extra<C>(&self, name: &str, consumer: &mut C) where C: UniformConsumer {
+        #![allow(unused_variables)]
+    }
 }
 
 pub trait UniformConsumer {

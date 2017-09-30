@@ -26,8 +26,7 @@ pub struct Clouds {
 impl Clouds {
     pub fn new(
         app: &Rc<codevisual::Application>,
-        resources: Resources,
-        settings: &Rc<Settings>,
+        resources: Resources
     ) -> Self {
         let mut data = Vec::new();
         let map_size = resources.cloud_map.get_size();

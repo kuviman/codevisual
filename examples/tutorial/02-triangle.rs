@@ -11,7 +11,6 @@ struct Vertex {
 }
 
 struct Tutorial {
-    app: Rc<codevisual::Application>,
     material: codevisual::Material,
     vertices: ugli::VertexBuffer<Vertex>,
 }
@@ -40,7 +39,6 @@ impl codevisual::Game for Tutorial {
         let context = app.ugli_context();
 
         Tutorial {
-            app: app.clone(),
             material: codevisual::Material::new(
                 context,
                 (), (),

@@ -58,7 +58,7 @@ impl From<brijs::TouchStartEvent> for Event {
 }
 
 impl From<brijs::TouchEndEvent> for Event {
-    fn from(event: brijs::TouchEndEvent) -> Self {
+    fn from(_: brijs::TouchEndEvent) -> Self {
         Event::TouchEnd
     }
 }
@@ -70,7 +70,7 @@ impl From<brijs::TouchMoveEvent> for Event {
 }
 
 impl Window {
-    pub fn get_events(&self) -> Vec<Event> {
+    pub ( crate ) fn internal_get_events(&self) -> Vec<Event> {
         lazy_static! {
             static ref EVENTS: Arc<Mutex<Vec<Event>>> = {
                 let events = Arc::new(Mutex::new(Vec::new()));

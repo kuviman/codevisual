@@ -1,3 +1,5 @@
+#![deny(warnings)]
+
 #[allow(unused_imports)]
 #[macro_use]
 extern crate prelude;
@@ -84,9 +86,13 @@ pub trait Game {
         String::from("CodeVisual application")
     }
     fn new(app: &Rc<Application>, resources: Self::Resources) -> Self;
-    fn update(&mut self, delta_time: f64) {}
+    fn update(&mut self, delta_time: f64) {
+        #![allow(unused_variables)]
+    }
     fn draw(&mut self, framebuffer: &mut ugli::Framebuffer);
-    fn handle_event(&mut self, event: Event) {}
+    fn handle_event(&mut self, event: Event) {
+        #![allow(unused_variables)]
+    }
 }
 
 pub fn run<G: Game>() {
@@ -120,7 +126,7 @@ pub fn run<G: Game>() {
         #[cfg(not(target_os = "emscripten"))]
         let mut prev_time = std::time::Instant::now();
 
-        let mut main_loop = || {
+        let main_loop = || {
             for event in app.window.get_events() {
                 game.handle_event(event);
             }
@@ -156,8 +162,11 @@ pub fn run<G: Game>() {
         brijs::set_main_loop(main_loop);
 
         #[cfg(not(target_os = "emscripten"))]
-        while !app.window.should_close() {
-            main_loop();
+        {
+            let mut main_loop = main_loop;
+            while !app.window.should_close() {
+                main_loop();
+            }
         }
 
         true

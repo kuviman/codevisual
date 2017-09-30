@@ -1,10 +1,7 @@
 use ::*;
 
 impl Window {
-    pub fn is_key_pressed(&self, key: Key) -> bool {
-        self.pressed_keys.borrow().contains(&key)
-    }
-    pub fn get_events(&self) -> Vec<Event> {
+    pub ( crate ) fn internal_get_events(&self) -> Vec<Event> {
         let mut events = Vec::new();
         {
             let mut handle_event = |e| match e {

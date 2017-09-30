@@ -24,8 +24,8 @@ pub fn set_main_loop<F: FnMut()>(callback: F) {
         emscripten_GetProcAddress(std::ptr::null());
     }
     unsafe extern "C" fn wrapper<F>(arg: *mut c_void)
-    where
-        F: FnMut(),
+        where
+            F: FnMut(),
     {
         let mut callback = Box::<Box<F>>::from_raw(arg as *mut _);
         callback();
@@ -33,10 +33,6 @@ pub fn set_main_loop<F: FnMut()>(callback: F) {
     }
 }
 
-pub fn random() -> f64 {
-    unsafe { ::emscripten_sys::emscripten_random() as f64 }
-}
-
 pub fn get_now() -> f64 {
-    unsafe { ::emscripten_sys::emscripten_get_now() as f64 / 1000.0 }
+    unsafe { emscripten_get_now() as f64 / 1000.0 }
 }
