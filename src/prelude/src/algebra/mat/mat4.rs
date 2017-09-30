@@ -152,6 +152,33 @@ impl<T: Num + Copy> Mat4<T> {
         result
     }
 
+    pub fn scale_uniform(factor: T) -> Self {
+        let mut result = Self::zero();
+        result[(0, 0)] = factor;
+        result[(1, 1)] = factor;
+        result[(2, 2)] = factor;
+        result[(3, 3)] = T::one();
+        result
+    }
+    pub fn scale(factor: Vec3<T>) -> Self {
+        let mut result = Self::zero();
+        result[(0, 0)] = factor.x;
+        result[(1, 1)] = factor.y;
+        result[(2, 2)] = factor.z;
+        result[(3, 3)] = T::one();
+        result
+    }
+
+    pub fn translate(dv: Vec3<T>) -> Self {
+        let mut result = Self::identity();
+        result[(0, 3)] = dv.x;
+        result[(1, 3)] = dv.y;
+        result[(2, 3)] = dv.z;
+        result
+    }
+}
+
+impl<T: Float> Mat4<T> {
     pub fn inverse(self) -> Self {
         let a00 = self[(0, 0)];
         let a01 = self[(0, 1)];
@@ -205,33 +232,6 @@ impl<T: Num + Copy> Mat4<T> {
         }.transpose() / det
     }
 
-    pub fn scale_uniform(factor: T) -> Self {
-        let mut result = Self::zero();
-        result[(0, 0)] = factor;
-        result[(1, 1)] = factor;
-        result[(2, 2)] = factor;
-        result[(3, 3)] = T::one();
-        result
-    }
-    pub fn scale(factor: Vec3<T>) -> Self {
-        let mut result = Self::zero();
-        result[(0, 0)] = factor.x;
-        result[(1, 1)] = factor.y;
-        result[(2, 2)] = factor.z;
-        result[(3, 3)] = T::one();
-        result
-    }
-
-    pub fn translate(dv: Vec3<T>) -> Self {
-        let mut result = Self::identity();
-        result[(0, 3)] = dv.x;
-        result[(1, 3)] = dv.y;
-        result[(2, 3)] = dv.z;
-        result
-    }
-}
-
-impl<T: Float> Mat4<T> {
     pub fn rotate_x(angle: T) -> Self {
         let mut result = Self::identity();
         let cs = angle.cos();
