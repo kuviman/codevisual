@@ -199,7 +199,7 @@ pub fn draw<V, U>(framebuffer: &mut Framebuffer,
     impl<'a> VertexDataConsumer for VDC<'a> {
         fn consume<D>(&mut self, data: &VertexBufferSlice<D>, divisor: Option<usize>)
             where
-                D: VertexData,
+                D: Vertex,
         {
             if let Some(divisor) = divisor {
                 let instance_count = data.len() * divisor;
@@ -224,13 +224,13 @@ pub fn draw<V, U>(framebuffer: &mut Framebuffer,
                 offset: data.range.start * std::mem::size_of::<D>(),
             });
             std::mem::forget(sample);
-            struct VAC<'a, D: VertexData + 'a> {
+            struct VAC<'a, D: Vertex + 'a> {
                 offset: usize,
                 sample: &'a D,
                 divisor: Option<usize>,
                 program: &'a Program,
             }
-            impl<'a, D: VertexData> VertexAttributeConsumer for VAC<'a, D> {
+            impl<'a, D: Vertex> VertexAttributeConsumer for VAC<'a, D> {
                 fn consume<A: VertexAttribute>(&mut self, name: &str, attribute: &A) {
                     let location = unsafe {
                         gl::GetAttribLocation(

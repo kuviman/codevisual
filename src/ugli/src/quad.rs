@@ -6,7 +6,7 @@ pub struct QuadVertex {
     a_quad_pos: Vec2<f32>,
 }
 
-impl VertexData for QuadVertex {
+impl Vertex for QuadVertex {
     fn walk_attributes<C>(&self, mut consumer: C)
         where
             C: VertexAttributeConsumer,

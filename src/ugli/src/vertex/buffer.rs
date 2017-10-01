@@ -1,11 +1,11 @@
 use ::*;
 
-pub struct VertexBuffer<T: VertexData> {
+pub struct VertexBuffer<T: Vertex> {
     pub ( crate ) handle: GLuint,
     data: Vec<T>,
 }
 
-impl<T: VertexData> Drop for VertexBuffer<T> {
+impl<T: Vertex> Drop for VertexBuffer<T> {
     fn drop(&mut self) {
         unsafe {
             gl::DeleteBuffers(1, &self.handle);
@@ -13,7 +13,7 @@ impl<T: VertexData> Drop for VertexBuffer<T> {
     }
 }
 
-impl<T: VertexData> VertexBuffer<T> {
+impl<T: Vertex> VertexBuffer<T> {
     fn new(_: &Context, data: Vec<T>, usage: GLenum) -> Self {
         let buffer = Self {
             handle: unsafe {
@@ -77,37 +77,37 @@ impl<T: VertexData> VertexBuffer<T> {
     }
 }
 
-pub struct VertexBufferSlice<'a, T: VertexData + 'a> {
+pub struct VertexBufferSlice<'a, T: Vertex + 'a> {
     pub ( crate ) buffer: &'a VertexBuffer<T>,
     pub ( crate ) range: Range<usize>,
 }
 
-impl<'a, T: VertexData + 'a> Deref for VertexBufferSlice<'a, T> {
+impl<'a, T: Vertex + 'a> Deref for VertexBufferSlice<'a, T> {
     type Target = [T];
     fn deref(&self) -> &Self::Target {
         &self.buffer.data[self.range.clone()]
     }
 }
 
-pub struct VertexBufferSliceMut<'a, T: VertexData + 'a> {
+pub struct VertexBufferSliceMut<'a, T: Vertex + 'a> {
     buffer: &'a mut VertexBuffer<T>,
     range: Range<usize>,
 }
 
-impl<'a, T: VertexData + 'a> Deref for VertexBufferSliceMut<'a, T> {
+impl<'a, T: Vertex + 'a> Deref for VertexBufferSliceMut<'a, T> {
     type Target = [T];
     fn deref(&self) -> &Self::Target {
         &self.buffer.data[self.range.clone()]
     }
 }
 
-impl<'a, T: VertexData + 'a> DerefMut for VertexBufferSliceMut<'a, T> {
+impl<'a, T: Vertex + 'a> DerefMut for VertexBufferSliceMut<'a, T> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.buffer.data[self.range.clone()]
     }
 }
 
-impl<'a, T: VertexData> Drop for VertexBufferSliceMut<'a, T> {
+impl<'a, T: Vertex> Drop for VertexBufferSliceMut<'a, T> {
     fn drop(&mut self) {
         self.buffer.bind();
         let data = &self.buffer.data[self.range.clone()];

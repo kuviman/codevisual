@@ -8,14 +8,14 @@ pub trait VertexAttributeConsumer {
     fn consume<A: VertexAttribute>(&mut self, name: &str, attribute: &A);
 }
 
-pub trait VertexData {
+pub trait Vertex {
     fn walk_attributes<C>(&self, consumer: C)
     where
         C: VertexAttributeConsumer;
 }
 
 pub trait VertexDataConsumer {
-    fn consume<D: VertexData>(&mut self, data: &VertexBufferSlice<D>, divisor: Option<usize>);
+    fn consume<D: Vertex>(&mut self, data: &VertexBufferSlice<D>, divisor: Option<usize>);
 }
 
 pub trait VertexDataSource {
@@ -24,11 +24,11 @@ pub trait VertexDataSource {
         C: VertexDataConsumer;
 }
 
-pub struct PlainVertexDataSource<'a, T: VertexData + 'a> {
+pub struct PlainVertexDataSource<'a, T: Vertex + 'a> {
     buffer: &'a VertexBufferSlice<'a, T>,
 }
 
-impl<'a, T: VertexData + 'a> VertexDataSource for PlainVertexDataSource<'a, T> {
+impl<'a, T: Vertex + 'a> VertexDataSource for PlainVertexDataSource<'a, T> {
     fn walk_data<C>(&self, mut consumer: C)
     where
         C: VertexDataConsumer,
@@ -39,20 +39,20 @@ impl<'a, T: VertexData + 'a> VertexDataSource for PlainVertexDataSource<'a, T> {
 
 pub fn plain<'a, T>(buffer: &'a VertexBufferSlice<'a, T>) -> PlainVertexDataSource<'a, T>
 where
-    T: VertexData + 'a,
+    T: Vertex + 'a,
 {
     PlainVertexDataSource { buffer }
 }
 
-pub struct InstancedVertexDataSource<'a, V: VertexData + 'a, I: VertexData + 'a> {
+pub struct InstancedVertexDataSource<'a, V: Vertex + 'a, I: Vertex + 'a> {
     vertices: &'a VertexBufferSlice<'a, V>,
     instances: &'a VertexBufferSlice<'a, I>,
 }
 
 impl<'a, V, I> VertexDataSource for InstancedVertexDataSource<'a, V, I>
 where
-    V: VertexData + 'a,
-    I: VertexData + 'a,
+    V: Vertex + 'a,
+    I: Vertex + 'a,
 {
     fn walk_data<C>(&self, mut consumer: C)
     where
@@ -68,8 +68,8 @@ pub fn instanced<'a, V, I>(
     instances: &'a VertexBufferSlice<'a, I>,
 ) -> InstancedVertexDataSource<'a, V, I>
 where
-    V: VertexData + 'a,
-    I: VertexData + 'a,
+    V: Vertex + 'a,
+    I: Vertex + 'a,
 {
     InstancedVertexDataSource {
         vertices,

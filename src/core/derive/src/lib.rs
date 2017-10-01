@@ -31,7 +31,7 @@ macro_rules! create_derive {
     }
 }
 
-create_derive!(vertex = Vertex: ::codevisual::ugli::VertexData);
+create_derive!(vertex = Vertex: ::codevisual::ugli::Vertex);
 mod vertex {
     use ::*;
 
@@ -46,7 +46,7 @@ mod vertex {
                     }
                 }
             }
-            _ => panic!("codevisual::Vertex can only be derived by structs")
+            _ => panic!("ugli::Vertex can only be derived by structs")
         }
     }
 }

@@ -8,7 +8,7 @@ pub struct CubeVertex {
     a_cube_pos: Vec3<f32>,
 }
 
-impl VertexData for CubeVertex {
+impl Vertex for CubeVertex {
     fn walk_attributes<C>(&self, mut consumer: C)
         where
             C: VertexAttributeConsumer,
