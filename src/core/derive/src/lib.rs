@@ -51,7 +51,7 @@ mod vertex {
     }
 }
 
-create_derive!(uniforms = Uniforms: ::codevisual::ugli::UniformStorage);
+create_derive!(uniforms = Uniforms: ::codevisual::ugli::Uniforms);
 mod uniforms {
     use ::*;
 
@@ -66,7 +66,7 @@ mod uniforms {
                     }
                 }
             }
-            _ => panic!("codevisual::Uniforms can only be derived by structs")
+            _ => panic!("ugli::Uniforms can only be derived by structs")
         }
     }
 }

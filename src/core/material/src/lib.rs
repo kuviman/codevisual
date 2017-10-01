@@ -54,7 +54,7 @@ pub fn compile_ugli_program<Lib>(
 pub struct Material<Lib = ShaderPrelude, U = (), D = ()>
     where
         Lib: ShaderLibrary,
-        U: ugli::UniformStorage,
+        U: ugli::Uniforms,
         D: ShaderDefineStorage + Clone + PartialEq,
 {
     pub uniforms: U,
@@ -69,7 +69,7 @@ pub struct Material<Lib = ShaderPrelude, U = (), D = ()>
 impl<Lib, U, D> Material<Lib, U, D>
     where
         Lib: ShaderLibrary,
-        U: ugli::UniformStorage,
+        U: ugli::Uniforms,
         D: ShaderDefineStorage + Clone + PartialEq,
 {
     pub fn new(

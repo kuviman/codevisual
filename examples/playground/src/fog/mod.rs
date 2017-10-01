@@ -42,7 +42,7 @@ impl Fog {
             settings: settings.clone(),
         }
     }
-    pub fn prepare<U: ugli::UniformStorage>(&mut self, units: &units::AllUnits, uniforms: &U) {
+    pub fn prepare<U: ugli::Uniforms>(&mut self, units: &units::AllUnits, uniforms: &U) {
         let context = self.app.ugli_context();
         let mut framebuffer = ugli::Framebuffer::new_color(
             context, ugli::ColorAttachment::Texture(&mut self.uniforms.u_fog_map));

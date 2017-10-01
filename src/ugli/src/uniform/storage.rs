@@ -1,12 +1,12 @@
 use ::*;
 
-pub trait UniformStorage {
+pub trait Uniforms {
     fn walk_uniforms<C>(&self, consumer: &mut C)
         where
             C: UniformConsumer;
 }
 
-impl UniformStorage for () {
+impl Uniforms for () {
     fn walk_uniforms<C>(&self, _: &mut C)
         where
             C: UniformConsumer,
@@ -24,7 +24,7 @@ impl<'a, U: Uniform> SingleUniform<'a, U> {
     }
 }
 
-impl<'a, U: Uniform> UniformStorage for SingleUniform<'a, U> {
+impl<'a, U: Uniform> Uniforms for SingleUniform<'a, U> {
     fn walk_uniforms<C>(&self, consumer: &mut C)
         where
             C: UniformConsumer,
@@ -33,7 +33,7 @@ impl<'a, U: Uniform> UniformStorage for SingleUniform<'a, U> {
     }
 }
 
-impl<'a, U: UniformStorage> UniformStorage for &'a U {
+impl<'a, U: Uniforms> Uniforms for &'a U {
     fn walk_uniforms<C>(&self, consumer: &mut C)
         where
             C: UniformConsumer,
@@ -42,7 +42,7 @@ impl<'a, U: UniformStorage> UniformStorage for &'a U {
     }
 }
 
-impl<A: UniformStorage, B: UniformStorage> UniformStorage for (A, B) {
+impl<A: Uniforms, B: Uniforms> Uniforms for (A, B) {
     fn walk_uniforms<C>(&self, consumer: &mut C)
         where
             C: UniformConsumer,
@@ -52,7 +52,7 @@ impl<A: UniformStorage, B: UniformStorage> UniformStorage for (A, B) {
     }
 }
 
-impl<U: UniformStorage> UniformStorage for Option<U> {
+impl<U: Uniforms> Uniforms for Option<U> {
     fn walk_uniforms<C>(&self, consumer: &mut C) where
         C: UniformConsumer {
         self.as_ref().map(|u| u.walk_uniforms(consumer));

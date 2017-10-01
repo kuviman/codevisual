@@ -54,7 +54,7 @@ pub fn draw<V, U>(framebuffer: &mut Framebuffer,
                   uniforms: U,
                   draw_parameters: &DrawParameters)
     where V: VertexDataSource,
-          U: UniformStorage {
+          U: Uniforms {
     framebuffer.fbo.bind();
     unsafe {
         let size = framebuffer.get_size();

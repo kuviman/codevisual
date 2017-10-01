@@ -53,7 +53,7 @@ impl Clouds {
         }
     }
 
-    pub fn draw<U: ugli::UniformStorage>(
+    pub fn draw<U: ugli::Uniforms>(
         &mut self,
         framebuffer: &mut ugli::Framebuffer,
         uniforms: &U,

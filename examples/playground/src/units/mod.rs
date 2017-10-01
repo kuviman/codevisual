@@ -146,7 +146,7 @@ impl Units {
             }
         };
     }
-    pub fn draw<U: ugli::UniformStorage>(
+    pub fn draw<U: ugli::Uniforms>(
         &mut self,
         framebuffer: &mut ugli::Framebuffer,
         uniforms: &U,
@@ -249,7 +249,7 @@ impl AllUnits {
         }
     }
 
-    pub fn get_screen_used_texture<U: ugli::UniformStorage>(
+    pub fn get_screen_used_texture<U: ugli::Uniforms>(
         &mut self,
         uniforms: &U,
     ) -> &ugli::Texture2d {
@@ -297,7 +297,7 @@ impl AllUnits {
         self.screen_used_texture.as_ref().unwrap()
     }
 
-    pub fn draw<U: ugli::UniformStorage>(
+    pub fn draw<U: ugli::Uniforms>(
         &mut self,
         framebuffer: &mut ugli::Framebuffer,
         uniforms: &U,
