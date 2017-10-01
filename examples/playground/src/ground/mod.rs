@@ -22,7 +22,7 @@ resources! {
     }
 }
 
-#[derive(Defines, Clone, PartialEq)]
+#[derive(ShaderDefines, Clone, PartialEq)]
 struct Defines {
     d_fog_enabled: bool,
     d_heightmap_enabled: bool,

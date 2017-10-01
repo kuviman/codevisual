@@ -1,94 +1,93 @@
+#![allow(unused_imports)]
+
+extern crate prelude;
 extern crate proc_macro;
-extern crate syn;
 #[macro_use]
 extern crate quote;
+extern crate syn;
 
-use proc_macro::TokenStream;
+pub ( crate ) use prelude::*;
+pub ( crate ) use proc_macro::TokenStream;
+pub ( crate ) use quote::Tokens;
+pub ( crate ) use syn::{Body, Ident, Field, VariantData, DeriveInput};
 
-#[proc_macro_derive(Vertex)]
-pub fn vertex(input: TokenStream) -> TokenStream {
-    let s = input.to_string();
-    let ast = syn::parse_derive_input(&s).unwrap();
-    let gen = impl_vertex(&ast);
-    gen.parse().unwrap()
-}
-
-fn impl_vertex(ast: &syn::DeriveInput) -> quote::Tokens {
-    let name = &ast.ident;
-    if let syn::Body::Struct(ref data) = ast.body {
-        let field_name = data.fields().into_iter().map(|field| {
-            field.ident.as_ref().unwrap()
-        });
-        let field_name2 = data.fields().into_iter().map(|field| {
-            field.ident.as_ref().unwrap()
-        });
-        quote! {
-            impl ::codevisual::ugli::VertexData for #name {
-                fn walk_attributes<C>(&self, mut consumer: C) where C: ::codevisual::ugli::VertexAttributeConsumer {
-                    #(consumer.consume(stringify!(#field_name2), &self.#field_name));*
+macro_rules! create_derive {
+    ($fn_name:ident = $derive_name:ident: $typ:ty) => {
+        #[proc_macro_derive($derive_name)]
+        #[doc(hidden)]
+        pub fn $fn_name(input: TokenStream) -> TokenStream {
+            let s = input.to_string();
+            let ast = syn::parse_derive_input(&s).unwrap();
+            let input_type = &ast.ident;
+            let (impl_generics, ty_generics, where_clause) = ast.generics.split_for_impl();
+            let impl_body = $fn_name::expand(&ast);
+            let result = quote! {
+                impl#impl_generics $typ for #input_type#ty_generics #where_clause {
+                    #impl_body
                 }
-            }
+            };
+            result.parse().expect("Expanded output was no correct Rust code")
         }
-    } else {
-        panic!("Can only be implemented for structs");
     }
 }
 
-#[proc_macro_derive(Uniforms)]
-pub fn uniforms(input: TokenStream) -> TokenStream {
-    let s = input.to_string();
-    let ast = syn::parse_derive_input(&s).unwrap();
-    let gen = impl_uniforms(&ast);
-    gen.parse().unwrap()
-}
+create_derive!(vertex = Vertex: ::codevisual::ugli::VertexData);
+mod vertex {
+    use ::*;
 
-fn impl_uniforms(ast: &syn::DeriveInput) -> quote::Tokens {
-    let name = &ast.ident;
-    if let syn::Body::Struct(ref data) = ast.body {
-        let field_name = data.fields().into_iter().map(|field| {
-            field.ident.as_ref().unwrap()
-        });
-        let field_name2 = data.fields().into_iter().map(|field| {
-            field.ident.as_ref().unwrap()
-        });
-        quote! {
-            impl ::codevisual::ugli::UniformStorage for #name {
-                fn walk_uniforms<C>(&self, consumer: &mut C) where C: ::codevisual::ugli::UniformConsumer {
-                    #(consumer.consume(stringify!(#field_name2), &self.#field_name));*
+    pub fn expand(input: &DeriveInput) -> Tokens {
+        match input.body {
+            Body::Struct(VariantData::Struct(ref fields)) => {
+                let field_names = fields.iter().map(|field| field.ident.as_ref().unwrap());
+                let field_names_copy = fields.iter().map(|field| field.ident.as_ref().unwrap());
+                quote! {
+                    fn walk_attributes<C>(&self, mut consumer: C) where C: ::codevisual::ugli::VertexAttributeConsumer {
+                        #(consumer.consume(stringify!(#field_names_copy), &self.#field_names));*
+                    }
                 }
             }
+            _ => panic!("codevisual::Vertex can only be derived by structs")
         }
-    } else {
-        panic!("Can only be implemented for structs");
     }
 }
 
-#[proc_macro_derive(Defines)]
-pub fn defines(input: TokenStream) -> TokenStream {
-    let s = input.to_string();
-    let ast = syn::parse_derive_input(&s).unwrap();
-    let gen = impl_defines(&ast);
-    gen.parse().unwrap()
-}
+create_derive!(uniforms = Uniforms: ::codevisual::ugli::UniformStorage);
+mod uniforms {
+    use ::*;
 
-fn impl_defines(ast: &syn::DeriveInput) -> quote::Tokens {
-    let name = &ast.ident;
-    if let syn::Body::Struct(ref data) = ast.body {
-        let field_name = data.fields().into_iter().map(|field| {
-            field.ident.as_ref().unwrap()
-        });
-        let field_name2 = data.fields().into_iter().map(|field| {
-            field.ident.as_ref().unwrap()
-        });
-        quote! {
-            impl ::codevisual::ShaderDefineStorage for #name {
-                fn as_glsl(&self, sources: &mut Vec<String>) {
-                    #(sources.push(format!(concat!("#define ", stringify!(#field_name2), " {}"),
-                        <::codevisual::ShaderDefine>::as_glsl(&self.#field_name))));*
+    pub fn expand(input: &DeriveInput) -> Tokens {
+        match input.body {
+            Body::Struct(VariantData::Struct(ref fields)) => {
+                let field_names = fields.iter().map(|field| field.ident.as_ref().unwrap());
+                let field_names_copy = fields.iter().map(|field| field.ident.as_ref().unwrap());
+                quote! {
+                    fn walk_uniforms<C>(&self, consumer: &mut C) where C: ::codevisual::ugli::UniformConsumer {
+                        #(consumer.consume(stringify!(#field_names_copy), &self.#field_names));*
+                    }
                 }
             }
+            _ => panic!("codevisual::Uniforms can only be derived by structs")
         }
-    } else {
-        panic!("Can only be implemented for structs");
+    }
+}
+
+create_derive!(shader_defines = ShaderDefines: ::codevisual::ShaderDefineStorage);
+mod shader_defines {
+    use ::*;
+
+    pub fn expand(input: &DeriveInput) -> Tokens {
+        match input.body {
+            Body::Struct(VariantData::Struct(ref fields)) => {
+                let field_names = fields.iter().map(|field| field.ident.as_ref().unwrap());
+                let field_names_copy = fields.iter().map(|field| field.ident.as_ref().unwrap());
+                quote! {
+                    fn as_glsl(&self, sources: &mut Vec<String>) {
+                        #(sources.push(format!(concat!("#define ", stringify!(#field_names_copy), " {}"),
+                            <::codevisual::ShaderDefine>::as_glsl(&self.#field_names))));*
+                    }
+                }
+            }
+            _ => panic!("codevisual::ShaderDefines can only be derived by structs")
+        }
     }
 }

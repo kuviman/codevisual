@@ -59,7 +59,7 @@ pub const MIN_SIZE: f32 = 3.5;
 pub const MAX_SIZE: f32 = 5.0;
 pub const SPEED: f32 = 50.0;
 
-#[derive(Defines, Clone, PartialEq)]
+#[derive(ShaderDefines, Clone, PartialEq)]
 struct Defines {
     d_is_heli: bool,
     d_heightmap_enabled: bool,
