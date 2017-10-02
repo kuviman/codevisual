@@ -166,13 +166,16 @@ impl Units {
     }
 }
 
-resources! {
-    Resources {
-        car_texture: ugli::Texture2d = "assets/car.png",
-        heli_texture: ugli::Texture2d = "assets/heli.png",
-        car_obj: String = "assets/car.obj",
-        heli_obj: String = "assets/heli.obj",
-    }
+#[derive(Resources)]
+pub struct Resources {
+    #[path = "assets/car.png"]
+    car_texture: ugli::Texture2d,
+    #[path = "assets/heli.png"]
+    heli_texture: ugli::Texture2d,
+    #[path = "assets/car.obj"]
+    car_obj: String,
+    #[path = "assets/heli.obj"]
+    heli_obj: String,
 }
 
 pub struct AllUnits {

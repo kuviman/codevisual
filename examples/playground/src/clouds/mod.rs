@@ -1,10 +1,11 @@
 use ::*;
 
-resources! {
-    Resources {
-        cloud_texture: ugli::Texture2d = "assets/bush.png",
-        cloud_map: ugli::Texture2d = "assets/cloud_map.png",
-    }
+#[derive(Resources)]
+pub struct Resources {
+    #[path = "assets/bush.png"]
+    cloud_texture: ugli::Texture2d,
+    #[path = "assets/cloud_map.png"]
+    cloud_map: ugli::Texture2d,
 }
 
 #[derive(Uniforms)]

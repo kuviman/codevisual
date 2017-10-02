@@ -83,13 +83,12 @@ pub struct Playground {
     settings: Rc<Settings>,
 }
 
-resources! {
-    Resources {
-        units: units::Resources = (),
-        ground: ground::Resources = (),
-        decor: decor::Resources = (),
-        clouds: clouds::Resources = (),
-    }
+#[derive(Resources)]
+pub struct Resources {
+    units: units::Resources,
+    ground: ground::Resources,
+    decor: decor::Resources,
+    clouds: clouds::Resources,
 }
 
 impl codevisual::Game for Playground {

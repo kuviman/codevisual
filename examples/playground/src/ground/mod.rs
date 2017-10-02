@@ -13,13 +13,16 @@ pub struct Uniforms {
     u_map_texture: ugli::Texture2d,
 }
 
-resources! {
-    Resources {
-        grass_texture: ugli::Texture2d = "assets/grass.png",
-        darkgrass_texture: ugli::Texture2d = "assets/darkgrass.png",
-        dirt_texture: ugli::Texture2d = "assets/dirt.png",
-        map_texture: ugli::Texture2d = "assets/map.png",
-    }
+#[derive(Resources)]
+pub struct Resources {
+    #[path = "assets/grass.png"]
+    grass_texture: ugli::Texture2d,
+    #[path = "assets/darkgrass.png"]
+    darkgrass_texture: ugli::Texture2d,
+    #[path = "assets/dirt.png"]
+    dirt_texture: ugli::Texture2d,
+    #[path = "assets/map.png"]
+    pub map_texture: ugli::Texture2d,
 }
 
 #[derive(ShaderDefines, Clone, PartialEq)]

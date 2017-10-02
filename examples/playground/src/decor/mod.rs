@@ -12,11 +12,12 @@ struct Instance {
     i_size: f32,
 }
 
-resources! {
-    Resources {
-        bush_texture: ugli::Texture2d = "assets/bush.png",
-        palm_texture: ugli::Texture2d = "assets/palm.png",
-    }
+#[derive(Resources)]
+pub struct Resources {
+    #[path = "assets/bush.png"]
+    bush_texture: ugli::Texture2d,
+    #[path = "assets/palm.png"]
+    palm_texture: ugli::Texture2d,
 }
 
 #[derive(ShaderDefines, Clone, PartialEq)]
