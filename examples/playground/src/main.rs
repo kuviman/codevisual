@@ -32,7 +32,9 @@ mod minimap;
 
 pub ( crate ) use minimap::*;
 
-shader_library! {
+struct ShaderLib;
+
+impl_shader_library! {
     ShaderLib {
         "global" => include_str!("global.glsl"),
         "format/obj" => include_str!("obj/lib.glsl"),

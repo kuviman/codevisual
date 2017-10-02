@@ -46,17 +46,18 @@ macro_rules! defines {
 }
 
 #[macro_export]
-macro_rules! shader_library {
+macro_rules! impl_shader_library {
     ($name:ident { $($path:expr => $value:expr),*, }) => {
-        pub struct ShaderLibrary;
-        impl $crate::ShaderLibrary for ShaderLibrary {
+        impl $crate::ShaderLibrary for $name {
             fn get(path: &str) -> Option<&str> {
+                if let Some(result) = <$crate::ShaderPrelude as $crate::ShaderLibrary>::get(path) {
+                    return Some(result);
+                }
                 match path {
                     $($path => Some($value)),*,
                     _ => None
                 }
             }
         }
-        pub type $name = ($crate::ShaderPrelude, ShaderLibrary);
     }
 }
