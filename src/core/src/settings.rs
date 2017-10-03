@@ -45,29 +45,29 @@ impl brijs::IntoJson for Setting {
         let setting = match self {
             Setting::Bool { .. } => self,
             Setting::I32 { .. } => self,
-            Setting::F32 { name, default_value, min_value, max_value, setter } => {
+            Setting::F32 { name, default_value, min_value, max_value, mut setter } => {
                 Setting::I32 {
                     name,
-                    default_value: (self.default_value * MAX_INT as f32) as i32,
-                    min_value: (self.min_value * MAX_INT as f32) as i32,
-                    max_value: (self.max_value * MAX_INT as f32) as i32,
+                    default_value: (default_value * MAX_INT as f32) as i32,
+                    min_value: (min_value * MAX_INT as f32) as i32,
+                    max_value: (max_value * MAX_INT as f32) as i32,
                     setter: Box::new(move |value| {
                         setter(value as f32 / MAX_INT as f32);
                     }),
                 }
             }
-            Setting::F64 { name, default_value, min_value, max_value, setter } => {
+            Setting::F64 { name, default_value, min_value, max_value, mut setter } => {
                 Setting::I32 {
                     name,
-                    default_value: (self.default_value * MAX_INT as f64) as i32,
-                    min_value: (self.min_value * MAX_INT as f64) as i32,
-                    max_value: (self.max_value * MAX_INT as f64) as i32,
+                    default_value: (default_value * MAX_INT as f64) as i32,
+                    min_value: (min_value * MAX_INT as f64) as i32,
+                    max_value: (max_value * MAX_INT as f64) as i32,
                     setter: Box::new(move |value| {
                         setter(value as f64 / MAX_INT as f64);
                     }),
                 }
             }
-            Setting::Usize { name, default_value, min_value, max_value, setter } => {
+            Setting::Usize { name, default_value, min_value, max_value, mut setter } => {
                 Setting::I32 {
                     name,
                     default_value: default_value as i32,
