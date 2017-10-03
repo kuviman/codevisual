@@ -16,11 +16,11 @@ pub struct Fog {
     quad: ugli::VertexBuffer<QuadVertex>,
     material: codevisual::Material<ShaderLib>,
     pub uniforms: Uniforms,
-    settings: Rc<Settings>,
+    settings: Rc<RefCell<Settings>>,
 }
 
 impl Fog {
-    pub fn new(app: &Rc<codevisual::Application>, settings: &Rc<Settings>) -> Self {
+    pub fn new(app: &Rc<codevisual::Application>, settings: &Rc<RefCell<Settings>>) -> Self {
         let context = app.ugli_context();
 
         Self {
@@ -54,7 +54,7 @@ impl Fog {
                 ugli::DrawMode::TriangleFan,
                 &ugli::instanced(
                     &self.quad.slice(..),
-                    &instances.slice(..self.settings.draw_count.get()),
+                    &instances.slice(..self.settings.borrow().draw_count),
                 ),
                 uniforms,
                 &ugli::DrawParameters {

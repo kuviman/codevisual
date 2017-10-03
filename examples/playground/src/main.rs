@@ -82,7 +82,7 @@ pub struct Playground {
     start_drag: Option<Vec2>,
     prev_zoom_touchdist: f32,
 
-    settings: Rc<Settings>,
+    settings: Rc<RefCell<Settings>>,
 }
 
 #[derive(Resources)]
@@ -104,7 +104,7 @@ impl codevisual::Game for Playground {
         app.window().set_cursor_type(
             codevisual::CursorType::Pointer,
         );
-        let settings = Rc::new(Settings::new(app));
+        let settings = app.register_settings::<Settings>();
         let decor = Decor::new(
             app,
             resources.decor,
@@ -151,7 +151,7 @@ impl codevisual::Game for Playground {
 
     fn update(&mut self, delta_time: f64) {
         let mut delta_time = delta_time as f32;
-        delta_time *= self.settings.time_scale.get() as f32;
+        delta_time *= self.settings.borrow().time_scale as f32;
         self.current_time += delta_time;
         self.units.update(delta_time);
     }
@@ -175,7 +175,7 @@ impl codevisual::Game for Playground {
             Mat4::translate(vec3(self.camera_position.x, self.camera_position.y, 0.0));
         self.global_uniforms.u_matrix = self.global_uniforms.u_projection_matrix *
             self.global_uniforms.u_camera_matrix;
-        if self.settings.fog_enabled.get() {
+        if self.settings.borrow().fog_enabled {
             self.fog.prepare(&self.units, &self.global_uniforms);
         }
         let uniforms = (&self.global_uniforms, &self.fog.uniforms);
@@ -188,7 +188,7 @@ impl codevisual::Game for Playground {
             let uniforms = (
                 &uniforms,
                 uniforms! {
-                    u_screen_used_texture: if self.settings.decor_transparency.get() {
+                    u_screen_used_texture: if self.settings.borrow().decor_transparency {
                         Some(self.units.get_screen_used_texture(
                             &(&self.global_uniforms, &self.ground.uniforms),
                         ))
@@ -206,7 +206,7 @@ impl codevisual::Game for Playground {
                 &self.ground.uniforms,
             ));
         }
-        if self.settings.clouds_enabled.get() {
+        if self.settings.borrow().clouds_enabled {
             self.clouds.draw(framebuffer, &uniforms);
         }
         self.minimap.render(

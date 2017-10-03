@@ -33,13 +33,13 @@ struct Decor {
     material: codevisual::Material<::ShaderLib, (), Defines>,
     geometry: ugli::VertexBuffer<Vertex>,
     instances: ugli::VertexBuffer<Instance>,
-    settings: Rc<Settings>,
+    settings: Rc<RefCell<Settings>>,
 }
 
 impl Decor {
     pub fn new(
         app: &codevisual::Application,
-        settings: &Rc<Settings>,
+        settings: &Rc<RefCell<Settings>>,
         geometry: ugli::VertexBuffer<Vertex>,
         texture: ugli::Texture2d,
         map_texture: &ugli::Texture2d,
@@ -95,9 +95,9 @@ impl Decor {
         uniforms: &U,
         percent: f64,
     ) {
-        self.material.defines.d_fog_enabled = self.settings.fog_enabled.get();
-        self.material.defines.d_transparency_enabled = self.settings.decor_transparency.get();
-        self.material.defines.d_heightmap_enabled = self.settings.heightmap_enabled.get();
+        self.material.defines.d_fog_enabled = self.settings.borrow().fog_enabled;
+        self.material.defines.d_transparency_enabled = self.settings.borrow().decor_transparency;
+        self.material.defines.d_heightmap_enabled = self.settings.borrow().heightmap_enabled;
         let count = (self.instances.slice(..).len() as f64 * percent) as usize;
         ugli::draw(
             framebuffer,
@@ -116,7 +116,7 @@ impl Decor {
 pub struct AllDecor {
     palms: Decor,
     bushes: Decor,
-    settings: Rc<Settings>,
+    settings: Rc<RefCell<Settings>>,
 }
 
 impl AllDecor {
@@ -124,7 +124,7 @@ impl AllDecor {
         app: &codevisual::Application,
         resources: Resources,
         map_texture: &ugli::Texture2d,
-        settings: &Rc<Settings>,
+        settings: &Rc<RefCell<Settings>>,
     ) -> Self {
         let context = app.ugli_context();
         macro_rules! vertex_data {
@@ -236,17 +236,17 @@ impl AllDecor {
         framebuffer: &mut ugli::Framebuffer,
         uniforms: &U,
     ) {
-        if self.settings.show_bushes.get() {
+        if self.settings.borrow().show_bushes {
             self.bushes.draw(
                 framebuffer,
                 uniforms,
-                self.settings.decor_percent.get(),
+                self.settings.borrow().decor_percent,
             );
         }
         self.palms.draw(
             framebuffer,
             uniforms,
-            self.settings.decor_percent.get(),
+            self.settings.borrow().decor_percent,
         );
     }
 }

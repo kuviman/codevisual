@@ -72,13 +72,13 @@ pub struct Units {
     texture: ugli::Texture2d,
     count: usize,
     pub current_time: f32,
-    settings: Rc<Settings>,
+    settings: Rc<RefCell<Settings>>,
 }
 
 impl Units {
     pub fn new(
         app: &codevisual::Application,
-        settings: &Rc<Settings>,
+        settings: &Rc<RefCell<Settings>>,
         unit_type: UnitType,
         geometry: obj::Geometry,
         texture: ugli::Texture2d,
@@ -151,7 +151,7 @@ impl Units {
         framebuffer: &mut ugli::Framebuffer,
         uniforms: &U,
     ) {
-        self.material.defines.d_heightmap_enabled = self.settings.heightmap_enabled.get();
+        self.material.defines.d_heightmap_enabled = self.settings.borrow().heightmap_enabled;
         ugli::draw(
             framebuffer,
             &self.material.ugli_program(),
@@ -186,14 +186,14 @@ pub struct AllUnits {
     pub helis: Units,
     screen_used_texture: Option<ugli::Texture2d>,
     screen_used_material: codevisual::Material<::ShaderLib, (), Defines>,
-    settings: Rc<Settings>,
+    settings: Rc<RefCell<Settings>>,
 }
 
 impl AllUnits {
     pub fn new(
         app: &Rc<codevisual::Application>,
         resources: Resources,
-        settings: &Rc<Settings>,
+        settings: &Rc<RefCell<Settings>>,
     ) -> Self {
         let context = app.ugli_context();
         let cars = Units::new(
@@ -233,19 +233,19 @@ impl AllUnits {
     pub fn update(&mut self, delta_time: f32) {
         self.current_time += delta_time;
         self.next_action -= delta_time;
-        self.cars.count = self.settings.draw_count.get();
-        self.helis.count = self.settings.draw_count.get();
+        self.cars.count = self.settings.borrow().draw_count;
+        self.helis.count = self.settings.borrow().draw_count;
         self.cars.current_time = self.current_time;
         self.helis.current_time = self.current_time;
         while self.next_action < 0.0 {
             self.next_action += TICK_TIME;
             for units in &mut [&mut self.cars, &mut self.helis] {
-                if self.settings.actions_per_tick.get() >= 1.0 - 1e-6 {
-                    units.update(None, self.settings.point_updates.get());
+                if self.settings.borrow().actions_per_tick >= 1.0 - 1e-6 {
+                    units.update(None, self.settings.borrow().point_updates);
                 } else {
                     units.update(
-                        Some(self.settings.actions_per_tick.get()),
-                        self.settings.point_updates.get(),
+                        Some(self.settings.borrow().actions_per_tick),
+                        self.settings.borrow().point_updates,
                     );
                 }
             }
@@ -257,7 +257,7 @@ impl AllUnits {
         uniforms: &U,
     ) -> &ugli::Texture2d {
         self.screen_used_material.defines.d_heightmap_enabled =
-            self.settings.heightmap_enabled.get();
+            self.settings.borrow().heightmap_enabled;
         let context = self.app.ugli_context();
         let need_size = {
             let nearest = |n| {
@@ -287,7 +287,7 @@ impl AllUnits {
                 ugli::DrawMode::TriangleFan,
                 &ugli::instanced(
                     &ugli::quad(context).slice(..),
-                    &self.cars.instances.slice(..self.settings.draw_count.get()),
+                    &self.cars.instances.slice(..self.settings.borrow().draw_count),
                 ),
                 uniforms,
                 &ugli::DrawParameters {

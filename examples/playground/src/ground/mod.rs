@@ -37,7 +37,7 @@ pub struct Ground {
     material: codevisual::Material<::ShaderLib, (), Defines>,
     water_geometry: ugli::VertexBuffer<Vertex>,
     water_material: codevisual::Material<::ShaderLib, (), Defines>,
-    settings: Rc<Settings>,
+    settings: Rc<RefCell<Settings>>,
 }
 
 fn repeatable(mut texture: ugli::Texture2d) -> ugli::Texture2d {
@@ -49,12 +49,12 @@ impl Ground {
     pub fn new(
         app: &codevisual::Application,
         resources: Resources,
-        settings: &Rc<Settings>,
+        settings: &Rc<RefCell<Settings>>,
     ) -> Self {
         let context = app.ugli_context();
         let defines = Defines {
-            d_fog_enabled: settings.fog_enabled.get(),
-            d_heightmap_enabled: settings.heightmap_enabled.get(),
+            d_fog_enabled: settings.borrow().fog_enabled,
+            d_heightmap_enabled: settings.borrow().heightmap_enabled,
         };
         Ground {
             geometry: {
@@ -114,10 +114,10 @@ impl Ground {
         framebuffer: &mut ugli::Framebuffer,
         uniforms: &U,
     ) {
-        self.material.defines.d_fog_enabled = self.settings.fog_enabled.get();
-        self.material.defines.d_heightmap_enabled = self.settings.heightmap_enabled.get();
-        self.water_material.defines.d_fog_enabled = self.settings.fog_enabled.get();
-        self.water_material.defines.d_heightmap_enabled = self.settings.heightmap_enabled.get();
+        self.material.defines.d_fog_enabled = self.settings.borrow().fog_enabled;
+        self.material.defines.d_heightmap_enabled = self.settings.borrow().heightmap_enabled;
+        self.water_material.defines.d_fog_enabled = self.settings.borrow().fog_enabled;
+        self.water_material.defines.d_heightmap_enabled = self.settings.borrow().heightmap_enabled;
         ugli::draw(
             framebuffer,
             &self.material.ugli_program(),

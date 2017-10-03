@@ -2,11 +2,11 @@ use ::*;
 
 pub struct Minimap {
     material: codevisual::Material<::ShaderLib, (), ()>,
-    settings: Rc<Settings>,
+    settings: Rc<RefCell<Settings>>,
 }
 
 impl Minimap {
-    pub fn new(app: &codevisual::Application, settings: &Rc<Settings>) -> Self {
+    pub fn new(app: &codevisual::Application, settings: &Rc<RefCell<Settings>>) -> Self {
         Self {
             material: codevisual::Material::new(app.ugli_context(), (), (), include_str!("shader.glsl")),
             settings: settings.clone(),
@@ -28,7 +28,7 @@ impl Minimap {
                 framebuffer,
                 &self.material.ugli_program(),
                 ugli::DrawMode::Points,
-                &ugli::plain(&instances.slice(..self.settings.draw_count.get())),
+                &ugli::plain(&instances.slice(..self.settings.borrow().draw_count)),
                 &(uniforms, uniforms! {
                     color: color,
                     point_size: conv(2) as f32,
