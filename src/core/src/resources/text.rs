@@ -1,14 +1,10 @@
 use ::*;
 
-pub struct StringResourceFuture {
-    value: Rc<RefCell<String>>,
-    loaded: Rc<Cell<bool>>,
-}
+pub type StringResourceFuture = Rc<RefCell<Option<String>>>;
 
 impl ResourceFuture<String> for StringResourceFuture {
     fn unwrap(self) -> String {
-        assert!(self.loaded.get());
-        Rc::try_unwrap(self.value).unwrap().into_inner()
+        Rc::try_unwrap(self).unwrap().into_inner().unwrap()
     }
 }
 
@@ -17,36 +13,28 @@ impl Resource for String {
 }
 
 impl Asset for String {
-    fn load(loader: &Rc<ResourceLoader>, path: &str) -> Self::Future {
-        #![allow(unused_variables)]
-        let resource = Self::Future {
-            value: Rc::new(RefCell::new(String::new())),
-            loaded: Rc::new(Cell::new(false)),
-        };
+    fn load(loader: &Rc<ResourceLoader>, path: &str) -> StringResourceFuture {
+        let future = Rc::new(RefCell::new(None));
+        let handle = AssetHandle::new(loader);
         #[cfg(target_os = "emscripten")]
         {
-            let value = Rc::new(RefCell::new(Some(resource.value.clone())));
-            let loaded = resource.loaded.clone();
-            loader.resource_count.set(loader.resource_count.get() + 1);
-            let loaded_resource_count = loader.loaded_resource_count.clone();
+            let future = future.clone();
             brijs::wget(path, move |data| {
-                let mut value_swapper = None;
-                std::mem::swap(&mut value_swapper, &mut *value.borrow_mut());
-                let value = value_swapper.unwrap();
-                value.borrow_mut().push_str(data);
-                loaded.set(true);
-                loaded_resource_count.set(loaded_resource_count.get() + 1);
+                *future.borrow_mut() = Some(String::from(data));
+                handle.confirm();
             });
         }
         #[cfg(not(target_os = "emscripten"))]
         {
             use std::io::Read;
+            let mut data = String::new();
             std::fs::File::open(path)
                 .expect(&format!("Could not read text file `{}`", path))
-                .read_to_string(&mut *resource.value.borrow_mut())
+                .read_to_string(&mut data)
                 .unwrap();
-            resource.loaded.set(true);
+            *future.borrow_mut() = Some(String::from(data));
+            handle.confirm();
         }
-        resource
+        future
     }
 }
