@@ -45,7 +45,7 @@ pub fn set_mousedown_callback<F: FnMut(MouseDownEvent)>(callback: F) {
             let mut callback = Box::<Box<F>>::from_raw(callback as *mut _);
             let canvas_pos = into_canvas_pos(vec2(event.canvasX, event.canvasY));
             callback(MouseDownEvent { canvas_pos, button });
-            std::mem::forget(callback);
+            mem::forget(callback);
         }
         EM_TRUE
     }
@@ -79,7 +79,7 @@ pub fn set_mouseup_callback<F: FnMut(MouseUpEvent)>(callback: F) {
             let mut callback = Box::<Box<F>>::from_raw(callback as *mut _);
             let canvas_pos = into_canvas_pos(vec2(event.canvasX, event.canvasY));
             callback(MouseUpEvent { canvas_pos, button });
-            std::mem::forget(callback);
+            mem::forget(callback);
         }
         EM_TRUE
     }
@@ -111,7 +111,7 @@ pub fn set_mousemove_callback<F: FnMut(MouseMoveEvent)>(callback: F) {
         let mut callback = Box::<Box<F>>::from_raw(callback as *mut _);
         let canvas_pos = into_canvas_pos(vec2(event.canvasX, event.canvasY));
         callback(MouseMoveEvent { canvas_pos });
-        std::mem::forget(callback);
+        mem::forget(callback);
         EM_TRUE
     }
 }

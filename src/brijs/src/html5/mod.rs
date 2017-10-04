@@ -15,8 +15,8 @@ pub use self::webgl::*;
 pub(crate) fn into_canvas_pos(pos: Vec2<c_long>) -> Vec2<f64> {
     let pos = vec2(pos.x as f64, pos.y as f64);
     let css_size = unsafe {
-        let mut css_width: c_double = std::mem::uninitialized();
-        let mut css_height: c_double = std::mem::uninitialized();
+        let mut css_width: c_double = mem::uninitialized();
+        let mut css_height: c_double = mem::uninitialized();
         emscripten_get_element_css_size(std::ptr::null(), &mut css_width, &mut css_height);
         vec2(css_width as f64, css_height as f64)
     };

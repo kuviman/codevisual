@@ -30,7 +30,7 @@ impl<'a> FramebufferRead<'a> {
         self.fbo.bind();
         unsafe {
             let mut buffer =
-                vec![std::mem::uninitialized::<GLubyte>(); self.size.x * self.size.y * 4];
+                vec![mem::uninitialized::<GLubyte>(); self.size.x * self.size.y * 4];
             gl::ReadPixels(0,
                            0,
                            self.size.x as GLsizei,

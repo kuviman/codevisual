@@ -2,9 +2,9 @@ use ::*;
 
 pub fn get_canvas_size() -> Vec2<usize> {
     unsafe {
-        let mut width: c_int = std::mem::uninitialized();
-        let mut height: c_int = std::mem::uninitialized();
-        let mut is_fullscreen: c_int = std::mem::uninitialized();
+        let mut width: c_int = mem::uninitialized();
+        let mut height: c_int = mem::uninitialized();
+        let mut is_fullscreen: c_int = mem::uninitialized();
         emscripten_get_canvas_size(&mut width, &mut height, &mut is_fullscreen);
         vec2(width as usize, height as usize)
     }
@@ -29,7 +29,7 @@ pub fn set_main_loop<F: FnMut()>(callback: F) {
     {
         let mut callback = Box::<Box<F>>::from_raw(arg as *mut _);
         callback();
-        std::mem::forget(callback);
+        mem::forget(callback);
     }
 }
 

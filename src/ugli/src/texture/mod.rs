@@ -38,7 +38,7 @@ impl Debug for Texture2d {
 impl<P: Pixel> Texture<P> {
     fn new_raw(size: Vec2<usize>) -> Self {
         unsafe {
-            let mut handle: GLuint = std::mem::uninitialized();
+            let mut handle: GLuint = mem::uninitialized();
             gl::GenTextures(1, &mut handle);
             gl::BindTexture(gl::TEXTURE_2D, handle);
             gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MIN_FILTER, gl::LINEAR as GLint);

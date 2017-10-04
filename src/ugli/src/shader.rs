@@ -77,13 +77,13 @@ impl Shader {
                 lengths.as_ptr(),
             );
             gl::CompileShader(shader.handle);
-            let mut compile_status: GLint = std::mem::uninitialized();
+            let mut compile_status: GLint = mem::uninitialized();
             gl::GetShaderiv(shader.handle, gl::COMPILE_STATUS, &mut compile_status);
             if compile_status == gl::FALSE as GLint {
-                let mut info_log_length: GLint = std::mem::uninitialized();
+                let mut info_log_length: GLint = mem::uninitialized();
                 gl::GetShaderiv(shader.handle, gl::INFO_LOG_LENGTH, &mut info_log_length);
                 let mut info_log_bytes =
-                    vec![std::mem::uninitialized::<u8>(); info_log_length as usize];
+                    vec![mem::uninitialized::<u8>(); info_log_length as usize];
                 gl::GetShaderInfoLog(
                     shader.handle,
                     info_log_bytes.len() as GLsizei,

@@ -14,7 +14,7 @@ impl FBO {
     pub fn new(_: &Context) -> Self {
         Self {
             handle: unsafe {
-                let mut handle: GLuint = std::mem::uninitialized();
+                let mut handle: GLuint = mem::uninitialized();
                 gl::GenFramebuffers(1, &mut handle);
                 handle
             },

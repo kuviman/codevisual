@@ -40,7 +40,7 @@ pub fn set_wheel_callback<F: FnMut(WheelEvent)>(callback: F) {
                     _ => panic!("Unexpected event.deltaMode"),
                 },
         });
-        std::mem::forget(callback);
+        mem::forget(callback);
         EM_TRUE
     }
 }

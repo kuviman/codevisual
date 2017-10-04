@@ -49,13 +49,13 @@ impl Program {
             for shader in shaders {
                 gl::DetachShader(program.handle, shader.handle);
             }
-            let mut link_status: GLint = std::mem::uninitialized();
+            let mut link_status: GLint = mem::uninitialized();
             gl::GetProgramiv(program.handle, gl::LINK_STATUS, &mut link_status);
             if link_status == gl::FALSE as GLint {
-                let mut info_log_length: GLint = std::mem::uninitialized();
+                let mut info_log_length: GLint = mem::uninitialized();
                 gl::GetProgramiv(program.handle, gl::INFO_LOG_LENGTH, &mut info_log_length);
                 let mut info_log_bytes =
-                    vec![std::mem::uninitialized::<u8>(); info_log_length as usize];
+                    vec![mem::uninitialized::<u8>(); info_log_length as usize];
                 gl::GetProgramInfoLog(
                     program.handle,
                     info_log_bytes.len() as GLsizei,

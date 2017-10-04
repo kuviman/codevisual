@@ -27,7 +27,7 @@ impl Asset for ugli::Texture2d {
             fn make_mut<F: FnOnce((i32, i32)) + 'static>(f: F) -> Box<FnMut((i32, i32)) + 'static> {
                 let mut f = Some(f);
                 Box::new(move |arg: (i32, i32)| {
-                    std::mem::replace(&mut f, None).unwrap()(arg);
+                    mem::replace(&mut f, None).unwrap()(arg);
                 })
             };
             let callback = move |size: (i32, i32)| {

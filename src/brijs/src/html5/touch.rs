@@ -35,7 +35,7 @@ pub fn set_touchstart_callback<F: FnMut(TouchStartEvent)>(callback: F) {
             touches.push(TouchPoint { canvas_pos });
         }
         callback(TouchStartEvent { touches });
-        std::mem::forget(callback);
+        mem::forget(callback);
         EM_TRUE
     }
 }
@@ -71,7 +71,7 @@ pub fn set_touchmove_callback<F: FnMut(TouchMoveEvent)>(callback: F) {
             touches.push(TouchPoint { canvas_pos });
         }
         callback(TouchMoveEvent { touches });
-        std::mem::forget(callback);
+        mem::forget(callback);
         EM_TRUE
     }
 }
@@ -98,7 +98,7 @@ pub fn set_touchend_callback<F: FnMut(TouchEndEvent)>(callback: F) {
     {
         let mut callback = Box::<Box<F>>::from_raw(callback as *mut _);
         callback(TouchEndEvent);
-        std::mem::forget(callback);
+        mem::forget(callback);
         EM_TRUE
     }
 }

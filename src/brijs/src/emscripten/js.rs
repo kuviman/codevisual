@@ -64,7 +64,7 @@ impl<F: FnMut(bool)> IntoJson for Callback<bool, F> {
         extern "C" fn wrapper<F: FnMut(bool)>(f: c_int, b: c_int) {
             let mut boxed = unsafe { Box::from_raw(f as *mut F) };
             boxed(b != 0);
-            std::mem::forget(boxed);
+            mem::forget(boxed);
         }
         format!(
             "function(b) {{ Runtime.dynCall('vii', {}, [{}, b ? 1 : 0]); }}",
@@ -80,7 +80,7 @@ impl<F: FnMut(i32)> IntoJson for Callback<i32, F> {
         extern "C" fn wrapper<F: FnMut(i32)>(f: c_int, x: c_int) {
             let mut boxed = unsafe { Box::from_raw(f as *mut F) };
             boxed(x as i32);
-            std::mem::forget(boxed);
+            mem::forget(boxed);
         }
         format!(
             "function(x) {{ Runtime.dynCall('vii', {}, [{}, x]); }}",
@@ -96,7 +96,7 @@ impl<F: FnMut((i32, i32))> IntoJson for Callback<(i32, i32), F> {
         extern "C" fn wrapper<F: FnMut((i32, i32))>(f: c_int, a: c_int, b: c_int) {
             let mut boxed = unsafe { Box::from_raw(f as *mut F) };
             boxed((a as i32, b as i32));
-            std::mem::forget(boxed);
+            mem::forget(boxed);
         }
         format!(
             "function(a, b) {{ Runtime.dynCall('viii', {}, [{}, a, b]); }}",
@@ -112,7 +112,7 @@ impl<F: FnMut(())> IntoJson for Callback<(), F> {
         extern "C" fn wrapper<F: FnMut(())>(f: c_int) {
             let mut boxed = unsafe { Box::from_raw(f as *mut F) };
             boxed(());
-            std::mem::forget(boxed);
+            mem::forget(boxed);
         }
         format!(
             "function(i) {{ Runtime.dynCall('vi', {}, [{}]); }}",

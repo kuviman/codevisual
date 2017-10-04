@@ -16,7 +16,7 @@ impl<T: Pixel> Drop for Renderbuffer<T> {
 impl<T: Pixel> Renderbuffer<T> {
     pub fn new(size: Vec2<usize>) -> Self {
         unsafe {
-            let mut handle: GLuint = std::mem::uninitialized();
+            let mut handle: GLuint = mem::uninitialized();
             gl::GenRenderbuffers(1, &mut handle);
             gl::BindRenderbuffer(gl::RENDERBUFFER, handle);
             gl::RenderbufferStorage(gl::RENDERBUFFER, T::GL_FRAMEBUFFER_FORMAT, size.x as GLsizei, size.y as GLsizei);

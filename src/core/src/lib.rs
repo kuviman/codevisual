@@ -108,9 +108,7 @@ pub fn run<G: Game>() {
             }
             return false;
         }
-        let mut resources_swapper = None;
-        std::mem::swap(&mut *resources_future.borrow_mut(), &mut resources_swapper);
-        let resources_future = resources_swapper.unwrap();
+        let resources_future = mem::replace(&mut *resources_future.borrow_mut(), None).unwrap();
         let mut game = G::new(&app, resources_future.unwrap());
 
         #[cfg(target_os = "emscripten")]

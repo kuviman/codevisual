@@ -171,7 +171,7 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
         fn new() -> Self {
             Self {
                 handle: unsafe {
-                    let mut handle: GLuint = std::mem::uninitialized();
+                    let mut handle: GLuint = mem::uninitialized();
                     gl::GenVertexArrays(1, &mut handle);
                     handle
                 },
@@ -215,15 +215,15 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
                     *self.vertex_count = Some(data.len());
                 }
             }
-            let sample: D = unsafe { std::mem::uninitialized() };
+            let sample: D = unsafe { mem::uninitialized() };
             data.buffer.bind();
             sample.walk_attributes(VAC {
                 sample: &sample,
                 divisor,
                 program: self.program,
-                offset: data.range.start * std::mem::size_of::<D>(),
+                offset: data.range.start * mem::size_of::<D>(),
             });
-            std::mem::forget(sample);
+            mem::forget(sample);
             struct VAC<'a, D: Vertex + 'a> {
                 offset: usize,
                 sample: &'a D,
@@ -252,7 +252,7 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
                             gl_type.gl_size,
                             gl_type.gl_type,
                             gl::FALSE,
-                            std::mem::size_of::<D>() as GLsizei,
+                            mem::size_of::<D>() as GLsizei,
                             offset as *const GLvoid,
                         );
                         if let Some(divisor) = self.divisor {

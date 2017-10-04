@@ -10,7 +10,7 @@ impl RawBuffer {
     fn new(_: &Context, usage: GLenum) -> Self {
         Self {
             handle: unsafe {
-                let mut handle: GLuint = std::mem::uninitialized();
+                let mut handle: GLuint = mem::uninitialized();
                 gl::GenBuffers(1, &mut handle);
                 handle
             },
@@ -25,7 +25,7 @@ impl RawBuffer {
     }
     fn set_data<T>(&self, data: &Vec<T>) {
         self.bind();
-        let size = std::mem::size_of::<T>() * data.capacity();
+        let size = mem::size_of::<T>() * data.capacity();
         let data = data.as_ptr();
         self.size.set(size);
         unsafe {
