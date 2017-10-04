@@ -201,46 +201,27 @@ pub fn derive_settings(input: TokenStream) -> TokenStream {
         if let Some(name_override) = find_attr(field, "name", false) {
             name = name_override;
         }
-        let default_value = find_attr(field, "default", true).expect("Default value is not provided");
-        let ty = if let syn::Ty::Path(None, ref path) = field.ty { path } else { panic!("Type not supported in settings") };
-        let ty: Tokens = quote!(#ty);
-        match ty.as_str() {
-            "i32" | "f32" | "f64" | "usize" => {
-                let min = find_attr(field, "min", true).expect("Min value should be provided");
-                let max = find_attr(field, "max", true).expect("Min value should be provided");
-                let variant = syn::Ident::from(match ty.as_str() {
-                    "i32" => "I32",
-                    "f32" => "F32",
-                    "f64" => "F64",
-                    "usize" => "Usize",
-                    _ => panic!()
-                });
-                quote! {{
-                    let settings = settings.clone();
-                    ::codevisual::Setting::#variant {
-                        name: String::from(#name),
-                        default_value: #default_value,
-                        min_value: #min,
-                        max_value: #max,
-                        setter: Box::new(move |value| {
-                            settings.borrow_mut().#field_name = value;
-                        }),
+        let default = find_attr(field, "default", true).expect("Default value is not provided");
+        if let Some(range) = find_attr(field, "range", true) {
+            quote! {{
+                let settings = settings.clone();
+                ::codevisual::Setting::create_range(
+                    #name, #default, #range, move |value| {
+                        settings.borrow_mut().#field_name = value;
                     }
-                }}
-            }
-            "bool" => {
-                quote! {{
-                    let settings = settings.clone();
-                    ::codevisual::Setting::Bool {
-                        name: String::from(#name),
-                        default_value: #default_value,
-                        setter: Box::new(move |value| {
-                            settings.borrow_mut().#field_name = value;
-                        }),
-                    }
-                }}
-            }
-            _ => panic!("Type {} unsuported", ty)
+                )
+            }}
+        } else {
+            quote! {{
+                let settings = settings.clone();
+                ::codevisual::Setting::Bool {
+                    name: String::from(#name),
+                    default: #default,
+                    setter: Box::new(move |value| {
+                        settings.borrow_mut().#field_name = value;
+                    }),
+                }
+            }}
         }
     });
     let result = quote! {

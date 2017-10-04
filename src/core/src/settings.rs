@@ -5,81 +5,44 @@ use ::*;
 pub enum Setting {
     Bool {
         name: String,
-        default_value: bool,
+        default: bool,
         setter: Box<FnMut(bool)>,
     },
     I32 {
         name: String,
-        default_value: i32,
-        min_value: i32,
-        max_value: i32,
+        default: i32,
+        range: Range<i32>,
         setter: Box<FnMut(i32)>,
     },
-    F32 {
-        name: String,
-        default_value: f32,
-        min_value: f32,
-        max_value: f32,
-        setter: Box<FnMut(f32)>,
-    },
-    F64 {
-        name: String,
-        default_value: f64,
-        min_value: f64,
-        max_value: f64,
-        setter: Box<FnMut(f64)>,
-    },
-    Usize {
-        name: String,
-        default_value: usize,
-        min_value: usize,
-        max_value: usize,
-        setter: Box<FnMut(usize)>,
+}
+
+impl Setting {
+    pub fn create_range<T: Num + num::NumCast + Copy + 'static, S: FnMut(T) + 'static>(
+        name: &str, default: T, range: Range<T>, mut setter: S) -> Setting {
+        // TODO: check for float/int better?
+        if T::one() / (T::one() + T::one()) == T::zero() {
+            Setting::I32 {
+                name: String::from(name),
+                default: default.to_i32().unwrap(),
+                range: range.start.to_i32().unwrap()..range.end.to_i32().unwrap() - 1,
+                setter: Box::new(move |val| { setter(T::from(val).unwrap()); }),
+            }
+        } else {
+            const STEPS: i32 = 100500;
+            Setting::I32 {
+                name: String::from(name),
+                default: (T::from(STEPS).unwrap() * (default - range.start) / (range.end - range.start)).to_i32().unwrap(),
+                range: 0..STEPS + 1,
+                setter: Box::new(move |val| { setter(T::from(val).unwrap() * (range.end - range.start) + range.start); }),
+            }
+        }
     }
 }
 
 #[cfg(target_os = "emscripten")]
 impl brijs::IntoJson for Setting {
     fn into_json(self) -> String {
-        const MAX_INT: i32 = 100500;
-        let setting = match self {
-            Setting::Bool { .. } => self,
-            Setting::I32 { .. } => self,
-            Setting::F32 { name, default_value, min_value, max_value, mut setter } => {
-                Setting::I32 {
-                    name,
-                    default_value: (default_value * MAX_INT as f32) as i32,
-                    min_value: (min_value * MAX_INT as f32) as i32,
-                    max_value: (max_value * MAX_INT as f32) as i32,
-                    setter: Box::new(move |value| {
-                        setter(value as f32 / MAX_INT as f32);
-                    }),
-                }
-            }
-            Setting::F64 { name, default_value, min_value, max_value, mut setter } => {
-                Setting::I32 {
-                    name,
-                    default_value: (default_value * MAX_INT as f64) as i32,
-                    min_value: (min_value * MAX_INT as f64) as i32,
-                    max_value: (max_value * MAX_INT as f64) as i32,
-                    setter: Box::new(move |value| {
-                        setter(value as f64 / MAX_INT as f64);
-                    }),
-                }
-            }
-            Setting::Usize { name, default_value, min_value, max_value, mut setter } => {
-                Setting::I32 {
-                    name,
-                    default_value: default_value as i32,
-                    min_value: min_value as i32,
-                    max_value: max_value as i32,
-                    setter: Box::new(move |value| {
-                        setter(value as usize);
-                    }),
-                }
-            }
-        };
-        match setting {
+        match self {
             Setting::Bool {
                 name,
                 default_value,
@@ -108,7 +71,6 @@ impl brijs::IntoJson for Setting {
                     brijs::Callback::from(move |value| setter(value)).into_json()
                 )
             }
-            _ => panic!("Setting should be converted to bool or i32 setting first")
         }
     }
 }

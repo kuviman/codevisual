@@ -31,7 +31,7 @@ pub fn random<R: rand::Rand>() -> R {
 
 pub extern crate num;
 
-pub use num::{Float, Num};
+pub use num::{Float, Num, Integer, clamp};
 
 mod color;
 
@@ -59,8 +59,6 @@ pub use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 pub use std::fmt::{Debug, Display, Formatter};
 pub use std::sync::{Arc, Mutex, RwLock};
 pub use std::cmp::{min, max, Ord};
-
-pub use num::clamp;
 
 #[macro_export]
 macro_rules! display_error_description {
