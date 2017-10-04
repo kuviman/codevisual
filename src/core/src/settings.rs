@@ -33,7 +33,7 @@ impl Setting {
                 name: String::from(name),
                 default: (T::from(STEPS).unwrap() * (default - range.start) / (range.end - range.start)).to_i32().unwrap(),
                 range: 0..STEPS + 1,
-                setter: Box::new(move |val| { setter(T::from(val).unwrap() * (range.end - range.start) + range.start); }),
+                setter: Box::new(move |val| { setter(T::from(val).unwrap() / T::from(STEPS).unwrap() * (range.end - range.start) + range.start); }),
             }
         }
     }
@@ -45,29 +45,28 @@ impl brijs::IntoJson for Setting {
         match self {
             Setting::Bool {
                 name,
-                default_value,
+                default,
                 mut setter,
             } => {
                 format!(
                     "new CodeVisual.BooleanSetting({}, {}, {})",
                     name.into_json(),
-                    default_value.into_json(),
+                    default.into_json(),
                     brijs::Callback::from(move |value| setter(value)).into_json()
                 )
             }
             Setting::I32 {
                 name,
-                default_value,
-                min_value,
-                max_value,
+                default,
+                range,
                 mut setter,
             } => {
                 format!(
                     "new CodeVisual.NumberSetting({}, {}, {}, {}, 1, {})",
                     name.into_json(),
-                    min_value.into_json(),
-                    max_value.into_json(),
-                    default_value.into_json(),
+                    range.start.into_json(),
+                    range.end.into_json(),
+                    default.into_json(),
                     brijs::Callback::from(move |value| setter(value)).into_json()
                 )
             }

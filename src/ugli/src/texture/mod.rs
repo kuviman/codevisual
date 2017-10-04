@@ -53,7 +53,7 @@ impl<P: Pixel> Texture<P> {
         }
     }
 
-    fn is_pot(&self) -> bool {
+    pub fn is_pot(&self) -> bool {
         let size = self.size.get();
         size.x & (size.x - 1) == 0 && size.y & (size.y - 1) == 0
     }

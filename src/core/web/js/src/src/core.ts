@@ -56,7 +56,7 @@ namespace CodeVisual {
             let texture = GL.textures[texture_handle];
             let image = new Image();
             image.onload = function () {
-                var cur = GLctx.getParameter(GLctx.TEXTURE_BINDING_2D);
+                let cur = GLctx.getParameter(GLctx.TEXTURE_BINDING_2D);
                 GLctx.bindTexture(GLctx.TEXTURE_2D, texture);
                 GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, image);
                 GLctx.bindTexture(GLctx.TEXTURE_2D, cur);

@@ -27,15 +27,14 @@ impl Asset for ugli::Texture2d {
             fn make_mut<F: FnOnce((i32, i32)) + 'static>(f: F) -> Box<FnMut((i32, i32)) + 'static> {
                 let mut f = Some(f);
                 Box::new(move |arg: (i32, i32)| {
-                    let mut none = None;
-                    std::mem::swap(&mut f, &mut none);
-                    let f = none.unwrap();
-                    f(arg);
+                    std::mem::replace(&mut f, None).unwrap()(arg);
                 })
             };
             let callback = move |size: (i32, i32)| {
                 texture._set_size(vec2(size.0 as usize, size.1 as usize));
-                texture.gen_mipmaps();
+                if texture.is_pot() {
+                    texture.gen_mipmaps();
+                }
                 *future.borrow_mut() = Some(texture);
                 handle.confirm();
             };
