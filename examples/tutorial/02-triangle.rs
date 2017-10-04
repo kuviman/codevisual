@@ -76,8 +76,8 @@ impl codevisual::Game for Tutorial {
             framebuffer,
             &self.material.ugli_program(),
             ugli::DrawMode::Triangles,
-            &ugli::plain(&self.vertices.slice(..)),
-            &(),
+            &self.vertices,
+            (),
             &ugli::DrawParameters {
                 depth_test: ugli::DepthTest::Off,
                 ..Default::default()

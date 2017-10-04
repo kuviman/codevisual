@@ -121,25 +121,18 @@ impl Units {
             settings: settings.clone(),
         }
     }
-    pub fn update(&mut self, percent: Option<f64>, point_updates: bool) {
+    pub fn update(&mut self, percent: Option<f64>) {
         match percent {
             Some(percent) => {
                 let count = (self.count as f64 * percent) as usize;
                 let indices = rand::sample(&mut thread_rng(), 0..self.count, count);
-                if point_updates {
-                    for &i in &indices {
-                        let mut data = self.instances.slice_mut(i..i + 1);
-                        data[0].update(self.current_time);
-                    }
-                } else {
-                    let mut data = self.instances.slice_mut(..self.count);
-                    for &i in &indices {
-                        data[i].update(self.current_time);
-                    }
+                let mut data = &mut self.instances[..self.count];
+                for &i in &indices {
+                    data[i].update(self.current_time);
                 }
             }
             None => {
-                let mut data = self.instances.slice_mut(..self.count);
+                let data = &mut self.instances[..self.count];
                 for unit in data.iter_mut() {
                     unit.update(self.current_time);
                 }
@@ -156,9 +149,9 @@ impl Units {
             framebuffer,
             &self.material.ugli_program(),
             ugli::DrawMode::Triangles,
-            &ugli::instanced(
-                &self.geometry.slice(..),
-                &self.instances.slice(..self.count),
+            ugli::instanced(
+                &self.geometry,
+                self.instances.slice(..self.count),
             ),
             &(uniforms, uniforms!(u_texture: &self.texture)),
             &ugli::DrawParameters::default(),
@@ -241,12 +234,9 @@ impl AllUnits {
             self.next_action += TICK_TIME;
             for units in &mut [&mut self.cars, &mut self.helis] {
                 if self.settings.borrow().actions_per_tick >= 1.0 - 1e-6 {
-                    units.update(None, self.settings.borrow().point_updates);
+                    units.update(None);
                 } else {
-                    units.update(
-                        Some(self.settings.borrow().actions_per_tick),
-                        self.settings.borrow().point_updates,
-                    );
+                    units.update(Some(self.settings.borrow().actions_per_tick));
                 }
             }
         }
@@ -285,9 +275,9 @@ impl AllUnits {
                 &mut framebuffer,
                 &self.screen_used_material.ugli_program(),
                 ugli::DrawMode::TriangleFan,
-                &ugli::instanced(
-                    &ugli::quad(context).slice(..),
-                    &self.cars.instances.slice(..self.settings.borrow().draw_count),
+                ugli::instanced(
+                    &**ugli::quad(context),
+                    self.cars.instances.slice(..self.settings.borrow().draw_count),
                 ),
                 uniforms,
                 &ugli::DrawParameters {

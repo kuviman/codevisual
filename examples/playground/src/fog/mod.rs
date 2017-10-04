@@ -52,9 +52,9 @@ impl Fog {
                 &mut framebuffer,
                 &self.material.ugli_program(),
                 ugli::DrawMode::TriangleFan,
-                &ugli::instanced(
-                    &self.quad.slice(..),
-                    &instances.slice(..self.settings.borrow().draw_count),
+                ugli::instanced(
+                    &self.quad,
+                    instances.slice(..self.settings.borrow().draw_count),
                 ),
                 uniforms,
                 &ugli::DrawParameters {

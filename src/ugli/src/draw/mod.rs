@@ -50,7 +50,7 @@ pub fn clear(framebuffer: &mut Framebuffer,
 pub fn draw<V, U>(framebuffer: &mut Framebuffer,
                   program: &Program,
                   mode: DrawMode,
-                  vertices: &V,
+                  vertices: V,
                   uniforms: U,
                   draw_parameters: &DrawParameters)
     where V: VertexDataSource,
@@ -197,10 +197,8 @@ pub fn draw<V, U>(framebuffer: &mut Framebuffer,
         instance_count: &'a mut Option<usize>,
     }
     impl<'a> VertexDataConsumer for VDC<'a> {
-        fn consume<D>(&mut self, data: &VertexBufferSlice<D>, divisor: Option<usize>)
-            where
-                D: Vertex,
-        {
+        fn consume<'b, D: Vertex + 'b, T: IntoVertexBufferSlice<'b, D>>(&mut self, data: T, divisor: Option<usize>) {
+            let data = data.into_slice();
             if let Some(divisor) = divisor {
                 let instance_count = data.len() * divisor;
                 if let Some(current_instance_count) = *self.instance_count {

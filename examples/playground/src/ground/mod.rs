@@ -122,7 +122,7 @@ impl Ground {
             framebuffer,
             &self.material.ugli_program(),
             ugli::DrawMode::Triangles,
-            &ugli::plain(&self.geometry.slice(..)),
+            &self.geometry,
             &(uniforms, &self.uniforms),
             &Default::default(),
         );
@@ -130,7 +130,7 @@ impl Ground {
             framebuffer,
             &self.water_material.ugli_program(),
             ugli::DrawMode::TriangleFan,
-            &ugli::plain(&self.water_geometry.slice(..)),
+            &self.water_geometry,
             &(uniforms, &self.uniforms),
             &ugli::DrawParameters {
                 blend_mode: ugli::BlendMode::Alpha,

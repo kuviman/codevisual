@@ -1,11 +1,45 @@
 use ::*;
 
-pub struct VertexBuffer<T: Vertex> {
-    pub ( crate ) handle: GLuint,
-    data: Vec<T>,
+struct RawBuffer {
+    handle: GLuint,
+    usage: GLenum,
+    size: Cell<usize>,
 }
 
-impl<T: Vertex> Drop for VertexBuffer<T> {
+impl RawBuffer {
+    fn new(_: &Context, usage: GLenum) -> Self {
+        Self {
+            handle: unsafe {
+                let mut handle: GLuint = std::mem::uninitialized();
+                gl::GenBuffers(1, &mut handle);
+                handle
+            },
+            usage,
+            size: Cell::new(0),
+        }
+    }
+    fn bind(&self) {
+        unsafe {
+            gl::BindBuffer(gl::ARRAY_BUFFER, self.handle);
+        }
+    }
+    fn set_data<T>(&self, data: &Vec<T>) {
+        self.bind();
+        let size = std::mem::size_of::<T>() * data.capacity();
+        let data = data.as_ptr();
+        self.size.set(size);
+        unsafe {
+            gl::BufferData(
+                gl::ARRAY_BUFFER,
+                size as GLsizeiptr,
+                data as *const c_void,
+                self.usage,
+            );
+        }
+    }
+}
+
+impl Drop for RawBuffer {
     fn drop(&mut self) {
         unsafe {
             gl::DeleteBuffers(1, &self.handle);
@@ -13,26 +47,35 @@ impl<T: Vertex> Drop for VertexBuffer<T> {
     }
 }
 
+pub struct VertexBuffer<T: Vertex> {
+    buffer: RawBuffer,
+    data: Vec<T>,
+    need_update: Cell<bool>,
+}
+
+impl<T: Vertex> Deref for VertexBuffer<T> {
+    type Target = Vec<T>;
+    fn deref(&self) -> &Vec<T> {
+        &self.data
+    }
+}
+
+impl<T: Vertex> DerefMut for VertexBuffer<T> {
+    fn deref_mut(&mut self) -> &mut Vec<T> {
+        self.need_update.set(true);
+        &mut self.data
+    }
+}
+
 impl<T: Vertex> VertexBuffer<T> {
-    fn new(_: &Context, data: Vec<T>, usage: GLenum) -> Self {
-        let buffer = Self {
-            handle: unsafe {
-                let mut handle: GLuint = std::mem::uninitialized();
-                gl::GenBuffers(1, &mut handle);
-                handle
-            },
+    fn new(context: &Context, data: Vec<T>, usage: GLenum) -> Self {
+        let buffer = RawBuffer::new(context, usage);
+        buffer.set_data(&data);
+        Self {
+            buffer,
             data,
-        };
-        buffer.bind();
-        unsafe {
-            gl::BufferData(
-                gl::ARRAY_BUFFER,
-                std::mem::size_of_val(buffer.data.as_slice()) as GLsizeiptr,
-                buffer.data.as_ptr() as *const c_void,
-                usage,
-            );
+            need_update: Cell::new(false),
         }
-        buffer
     }
 
     pub fn new_static(context: &Context, data: Vec<T>) -> Self {
@@ -56,24 +99,12 @@ impl<T: Vertex> VertexBuffer<T> {
         }
     }
 
-    pub fn slice_mut<'a, R>(&'a mut self, range: R) -> VertexBufferSliceMut<'a, T>
-        where
-            R: RangeArgument<usize>,
-    {
-        let end = *range.end().unwrap_or(&self.data.len());
-        VertexBufferSliceMut {
-            buffer: self,
-            range: Range {
-                start: *range.start().unwrap_or(&0),
-                end,
-            },
-        }
-    }
-
     pub ( crate ) fn bind(&self) {
-        unsafe {
-            gl::BindBuffer(gl::ARRAY_BUFFER, self.handle);
+        if self.need_update.get() {
+            self.buffer.set_data(&self.data);
+            self.need_update.set(false);
         }
+        self.buffer.bind();
     }
 }
 
@@ -89,35 +120,27 @@ impl<'a, T: Vertex + 'a> Deref for VertexBufferSlice<'a, T> {
     }
 }
 
-pub struct VertexBufferSliceMut<'a, T: Vertex + 'a> {
-    buffer: &'a mut VertexBuffer<T>,
-    range: Range<usize>,
+pub trait IntoVertexBufferSlice<'a, T: Vertex + 'a> {
+    fn into_slice(self) -> VertexBufferSlice<'a, T>;
 }
 
-impl<'a, T: Vertex + 'a> Deref for VertexBufferSliceMut<'a, T> {
-    type Target = [T];
-    fn deref(&self) -> &Self::Target {
-        &self.buffer.data[self.range.clone()]
+impl<'a, T: Vertex + 'a> IntoVertexBufferSlice<'a, T> for VertexBufferSlice<'a, T> {
+    fn into_slice(self) -> VertexBufferSlice<'a, T> {
+        self
     }
 }
 
-impl<'a, T: Vertex + 'a> DerefMut for VertexBufferSliceMut<'a, T> {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.buffer.data[self.range.clone()]
-    }
-}
-
-impl<'a, T: Vertex> Drop for VertexBufferSliceMut<'a, T> {
-    fn drop(&mut self) {
-        self.buffer.bind();
-        let data = &self.buffer.data[self.range.clone()];
-        unsafe {
-            gl::BufferSubData(
-                gl::ARRAY_BUFFER,
-                (self.range.start * std::mem::size_of::<T>()) as GLintptr,
-                std::mem::size_of_val(data) as GLsizeiptr,
-                data.as_ptr() as *const c_void,
-            );
+impl<'a, T: Vertex + 'a> IntoVertexBufferSlice<'a, T> for &'a VertexBufferSlice<'a, T> {
+    fn into_slice(self) -> VertexBufferSlice<'a, T> {
+        VertexBufferSlice {
+            buffer: self.buffer,
+            range: self.range.clone(),
         }
+    }
+}
+
+impl<'a, T: Vertex + 'a> IntoVertexBufferSlice<'a, T> for &'a VertexBuffer<T> {
+    fn into_slice(self) -> VertexBufferSlice<'a, T> {
+        self.slice(..)
     }
 }

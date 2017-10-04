@@ -103,7 +103,7 @@ impl Decor {
             framebuffer,
             &self.material.ugli_program(),
             ugli::DrawMode::Triangles,
-            &ugli::instanced(&self.geometry.slice(..), &self.instances.slice(..count)),
+            ugli::instanced(&self.geometry, self.instances.slice(..count)),
             &(uniforms, uniforms!(u_texture: &self.texture)),
             &ugli::DrawParameters {
                 blend_mode: ugli::BlendMode::Alpha,

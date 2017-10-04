@@ -28,7 +28,7 @@ impl Minimap {
                 framebuffer,
                 &self.material.ugli_program(),
                 ugli::DrawMode::Points,
-                &ugli::plain(&instances.slice(..self.settings.borrow().draw_count)),
+                instances.slice(..self.settings.borrow().draw_count),
                 &(uniforms, uniforms! {
                     color: color,
                     point_size: conv(2) as f32,

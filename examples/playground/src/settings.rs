@@ -14,8 +14,6 @@ pub struct Settings {
     pub actions_per_tick: f64,
     #[setting(range = "0 .. units::MAX_COUNT + 1", default = "100")]
     pub draw_count: usize,
-    #[setting(default = "false")]
-    pub point_updates: bool,
     #[setting(default = "true")]
     pub heightmap_enabled: bool,
     #[setting(default = "true")]

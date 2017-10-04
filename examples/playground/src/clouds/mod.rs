@@ -63,7 +63,7 @@ impl Clouds {
             framebuffer,
             &self.material.ugli_program(),
             ugli::DrawMode::Points,
-            &ugli::plain(&self.data.slice(..)),
+            &self.data,
             &(uniforms, &self.uniforms),
             &ugli::DrawParameters {
                 depth_test: ugli::DepthTest::Off,
