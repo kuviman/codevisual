@@ -124,7 +124,7 @@ impl Ground {
             ugli::DrawMode::Triangles,
             &self.geometry,
             &(uniforms, &self.uniforms),
-            &Default::default(),
+            ugli::DrawParameters::default(),
         );
         ugli::draw(
             framebuffer,
@@ -132,7 +132,7 @@ impl Ground {
             ugli::DrawMode::TriangleFan,
             &self.water_geometry,
             &(uniforms, &self.uniforms),
-            &ugli::DrawParameters {
+            ugli::DrawParameters {
                 blend_mode: ugli::BlendMode::Alpha,
                 ..Default::default()
             },

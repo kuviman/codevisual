@@ -57,7 +57,7 @@ impl Fog {
                     instances.slice(..self.settings.borrow().draw_count),
                 ),
                 uniforms,
-                &ugli::DrawParameters {
+                ugli::DrawParameters {
                     blend_mode: ugli::BlendMode::Alpha,
                     depth_test: ugli::DepthTest::Off,
                     ..Default::default()

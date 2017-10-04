@@ -105,7 +105,7 @@ impl Decor {
             ugli::DrawMode::Triangles,
             ugli::instanced(&self.geometry, self.instances.slice(..count)),
             &(uniforms, uniforms!(u_texture: &self.texture)),
-            &ugli::DrawParameters {
+            ugli::DrawParameters {
                 blend_mode: ugli::BlendMode::Alpha,
                 ..Default::default()
             },

@@ -47,19 +47,21 @@ pub fn clear(framebuffer: &mut Framebuffer,
     }
 }
 
-pub fn draw<V, U>(framebuffer: &mut Framebuffer,
-                  program: &Program,
-                  mode: DrawMode,
-                  vertices: V,
-                  uniforms: U,
-                  draw_parameters: &DrawParameters)
+pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
+                      program: &Program,
+                      mode: DrawMode,
+                      vertices: V,
+                      uniforms: U,
+                      draw_parameters: DP)
     where V: VertexDataSource,
-          U: Uniforms {
+          U: Uniforms,
+          DP: std::borrow::Borrow<DrawParameters> {
     framebuffer.fbo.bind();
     unsafe {
         let size = framebuffer.get_size();
         gl::Viewport(0, 0, size.x as GLsizei, size.y as GLsizei);
     }
+    let draw_parameters = draw_parameters.borrow();
     draw_parameters.apply();
     program.bind();
     let uniforms = (SingleUniform::new("u_framebuffer_size",

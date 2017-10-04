@@ -78,7 +78,7 @@ impl codevisual::Game for Tutorial {
             ugli::DrawMode::Triangles,
             &self.vertices,
             (),
-            &ugli::DrawParameters {
+            ugli::DrawParameters {
                 depth_test: ugli::DepthTest::Off,
                 ..Default::default()
             },

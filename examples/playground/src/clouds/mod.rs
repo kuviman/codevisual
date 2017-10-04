@@ -65,7 +65,7 @@ impl Clouds {
             ugli::DrawMode::Points,
             &self.data,
             &(uniforms, &self.uniforms),
-            &ugli::DrawParameters {
+            ugli::DrawParameters {
                 depth_test: ugli::DepthTest::Off,
                 blend_mode: ugli::BlendMode::Alpha,
                 ..Default::default()
