@@ -36,7 +36,8 @@ impl Debug for Texture2d {
 }
 
 impl<P: Pixel> Texture<P> {
-    fn new_raw(size: Vec2<usize>) -> Self {
+    fn new_raw(context: &Context, size: Vec2<usize>) -> Self {
+        assert!(P::possible_texture(context));
         unsafe {
             let mut handle: GLuint = mem::uninitialized();
             gl::GenTextures(1, &mut handle);
@@ -58,8 +59,8 @@ impl<P: Pixel> Texture<P> {
         size.x & (size.x - 1) == 0 && size.y & (size.y - 1) == 0
     }
 
-    pub fn new_uninitialized(_: &Context, size: Vec2<usize>) -> Self {
-        let texture = Self::new_raw(size);
+    pub fn new_uninitialized(context: &Context, size: Vec2<usize>) -> Self {
+        let texture = Self::new_raw(context, size);
         unsafe {
             gl::TexImage2D(
                 gl::TEXTURE_2D,
@@ -126,8 +127,8 @@ impl Texture2d {
         }
     }
 
-    pub fn new_with<F: FnMut(Vec2<usize>) -> Color>(_: &Context, size: Vec2<usize>, mut f: F) -> Self {
-        let texture = Texture2d::new_raw(size);
+    pub fn new_with<F: FnMut(Vec2<usize>) -> Color>(context: &Context, size: Vec2<usize>, mut f: F) -> Self {
+        let texture = Texture2d::new_raw(context, size);
         let mut data: Vec<u8> = Vec::with_capacity(size.x * size.y * 4);
         for y in 0..size.y {
             for x in 0..size.x {
@@ -155,9 +156,9 @@ impl Texture2d {
     }
 
     #[cfg(not(target_os = "emscripten"))]
-    pub fn from_image(_: &Context, image: image::RgbaImage) -> Self {
+    pub fn from_image(context: &Context, image: image::RgbaImage) -> Self {
         let size = vec2(image.width() as usize, image.height() as usize);
-        let mut texture = Texture2d::new_raw(size);
+        let mut texture = Texture2d::new_raw(context, size);
         unsafe {
             gl::TexImage2D(
                 gl::TEXTURE_2D,
