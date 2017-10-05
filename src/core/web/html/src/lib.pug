@@ -45,11 +45,14 @@ html( lang="en" )
                 p.error-message Something went wrong
 
             table.setting-templates( style="display:none;" )
-                tr.setting-template-boolean
-                    td.name Setting name
-                    td.input
-                        input( type="checkbox" )
-                tr.setting-template-number
-                    td.name Setting name
-                    td.input
-                        input( type="range" )
+                mixin template(clazz)
+                    tr( class="setting-template-" + clazz )
+                        td.name Setting name
+                        td.input
+                            block
+                        td.reset-td
+                            span.reset.glyphicon.glyphicon-refresh( title = "Reset" )
+                +template("boolean")
+                    input( type="checkbox" )
+                +template("number")
+                    input( type="range" )
