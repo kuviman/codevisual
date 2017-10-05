@@ -34,12 +34,14 @@ pub fn clear(framebuffer: &mut Framebuffer,
                 color.blue as GLfloat,
                 color.alpha as GLfloat,
             );
+            gl::ColorMask(gl::TRUE, gl::TRUE, gl::TRUE, gl::TRUE);
         }
     }
     if let Some(depth) = depth {
         flags |= gl::DEPTH_BUFFER_BIT;
         unsafe {
             gl::ClearDepthf(depth as GLfloat);
+            gl::DepthMask(gl::TRUE);
         }
     }
     unsafe {

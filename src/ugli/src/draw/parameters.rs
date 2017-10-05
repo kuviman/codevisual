@@ -69,6 +69,7 @@ pub struct DrawParameters {
     pub blend_mode: BlendMode,
     pub cull_face: CullFace,
     pub viewport: Option<Rect<usize>>,
+    pub write_depth: bool,
 }
 
 impl Default for DrawParameters {
@@ -78,6 +79,7 @@ impl Default for DrawParameters {
             blend_mode: BlendMode::Off,
             cull_face: CullFace::None,
             viewport: None,
+            write_depth: true,
         }
     }
 }
@@ -94,6 +96,9 @@ impl DrawParameters {
                              rect.width() as GLsizei,
                              rect.height() as GLsizei);
             }
+        }
+        unsafe {
+            gl::DepthMask(if self.write_depth { gl::TRUE } else { gl::FALSE });
         }
     }
 }
