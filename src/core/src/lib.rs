@@ -157,5 +157,8 @@ pub fn run<G: Game>() {
     brijs::set_main_loop(|| { start(); });
 
     #[cfg(not(target_os = "emscripten"))]
-    assert!(start());
+    while !start() {
+        // TODO: Loading screen
+        thread::sleep(std::time::Duration::from_millis(100));
+    };
 }

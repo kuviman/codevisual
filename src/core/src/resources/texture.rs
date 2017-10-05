@@ -1,56 +1,90 @@
-use ::*;
+#[cfg(target_os = "emscripten")]
+mod _impl {
+    use ::*;
 
-pub type TextureResourceFuture = Rc<RefCell<Option<ugli::Texture2d>>>;
+    pub type Future = Rc<RefCell<Option<ugli::Texture2d>>>;
 
-impl ResourceFuture<ugli::Texture2d> for TextureResourceFuture {
-    fn unwrap(self) -> ugli::Texture2d {
-        Rc::try_unwrap(self).unwrap().into_inner().unwrap()
+    impl ResourceFuture<ugli::Texture2d> for Future {
+        fn unwrap(self) -> ugli::Texture2d {
+            Rc::try_unwrap(self).unwrap().into_inner().unwrap()
+        }
+    }
+
+    impl Resource for ugli::Texture2d {
+        type Future = Future;
+    }
+
+    impl Asset for ugli::Texture2d {
+        fn load(loader: &Rc<ResourceLoader>, path: &str) -> Self::Future {
+            let handle = AssetHandle::new(loader, path);
+            let future = Rc::new(RefCell::new(None));
+            {
+                let mut texture = ugli::Texture2d::new_uninitialized(
+                    loader.app.ugli_context(),
+                    vec2(1, 1),
+                );
+                let texture_handle = texture._get_handle();
+                let future = future.clone();
+                fn make_mut<F: FnOnce((i32, i32)) + 'static>(f: F) -> Box<FnMut((i32, i32)) + 'static> {
+                    let mut f = Some(f);
+                    Box::new(move |arg: (i32, i32)| {
+                        mem::replace(&mut f, None).unwrap()(arg);
+                    })
+                };
+                let callback = move |size: (i32, i32)| {
+                    texture._set_size(vec2(size.0 as usize, size.1 as usize));
+                    if texture.is_pot() {
+                        texture.gen_mipmaps();
+                    }
+                    *future.borrow_mut() = Some(texture);
+                    handle.confirm();
+                };
+                let mut callback = make_mut(callback);
+                let callback = move |arg| callback(arg);
+                let callback = brijs::Callback::from(callback);
+                run_js! {
+                    CodeVisual.internal.load_texture(path, &texture_handle, callback);
+                }
+            }
+            future
+        }
     }
 }
 
-impl Resource for ugli::Texture2d {
-    type Future = TextureResourceFuture;
-}
+#[cfg(not(target_os = "emscripten"))]
+mod _impl {
+    use ::*;
 
-impl Asset for ugli::Texture2d {
-    fn load(loader: &Rc<ResourceLoader>, path: &str) -> Self::Future {
-        let future = Rc::new(RefCell::new(None));
-        let handle = AssetHandle::new(loader, path);
-        #[cfg(target_os = "emscripten")]
-        {
-            let mut texture = ugli::Texture2d::new_uninitialized(
-                loader.app.ugli_context(),
-                vec2(1, 1),
-            );
-            let texture_handle = texture._get_handle();
-            let future = future.clone();
-            fn make_mut<F: FnOnce((i32, i32)) + 'static>(f: F) -> Box<FnMut((i32, i32)) + 'static> {
-                let mut f = Some(f);
-                Box::new(move |arg: (i32, i32)| {
-                    mem::replace(&mut f, None).unwrap()(arg);
-                })
-            };
-            let callback = move |size: (i32, i32)| {
-                texture._set_size(vec2(size.0 as usize, size.1 as usize));
-                if texture.is_pot() {
-                    texture.gen_mipmaps();
-                }
-                *future.borrow_mut() = Some(texture);
-                handle.confirm();
-            };
-            let mut callback = make_mut(callback);
-            let callback = move |arg| callback(arg);
-            let callback = brijs::Callback::from(callback);
-            run_js! {
-                CodeVisual.internal.load_texture(path, &texture_handle, callback);
+    pub struct Future {
+        context: Rc<ugli::Context>,
+        join_handle: thread::JoinHandle<image::RgbaImage>,
+    }
+
+    impl ResourceFuture<ugli::Texture2d> for Future {
+        fn unwrap(self) -> ugli::Texture2d {
+            let image = self.join_handle.join().unwrap();
+            ugli::Texture2d::from_image(&self.context, image)
+        }
+    }
+
+    impl Resource for ugli::Texture2d {
+        type Future = Future;
+    }
+
+    impl Asset for ugli::Texture2d {
+        fn load(loader: &Rc<ResourceLoader>, path: &str) -> Self::Future {
+            let handle = AssetHandle::new(loader, path);
+            let path = String::from(path);
+            Future {
+                context: loader.app.ugli_context().clone(),
+                join_handle: thread::spawn(move || {
+                    let image = image::open(&path)
+                        .expect(&format!("Could not load texture from `{}`", path));
+                    let image = image.to_rgba();
+                    handle.confirm();
+                    image
+                }),
             }
         }
-        #[cfg(not(target_os = "emscripten"))]
-        {
-            let image = image::open(path).expect(&format!("Could not load texture from `{}`", path)).to_rgba();
-            *future.borrow_mut() = Some(ugli::Texture2d::from_image(loader.app.ugli_context(), image));
-            handle.confirm();
-        }
-        future
     }
 }

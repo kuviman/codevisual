@@ -11,7 +11,7 @@ pub use self::texture::*;
 pub struct ResourceLoader {
     app: Rc<Application>,
     resource_count: Cell<usize>,
-    loaded_count: Rc<Cell<usize>>,
+    loaded_count: Arc<AtomicCell<usize>>,
 }
 
 impl Deref for ResourceLoader {
@@ -27,7 +27,7 @@ impl ResourceLoader {
         Self {
             app: app.clone(),
             resource_count: Cell::new(1),
-            loaded_count: Rc::new(Cell::new(1)),
+            loaded_count: Arc::new(AtomicCell::new(1)),
         }
     }
     pub fn ready(&self) -> bool {
@@ -44,7 +44,7 @@ impl ResourceLoader {
 pub struct AssetHandle {
     timer: Timer,
     name: String,
-    loaded_count: Rc<Cell<usize>>,
+    loaded_count: Arc<AtomicCell<usize>>,
 }
 
 impl AssetHandle {
