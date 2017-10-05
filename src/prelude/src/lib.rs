@@ -66,7 +66,7 @@ pub use std::ops::{Index, IndexMut};
 pub use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
 pub use std::fmt::{Debug, Display, Formatter};
 pub use std::sync::{Arc, Mutex, RwLock};
-pub use std::cmp::{min, max, Ord};
+pub use std::cmp::{Eq, PartialEq, Ord, PartialOrd};
 pub use std::mem;
 pub use std::thread;
 

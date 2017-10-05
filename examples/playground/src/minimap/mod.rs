@@ -20,7 +20,7 @@ impl Minimap {
         let draw_parameters = ugli::DrawParameters {
             depth_test: ugli::DepthTest::Off,
             blend_mode: ugli::BlendMode::Alpha,
-            viewport: Some((conv(10), conv(10), conv(100), conv(100))),
+            viewport: Some(Rect::from_corners(vec2(conv(10), conv(10)), vec2(conv(100), conv(100)))),
             ..Default::default()
         };
         for &(instances, color) in [(&units.cars.instances, Color::rgb(0.0, 0.0, 1.0)), (&units.helis.instances, Color::rgb(1.0, 0.0, 0.0))].into_iter() {

@@ -68,8 +68,7 @@ pub struct DrawParameters {
     pub depth_test: DepthTest,
     pub blend_mode: BlendMode,
     pub cull_face: CullFace,
-    pub viewport: Option<(usize, usize, usize, usize)>,
-    // TODO: Rect<usize>
+    pub viewport: Option<Rect<usize>>,
 }
 
 impl Default for DrawParameters {
@@ -88,9 +87,12 @@ impl DrawParameters {
         self.depth_test.apply();
         self.blend_mode.apply();
         self.cull_face.apply();
-        if let Some((x, y, width, height)) = self.viewport {
+        if let Some(rect) = self.viewport {
             unsafe {
-                gl::Viewport(x as GLint, y as GLint, width as GLsizei, height as GLsizei);
+                gl::Viewport(rect.bottom_left.x as GLint,
+                             rect.bottom_left.y as GLint,
+                             rect.width() as GLsizei,
+                             rect.height() as GLsizei);
             }
         }
     }
