@@ -80,7 +80,10 @@ mod _impl {
                 join_handle: thread::spawn(move || {
                     let image = image::open(&path)
                         .expect(&format!("Could not load texture from `{}`", path));
-                    let image = image.to_rgba();
+                    let image = match image {
+                        image::DynamicImage::ImageRgba8(image) => image,
+                        _ => image.to_rgba(),
+                    };
                     handle.confirm();
                     image
                 }),
