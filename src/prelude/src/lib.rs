@@ -64,6 +64,7 @@ pub use std::fmt::{Debug, Display, Formatter};
 pub use std::sync::{Arc, Mutex, RwLock};
 pub use std::cmp::{min, max, Ord};
 pub use std::mem;
+pub use std::thread;
 
 #[macro_export]
 macro_rules! display_error_description {
