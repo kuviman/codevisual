@@ -49,6 +49,10 @@ mod timer;
 
 pub use self::timer::*;
 
+mod atomic;
+
+pub use self::atomic::*;
+
 pub use std::rc::Rc;
 pub use std::cell::{Cell, RefCell, Ref, RefMut};
 pub use std::marker::PhantomData;
