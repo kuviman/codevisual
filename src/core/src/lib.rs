@@ -119,32 +119,15 @@ pub fn run<G: Game>() {
         #[cfg(not(target_os = "emscripten"))]
         app.window.show();
 
-        #[cfg(target_os = "emscripten")]
-        let mut prev_time = brijs::get_now();
-        #[cfg(not(target_os = "emscripten"))]
-        let mut prev_time = std::time::Instant::now();
-
+        let mut timer = Timer::new();
         let main_loop = || {
             for event in app.window.get_events() {
                 game.handle_event(event);
             }
 
-            #[cfg(target_os = "emscripten")]
-            let delta_time = {
-                let now_time = brijs::get_now();
-                let delta_time = now_time - prev_time;
-                prev_time = now_time;
-                delta_time
-            };
-            #[cfg(not(target_os = "emscripten"))]
-            let delta_time = {
-                let now_time = std::time::Instant::now();
-                let delta_time = now_time.duration_since(prev_time).subsec_nanos() as f64 / 1e9;
-                prev_time = now_time;
-                delta_time
-            };
+            let delta_time = timer.tick().min(0.1); // TODO: configure
 
-            game.update(delta_time.min(0.1)); // TODO: configure
+            game.update(delta_time);
 
             game.draw(&mut app.ugli_context().default_framebuffer());
 

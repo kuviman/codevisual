@@ -15,7 +15,7 @@ impl Resource for String {
 impl Asset for String {
     fn load(loader: &Rc<ResourceLoader>, path: &str) -> StringResourceFuture {
         let future = Rc::new(RefCell::new(None));
-        let handle = AssetHandle::new(loader);
+        let handle = AssetHandle::new(loader, path);
         #[cfg(target_os = "emscripten")]
         {
             let future = future.clone();

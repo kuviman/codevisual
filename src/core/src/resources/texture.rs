@@ -15,7 +15,7 @@ impl Resource for ugli::Texture2d {
 impl Asset for ugli::Texture2d {
     fn load(loader: &Rc<ResourceLoader>, path: &str) -> Self::Future {
         let future = Rc::new(RefCell::new(None));
-        let handle = AssetHandle::new(loader);
+        let handle = AssetHandle::new(loader, path);
         #[cfg(target_os = "emscripten")]
         {
             let mut texture = ugli::Texture2d::new_uninitialized(

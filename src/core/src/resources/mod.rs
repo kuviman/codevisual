@@ -42,18 +42,23 @@ impl ResourceLoader {
 }
 
 pub struct AssetHandle {
+    timer: Timer,
+    name: String,
     loaded_count: Rc<Cell<usize>>,
 }
 
 impl AssetHandle {
-    pub fn new(loader: &ResourceLoader) -> Self {
+    pub fn new(loader: &ResourceLoader, name: &str) -> Self {
         loader.resource_count.set(loader.resource_count.get() + 1);
         Self {
+            timer: Timer::new(),
+            name: String::from(name),
             loaded_count: loader.loaded_count.clone(),
         }
     }
     pub fn confirm(self) {
         self.loaded_count.set(self.loaded_count.get() + 1);
+        println!("Loaded {} in {:.2} secs", self.name, self.timer.elapsed());
     }
 }
 
