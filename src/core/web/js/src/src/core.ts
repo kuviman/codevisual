@@ -36,6 +36,7 @@ namespace CodeVisual {
         }
 
         export function before_main_loop() {
+            $('[data-toggle="tooltip"]').tooltip();
             $loadingScreen.fadeOut();
             $gameScreen.show();
             for (let f of on_before_main_loop) {

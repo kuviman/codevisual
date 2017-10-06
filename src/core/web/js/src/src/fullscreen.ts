@@ -1,14 +1,19 @@
 namespace CodeVisual {
+    let $button: JQuery;
+
     function updateOrientation() {
         let screen = window.screen as any;
         if (isFullscreen()) {
+            $button.attr("data-original-title", "Exit fullscreen");
             screen.lockOrientationUniversal = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation;
             if (screen.lockOrientationUniversal) {
                 screen.lockOrientationUniversal("landscape");
             } else {
-                screen.orientation.lock("landscape").catch(function () { });
+                screen.orientation.lock("landscape").catch(function () {
+                });
             }
         } else {
+            $button.attr("data-original-title", "Go fullscreen");
             screen.unlockOrientationUniversal = screen.unlockOrientation || screen.mozUnlockOrientation || screen.msUnlockOrientation;
             if (screen.unlockOrientationUniversal) {
                 screen.unlockOrientationUniversal();
@@ -17,7 +22,6 @@ namespace CodeVisual {
             }
         }
     }
-    setInterval(updateOrientation, 300);
 
     function goFullscreen(elem: any) {
         if (elem.requestFullscreen) {
@@ -66,8 +70,10 @@ namespace CodeVisual {
     }
 
     internal.on_init.push(() => {
-        $player.find(".fullscreen-button").click(function () {
+        $button = $player.find(".fullscreen-button");
+        $button.click(function () {
             toggleFullscreen();
         });
+        setInterval(updateOrientation, 300);
     });
 }
