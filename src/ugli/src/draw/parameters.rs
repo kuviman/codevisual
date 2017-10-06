@@ -2,7 +2,8 @@ use ::*;
 
 pub enum DepthTest {
     Off,
-    On,
+    Less,
+    Greater,
 }
 
 impl DepthTest {
@@ -12,8 +13,13 @@ impl DepthTest {
             Off => unsafe {
                 gl::Disable(gl::DEPTH_TEST);
             },
-            On => unsafe {
+            Less => unsafe {
                 gl::Enable(gl::DEPTH_TEST);
+                gl::DepthFunc(gl::LESS);
+            },
+            Greater => unsafe {
+                gl::Enable(gl::DEPTH_TEST);
+                gl::DepthFunc(gl::GREATER);
             },
         }
     }
@@ -75,7 +81,7 @@ pub struct DrawParameters {
 impl Default for DrawParameters {
     fn default() -> Self {
         Self {
-            depth_test: DepthTest::On,
+            depth_test: DepthTest::Less,
             blend_mode: BlendMode::Off,
             cull_face: CullFace::None,
             viewport: None,
