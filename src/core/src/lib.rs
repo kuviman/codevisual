@@ -36,12 +36,15 @@ pub use codevisual_derive::*;
 
 mod resources;
 mod settings;
+mod profiler;
 
 pub use resources::*;
 pub use settings::*;
+pub use profiler::*;
 
 pub struct Application {
     window: Window,
+    pub profiler: Profiler,
 }
 
 impl Application {
@@ -68,7 +71,10 @@ impl Application {
                 CodeVisual.internal.init();
             }
         }
-        Application { window: Window::new(title) }
+        Application {
+            window: Window::new(title),
+            profiler: Profiler::new(),
+        }
     }
 
     pub fn window(&self) -> &Window {
@@ -121,15 +127,22 @@ pub fn run<G: Game>() {
 
         let mut timer = Timer::new();
         let main_loop = || {
+            let main_profiler_scope = app.profiler.new_scope("main_loop");
             for event in app.window.get_events() {
                 game.handle_event(event);
             }
 
             let delta_time = timer.tick().min(0.1); // TODO: configure
 
-            game.update(delta_time);
+            {
+                let _ = app.profiler.new_scope("Game::update");
+                game.update(delta_time);
+            }
 
-            game.draw(&mut app.ugli_context().default_framebuffer());
+            {
+                let _ = app.profiler.new_scope("Game::draw");
+                game.draw(&mut app.ugli_context().default_framebuffer());
+            }
 
             #[cfg(target_os = "emscripten")]
             run_js! {
@@ -137,6 +150,8 @@ pub fn run<G: Game>() {
             }
 
             app.window.swap_buffers();
+            mem::drop(main_profiler_scope);
+            app.profiler.tick();
         };
 
         #[cfg(target_os = "emscripten")]
