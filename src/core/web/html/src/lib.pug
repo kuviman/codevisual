@@ -17,16 +17,16 @@ html( lang="en" )
             div.game-screen( style="display:none;" )
                 canvas
                 div.controls
-                    div.control-button.play-stop-button
+                    div.control-button.play-stop-button( data-toggle="tooltip" data-placement="top" )
                         span.glyphicon.glyphicon-pause
-                    div.control-button.fullscreen-button
+                    div.control-button.fullscreen-button( data-toggle="tooltip" data-placement="top" title = "Go fullscreen" )
                         span.glyphicon.glyphicon-fullscreen
-                    div.control-button.settings-button
+                    div.control-button.settings-button( data-toggle="tooltip" data-placement="top" title = "Settings" )
                         span.glyphicon.glyphicon-cog
                     div.tick-info
-                        span.current-tick 0
-                        | /
-                        span.tick-count 0
+                        span.current-tick( data-toggle="tooltip" data-placement="top" title = "Current tick" ) 0
+                        | &nbsp;/&nbsp;
+                        span.tick-count( data-toggle="tooltip" data-placement="top" title = "Tick count" ) 0
                     div.timeline
                         div.timeline-background
                         div.timeline-loaded
@@ -45,11 +45,14 @@ html( lang="en" )
                 p.error-message Something went wrong
 
             table.setting-templates( style="display:none;" )
-                tr.setting-template-boolean
-                    td.name Setting name
-                    td.input
-                        input( type="checkbox" )
-                tr.setting-template-number
-                    td.name Setting name
-                    td.input
-                        input( type="range" )
+                mixin template(clazz)
+                    tr( class="setting-template-" + clazz )
+                        td.name Setting name
+                        td.input
+                            block
+                        td.reset-td
+                            span.reset.glyphicon.glyphicon-refresh( data-toggle="tooltip" data-placement="left" title = "Reset" )
+                +template("boolean")
+                    input( type="checkbox" )
+                +template("number")
+                    input( type="range" )

@@ -12,6 +12,7 @@ extern "C" {
     fn emscripten_get_now() -> c_double;
 }
 
+#[cfg(not(target_os = "emscripten"))]
 fn to_secs(duration: std::time::Duration) -> f64 {
     duration.as_secs() as f64 + duration.subsec_nanos() as f64 / 1e9
 }
@@ -19,20 +20,20 @@ fn to_secs(duration: std::time::Duration) -> f64 {
 impl Timer {
     pub fn new() -> Self {
         #[cfg(target_os = "emscripten")]
-        return Self { start_time: emscripten_get_now() as f64 };
+        return Self { start_time: unsafe { emscripten_get_now() } as f64 / 1000.0 };
         #[cfg(not(target_os = "emscripten"))]
         return Self { start: std::time::Instant::now() };
     }
     pub fn elapsed(&self) -> f64 {
         #[cfg(target_os = "emscripten")]
-        return emscripten_get_now() as f64 - self.start_time;
+        return unsafe { emscripten_get_now() } as f64 / 1000.0 - self.start_time;
         #[cfg(not(target_os = "emscripten"))]
         return to_secs(self.start.elapsed());
     }
     pub fn tick(&mut self) -> f64 {
         #[cfg(target_os = "emscripten")]
         return {
-            let now = emscripten_get_now() as f64;
+            let now = unsafe { emscripten_get_now() } as f64 / 1000.0;
             let delta = now - self.start_time;
             self.start_time = now;
             delta

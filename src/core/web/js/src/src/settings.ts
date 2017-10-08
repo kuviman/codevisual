@@ -6,7 +6,9 @@ namespace CodeVisual {
     export class BooleanSetting implements Setting {
         private _value: boolean;
 
-        constructor(public name: string, defaultValue: boolean, private setter?: (newValue: boolean) => void) {
+        constructor(public name: string,
+                    private defaultValue: boolean,
+                    private setter?: (newValue: boolean) => void) {
             this.value = defaultValue;
         }
 
@@ -28,6 +30,10 @@ namespace CodeVisual {
             $input.prop("checked", this.value).change(() => {
                 this.value = $input.is(":checked");
             });
+            $setting.find(".reset").click(() => {
+                this.value = this.defaultValue;
+                $input.prop("checked", this.value);
+            });
         }
     }
 
@@ -35,8 +41,10 @@ namespace CodeVisual {
         private _value: number;
 
         constructor(public name: string,
-                    private minValue: number, private maxValue: number, defaultValue: number,
-                    private step: number = 1, private setter?: (newValue: number) => void) {
+                    private minValue: number, private maxValue: number,
+                    private defaultValue: number,
+                    private step: number = 1,
+                    private setter?: (newValue: number) => void) {
             this.value = defaultValue;
         }
 
@@ -63,10 +71,15 @@ namespace CodeVisual {
             $input.on("input", () => {
                 this.value = $input.val();
             });
+            $setting.find(".reset").click(() => {
+                this.value = this.defaultValue;
+                $input.val(this.value);
+            });
         }
     }
 
     export class Settings {
+        // noinspection JSMethodCanBeStatic
         add(setting: Setting) {
             setting.addTo($settingsContainer);
         }
