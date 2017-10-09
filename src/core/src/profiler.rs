@@ -29,49 +29,16 @@ impl ProfiledRegion {
             for _ in 0..indent {
                 print!(" ");
             }
-            println!("{:.2}% - {}", 100.0 * self.time_consumed / super_total, self.name);
+            println!("{:.2}% ({} ms) - {}",
+                     100.0 * self.time_consumed / super_total,
+                     (self.time_consumed * 1000.0) as usize,
+                     self.name);
         }
         let mut children: Vec<_> = self.children.iter().collect();
         children.sort_by(|a, b| b.time_consumed.partial_cmp(&a.time_consumed).unwrap());
         for child in children {
             child.pretty_print(indent + 1, self.time_consumed);
         }
-    }
-}
-
-pub struct ProfiledScope<'a> {
-    timer: Timer,
-    profiler: &'a Profiler,
-    position: Vec<usize>,
-}
-
-impl<'a> ProfiledScope<'a> {
-    fn new(profiler: &'a Profiler, name: &'static str) -> Self {
-        let mut root = profiler.root.borrow_mut();
-        let mut current_position = profiler.current_position.borrow_mut();
-        let position = root.get_child_rec(&current_position);
-        current_position.push(
-            if let Some((index, _)) = position.children.iter()
-                .enumerate().find(|&(_, ref child)| child.name == name) {
-                index
-            } else {
-                position.children.push(ProfiledRegion::new(name));
-                position.children.len() - 1
-            });
-        Self {
-            timer: Timer::new(),
-            profiler,
-            position: current_position.deref().clone(),
-        }
-    }
-}
-
-impl<'a> Drop for ProfiledScope<'a> {
-    fn drop(&mut self) {
-        let mut root = self.profiler.root.borrow_mut();
-        let position = root.get_child_rec(&self.position);
-        position.time_consumed += self.timer.elapsed();
-        self.profiler.current_position.borrow_mut().pop().unwrap();
     }
 }
 
@@ -89,8 +56,34 @@ impl Profiler {
             current_position: RefCell::new(Vec::new()),
         }
     }
-    pub fn new_scope(&self, name: &'static str) -> ProfiledScope {
-        ProfiledScope::new(self, name)
+
+    fn start_scope(&self, name: &'static str) -> Timer {
+        let mut root = self.root.borrow_mut();
+        let mut current_position = self.current_position.borrow_mut();
+        let position = root.get_child_rec(&current_position);
+        current_position.push(
+            if let Some((index, _)) = position.children.iter()
+                .enumerate().find(|&(_, ref child)| child.name == name) {
+                index
+            } else {
+                position.children.push(ProfiledRegion::new(name));
+                position.children.len() - 1
+            });
+        Timer::new()
+    }
+
+    fn end_scope(&self, timer: Timer) {
+        let mut current_position = self.current_position.borrow_mut();
+        let mut root = self.root.borrow_mut();
+        let position = root.get_child_rec(&current_position);
+        position.time_consumed += timer.elapsed();
+        current_position.pop().unwrap();
+    }
+
+    pub fn scoped<F: FnOnce()>(&self, name: &'static str, f: F) {
+        let timer = self.start_scope(name);
+        f();
+        self.end_scope(timer);
     }
     pub ( crate ) fn tick(&self) {
         assert_eq!(self.current_position.borrow().len(), 0);

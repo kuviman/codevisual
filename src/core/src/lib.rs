@@ -127,30 +127,34 @@ pub fn run<G: Game>() {
 
         let mut timer = Timer::new();
         let main_loop = || {
-            let main_profiler_scope = app.profiler.new_scope("main_loop");
-            for event in app.window.get_events() {
-                game.handle_event(event);
-            }
+            app.profiler.scoped("main_loop", || {
+                app.profiler.scoped("Game::handle_events", || {
+                    for event in app.window.get_events() {
+                        game.handle_event(event);
+                    }
+                });
 
-            let delta_time = timer.tick().min(0.1); // TODO: configure
+                let delta_time = timer.tick().min(0.1); // TODO: configure
 
-            {
-                let _ = app.profiler.new_scope("Game::update");
-                game.update(delta_time);
-            }
+                app.profiler.scoped("Game::update", || {
+                    game.update(delta_time);
+                });
 
-            {
-                let _ = app.profiler.new_scope("Game::draw");
-                game.draw(&mut app.ugli_context().default_framebuffer());
-            }
+                app.profiler.scoped("Game::draw", || {
+                    game.draw(&mut app.ugli_context().default_framebuffer());
+                });
 
-            #[cfg(target_os = "emscripten")]
-            run_js! {
-                CodeVisual.internal.update_stats(); 
-            }
+                app.profiler.scoped("CodeVisual::update_stats", || {
+                    #[cfg(target_os = "emscripten")]
+                    run_js! {
+                        CodeVisual.internal.update_stats();
+                    };
+                });
 
-            app.window.swap_buffers();
-            mem::drop(main_profiler_scope);
+                app.profiler.scoped("Window::swap_buffers", || {
+                    app.window.swap_buffers();
+                });
+            });
             app.profiler.tick();
         };
 
