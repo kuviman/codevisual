@@ -1,6 +1,6 @@
 use ::*;
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct ProfiledRegion {
     pub name: &'static str,
     pub time_consumed: f64,
@@ -24,6 +24,7 @@ impl ProfiledRegion {
             self.children[index[0]].get_child_rec(&index[1..])
         }
     }
+    #[allow(dead_code)]
     fn pretty_print(&self, indent: usize, super_total: f64) {
         if indent == 0 {
             println!("Profiler data:");
@@ -94,7 +95,13 @@ impl Profiler {
         assert_eq!(self.current_position.borrow().len(), 0);
         let mut root = self.root.borrow_mut();
         root.time_consumed += self.timer.borrow_mut().tick();
+        root.invocation_count += 1;
         if root.time_consumed > 1.0 {
+            #[cfg(target_os = "emscripten")]
+            run_js! {
+                CodeVisual.internal.profiler_data(&*root);
+            }
+            #[cfg(not(target_os = "emscripten"))]
             root.pretty_print(0, root.time_consumed);
             *root = ProfiledRegion::new("_root_");
         }

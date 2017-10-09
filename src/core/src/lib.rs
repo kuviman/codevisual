@@ -8,6 +8,10 @@ pub ( crate ) use prelude::*;
 
 extern crate ugli;
 
+extern crate serde;
+#[macro_use]
+extern crate serde_derive;
+
 #[cfg(not(target_os = "emscripten"))]
 extern crate image;
 
