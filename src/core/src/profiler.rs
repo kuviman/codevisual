@@ -25,23 +25,23 @@ impl ProfiledRegion {
         }
     }
     #[allow(dead_code)]
-    fn pretty_print(&self, indent: usize, super_total: f64) {
+    fn pretty_print(&self, indent: usize, super_total: f64, mut fps: usize) {
         if indent == 0 {
-            println!("Profiler data:");
+            fps = self.invocation_count;
+            println!("FPS: {}", fps);
         } else {
             for _ in 0..indent {
                 print!(" ");
             }
-            println!("{:.2}% ({} ms, {} calls) - {}",
+            println!("{:.2}% (avg {:.2} ms) - {}",
                      100.0 * self.time_consumed / super_total,
-                     (self.time_consumed * 1000.0) as usize,
-                     self.invocation_count,
+                     self.time_consumed * 1000.0 / fps as f64,
                      self.name);
         }
         let mut children: Vec<_> = self.children.iter().collect();
         children.sort_by(|a, b| b.time_consumed.partial_cmp(&a.time_consumed).unwrap());
         for child in children {
-            child.pretty_print(indent + 1, self.time_consumed);
+            child.pretty_print(indent + 1, self.time_consumed, fps);
         }
     }
 }
@@ -102,7 +102,7 @@ impl Profiler {
                 CodeVisual.internal.profiler_data(&*root);
             }
             #[cfg(not(target_os = "emscripten"))]
-            root.pretty_print(0, root.time_consumed);
+            root.pretty_print(0, root.time_consumed, 0);
             *root = ProfiledRegion::new("_root_");
         }
     }
