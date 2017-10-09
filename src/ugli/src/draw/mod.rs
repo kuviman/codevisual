@@ -49,6 +49,14 @@ pub fn clear(framebuffer: &mut Framebuffer,
     }
 }
 
+static mut SYNC_DRAW: bool = false;
+
+pub fn sync_draw(sync: bool) {
+    unsafe {
+        SYNC_DRAW = sync;
+    }
+}
+
 pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
                       program: &Program,
                       mode: DrawMode,
@@ -139,7 +147,9 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
             gl::DrawArrays(gl_mode, 0, vertex_count as GLsizei);
         }
     }
-    check_gl_error();
+    if unsafe { SYNC_DRAW } {
+        check_gl_error();
+    }
 
     struct UC<'a> {
         program: &'a Program,

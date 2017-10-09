@@ -82,6 +82,7 @@ impl Window {
     }
 
     pub fn swap_buffers(&self) {
+        ugli::check_gl_error();
         #[cfg(not(target_os = "emscripten"))]
         return {
             use glutin::GlContext;
