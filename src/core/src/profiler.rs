@@ -4,6 +4,7 @@ use ::*;
 pub struct ProfiledRegion {
     pub name: &'static str,
     pub time_consumed: f64,
+    pub invocation_count: usize,
     pub children: Vec<ProfiledRegion>,
 }
 
@@ -12,6 +13,7 @@ impl ProfiledRegion {
         Self {
             name,
             time_consumed: 0.0,
+            invocation_count: 0,
             children: Vec::new(),
         }
     }
@@ -29,9 +31,10 @@ impl ProfiledRegion {
             for _ in 0..indent {
                 print!(" ");
             }
-            println!("{:.2}% ({} ms) - {}",
+            println!("{:.2}% ({} ms, {} calls) - {}",
                      100.0 * self.time_consumed / super_total,
                      (self.time_consumed * 1000.0) as usize,
+                     self.invocation_count,
                      self.name);
         }
         let mut children: Vec<_> = self.children.iter().collect();
@@ -77,6 +80,7 @@ impl Profiler {
         let mut root = self.root.borrow_mut();
         let position = root.get_child_rec(&current_position);
         position.time_consumed += timer.elapsed();
+        position.invocation_count += 1;
         current_position.pop().unwrap();
     }
 
