@@ -160,12 +160,7 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
     }
     impl<'a> UniformConsumer for UC<'a> {
         fn consume<U: Uniform>(&mut self, name: &str, uniform: &U) {
-            let location = unsafe {
-                gl::GetUniformLocation(
-                    self.program.handle,
-                    std::ffi::CString::new(name).unwrap().as_ptr(),
-                )
-            };
+            let location = self.program.get_uniform_location(name);
             if location >= 0 {
                 uniform.apply(UniformLocation {
                     location,
@@ -247,12 +242,7 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
             }
             impl<'a, D: Vertex> VertexAttributeConsumer for VAC<'a, D> {
                 fn consume<A: VertexAttribute>(&mut self, name: &str, attribute: &A) {
-                    let location = unsafe {
-                        gl::GetAttribLocation(
-                            self.program.handle,
-                            std::ffi::CString::new(name).unwrap().as_ptr(),
-                        )
-                    };
+                    let location = self.program.get_attribute_location(name);
                     if location == -1 {
                         return;
                     }
