@@ -44,7 +44,7 @@ pub use profiler::*;
 
 pub struct Application {
     window: Window,
-    pub profiler: Profiler,
+    profiler: Rc<Profiler>,
 }
 
 impl Application {
@@ -73,8 +73,13 @@ impl Application {
         }
         Application {
             window: Window::new(title),
-            profiler: Profiler::new(),
+            profiler: Rc::new(Profiler::new()),
         }
+    }
+
+    pub fn profiler(&self) -> Rc<Profiler> {
+        // TODO: Do we need Rc (to detach from self)?
+        self.profiler.clone()
     }
 
     pub fn window(&self) -> &Window {

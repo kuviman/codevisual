@@ -57,7 +57,7 @@ impl Profiler {
         }
     }
 
-    fn start_scope(&self, name: &'static str) -> Timer {
+    pub fn start_scope(&self, name: &'static str) -> Timer {
         let mut root = self.root.borrow_mut();
         let mut current_position = self.current_position.borrow_mut();
         let position = root.get_child_rec(&current_position);
@@ -72,7 +72,7 @@ impl Profiler {
         Timer::new()
     }
 
-    fn end_scope(&self, timer: Timer) {
+    pub fn end_scope(&self, timer: Timer) {
         let mut current_position = self.current_position.borrow_mut();
         let mut root = self.root.borrow_mut();
         let position = root.get_child_rec(&current_position);
@@ -80,10 +80,11 @@ impl Profiler {
         current_position.pop().unwrap();
     }
 
-    pub fn scoped<F: FnOnce()>(&self, name: &'static str, f: F) {
+    pub fn scoped<R, F: FnOnce() -> R>(&self, name: &'static str, f: F) -> R {
         let timer = self.start_scope(name);
-        f();
+        let result = f();
         self.end_scope(timer);
+        result
     }
     pub ( crate ) fn tick(&self) {
         assert_eq!(self.current_position.borrow().len(), 0);
