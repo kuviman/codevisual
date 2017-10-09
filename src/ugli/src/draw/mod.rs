@@ -147,11 +147,8 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
             gl::DrawArrays(gl_mode, 0, vertex_count as GLsizei);
         }
     }
-    unsafe {
-        if SYNC_DRAW {
-            check_gl_error();
-            gl::Finish();
-        }
+    if unsafe { SYNC_DRAW } {
+        sync();
     }
 
     struct UC<'a> {

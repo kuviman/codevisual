@@ -112,6 +112,13 @@ impl Pixel for DepthComponent {
 
 impl Sealed for DepthComponent {}
 
-pub fn check_gl_error() {
+fn check_gl_error() {
     assert_eq!(unsafe { gl::GetError() }, gl::NO_ERROR, "OpenGL error");
+}
+
+pub fn sync() {
+    check_gl_error();
+    unsafe {
+        gl::Finish();
+    }
 }
