@@ -4,6 +4,14 @@ mod parameters;
 
 pub use self::parameters::*;
 
+static mut SYNC_DRAW: bool = false;
+
+pub fn sync_draw(sync: bool) {
+    unsafe {
+        SYNC_DRAW = sync;
+    }
+}
+
 pub enum DrawMode {
     Points,
     Lines {
@@ -47,13 +55,8 @@ pub fn clear(framebuffer: &mut Framebuffer,
     unsafe {
         gl::Clear(flags);
     }
-}
-
-static mut SYNC_DRAW: bool = false;
-
-pub fn sync_draw(sync: bool) {
-    unsafe {
-        SYNC_DRAW = sync;
+    if unsafe { SYNC_DRAW } {
+        sync();
     }
 }
 
