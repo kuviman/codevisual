@@ -25,16 +25,27 @@ impl RawBuffer {
     }
     fn set_data<T>(&self, data: &Vec<T>) {
         self.bind();
-        let size = mem::size_of::<T>() * data.capacity();
-        let data = data.as_ptr();
-        self.size.set(size);
-        unsafe {
-            gl::BufferData(
-                gl::ARRAY_BUFFER,
-                size as GLsizeiptr,
-                data as *const c_void,
-                self.usage,
-            );
+        let capacity = mem::size_of::<T>() * data.capacity();
+        if self.size.get() < capacity {
+            self.size.set(capacity);
+            unsafe {
+                gl::BufferData(
+                    gl::ARRAY_BUFFER,
+                    capacity as GLsizeiptr,
+                    data.as_ptr() as *const c_void,
+                    self.usage,
+                );
+            }
+        } else {
+            let size = mem::size_of::<T>() * data.len();
+            unsafe {
+                gl::BufferSubData(
+                    gl::ARRAY_BUFFER,
+                    0,
+                    size as GLsizeiptr,
+                    data.as_ptr() as *const c_void,
+                );
+            }
         }
     }
 }
