@@ -22,6 +22,7 @@ pub enum DepthAttachmentRead<'a> {
 pub struct FramebufferRead<'a> {
     pub ( crate ) fbo: FBO,
     color: ColorAttachmentRead<'a>,
+    depth: DepthAttachmentRead<'a>,
     size: Vec2<usize>,
 }
 
@@ -72,13 +73,20 @@ impl<'a> FramebufferRead<'a> {
             }
         }
         fbo.check();
-        Self { fbo, color, size: size.unwrap() }
+        Self { fbo, color, depth, size: size.unwrap() }
     }
     pub fn new_color(context: &Context, color: ColorAttachmentRead<'a>) -> Self {
         Self::new(context, color, DepthAttachmentRead::None)
     }
     pub fn get_size(&self) -> Vec2<usize> {
         self.size
+    }
+
+    pub fn color_attachment(&self) -> &ColorAttachmentRead {
+        &self.color
+    }
+    pub fn depth_attachment(&self) -> &DepthAttachmentRead {
+        &self.depth
     }
 }
 
@@ -110,7 +118,7 @@ impl<'a> Framebuffer<'a> {
                     DepthAttachment::None => DepthAttachmentRead::None,
                     DepthAttachment::Renderbuffer(renderbuffer) => DepthAttachmentRead::Renderbuffer(renderbuffer),
                     DepthAttachment::Texture(texture) => DepthAttachmentRead::Texture(texture),
-                })
+                }),
         }
     }
     pub fn new_color(context: &Context, color: ColorAttachment<'a>) -> Self {
@@ -131,8 +139,9 @@ impl Context {
             read: FramebufferRead {
                 fbo: FBO::default(),
                 color: ColorAttachmentRead::None,
+                depth: DepthAttachmentRead::None,
                 size: self.get_size(),
-            }
+            },
         }
     }
 }
