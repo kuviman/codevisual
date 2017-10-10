@@ -131,11 +131,12 @@ pub fn derive_resources(input: TokenStream) -> TokenStream {
             }
         }
     });
+    let future = Ident::new(String::from(input_type.as_ref()) + "Future");
     let result = quote! {
-        pub struct Future {
+        pub struct #future {
             #(#field_names: <#field_types as ::codevisual::Resource>::Future,)*
         }
-        impl ::codevisual::ResourceFuture<#input_type> for Future {
+        impl ::codevisual::ResourceFuture<#input_type> for #future {
             fn unwrap(self) -> #input_type {
                 #input_type {
                     #(#field_names: <#field_types as ::codevisual::Resource>::Future::unwrap(self.#field_names_copy),)*
@@ -143,11 +144,11 @@ pub fn derive_resources(input: TokenStream) -> TokenStream {
             }
         }
         impl#impl_generics ::codevisual::Resource for #input_type#ty_generics #where_clause {
-            type Future = Future;
+            type Future = #future;
         }
         impl#impl_generics ::codevisual::ResourceContainer for #input_type#ty_generics #where_clause {
             fn load(loader: &::std::rc::Rc<::codevisual::ResourceLoader>) -> Self::Future {
-                Future {
+                Self::Future {
                     #(#field_loaders,)*
                 }
             }
