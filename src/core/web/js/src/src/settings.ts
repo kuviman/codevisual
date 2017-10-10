@@ -9,7 +9,12 @@ namespace CodeVisual {
         constructor(public name: string,
                     private defaultValue: boolean,
                     private setter?: (newValue: boolean) => void) {
-            this.value = defaultValue;
+            let savedValue = window.localStorage.getItem(name);
+            if (savedValue == null) {
+                this.value = defaultValue;
+            } else {
+                this.value = savedValue == "true";
+            }
         }
 
         get value(): boolean {
@@ -21,6 +26,7 @@ namespace CodeVisual {
             if (this.setter) {
                 this.setter(newValue);
             }
+            window.localStorage.setItem(this.name, newValue.toString());
         }
 
         addTo(parent: JQuery) {
@@ -45,7 +51,12 @@ namespace CodeVisual {
                     private defaultValue: number,
                     private step: number = 1,
                     private setter?: (newValue: number) => void) {
-            this.value = defaultValue;
+            let savedValue = window.localStorage.getItem(name);
+            if (savedValue == null) {
+                this.value = defaultValue;
+            } else {
+                this.value = parseFloat(savedValue);
+            }
         }
 
         get value(): number {
@@ -57,6 +68,7 @@ namespace CodeVisual {
             if (this.setter) {
                 this.setter(newValue);
             }
+            window.localStorage.setItem(this.name, newValue.toString());
         }
 
         addTo(parent: JQuery) {
