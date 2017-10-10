@@ -82,7 +82,7 @@ impl Window {
     }
 
     pub fn swap_buffers(&self) {
-        ugli::sync();
+        // ugli::sync();
         #[cfg(not(target_os = "emscripten"))]
         return {
             use glutin::GlContext;
