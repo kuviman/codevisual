@@ -3,6 +3,7 @@
 namespace CodeVisual {
     class Stats {
         dom: HTMLDivElement;
+        shown: boolean = true;
         private container: HTMLDivElement;
         private beginTime: number;
         private prevTime: number;
@@ -53,7 +54,9 @@ namespace CodeVisual {
         end() {
             this.frames++;
             let time = (performance || Date).now();
-            this.msPanel.update(time - this.beginTime, 200);
+            if (this.shown && this.mode == 1) {
+                this.msPanel.update(time - this.beginTime, 200);
+            }
             if (time > this.prevTime + 1000) {
                 this.fpsPanel.update((this.frames * 1000) / (time - this.prevTime), 100);
                 this.prevTime = time;
@@ -223,6 +226,7 @@ namespace CodeVisual {
             $player.find(".game-screen").append(stats.dom);
             $stats = $player.find(".stats");
             settings.add(new BooleanSetting("Show stats", true, (show) => {
+                stats.shown = show;
                 if (show)
                     $stats.fadeIn();
                 else
