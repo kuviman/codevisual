@@ -39,3 +39,8 @@ path = "examples/tutorial/03-events.rs"
 name = "doc"
 path = "scripts/doc.rs"
 doc = false
+
+[[bin]]
+name = "make-web"
+path = "scripts/make-web.rs"
+doc = false
