@@ -18,7 +18,6 @@ glutin = "*"
 
 [target.'cfg(target_os = "emscripten")'.dependencies]
 brijs = { path = "brijs" }
-codevisual_web = { path = "src/web" }
 
 [[example]]
 name = "playground"
