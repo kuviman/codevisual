@@ -1,9 +1,0 @@
-[package]
-name = "codevisual_material"
-version = "0.1.0"
-authors = ["kuviman <kuviman@gmail.com>"]
-
-[dependencies]
-prelude = { path = "../../prelude" }
-ugli = { path = "../../ugli" }
-codevisual_derive = { path = "../derive" }

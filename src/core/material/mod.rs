@@ -1,18 +1,10 @@
-#![deny(warnings)]
-
-extern crate prelude;
-
-pub ( crate ) use prelude::*;
-
-extern crate ugli;
+use ::*;
 
 mod defines;
-
-pub use defines::*;
-
 mod library;
 
-pub use library::*;
+pub use self::defines::*;
+pub use self::library::*;
 
 pub fn compile_ugli_program<Lib>(
     ugli_context: &ugli::Context,

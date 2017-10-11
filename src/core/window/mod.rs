@@ -1,29 +1,10 @@
-#![deny(warnings)]
-
-extern crate prelude;
-
-use prelude::*;
-
-extern crate ugli;
-
-#[allow(unused_imports)]
-#[macro_use]
-extern crate lazy_static;
-
-#[cfg(target_os = "emscripten")]
-#[macro_use]
-extern crate brijs;
-
-#[cfg(not(target_os = "emscripten"))]
-extern crate glutin;
+use ::*;
 
 mod cursor;
-
-pub use cursor::*;
-
 mod events;
 
-pub use events::*;
+pub use self::cursor::*;
+pub use self::events::*;
 
 pub struct Window {
     #[cfg(not(target_os = "emscripten"))]

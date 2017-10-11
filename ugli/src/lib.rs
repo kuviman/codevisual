@@ -3,57 +3,38 @@
 #[macro_use]
 extern crate prelude;
 
-pub ( crate ) use prelude::*;
-
+#[doc(hidden)]
 extern crate gl;
 
-use gl::types::*;
-
 #[cfg(not(target_os = "emscripten"))]
+#[doc(hidden)]
 extern crate image;
 
+pub ( crate ) use prelude::*;
+pub ( crate ) use gl::types::*;
+
 mod context;
-
-pub use context::*;
-
 mod shader;
-
-pub use shader::*;
-
 mod program;
-
-pub use program::*;
-
 mod texture;
-
-pub use texture::*;
-
 mod renderbuffer;
-
-pub use renderbuffer::*;
-
 mod framebuffer;
-
-pub use framebuffer::*;
-
 mod draw;
-
-pub use draw::*;
-
 mod vertex;
-
-pub use vertex::*;
-
 mod uniform;
-
-pub use uniform::*;
-
 mod quad;
-
-pub use quad::*;
-
 mod cube;
 
+pub use context::*;
+pub use shader::*;
+pub use program::*;
+pub use texture::*;
+pub use renderbuffer::*;
+pub use framebuffer::*;
+pub use draw::*;
+pub use vertex::*;
+pub use uniform::*;
+pub use quad::*;
 pub use cube::*;
 
 mod private {
@@ -62,14 +43,14 @@ mod private {
 
 pub ( crate ) use private::*;
 
-pub trait Pixel: Sealed {
+pub unsafe trait Pixel: Sealed {
     fn possible_texture(context: &Context) -> bool;
     const GL_TEXTURE_FORMAT: GLenum;
     const GL_FRAMEBUFFER_FORMAT: GLenum;
     const GL_TEXTURE_TYPE: GLenum;
 }
 
-impl Pixel for Color {
+unsafe impl Pixel for Color {
     fn possible_texture(_: &Context) -> bool { true }
     const GL_TEXTURE_FORMAT: GLenum = gl::RGBA;
     const GL_FRAMEBUFFER_FORMAT: GLenum = gl::RGBA;
@@ -81,7 +62,7 @@ impl Sealed for Color {}
 #[derive(Debug, Copy, Clone, PartialOrd, PartialEq)]
 pub struct DepthComponent(GLfloat);
 
-impl Pixel for DepthComponent {
+unsafe impl Pixel for DepthComponent {
     fn possible_texture(context: &Context) -> bool {
         #![allow(unused_variables)]
 

@@ -4,12 +4,20 @@ version = "0.1.0"
 authors = ["kuviman <kuviman@gmail.com>"]
 
 [dependencies]
-prelude = { path = "src/prelude" }
-ugli = { path = "src/ugli" }
-codevisual_core = { path = "src/core" }
+prelude = { path = "prelude" }
+ugli = { path = "ugli" }
+codevisual_derive = { path = "derive" }
+serde = "1.0"
+serde_derive = "1.0"
+lazy_static = "*"
+
+[target.'cfg(not(target_os = "emscripten"))'.dependencies]
+image = "*"
+glutin = "*"
 
 [target.'cfg(target_os = "emscripten")'.dependencies]
-brijs = { path = "src/brijs" }
+brijs = { path = "brijs" }
+codevisual_web = { path = "src/web" }
 
 [[example]]
 name = "playground"
@@ -26,3 +34,7 @@ path = "examples/tutorial/02-triangle.rs"
 [[example]]
 name = "tutorial-03"
 path = "examples/tutorial/03-events.rs"
+
+[[bin]]
+name = "doc"
+doc = false

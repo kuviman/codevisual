@@ -5,9 +5,9 @@ pub fn compile_ts(src: &Path, dst: &Path) {
     let dst = Path::new(&out_dir).join(dst);
 
     let full_js_file = Path::new(&out_dir).join("full.js");
-    let mut cmd = format!("tsc --declaration --outFile {} -p {}",
-                          full_js_file.to_str().unwrap(),
-                          src.to_str().unwrap());
+    let cmd = format!("tsc --declaration --outFile {} -p {}",
+                      full_js_file.to_str().unwrap(),
+                      src.to_str().unwrap());
     assert!(command(&cmd)
                 .status()
                 .expect("Could not compile TypeScript")

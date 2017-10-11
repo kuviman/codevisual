@@ -1,17 +1,32 @@
 #![deny(warnings)]
 
-pub extern crate prelude;
-
+#[cfg(not(target_os = "emscripten"))]
+extern crate image;
+#[cfg(not(target_os = "emscripten"))]
+extern crate glutin;
+extern crate serde;
+#[macro_use]
+extern crate serde_derive;
 #[allow(unused_imports)]
 #[macro_use]
-pub extern crate codevisual_core as core;
+extern crate lazy_static;
 
-pub use core::*;
-
+pub extern crate prelude;
 pub extern crate ugli;
+#[allow(unused_imports)]
+#[macro_use]
+extern crate codevisual_derive;
 
 #[cfg(target_os = "emscripten")]
+#[macro_use]
 pub extern crate brijs;
+
+mod core;
+
+pub ( crate ) use prelude::*;
+pub use core::*;
+#[doc(hidden)]
+pub use codevisual_derive::*;
 
 #[macro_export]
 macro_rules! uniforms {

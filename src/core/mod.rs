@@ -1,50 +1,16 @@
-#![deny(warnings)]
+use ::*;
 
-#[allow(unused_imports)]
-#[macro_use]
-extern crate prelude;
-
-pub ( crate ) use prelude::*;
-
-extern crate ugli;
-
-extern crate serde;
-#[macro_use]
-extern crate serde_derive;
-
-#[cfg(not(target_os = "emscripten"))]
-extern crate image;
-
-#[cfg(target_os = "emscripten")]
-#[macro_use]
-extern crate brijs;
-
-#[cfg(target_os = "emscripten")]
-extern crate codevisual_core_html;
-
-#[cfg(target_os = "emscripten")]
-extern crate codevisual_core_css;
-
-#[cfg(target_os = "emscripten")]
-extern crate codevisual_core_js;
-
-extern crate codevisual_window;
-extern crate codevisual_material;
-#[allow(unused_imports)]
-#[macro_use]
-extern crate codevisual_derive;
-
-pub use codevisual_window::*;
-pub use codevisual_material::*;
-pub use codevisual_derive::*;
-
+mod window;
+mod material;
 mod resources;
 mod settings;
 mod profiler;
 
-pub use resources::*;
-pub use settings::*;
-pub use profiler::*;
+pub use self::material::*;
+pub use self::window::*;
+pub use self::resources::*;
+pub use self::settings::*;
+pub use self::profiler::*;
 
 pub struct Application {
     window: Window,
