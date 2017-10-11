@@ -52,13 +52,15 @@ pub use range::*;
 pub use timer::*;
 pub use atomic::*;
 
+pub use rand::Rng;
+
 #[cfg(target_os = "emscripten")]
-pub fn thread_rng() -> Box<rand::Rng> {
+pub fn thread_rng() -> Box<Rng> {
     extern "C" {
         fn emscripten_random() -> c_float;
     }
     struct EmscriptenRng;
-    impl rand::Rng for EmscriptenRng {
+    impl Rng for EmscriptenRng {
         fn next_u32(&mut self) -> u32 {
             unsafe { (emscripten_random() as f64 * std::u32::MAX as f64) as u32 }
         }
