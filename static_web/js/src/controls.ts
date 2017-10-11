@@ -1,12 +1,16 @@
 namespace CodeVisual {
     export namespace internal {
-        const TIMEOUT = 3000;
+        const TIMEOUT = 10000;
         let $controls: JQuery;
         let $settings: JQuery;
         let shown = true;
         let timeout: number;
 
         function hideControls() {
+            if ($settings.is(":visible")) {
+                timeout = setTimeout(hideControls, TIMEOUT);
+                return;
+            }
             if (shown) {
                 $controls.animate({
                     bottom: "-32px"
