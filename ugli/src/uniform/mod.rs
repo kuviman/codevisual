@@ -50,6 +50,14 @@ impl Uniform for Vec2<usize> {
     }
 }
 
+impl Uniform for Vec3<f32> {
+    fn apply<'a>(&self, location: raw::Location<'a>) {
+        unsafe {
+            gl::Uniform3f(location.location, self.x, self.y, self.z);
+        }
+    }
+}
+
 impl Uniform for Mat4<f32> {
     fn apply<'a>(&self, location: raw::Location<'a>) {
         unsafe {
