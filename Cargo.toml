@@ -37,4 +37,5 @@ path = "examples/tutorial/03-events.rs"
 
 [[bin]]
 name = "doc"
+path = "scripts/doc.rs"
 doc = false
