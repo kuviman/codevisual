@@ -16,7 +16,7 @@ impl ShaderDefine for bool {
 
 impl ShaderDefine for i32 {
     fn as_glsl(&self) -> String {
-        format!("int({})", self)
+        format!("{}", self)
     }
 }
 

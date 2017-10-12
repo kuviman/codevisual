@@ -20,25 +20,34 @@ pub fn compile_ugli_program<Lib>(
     const PRELUDE_INCLUDE: &str = "#include <prelude>";
 
     let mut defines_sources = Vec::new();
-    let mut sources = vec!["#define VERTEX"];
+    let mut sources: Vec<&str> = Vec::new();
     defines.as_glsl(&mut defines_sources);
     for define in &defines_sources {
         sources.push(define);
     }
     sources.push(PRELUDE_INCLUDE);
     sources.push(source);
-    let vertex_shader = ugli::Shader::new(
-        ugli_context,
-        ugli::ShaderType::Vertex,
-        &[&PreprocessedShader::new::<Lib>(&sources).get_source()],
-    ).expect("Could not compile vertex shader");
 
-    sources[0] = "#define FRAGMENT";
-    let fragment_shader = ugli::Shader::new(
-        ugli_context,
-        ugli::ShaderType::Fragment,
-        &[&PreprocessedShader::new::<Lib>(&sources).get_source()],
-    ).expect("Could not compile fragment shader");
+    fn compile_shader(ugli_context: &ugli::Context, source: &str, typ: ugli::ShaderType) -> ugli::Shader {
+        match ugli::Shader::new(
+            ugli_context,
+            typ,
+            &[match typ {
+                ugli::ShaderType::Vertex => "#define VERTEX\n",
+                ugli::ShaderType::Fragment => "#define FRAGMENT\n"
+            }, source]) {
+            Ok(shader) => shader,
+            Err(error) => {
+                eprintln!("Shader source:");
+                eprintln!("{}", source);
+                panic!("Could not compile {:?} shader: {:?}", typ, error);
+            }
+        }
+    }
+
+    let source = PreprocessedShader::new::<Lib>(&sources).get_source();
+    let vertex_shader = compile_shader(ugli_context, &source, ugli::ShaderType::Vertex);
+    let fragment_shader = compile_shader(ugli_context, &source, ugli::ShaderType::Fragment);
 
     ugli::Program::new(ugli_context, &[&vertex_shader, &fragment_shader]).expect("Could not link program")
 }

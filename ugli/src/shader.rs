@@ -1,12 +1,13 @@
 use ::*;
 
+#[derive(Debug, Copy, Clone)]
 pub enum ShaderType {
     Vertex,
     Fragment,
 }
 
 pub struct Shader {
-    pub(crate) handle: GLuint,
+    pub ( crate ) handle: GLuint,
 }
 
 impl Drop for Shader {
