@@ -3,14 +3,23 @@ use ::*;
 pub fn run_script(script: &str) {
     let script = CString::new(script).expect("Could not convert script to C string");
     unsafe {
-        ::emscripten_sys::emscripten_run_script(script.as_ptr());
+        emscripten_run_script(script.as_ptr());
     }
 }
 
 pub fn run_script_i32(script: &str) -> i32 {
     let script = CString::new(script).expect("Could not convert script to C string");
     unsafe {
-        ::emscripten_sys::emscripten_run_script_int(script.as_ptr()) as i32
+        emscripten_run_script_int(script.as_ptr()) as i32
+    }
+}
+
+pub fn run_script_string(script: &str) -> String {
+    let script = CString::new(script).expect("Could not convert script to C string");
+    unsafe {
+        let string = emscripten_run_script_string(script.as_ptr());
+        let string = CStr::from_ptr(string);
+        String::from(string.to_str().expect("Script returned invalid UTF-8"))
     }
 }
 

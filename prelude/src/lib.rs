@@ -17,7 +17,7 @@ pub use std::error::Error;
 pub use std::os::raw::{c_int, c_float, c_double, c_short, c_ushort, c_long, c_ulong, c_char,
                        c_void};
 #[doc(no_inline)]
-pub use std::ffi::CString;
+pub use std::ffi::{CStr, CString};
 #[doc(no_inline)]
 pub use std::ops::{Deref, DerefMut, Range, RangeFrom, RangeTo, RangeFull};
 #[doc(no_inline)]
