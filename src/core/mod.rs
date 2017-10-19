@@ -78,6 +78,7 @@ pub trait Game {
 
 pub fn run<G: Game>() {
     let app = Rc::new(Application::new(&G::get_title()));
+    let app_clone = app.clone();
     app.add_setting(Setting::Bool {
         name: String::from("_sync_draw"),
         default: false,
@@ -158,8 +159,9 @@ pub fn run<G: Game>() {
     brijs::set_main_loop(|| { start(); });
 
     #[cfg(not(target_os = "emscripten"))]
-    while !start() {
+    while !start() && !app_clone.window.should_close() {
         // TODO: Loading screen
         thread::sleep(std::time::Duration::from_millis(100));
+        app_clone.window.get_events();
     };
 }
