@@ -78,6 +78,7 @@ pub trait Game {
 
 pub fn run<G: Game>() {
     let app = Rc::new(Application::new(&G::get_title()));
+    #[cfg(not(target_os = "emscripten"))]
     let app_clone = app.clone();
     app.add_setting(Setting::Bool {
         name: String::from("_sync_draw"),
