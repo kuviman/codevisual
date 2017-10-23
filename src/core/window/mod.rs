@@ -22,7 +22,7 @@ impl Window {
         #[cfg(target_os = "emscripten")]
         let window = {
             println!("Starting {}", title);
-            let ugli_context = Rc::new(brijs::create_gl_context().unwrap());
+            let ugli_context = Rc::new(web::create_gl_context().unwrap());
             Self {
                 ugli_context,
                 should_close: Cell::new(false),
@@ -73,7 +73,7 @@ impl Window {
 
     pub fn get_size(&self) -> Vec2<usize> {
         #[cfg(target_os = "emscripten")]
-        return brijs::get_canvas_size();
+        return web::get_canvas_size();
         #[cfg(not(target_os = "emscripten"))]
         return {
             let (width, height) = self.glutin_window.get_inner_size_pixels().unwrap_or((1, 1));

@@ -19,7 +19,7 @@ pub extern crate prelude;
 pub extern crate ugli;
 #[cfg(target_os = "emscripten")]
 #[macro_use]
-pub extern crate brijs;
+pub extern crate web;
 
 #[allow(unused_imports)]
 #[macro_use]
@@ -81,8 +81,8 @@ macro_rules! impl_shader_library {
     }
 }
 
-// Reimplement brijs macros, since macro_reexport is not stable
-mod brijs_macros {
+// Reimplement web macros, since macro_reexport is not stable
+mod web_macros {
     #[macro_export]
     macro_rules! format_placeholders {
         () => ("");
@@ -96,9 +96,9 @@ mod brijs_macros {
     macro_rules! run_js {
         ($($($f:ident).+ ( $($args:expr),* );)*) => (
             $(
-                $crate::brijs::run_script(&format!(
+                $crate::web::run_script(&format!(
                     concat!(stringify!($($f).+), "(", format_placeholders!($($args),*), ")"),
-                    $($crate::brijs::IntoJson::into_json($args)),*));
+                    $($crate::web::IntoJson::into_json($args)),*));
             )*
         )
     }

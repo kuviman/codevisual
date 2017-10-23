@@ -20,7 +20,7 @@ mod _impl {
             let future = Rc::new(RefCell::new(None));
             {
                 let future = future.clone();
-                brijs::wget(path, move |data| {
+                web::wget(path, move |data| {
                     *future.borrow_mut() = Some(String::from(data));
                     handle.confirm();
                 });

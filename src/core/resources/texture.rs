@@ -41,7 +41,7 @@ mod _impl {
                 };
                 let mut callback = make_mut(callback);
                 let callback = move |arg| callback(arg);
-                let callback = brijs::Callback::from(callback);
+                let callback = web::Callback::from(callback);
                 run_js! {
                     CodeVisual.internal.load_texture(path, &texture_handle, callback);
                 }

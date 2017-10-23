@@ -1,8 +1,8 @@
 use ::*;
 
-impl From<brijs::MouseButton> for MouseButton {
-    fn from(button: brijs::MouseButton) -> Self {
-        use brijs::MouseButton as BMB;
+impl From<web::MouseButton> for MouseButton {
+    fn from(button: web::MouseButton) -> Self {
+        use web::MouseButton as BMB;
         match button {
             BMB::Left => MouseButton::Left,
             BMB::Middle => MouseButton::Middle,
@@ -11,8 +11,8 @@ impl From<brijs::MouseButton> for MouseButton {
     }
 }
 
-impl From<brijs::MouseDownEvent> for Event {
-    fn from(event: brijs::MouseDownEvent) -> Self {
+impl From<web::MouseDownEvent> for Event {
+    fn from(event: web::MouseDownEvent) -> Self {
         Event::MouseDown {
             position: event.canvas_pos,
             button: event.button.into(),
@@ -20,8 +20,8 @@ impl From<brijs::MouseDownEvent> for Event {
     }
 }
 
-impl From<brijs::MouseUpEvent> for Event {
-    fn from(event: brijs::MouseUpEvent) -> Self {
+impl From<web::MouseUpEvent> for Event {
+    fn from(event: web::MouseUpEvent) -> Self {
         Event::MouseUp {
             position: event.canvas_pos,
             button: event.button.into(),
@@ -29,42 +29,42 @@ impl From<brijs::MouseUpEvent> for Event {
     }
 }
 
-impl From<brijs::MouseMoveEvent> for Event {
-    fn from(event: brijs::MouseMoveEvent) -> Self {
+impl From<web::MouseMoveEvent> for Event {
+    fn from(event: web::MouseMoveEvent) -> Self {
         Event::MouseMove { position: event.canvas_pos }
     }
 }
 
-impl From<brijs::WheelEvent> for Event {
-    fn from(event: brijs::WheelEvent) -> Self {
+impl From<web::WheelEvent> for Event {
+    fn from(event: web::WheelEvent) -> Self {
         Event::Wheel { delta: event.delta }
     }
 }
 
-impl From<brijs::TouchPoint> for TouchPoint {
-    fn from(point: brijs::TouchPoint) -> Self {
+impl From<web::TouchPoint> for TouchPoint {
+    fn from(point: web::TouchPoint) -> Self {
         TouchPoint { position: point.canvas_pos }
     }
 }
 
-fn convert_touches(touches: Vec<brijs::TouchPoint>) -> Vec<TouchPoint> {
+fn convert_touches(touches: Vec<web::TouchPoint>) -> Vec<TouchPoint> {
     touches.into_iter().map(|touch| touch.into()).collect()
 }
 
-impl From<brijs::TouchStartEvent> for Event {
-    fn from(event: brijs::TouchStartEvent) -> Self {
+impl From<web::TouchStartEvent> for Event {
+    fn from(event: web::TouchStartEvent) -> Self {
         Event::TouchStart { touches: convert_touches(event.touches) }
     }
 }
 
-impl From<brijs::TouchEndEvent> for Event {
-    fn from(_: brijs::TouchEndEvent) -> Self {
+impl From<web::TouchEndEvent> for Event {
+    fn from(_: web::TouchEndEvent) -> Self {
         Event::TouchEnd
     }
 }
 
-impl From<brijs::TouchMoveEvent> for Event {
-    fn from(event: brijs::TouchMoveEvent) -> Self {
+impl From<web::TouchMoveEvent> for Event {
+    fn from(event: web::TouchMoveEvent) -> Self {
         Event::TouchMove { touches: convert_touches(event.touches) }
     }
 }
@@ -77,7 +77,7 @@ impl Window {
                 macro_rules! setup {
                     ($setter:ident, $events:ident) => {
                         let events = $events.clone();
-                        brijs::$setter(move |event| events.lock().unwrap().push(event.into()));
+                        web::$setter(move |event| events.lock().unwrap().push(event.into()));
                     }
                 }
                 setup!(set_mousedown_callback, events);

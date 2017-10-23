@@ -19,7 +19,7 @@ threadpool = "*"
 num_cpus = "1.0"
 
 [target.'cfg(target_os = "emscripten")'.dependencies]
-brijs = { path = "brijs" }
+web = { path = "web" }
 
 [[example]]
 name = "playground"

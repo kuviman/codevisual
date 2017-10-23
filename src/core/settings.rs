@@ -40,7 +40,7 @@ impl Setting {
 }
 
 #[cfg(target_os = "emscripten")]
-impl brijs::IntoJson for Setting {
+impl web::IntoJson for Setting {
     fn into_json(self) -> String {
         match self {
             Setting::Bool {
@@ -52,7 +52,7 @@ impl brijs::IntoJson for Setting {
                     "new CodeVisual.BooleanSetting({}, {}, {})",
                     name.into_json(),
                     default.into_json(),
-                    brijs::Callback::from(move |value| setter(value)).into_json()
+                    web::Callback::from(move |value| setter(value)).into_json()
                 )
             }
             Setting::I32 {
@@ -67,7 +67,7 @@ impl brijs::IntoJson for Setting {
                     range.start.into_json(),
                     range.end.into_json(),
                     default.into_json(),
-                    brijs::Callback::from(move |value| setter(value)).into_json()
+                    web::Callback::from(move |value| setter(value)).into_json()
                 )
             }
         }

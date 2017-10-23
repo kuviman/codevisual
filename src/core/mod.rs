@@ -143,7 +143,7 @@ pub fn run<G: Game>() {
         };
 
         #[cfg(target_os = "emscripten")]
-        brijs::set_main_loop(main_loop);
+        web::set_main_loop(main_loop);
 
         #[cfg(not(target_os = "emscripten"))]
         {
@@ -157,7 +157,7 @@ pub fn run<G: Game>() {
     };
 
     #[cfg(target_os = "emscripten")]
-    brijs::set_main_loop(|| { start(); });
+    web::set_main_loop(|| { start(); });
 
     #[cfg(not(target_os = "emscripten"))]
     while !start() && !app_clone.window.should_close() {
