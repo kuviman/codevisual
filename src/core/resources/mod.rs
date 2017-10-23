@@ -30,7 +30,7 @@ impl ResourceLoader {
             resource_count: Cell::new(1),
             loaded_count: Arc::new(AtomicCell::new(1)),
             #[cfg(not(target_os = "emscripten"))]
-            thread_pool: threadpool::ThreadPool::new(num_cpus::get()),
+            thread_pool: threadpool::ThreadPool::new(min(4, num_cpus::get())),
         }
     }
     #[cfg(not(target_os = "emscripten"))]
