@@ -34,36 +34,22 @@ mod _impl {
 mod _impl {
     use ::*;
 
-    pub struct Future {
-        join_handle: thread::JoinHandle<String>,
-    }
-
-    impl ResourceFuture<String> for Future {
-        fn unwrap(self) -> String {
-            self.join_handle.join().unwrap()
-        }
-    }
-
     impl Resource for String {
-        type Future = Future;
+        type Future = ResourceJob<String>;
     }
 
     impl Asset for String {
-        fn load(loader: &Rc<ResourceLoader>, path: &str) -> Future {
-            let handle = AssetHandle::new(loader, path);
-            let path = String::from(path);
-            Future {
-                join_handle: thread::spawn(move || {
-                    use std::io::Read;
-                    let mut data = String::new();
-                    std::fs::File::open(&path)
-                        .expect(&format!("Could not read text file `{}`", path))
-                        .read_to_string(&mut data)
-                        .unwrap();
-                    handle.confirm();
-                    data
-                }),
-            }
+        fn load(loader: &Rc<ResourceLoader>, path: &str) -> Self::Future {
+            let file_path = String::from(path);
+            loader.spawn_thread(path, move || {
+                use std::io::Read;
+                let mut data = String::new();
+                std::fs::File::open(&file_path)
+                    .expect(&format!("Could not read text file `{}`", file_path))
+                    .read_to_string(&mut data)
+                    .unwrap();
+                data
+            })
         }
     }
 }

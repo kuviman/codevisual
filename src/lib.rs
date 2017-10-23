@@ -10,6 +10,10 @@ extern crate serde_derive;
 #[allow(unused_imports)]
 #[macro_use]
 extern crate lazy_static;
+#[cfg(not(target_os = "emscripten"))]
+extern crate threadpool;
+#[cfg(not(target_os = "emscripten"))]
+extern crate num_cpus;
 
 pub extern crate prelude;
 pub extern crate ugli;

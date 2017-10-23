@@ -57,12 +57,12 @@ mod _impl {
 
     pub struct Future {
         context: Rc<ugli::Context>,
-        join_handle: thread::JoinHandle<image::RgbaImage>,
+        job: ResourceJob<image::RgbaImage>,
     }
 
     impl ResourceFuture<ugli::Texture2d> for Future {
         fn unwrap(self) -> ugli::Texture2d {
-            let image = self.join_handle.join().unwrap();
+            let image = self.job.unwrap();
             ugli::Texture2d::from_image(&self.context, image)
         }
     }
@@ -77,7 +77,7 @@ mod _impl {
             let path = String::from(path);
             Future {
                 context: loader.app.ugli_context().clone(),
-                join_handle: thread::spawn(move || {
+                job: loader.spawn_thread("texture loader", move || {
                     let image = image::open(&path)
                         .expect(&format!("Could not load texture from `{}`", path));
                     let image = match image {
