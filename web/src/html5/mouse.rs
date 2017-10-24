@@ -37,8 +37,8 @@ pub fn set_mousedown_callback<F: FnMut(MouseDownEvent)>(callback: F) {
         event: *const EmscriptenMouseEvent,
         callback: *mut c_void,
     ) -> EM_BOOL
-    where
-        F: FnMut(MouseDownEvent),
+        where
+            F: FnMut(MouseDownEvent),
     {
         let event = *event;
         if let Some(button) = MouseButton::from(event.button) {
@@ -47,7 +47,7 @@ pub fn set_mousedown_callback<F: FnMut(MouseDownEvent)>(callback: F) {
             callback(MouseDownEvent { canvas_pos, button });
             mem::forget(callback);
         }
-        EM_TRUE
+        EM_FALSE as EM_BOOL
     }
 }
 
@@ -71,8 +71,8 @@ pub fn set_mouseup_callback<F: FnMut(MouseUpEvent)>(callback: F) {
         event: *const EmscriptenMouseEvent,
         callback: *mut c_void,
     ) -> EM_BOOL
-    where
-        F: FnMut(MouseUpEvent),
+        where
+            F: FnMut(MouseUpEvent),
     {
         let event = *event;
         if let Some(button) = MouseButton::from(event.button) {
@@ -81,7 +81,7 @@ pub fn set_mouseup_callback<F: FnMut(MouseUpEvent)>(callback: F) {
             callback(MouseUpEvent { canvas_pos, button });
             mem::forget(callback);
         }
-        EM_TRUE
+        EM_FALSE as EM_BOOL
     }
 }
 
@@ -104,14 +104,14 @@ pub fn set_mousemove_callback<F: FnMut(MouseMoveEvent)>(callback: F) {
         event: *const ::emscripten_sys::EmscriptenMouseEvent,
         callback: *mut c_void,
     ) -> EM_BOOL
-    where
-        F: FnMut(MouseMoveEvent),
+        where
+            F: FnMut(MouseMoveEvent),
     {
         let event = *event;
         let mut callback = Box::<Box<F>>::from_raw(callback as *mut _);
         let canvas_pos = into_canvas_pos(vec2(event.canvasX, event.canvasY));
         callback(MouseMoveEvent { canvas_pos });
         mem::forget(callback);
-        EM_TRUE
+        EM_FALSE as EM_BOOL
     }
 }

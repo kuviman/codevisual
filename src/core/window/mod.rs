@@ -91,7 +91,19 @@ impl Window {
     }
 
     pub fn get_events(&self) -> Vec<Event> {
-        self.internal_get_events()
+        let result = self.internal_get_events();
+        for event in &result {
+            match *event {
+                Event::KeyDown { key } => {
+                    self.pressed_keys.borrow_mut().insert(key);
+                }
+                Event::KeyUp { key } => {
+                    self.pressed_keys.borrow_mut().remove(&key);
+                }
+                _ => {}
+            }
+        }
+        result
     }
 
     pub fn is_key_pressed(&self, key: Key) -> bool {

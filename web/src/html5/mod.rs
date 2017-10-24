@@ -1,18 +1,26 @@
 use ::*;
 
 mod mouse;
+
 pub use self::mouse::*;
 
 mod wheel;
+
 pub use self::wheel::*;
 
 mod touch;
+
 pub use self::touch::*;
 
 mod webgl;
+
 pub use self::webgl::*;
 
-pub(crate) fn into_canvas_pos(pos: Vec2<c_long>) -> Vec2<f64> {
+mod keys;
+
+pub use self::keys::*;
+
+pub ( crate ) fn into_canvas_pos(pos: Vec2<c_long>) -> Vec2<f64> {
     let pos = vec2(pos.x as f64, pos.y as f64);
     let css_size = unsafe {
         let mut css_width: c_double = mem::uninitialized();

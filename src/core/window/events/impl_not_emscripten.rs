@@ -39,11 +39,9 @@ impl Window {
                         if let Some(key) = from_glutin_key(key) {
                             events.push(match input.state {
                                 glutin::ElementState::Pressed => {
-                                    self.pressed_keys.borrow_mut().insert(key);
                                     Event::KeyDown { key: key }
                                 }
                                 glutin::ElementState::Released => {
-                                    self.pressed_keys.borrow_mut().remove(&key);
                                     Event::KeyUp { key: key }
                                 }
                             });

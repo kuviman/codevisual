@@ -25,6 +25,7 @@ type EM_BOOL = c_int;
 const EM_TRUE: EM_BOOL = 1;
 
 const CANVAS_SELECTOR: &[c_char] = b"#canvas\0";
+const DOCUMENT_SELECTOR: &[c_char] = b"#document\0";
 const USE_CAPTURE: EM_BOOL = 1;
 
 pub fn get_proc_address(name: &str) -> *const c_void {

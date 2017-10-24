@@ -1,5 +1,64 @@
 use ::*;
 
+fn convert_key(code: String) -> Key {
+    use Key::*;
+    match code.as_str() {
+        "KeyA" => A,
+        "KeyB" => B,
+        "KeyC" => C,
+        "KeyD" => D,
+        "KeyE" => E,
+        "KeyF" => F,
+        "KeyG" => G,
+        "KeyH" => H,
+        "KeyI" => I,
+        "KeyJ" => J,
+        "KeyK" => K,
+        "KeyL" => L,
+        "KeyM" => M,
+        "KeyN" => N,
+        "KeyO" => O,
+        "KeyP" => P,
+        "KeyQ" => Q,
+        "KeyR" => R,
+        "KeyS" => S,
+        "KeyT" => T,
+        "KeyU" => U,
+        "KeyV" => V,
+        "KeyW" => W,
+        "KeyX" => X,
+        "KeyY" => Y,
+        "KeyZ" => Z,
+
+        "Escape" => Escape,
+        "Space" => Space,
+
+        "ShiftLeft" => LShift,
+        "ShiftRight" => RShift,
+
+        _ => {
+            eprintln!("Key unrecognized: {:?}", code);
+            Key::Unknown
+        }
+    }
+}
+
+impl From<web::KeyDownEvent> for Event {
+    fn from(event: web::KeyDownEvent) -> Self {
+        Event::KeyDown {
+            key: convert_key(event.key.code),
+        }
+    }
+}
+
+impl From<web::KeyUpEvent> for Event {
+    fn from(event: web::KeyUpEvent) -> Self {
+        Event::KeyUp {
+            key: convert_key(event.key.code),
+        }
+    }
+}
+
 impl From<web::MouseButton> for MouseButton {
     fn from(button: web::MouseButton) -> Self {
         use web::MouseButton as BMB;
@@ -87,6 +146,8 @@ impl Window {
                 setup!(set_touchend_callback, events);
                 setup!(set_touchmove_callback, events);
                 setup!(set_wheel_callback, events);
+                setup!(set_keydown_callback, events);
+                setup!(set_keyup_callback, events);
                 events
             };
         }
