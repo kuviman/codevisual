@@ -112,6 +112,11 @@ fn from_glutin_key(key: glutin::VirtualKeyCode) -> Key {
         GKey::LAlt => Key::LAlt,
         GKey::RAlt => Key::RAlt,
 
+        GKey::Left => Key::Left,
+        GKey::Right => Key::Right,
+        GKey::Up => Key::Up,
+        GKey::Down => Key::Down,
+
         _ => {
             eprintln!("Unrecognized key: {:?}", key);
             Key::Unknown

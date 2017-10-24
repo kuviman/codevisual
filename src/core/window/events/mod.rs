@@ -83,5 +83,10 @@ pub enum Key {
     LAlt,
     RAlt,
 
+    Left,
+    Right,
+    Up,
+    Down,
+
     Unknown,
 }

@@ -53,6 +53,11 @@ fn convert_key(code: String) -> Key {
         "AltLeft" => LAlt,
         "AltRight" => RAlt,
 
+        "ArrowLeft" => Left,
+        "ArrowRight" => Right,
+        "ArrowUp" => Up,
+        "ArrowDown" => Down,
+
         _ => {
             eprintln!("Key unrecognized: {:?}", code);
             Key::Unknown
