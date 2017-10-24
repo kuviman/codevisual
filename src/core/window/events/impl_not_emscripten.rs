@@ -36,16 +36,15 @@ impl Window {
                 }
                 glutin::WindowEvent::KeyboardInput { input, .. } => {
                     if let Some(key) = input.virtual_keycode {
-                        if let Some(key) = from_glutin_key(key) {
-                            events.push(match input.state {
-                                glutin::ElementState::Pressed => {
-                                    Event::KeyDown { key: key }
-                                }
-                                glutin::ElementState::Released => {
-                                    Event::KeyUp { key: key }
-                                }
-                            });
-                        }
+                        let key = from_glutin_key(key);
+                        events.push(match input.state {
+                            glutin::ElementState::Pressed => {
+                                Event::KeyDown { key: key }
+                            }
+                            glutin::ElementState::Released => {
+                                Event::KeyUp { key: key }
+                            }
+                        });
                     }
                 }
                 _ => {}
@@ -60,9 +59,20 @@ impl Window {
     }
 }
 
-fn from_glutin_key(key: glutin::VirtualKeyCode) -> Option<Key> {
+fn from_glutin_key(key: glutin::VirtualKeyCode) -> Key {
     use glutin::VirtualKeyCode as GKey;
-    Some(match key {
+    match key {
+        GKey::Key0 => Key::Num0,
+        GKey::Key1 => Key::Num1,
+        GKey::Key2 => Key::Num2,
+        GKey::Key3 => Key::Num3,
+        GKey::Key4 => Key::Num4,
+        GKey::Key5 => Key::Num5,
+        GKey::Key6 => Key::Num6,
+        GKey::Key7 => Key::Num7,
+        GKey::Key8 => Key::Num8,
+        GKey::Key9 => Key::Num9,
+
         GKey::A => Key::A,
         GKey::B => Key::B,
         GKey::C => Key::C,
@@ -89,10 +99,22 @@ fn from_glutin_key(key: glutin::VirtualKeyCode) -> Option<Key> {
         GKey::X => Key::X,
         GKey::Y => Key::Y,
         GKey::Z => Key::Z,
+
         GKey::Escape => Key::Escape,
         GKey::Space => Key::Space,
+
         GKey::LShift => Key::LShift,
         GKey::RShift => Key::RShift,
-        _ => return None,
-    })
+
+        GKey::LControl => Key::LCtrl,
+        GKey::RControl => Key::RCtrl,
+
+        GKey::LAlt => Key::LAlt,
+        GKey::RAlt => Key::RAlt,
+
+        _ => {
+            eprintln!("Unrecognized key: {:?}", key);
+            Key::Unknown
+        }
+    }
 }

@@ -30,11 +30,28 @@ fn convert_key(code: String) -> Key {
         "KeyY" => Y,
         "KeyZ" => Z,
 
+        "Digit0" => Num0,
+        "Digit1" => Num1,
+        "Digit2" => Num2,
+        "Digit3" => Num3,
+        "Digit4" => Num4,
+        "Digit5" => Num5,
+        "Digit6" => Num6,
+        "Digit7" => Num7,
+        "Digit8" => Num8,
+        "Digit9" => Num9,
+
         "Escape" => Escape,
         "Space" => Space,
 
         "ShiftLeft" => LShift,
         "ShiftRight" => RShift,
+
+        "ControlLeft" => LCtrl,
+        "ControlRight" => RCtrl,
+
+        "AltLeft" => LAlt,
+        "AltRight" => RAlt,
 
         _ => {
             eprintln!("Key unrecognized: {:?}", code);
