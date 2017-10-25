@@ -180,22 +180,23 @@ impl<T: Num + Copy> Mat4<T> {
 
 impl<T: Float> Mat4<T> {
     pub fn inverse(self) -> Self {
-        let a00 = self[(0, 0)];
-        let a01 = self[(0, 1)];
-        let a02 = self[(0, 2)];
-        let a03 = self[(0, 3)];
-        let a10 = self[(1, 0)];
-        let a11 = self[(1, 1)];
-        let a12 = self[(1, 2)];
-        let a13 = self[(1, 3)];
-        let a20 = self[(2, 0)];
-        let a21 = self[(2, 1)];
-        let a22 = self[(2, 2)];
-        let a23 = self[(2, 3)];
-        let a30 = self[(3, 0)];
-        let a31 = self[(3, 1)];
-        let a32 = self[(3, 2)];
-        let a33 = self[(3, 3)];
+        let a = &self.values;
+        let a00 = a[0];
+        let a01 = a[1];
+        let a02 = a[2];
+        let a03 = a[3];
+        let a10 = a[4];
+        let a11 = a[5];
+        let a12 = a[6];
+        let a13 = a[7];
+        let a20 = a[8];
+        let a21 = a[9];
+        let a22 = a[10];
+        let a23 = a[11];
+        let a30 = a[12];
+        let a31 = a[13];
+        let a32 = a[14];
+        let a33 = a[15];
 
         let b00 = a00 * a11 - a01 * a10;
         let b01 = a00 * a12 - a02 * a10;
@@ -209,27 +210,34 @@ impl<T: Float> Mat4<T> {
         let b09 = a21 * a32 - a22 * a31;
         let b10 = a21 * a33 - a23 * a31;
         let b11 = a22 * a33 - a23 * a32;
-        let det = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
 
-        Mat4 {
-            values: [
-                a11 * b11 - a12 * b10 + a13 * b09,
-                a02 * b10 - a01 * b11 - a03 * b09,
-                a31 * b05 - a32 * b04 + a33 * b03,
-                a22 * b04 - a21 * b05 - a23 * b03,
-                a12 * b08 - a10 * b11 - a13 * b07,
-                a00 * b11 - a02 * b08 + a03 * b07,
-                a32 * b02 - a30 * b05 - a33 * b01,
-                a20 * b05 - a22 * b02 + a23 * b01,
-                a10 * b10 - a11 * b08 + a13 * b06,
-                a01 * b08 - a00 * b10 - a03 * b06,
-                a30 * b04 - a31 * b02 + a33 * b00,
-                a21 * b02 - a20 * b04 - a23 * b00,
-                a11 * b07 - a10 * b09 - a12 * b06,
-                a00 * b09 - a01 * b07 + a02 * b06,
-                a31 * b01 - a30 * b03 - a32 * b00,
-                a20 * b03 - a21 * b01 + a22 * b00]
-        }.transpose() / det
+        let mut det = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
+
+        if det == T::zero() {
+            Self::identity()
+        } else {
+            det = T::one() / det;
+
+            Self {
+                values: [
+                    (a11 * b11 - a12 * b10 + a13 * b09) * det,
+                    (a02 * b10 - a01 * b11 - a03 * b09) * det,
+                    (a31 * b05 - a32 * b04 + a33 * b03) * det,
+                    (a22 * b04 - a21 * b05 - a23 * b03) * det,
+                    (a12 * b08 - a10 * b11 - a13 * b07) * det,
+                    (a00 * b11 - a02 * b08 + a03 * b07) * det,
+                    (a32 * b02 - a30 * b05 - a33 * b01) * det,
+                    (a20 * b05 - a22 * b02 + a23 * b01) * det,
+                    (a10 * b10 - a11 * b08 + a13 * b06) * det,
+                    (a01 * b08 - a00 * b10 - a03 * b06) * det,
+                    (a30 * b04 - a31 * b02 + a33 * b00) * det,
+                    (a21 * b02 - a20 * b04 - a23 * b00) * det,
+                    (a11 * b07 - a10 * b09 - a12 * b06) * det,
+                    (a00 * b09 - a01 * b07 + a02 * b06) * det,
+                    (a31 * b01 - a30 * b03 - a32 * b00) * det,
+                    (a20 * b03 - a21 * b01 + a22 * b00) * det, ]
+            }
+        }
     }
 
     pub fn rotate_x(angle: T) -> Self {
