@@ -80,13 +80,13 @@ pub fn run<G: Game>() {
     let app = Rc::new(Application::new(&G::get_title()));
     #[cfg(not(target_os = "emscripten"))]
     let app_clone = app.clone();
-    app.add_setting(Setting::Bool {
-        name: String::from("_sync_draw"),
-        default: false,
-        setter: Box::new(|sync| {
-            ugli::sync_draw(sync);
-        }),
-    });
+    //    app.add_setting(Setting::Bool {
+    //        name: String::from("_sync_draw"),
+    //        default: false,
+    //        setter: Box::new(|sync| {
+    //            ugli::sync_draw(sync);
+    //        }),
+    //    });
     let resource_loader = Rc::new(ResourceLoader::new(&app));
     let resources_future = Rc::new(RefCell::new(Some(G::Resources::load(&resource_loader))));
 

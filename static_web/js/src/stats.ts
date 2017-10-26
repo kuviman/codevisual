@@ -225,7 +225,7 @@ namespace CodeVisual {
         on_init.push(() => {
             $player.find(".game-screen").append(stats.dom);
             $stats = $player.find(".stats");
-            settings.add(new BooleanSetting("Show stats", true, (show) => {
+            settings.add(new BooleanSetting("Show stats", false, (show) => {
                 stats.shown = show;
                 if (show)
                     $stats.fadeIn();

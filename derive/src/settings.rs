@@ -10,22 +10,27 @@ pub fn derive(input: TokenStream) -> TokenStream {
         _ => panic!("codevisual::Settings can only be derived by structs")
     };
     let field_names = fields.iter().map(|field| field.ident.as_ref().unwrap());
-    fn find_attr(field: &Field, name: &str, parse: bool) -> Option<Tokens> {
+    fn find_attr(field: &Field, name: &str, parse: bool) -> Option<Option<Tokens>> {
         let name_to_find = name;
         for attr in &field.attrs {
             if let syn::MetaItem::List(ref name, ref list) = attr.value {
                 if name == "setting" {
                     for attr in list {
                         if let syn::NestedMetaItem::MetaItem(ref attr) = *attr {
+                            if let syn::MetaItem::Word(ref name) = *attr {
+                                if name == name_to_find {
+                                    return Some(None);
+                                }
+                            }
                             if let syn::MetaItem::NameValue(ref name, ref value) = *attr {
                                 if name == name_to_find {
                                     if parse {
                                         if let syn::Lit::Str(ref value, _) = *value {
                                             let value = syn::parse_expr(value).unwrap();
-                                            return Some(quote!(#value));
+                                            return Some(Some(quote!(#value)));
                                         }
                                     } else {
-                                        return Some(quote!(#value));
+                                        return Some(Some(quote!(#value)));
                                     }
                                 }
                             }
@@ -36,16 +41,26 @@ pub fn derive(input: TokenStream) -> TokenStream {
         }
         None
     }
-    let field_defaults = fields.iter().map(|field| find_attr(field, "default", true).expect("Default value is not provided"));
-    let field_settings = fields.iter().map(|field| {
+    let field_defaults = fields.iter().map(|field|
+        find_attr(field, "default", true)
+            .expect("default attr not present")
+            .expect("default attr should have a value"));
+    let field_settings = fields.iter().filter_map(|field| {
+        if let Some(None) = find_attr(field, "disabled", false) {
+            return None;
+        }
         let field_name = field.ident.as_ref().unwrap();
         let name = syn::Lit::from(field_name.as_ref());
         let mut name: Tokens = quote!(#name);
         if let Some(name_override) = find_attr(field, "name", false) {
+            let name_override = name_override.expect("name attr should have a value");
             name = name_override;
         }
-        let default = find_attr(field, "default", true).expect("Default value is not provided");
-        if let Some(range) = find_attr(field, "range", true) {
+        let default = find_attr(field, "default", true)
+            .expect("default attr not present")
+            .expect("default attr should have a value");
+        Some(if let Some(range) = find_attr(field, "range", true) {
+            let range = range.expect("range attr should have a value");
             quote! {{
                 let settings = settings.clone();
                 ::codevisual::Setting::create_range(
@@ -65,7 +80,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
                     }),
                 }
             }}
-        }
+        })
     });
     let result = quote! {
         impl#impl_generics ::codevisual::Settings for #input_type#ty_generics #where_clause {
