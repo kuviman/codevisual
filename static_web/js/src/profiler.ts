@@ -2,13 +2,13 @@ namespace CodeVisual.internal {
     let $info: JQuery;
     on_init.push(() => {
         $info = $player.find(".profiler-info");
-        // settings.add(new BooleanSetting("Profiler", false, (show) => {
-        //     if (show) {
-        //         $info.show();
-        //     } else {
-        //         $info.hide();
-        //     }
-        // }));
+        settings.add(new BooleanSetting("Profiler", false, (show) => {
+            if (show) {
+                $info.show();
+            } else {
+                $info.hide();
+            }
+        }));
     });
 
     export class ProfiledRegion {
