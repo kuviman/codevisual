@@ -29,3 +29,12 @@ impl<T: Copy + num::Num> Vec3<T> {
         }
     }
 }
+
+impl<T: Float> Vec3<T> {
+    pub fn normalize(self) -> Self {
+        self / self.len()
+    }
+    pub fn len(self) -> T {
+        T::sqrt(self.x * self.x + self.y * self.y + self.z * self.z)
+    }
+}
