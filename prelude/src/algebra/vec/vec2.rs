@@ -20,6 +20,9 @@ impl<T: Num + Copy> Vec2<T> {
     pub fn dot(a: Self, b: Self) -> T {
         a.x * b.x + a.y * b.y
     }
+    pub fn cross(a: Self, b: Self) -> T {
+        a.x * b.y - a.y * b.x
+    }
 }
 
 impl<T: Float> Vec2<T> {
