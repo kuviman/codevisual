@@ -66,6 +66,9 @@ pub trait Game {
     fn get_title() -> String {
         String::from("CodeVisual application")
     }
+    fn get_help_html() -> String {
+        String::from("No help")
+    }
     fn new(app: &Rc<Application>, resources: Self::Resources) -> Self;
     fn update(&mut self, delta_time: f64) {
         #![allow(unused_variables)]
@@ -78,6 +81,10 @@ pub trait Game {
 
 pub fn run<G: Game>() {
     let app = Rc::new(Application::new(&G::get_title()));
+    #[cfg(target_os = "emscripten")]
+    run_js! {
+        CodeVisual.internal.set_help_html(&G::get_help_html());
+    }
     #[cfg(not(target_os = "emscripten"))]
     let app_clone = app.clone();
     //    app.add_setting(Setting::Bool {

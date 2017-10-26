@@ -105,7 +105,7 @@ namespace CodeVisual {
         $settings = $player.find(".settings");
         $settingsContainer = $settings.find(".settings-container");
         $player.find(".settings-button").click(() => {
-            $settings.slideToggle();
+            internal.toggleWidget($settings);
         });
     });
 }

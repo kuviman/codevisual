@@ -24,6 +24,8 @@ html( lang="en" )
                         span.glyphicon.glyphicon-fullscreen
                     div.control-button.settings-button( data-toggle="tooltip" data-placement="top" title = "Settings" )
                         span.glyphicon.glyphicon-cog
+                    div.control-button.help-button( data-toggle="tooltip" data-placement="top" title = "Help" )
+                        span.glyphicon.glyphicon-question-sign
                     div.tick-info
                         span.current-tick( data-toggle="tooltip" data-placement="top" title = "Current tick" ) 0
                         | &nbsp;/&nbsp;
@@ -32,9 +34,11 @@ html( lang="en" )
                         div.timeline-background
                         div.timeline-loaded
                         div.timeline-position
-                div.settings( style="display:none;" )
+                div.settings.widget( style="display:none;" )
                     div.container-fluid
                         table.settings-container
+                div.help.widget( style="display:none" )
+                    div.container-fluid.content
             div.loading-screen
                 div.loading-screen-container
                     h3 Please, wait

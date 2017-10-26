@@ -18,10 +18,21 @@ namespace CodeVisual {
     let $loadingScreen: JQuery;
     let $gameScreen: JQuery;
     let $failedScreen: JQuery;
+    let $help: JQuery;
+    let $helpContent: JQuery;
 
     export namespace internal {
         export const on_init = [] as [() => void];
         export const on_before_main_loop = [] as [() => void];
+
+        export function toggleWidget(widget: JQuery) {
+            $player.find(".widget").each(function (this: any) {
+                if (!$(this).is(widget)) {
+                    $(this).hide();
+                }
+            });
+            widget.slideToggle();
+        }
 
         export function init() {
             $player = $(".codevisual-player");
@@ -29,6 +40,12 @@ namespace CodeVisual {
             $loadingScreen = $player.find(".loading-screen");
             $gameScreen = $player.find(".game-screen");
             $failedScreen = $player.find(".failed-screen");
+
+            $help = $player.find(".help");
+            $helpContent = $help.find(".content");
+            $player.find(".help-button").click(function () {
+                toggleWidget($help);
+            });
 
             for (let f of on_init) {
                 f();
@@ -54,6 +71,10 @@ namespace CodeVisual {
             $gameScreen.hide();
             $failedScreen.show();
             $failedScreen.find(".error-message").text(error);
+        }
+
+        export function set_help_html(html: string) {
+            $helpContent.html(html);
         }
 
         export function load_texture(path: string, texture_handle: number, on_load: (width: number, height: number) => void) {
