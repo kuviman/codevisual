@@ -38,6 +38,11 @@ namespace CodeVisual {
             $player.on("mousemove touchmove touchstart mousedown", () => {
                 showControls();
             });
+            $(document).keydown(e => {
+                if (e.key == "Escape") {
+                    $player.find(".widget").hide();
+                }
+            });
         });
     }
 }
