@@ -2,12 +2,11 @@ namespace CodeVisual {
     export namespace internal {
         const TIMEOUT = 10000;
         let $controls: JQuery;
-        let $settings: JQuery;
         let shown = true;
         let timeout: number;
 
         function hideControls() {
-            if ($settings.is(":visible")) {
+            if ($player.find(".widget").is(":visible")) {
                 timeout = setTimeout(hideControls, TIMEOUT);
                 return;
             }
@@ -16,7 +15,7 @@ namespace CodeVisual {
                     bottom: "-32px"
                 });
                 shown = false;
-                $settings.hide();
+                $player.find(".widget").hide();
             }
         }
 
@@ -35,7 +34,6 @@ namespace CodeVisual {
 
         on_before_main_loop.push(() => {
             $controls = $player.find(".controls");
-            $settings = $player.find(".settings");
             timeout = setTimeout(hideControls, TIMEOUT);
             $player.on("mousemove touchmove touchstart mousedown", () => {
                 showControls();
