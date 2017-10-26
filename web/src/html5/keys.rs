@@ -45,7 +45,7 @@ pub fn set_keydown_callback<F: FnMut(KeyDownEvent)>(callback: F) {
         let mut callback = Box::<Box<F>>::from_raw(callback as *mut _);
         callback(KeyDownEvent { key });
         mem::forget(callback);
-        EM_TRUE
+        EM_FALSE as EM_BOOL
     }
 }
 
@@ -72,6 +72,6 @@ pub fn set_keyup_callback<F: FnMut(KeyUpEvent)>(callback: F) {
         let mut callback = Box::<Box<F>>::from_raw(callback as *mut _);
         callback(KeyUpEvent { key });
         mem::forget(callback);
-        EM_TRUE
+        EM_FALSE as EM_BOOL
     }
 }
