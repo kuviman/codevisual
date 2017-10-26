@@ -88,5 +88,8 @@ pub enum Key {
     Up,
     Down,
 
+    PageUp,
+    PageDown,
+
     Unknown,
 }

@@ -58,6 +58,9 @@ fn convert_key(code: String) -> Key {
         "ArrowUp" => Up,
         "ArrowDown" => Down,
 
+        "PageUp" => PageUp,
+        "PageDown" => PageDown,
+
         _ => {
             eprintln!("Key unrecognized: {:?}", code);
             Key::Unknown
