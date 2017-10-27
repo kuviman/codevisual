@@ -12,7 +12,7 @@ pub fn set_touchstart_callback<F: FnMut(TouchStartEvent)>(callback: F) {
     let callback = Box::new(Box::new(callback));
     unsafe {
         emscripten_set_touchstart_callback(
-            CANVAS_SELECTOR.as_ptr(),
+            CANVAS_SELECTOR.as_ptr() as *const _,
             Box::into_raw(callback) as *mut _,
             USE_CAPTURE,
             Some(wrapper::<F>),
@@ -48,7 +48,7 @@ pub fn set_touchmove_callback<F: FnMut(TouchMoveEvent)>(callback: F) {
     let callback = Box::new(Box::new(callback));
     unsafe {
         emscripten_set_touchmove_callback(
-            CANVAS_SELECTOR.as_ptr(),
+            CANVAS_SELECTOR.as_ptr() as *const _,
             Box::into_raw(callback) as *mut _,
             USE_CAPTURE,
             Some(wrapper::<F>),
@@ -82,7 +82,7 @@ pub fn set_touchend_callback<F: FnMut(TouchEndEvent)>(callback: F) {
     let callback = Box::new(Box::new(callback));
     unsafe {
         emscripten_set_touchend_callback(
-            CANVAS_SELECTOR.as_ptr(),
+            CANVAS_SELECTOR.as_ptr() as *const _,
             Box::into_raw(callback) as *mut _,
             USE_CAPTURE,
             Some(wrapper::<F>),

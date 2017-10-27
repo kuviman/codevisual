@@ -13,7 +13,7 @@ pub fn set_wheel_callback<F: FnMut(WheelEvent)>(callback: F) {
     let callback = Box::new(Box::new(callback));
     unsafe {
         emscripten_set_wheel_callback(
-            CANVAS_SELECTOR.as_ptr(),
+            CANVAS_SELECTOR.as_ptr() as *const _,
             Box::into_raw(callback) as *mut _,
             USE_CAPTURE,
             Some(wrapper::<F>),

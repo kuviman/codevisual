@@ -26,7 +26,7 @@ pub fn set_keydown_callback<F: FnMut(KeyDownEvent)>(callback: F) {
     let callback = Box::new(Box::new(callback));
     unsafe {
         emscripten_set_keydown_callback(
-            DOCUMENT_SELECTOR.as_ptr(),
+            DOCUMENT_SELECTOR.as_ptr() as *const _,
             Box::into_raw(callback) as *mut _,
             USE_CAPTURE,
             Some(wrapper::<F>),
@@ -53,7 +53,7 @@ pub fn set_keyup_callback<F: FnMut(KeyUpEvent)>(callback: F) {
     let callback = Box::new(Box::new(callback));
     unsafe {
         emscripten_set_keyup_callback(
-            DOCUMENT_SELECTOR.as_ptr(),
+            DOCUMENT_SELECTOR.as_ptr() as *const _,
             Box::into_raw(callback) as *mut _,
             USE_CAPTURE,
             Some(wrapper::<F>),

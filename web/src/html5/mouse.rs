@@ -26,7 +26,7 @@ pub fn set_mousedown_callback<F: FnMut(MouseDownEvent)>(callback: F) {
     let callback = Box::new(Box::new(callback));
     unsafe {
         emscripten_set_mousedown_callback(
-            CANVAS_SELECTOR.as_ptr(),
+            CANVAS_SELECTOR.as_ptr() as *const _,
             Box::into_raw(callback) as *mut _,
             USE_CAPTURE,
             Some(wrapper::<F>),
@@ -60,7 +60,7 @@ pub fn set_mouseup_callback<F: FnMut(MouseUpEvent)>(callback: F) {
     let callback = Box::new(Box::new(callback));
     unsafe {
         emscripten_set_mouseup_callback(
-            CANVAS_SELECTOR.as_ptr(),
+            CANVAS_SELECTOR.as_ptr() as *const _,
             Box::into_raw(callback) as *mut _,
             USE_CAPTURE,
             Some(wrapper::<F>),
@@ -93,7 +93,7 @@ pub fn set_mousemove_callback<F: FnMut(MouseMoveEvent)>(callback: F) {
     let callback = Box::new(Box::new(callback));
     unsafe {
         emscripten_set_mousemove_callback(
-            CANVAS_SELECTOR.as_ptr(),
+            CANVAS_SELECTOR.as_ptr() as *const _,
             Box::into_raw(callback) as *mut _,
             USE_CAPTURE,
             Some(wrapper::<F>),
