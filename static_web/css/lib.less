@@ -95,12 +95,13 @@ body {
       background-color: rgba(0, 0, 0, 0.7);
     }
     .timeline {
+      box-sizing: content-box;
       position: absolute;
       bottom: 100%;
-      height: 14px;
+      height: 4px;
       width: 100%;
       cursor: pointer;
-      padding-top: 10px;
+      padding-top: 20px;
       .timeline-background {
         position: absolute;
         width: 100%;
@@ -126,6 +127,12 @@ body {
         background-color: darkblue;
         border: 1px solid darkblue;
         margin-left: -5px;
+      }
+      .timeline-position-background {
+        position: absolute;
+        left: 0;
+        height: 4px;
+        background-color: darkblue;
       }
       &:hover .timeline-position {
         box-shadow: 0 0 10px blue;
