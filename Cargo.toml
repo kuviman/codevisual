@@ -8,7 +8,6 @@ prelude = { path = "prelude" }
 ugli = { path = "ugli" }
 codevisual_derive = { path = "derive" }
 serde = "1.0"
-serde_derive = "1.0"
 lazy_static = "*"
 open = "*" # Needed only for make-web
 

@@ -4,17 +4,14 @@ mod window;
 mod material;
 mod resources;
 mod settings;
-mod profiler;
 
 pub use self::material::*;
 pub use self::window::*;
 pub use self::resources::*;
 pub use self::settings::*;
-pub use self::profiler::*;
 
 pub struct Application {
     window: Window,
-    profiler: Rc<Profiler>,
 }
 
 impl Application {
@@ -43,13 +40,7 @@ impl Application {
         }
         Application {
             window: Window::new(title),
-            profiler: Rc::new(Profiler::new()),
         }
-    }
-
-    pub fn profiler(&self) -> Rc<Profiler> {
-        // TODO: Do we need Rc (to detach from self)?
-        self.profiler.clone()
     }
 
     pub fn window(&self) -> &Window {
@@ -118,35 +109,21 @@ pub fn run<G: Game>() {
 
         let mut timer = Timer::new();
         let main_loop = || {
-            app.profiler.scoped("main_loop", || {
-                app.profiler.scoped("Game::handle_events", || {
-                    for event in app.window.get_events() {
-                        game.handle_event(event);
-                    }
-                });
+            for event in app.window.get_events() {
+                game.handle_event(event);
+            }
 
-                let delta_time = timer.tick().min(0.1); // TODO: configure
+            let delta_time = timer.tick().min(0.1); // TODO: configure
+            game.update(delta_time);
 
-                app.profiler.scoped("Game::update", || {
-                    game.update(delta_time);
-                });
+            game.draw(&mut app.ugli_context().default_framebuffer());
 
-                app.profiler.scoped("Game::draw", || {
-                    game.draw(&mut app.ugli_context().default_framebuffer());
-                });
+            app.window.swap_buffers();
 
-                app.profiler.scoped("CodeVisual::update_stats", || {
-                    #[cfg(target_os = "emscripten")]
-                    run_js! {
-                        CodeVisual.internal.update_stats();
-                    };
-                });
-
-                app.profiler.scoped("Window::swap_buffers", || {
-                    app.window.swap_buffers();
-                });
-            });
-            app.profiler.tick();
+            #[cfg(target_os = "emscripten")]
+            run_js! {
+                CodeVisual.internal.update_stats();
+            };
         };
 
         #[cfg(target_os = "emscripten")]

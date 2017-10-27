@@ -5,8 +5,6 @@ extern crate image;
 #[cfg(not(target_os = "emscripten"))]
 extern crate glutin;
 extern crate serde;
-#[macro_use]
-extern crate serde_derive;
 #[allow(unused_imports)]
 #[macro_use]
 extern crate lazy_static;
