@@ -87,6 +87,9 @@ namespace CodeVisual {
                 GLctx.bindTexture(GLctx.TEXTURE_2D, cur);
                 on_load(image.width, image.height);
             };
+            image.onerror = function () {
+                show_error("Error downloading '" + path + "'");
+            };
             image.src = path;
         }
 
