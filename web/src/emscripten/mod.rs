@@ -15,8 +15,11 @@ pub fn wget<F: FnOnce(&str) + 'static>(url: &str, on_load: F) {
             CString::new(url).expect("Could not convert url to C string").as_ptr(),
             Box::into_raw(callback) as *mut _,
             Some(on_load_wrapper::<F>),
-            None,
+            Some(on_error),
         );
+    }
+    unsafe extern "C" fn on_error(_: *mut c_void) {
+        panic!("Failed to download resources");
     }
     unsafe extern "C" fn on_load_wrapper<F: FnOnce(&str) + 'static>(
         callback: *mut c_void,
