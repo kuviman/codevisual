@@ -156,15 +156,16 @@ impl Texture2d {
     }
 
     pub unsafe fn sub_image(&mut self, pos: Vec2<usize>, size: Vec2<usize>, data: &[u8]) {
-        gl::TextureSubImage2D(self.handle,
-                              0,
-                              pos.x as GLint,
-                              pos.y as GLint,
-                              size.x as GLsizei,
-                              size.y as GLsizei,
-                              gl::RGBA,
-                              gl::UNSIGNED_BYTE,
-                              data.as_ptr() as *const _);
+        gl::BindTexture(gl::TEXTURE_2D, self.handle);
+        gl::TexSubImage2D(gl::TEXTURE_2D,
+                          0,
+                          pos.x as GLint,
+                          pos.y as GLint,
+                          size.x as GLsizei,
+                          size.y as GLsizei,
+                          gl::RGBA,
+                          gl::UNSIGNED_BYTE,
+                          data.as_ptr() as *const _);
     }
 
     #[cfg(not(target_os = "emscripten"))]
