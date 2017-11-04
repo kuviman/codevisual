@@ -155,6 +155,18 @@ impl Texture2d {
         texture
     }
 
+    pub unsafe fn sub_image(&mut self, pos: Vec2<usize>, size: Vec2<usize>, data: &[u8]) {
+        gl::TextureSubImage2D(self.handle,
+                              0,
+                              pos.x as GLint,
+                              pos.y as GLint,
+                              size.x as GLsizei,
+                              size.y as GLsizei,
+                              gl::RGBA,
+                              gl::UNSIGNED_BYTE,
+                              data.as_ptr() as *const _);
+    }
+
     #[cfg(not(target_os = "emscripten"))]
     pub fn from_image(context: &Context, image: image::RgbaImage) -> Self {
         let size = vec2(image.width() as usize, image.height() as usize);
