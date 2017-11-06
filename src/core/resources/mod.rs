@@ -83,7 +83,9 @@ impl<T: 'static> ResourceFuture<T> for ResourceJob<T> {
 }
 
 pub struct AssetHandle {
+    #[allow(dead_code)]
     timer: Timer,
+    #[allow(dead_code)]
     name: String,
     loaded_count: Arc<AtomicCell<usize>>,
 }
@@ -99,7 +101,7 @@ impl AssetHandle {
     }
     pub fn confirm(self) {
         self.loaded_count.set(self.loaded_count.get() + 1);
-        eprintln!("{} finished in {:.2} secs", self.name, self.timer.elapsed());
+//        eprintln!("{} finished in {:.2} secs", self.name, self.timer.elapsed());
     }
 }
 

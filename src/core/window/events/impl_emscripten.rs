@@ -62,7 +62,7 @@ fn convert_key(code: String) -> Key {
         "PageDown" => PageDown,
 
         _ => {
-            eprintln!("Key unrecognized: {:?}", code);
+//            eprintln!("Key unrecognized: {:?}", code);
             Key::Unknown
         }
     }
