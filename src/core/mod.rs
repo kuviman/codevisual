@@ -4,11 +4,13 @@ mod window;
 mod material;
 mod resources;
 mod settings;
+mod sound;
 
 pub use self::material::*;
 pub use self::window::*;
 pub use self::resources::*;
 pub use self::settings::*;
+pub use self::sound::*;
 
 pub struct Application {
     window: Window,

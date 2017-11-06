@@ -3,6 +3,8 @@
 #[cfg(not(target_os = "emscripten"))]
 extern crate image;
 #[cfg(not(target_os = "emscripten"))]
+extern crate rodio;
+#[cfg(not(target_os = "emscripten"))]
 extern crate glutin;
 extern crate serde;
 #[allow(unused_imports)]

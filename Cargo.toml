@@ -16,6 +16,7 @@ image = "*"
 glutin = "*"
 threadpool = "*"
 num_cpus = "1.0"
+rodio = "*"
 
 [target.'cfg(target_os = "emscripten")'.dependencies]
 web = { path = "web" }
