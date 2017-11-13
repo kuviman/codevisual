@@ -3,6 +3,7 @@ use ::*;
 pub enum DepthTest {
     Off,
     Less,
+    LessOrEqual,
     Greater,
 }
 
@@ -16,6 +17,10 @@ impl DepthTest {
             Less => unsafe {
                 gl::Enable(gl::DEPTH_TEST);
                 gl::DepthFunc(gl::LESS);
+            },
+            LessOrEqual => unsafe {
+                gl::Enable(gl::DEPTH_TEST);
+                gl::DepthFunc(gl::LEQUAL);
             },
             Greater => unsafe {
                 gl::Enable(gl::DEPTH_TEST);
@@ -91,7 +96,7 @@ impl Default for DrawParameters {
 }
 
 impl DrawParameters {
-    pub ( crate ) fn apply(&self) {
+    pub(crate) fn apply(&self) {
         self.depth_test.apply();
         self.blend_mode.apply();
         self.cull_face.apply();
