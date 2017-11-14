@@ -88,6 +88,9 @@ impl<'a> FramebufferRead<'a> {
     pub fn depth_attachment(&self) -> &DepthAttachmentRead {
         &self.depth
     }
+    pub fn destruct(self) -> (ColorAttachmentRead<'a>, DepthAttachmentRead<'a>) {
+        (self.color, self.depth)
+    }
 }
 
 pub enum ColorAttachment<'a> {
@@ -123,6 +126,9 @@ impl<'a> Framebuffer<'a> {
     }
     pub fn new_color(context: &Context, color: ColorAttachment<'a>) -> Self {
         Self::new(context, color, DepthAttachment::None)
+    }
+    pub fn destruct(self) -> (ColorAttachmentRead<'a>, DepthAttachmentRead<'a>) {
+        self.read.destruct()
     }
 }
 
