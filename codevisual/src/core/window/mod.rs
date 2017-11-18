@@ -1,0 +1,112 @@
+use ::*;
+
+mod cursor;
+mod events;
+
+pub use self::cursor::*;
+pub use self::events::*;
+
+pub struct Window {
+    #[cfg(not(target_os = "emscripten"))]
+    glutin_window: glutin::GlWindow,
+    #[cfg(not(target_os = "emscripten"))]
+    glutin_events_loop: RefCell<glutin::EventsLoop>,
+    pressed_keys: RefCell<HashSet<Key>>,
+    should_close: Cell<bool>,
+    mouse_pos: Cell<Vec2>,
+    ugli_context: Rc<ugli::Context>,
+}
+
+impl Window {
+    pub fn new(title: &str) -> Self {
+        #[cfg(target_os = "emscripten")]
+        let window = {
+            println!("Starting {}", title);
+            let ugli_context = Rc::new(webby::create_gl_context().unwrap());
+            Self {
+                ugli_context,
+                should_close: Cell::new(false),
+                mouse_pos: Cell::new(vec2(0.0, 0.0)),
+                pressed_keys: RefCell::new(HashSet::new()),
+            }
+        };
+        #[cfg(not(target_os = "emscripten"))]
+        let window = {
+            use glutin::GlContext;
+            let glutin_events_loop = glutin::EventsLoop::new();
+            let glutin_window = glutin::GlWindow::new(
+                glutin::WindowBuilder::new().with_title(title), //.with_visibility(false),
+                glutin::ContextBuilder::new().with_vsync(true),
+                &glutin_events_loop,
+            ).unwrap();
+            unsafe { glutin_window.make_current() }.unwrap();
+            let ugli_context = Rc::new(
+                ugli::Context::init(
+                    |symbol| glutin_window.get_proc_address(symbol) as *const _,
+                ).unwrap(),
+            );
+            Self {
+                glutin_window,
+                glutin_events_loop: RefCell::new(glutin_events_loop),
+                ugli_context,
+                should_close: Cell::new(false),
+                mouse_pos: Cell::new(vec2(0.0, 0.0)),
+                pressed_keys: RefCell::new(HashSet::new()),
+            }
+        };
+        window
+    }
+
+    #[cfg(not(target_os = "emscripten"))]
+    pub fn show(&self) {
+        self.glutin_window.show();
+    }
+
+    pub fn swap_buffers(&self) {
+        // ugli::sync();
+        #[cfg(not(target_os = "emscripten"))]
+        return {
+            use glutin::GlContext;
+            self.glutin_window.swap_buffers().unwrap();
+        };
+    }
+
+    pub fn get_size(&self) -> Vec2<usize> {
+        #[cfg(target_os = "emscripten")]
+        return webby::get_canvas_size();
+        #[cfg(not(target_os = "emscripten"))]
+        return {
+            let (width, height) = self.glutin_window.get_inner_size_pixels().unwrap_or((1, 1));
+            vec2(width as usize, height as usize)
+        };
+    }
+
+    pub fn ugli_context(&self) -> &Rc<ugli::Context> {
+        self.ugli_context._set_size(self.get_size());
+        &self.ugli_context
+    }
+
+    pub fn should_close(&self) -> bool {
+        self.should_close.get()
+    }
+
+    pub fn get_events(&self) -> Vec<Event> {
+        let result = self.internal_get_events();
+        for event in &result {
+            match *event {
+                Event::KeyDown { key } => {
+                    self.pressed_keys.borrow_mut().insert(key);
+                }
+                Event::KeyUp { key } => {
+                    self.pressed_keys.borrow_mut().remove(&key);
+                }
+                _ => {}
+            }
+        }
+        result
+    }
+
+    pub fn is_key_pressed(&self, key: Key) -> bool {
+        self.pressed_keys.borrow().contains(&key)
+    }
+}

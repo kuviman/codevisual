@@ -1,0 +1,7 @@
+[package]
+name = "codevisual-web"
+version = "0.1.0"
+authors = ["kuviman <kuviman@gmail.com>"]
+
+[build-dependencies]
+web-build = { path = "../web-build" }

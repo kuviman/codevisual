@@ -1,0 +1,12 @@
+[package]
+name = "codevisual-derive"
+version = "0.1.0"
+authors = ["kuviman <kuviman@gmail.com>"]
+
+[dependencies]
+syn = { version = "*", features = ["full"] }
+quote = "*"
+prelude = { path = "../prelude" }
+
+[lib]
+proc-macro = true
