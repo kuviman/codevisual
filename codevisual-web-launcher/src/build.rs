@@ -16,7 +16,12 @@ pub fn build(options: &Options) {
     if let Some(ref emsdk) = options.emsdk {
         #[cfg(windows)]
         let env_output = Command::new("cmd").arg("/C").arg(format!("{}\\emsdk_env.bat", emsdk))
-            .output().unwrap().stdout;
+            .output().unwrap();
+        #[cfg(not(windows))]
+        let env_output = Command::new("bash").arg(emsdk).output().unwrap();
+
+        assert!(env_output.status.success());
+        let env_output = env_output.stdout;
 
         let mut path: Vec<std::path::PathBuf> = std::env::split_paths(&std::env::var("PATH").unwrap()).collect();
 
@@ -38,6 +43,7 @@ pub fn build(options: &Options) {
 
     let mut command = Command::new("cargo");
     command.arg("build");
+    command.arg("--color=always");
     if let Some(ref package) = options.package {
         command.arg("--package");
         command.arg(package);
