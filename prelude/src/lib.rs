@@ -94,3 +94,7 @@ macro_rules! display_error_description {
         }
     }
 }
+
+pub fn default<T: Default>() -> T {
+    T::default()
+}
