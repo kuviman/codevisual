@@ -6,12 +6,20 @@ extern crate prelude;
 #[doc(hidden)]
 extern crate gl;
 
+#[cfg(target_os = "emscripten")]
+extern crate webby;
+
 #[cfg(not(target_os = "emscripten"))]
 #[doc(hidden)]
 extern crate image;
 
-pub ( crate ) use prelude::*;
-pub ( crate ) use gl::types::*;
+#[cfg(not(target_os = "emscripten"))]
+extern crate glutin;
+
+pub(crate) use prelude::*;
+pub(crate) use gl::types::*;
+#[cfg(target_os = "emscripten")]
+pub(crate) use webby::emscripten;
 
 mod context;
 mod shader;
@@ -41,7 +49,7 @@ mod private {
     pub trait Sealed {}
 }
 
-pub ( crate ) use private::*;
+pub(crate) use private::*;
 
 pub unsafe trait Pixel: Sealed {
     fn possible_texture(context: &Context) -> bool;

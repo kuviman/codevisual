@@ -22,7 +22,7 @@ impl Window {
         #[cfg(target_os = "emscripten")]
         let window = {
             println!("Starting {}", title);
-            let ugli_context = Rc::new(webby::create_gl_context().unwrap());
+            let ugli_context = Rc::new(ugli::Context::create_webgl(emscripten::Selector::Canvas).unwrap());
             Self {
                 ugli_context,
                 should_close: Cell::new(false),
@@ -41,9 +41,7 @@ impl Window {
             ).unwrap();
             unsafe { glutin_window.make_current() }.unwrap();
             let ugli_context = Rc::new(
-                ugli::Context::init(
-                    |symbol| glutin_window.get_proc_address(symbol) as *const _,
-                ).unwrap(),
+                ugli::Context::create_from_glutin(&glutin_window),
             );
             Self {
                 glutin_window,

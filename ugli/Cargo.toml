@@ -7,5 +7,9 @@ authors = ["kuviman <kuviman@gmail.com>"]
 gl = "*"
 prelude = { path = "../prelude" }
 
+[target.'cfg(target_os = "emscripten")'.dependencies]
+webby = { path = "../webby" }
+
 [target.'cfg(not(target_os = "emscripten"))'.dependencies]
 image = "*"
+glutin = "*"
