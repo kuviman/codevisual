@@ -20,7 +20,8 @@ mod _impl {
             let future = Rc::new(RefCell::new(None));
             {
                 let future = future.clone();
-                webby::wget(path, move |data| {
+                emscripten::async_wget_data(path, move |data| {
+                    let data = std::str::from_utf8(data.unwrap()).unwrap();
                     *future.borrow_mut() = Some(String::from(data));
                     handle.confirm();
                 });

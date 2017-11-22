@@ -73,7 +73,7 @@ impl Window {
 
     pub fn get_size(&self) -> Vec2<usize> {
         #[cfg(target_os = "emscripten")]
-        return webby::get_canvas_size();
+        return emscripten::get_canvas_size();
         #[cfg(not(target_os = "emscripten"))]
         return {
             let (width, height) = self.glutin_window.get_inner_size_pixels().unwrap_or((1, 1));

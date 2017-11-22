@@ -4,6 +4,7 @@ members = [
     "codevisual-derive",
     "codevisual-web",
     "codevisual-web-launcher",
+    "emscripten",
     "emscripten-sys",
     "prelude",
     "ugli",

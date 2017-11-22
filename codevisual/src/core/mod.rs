@@ -54,7 +54,7 @@ impl Application {
     }
 }
 
-pub trait Game {
+pub trait Game: 'static {
     type Resources: ResourceContainer;
     fn get_title() -> String {
         String::from("CodeVisual application")
@@ -74,21 +74,16 @@ pub trait Game {
 
 pub fn run<G: Game>() {
     let app = Rc::new(Application::new(&G::get_title()));
+    #[cfg(not(target_os = "emscripten"))]
+    let app_clone = app.clone();
+
+    let resource_loader = Rc::new(ResourceLoader::new(&app));
+    let resources_future = Rc::new(RefCell::new(Some(G::Resources::load(&resource_loader))));
+
     #[cfg(target_os = "emscripten")]
     run_js! {
         CodeVisual.internal.set_help_html(&G::get_help_html());
     }
-    #[cfg(not(target_os = "emscripten"))]
-    let app_clone = app.clone();
-    //    app.add_setting(Setting::Bool {
-    //        name: String::from("_sync_draw"),
-    //        default: false,
-    //        setter: Box::new(|sync| {
-    //            ugli::sync_draw(sync);
-    //        }),
-    //    });
-    let resource_loader = Rc::new(ResourceLoader::new(&app));
-    let resources_future = Rc::new(RefCell::new(Some(G::Resources::load(&resource_loader))));
 
     let start = move || {
         if !resource_loader.ready() {
@@ -110,26 +105,29 @@ pub fn run<G: Game>() {
         app.window.show();
 
         let mut timer = Timer::new();
-        let main_loop = || {
-            for event in app.window.get_events() {
-                game.handle_event(event);
+        let main_loop = {
+            let app = app.clone();
+            move || {
+                for event in app.window.get_events() {
+                    game.handle_event(event);
+                }
+
+                let delta_time = timer.tick().min(0.1); // TODO: configure
+                game.update(delta_time);
+
+                game.draw(&mut app.ugli_context().default_framebuffer());
+
+                app.window.swap_buffers();
+
+                #[cfg(target_os = "emscripten")]
+                run_js! {
+                    CodeVisual.internal.update_stats();
+                };
             }
-
-            let delta_time = timer.tick().min(0.1); // TODO: configure
-            game.update(delta_time);
-
-            game.draw(&mut app.ugli_context().default_framebuffer());
-
-            app.window.swap_buffers();
-
-            #[cfg(target_os = "emscripten")]
-            run_js! {
-                CodeVisual.internal.update_stats();
-            };
         };
 
         #[cfg(target_os = "emscripten")]
-        webby::set_main_loop(main_loop);
+        emscripten::set_main_loop(main_loop, emscripten::MainLoopFPS::UsingAnimationFrame, true);
 
         #[cfg(not(target_os = "emscripten"))]
         {
@@ -143,7 +141,7 @@ pub fn run<G: Game>() {
     };
 
     #[cfg(target_os = "emscripten")]
-    webby::set_main_loop(|| { start(); });
+    emscripten::set_main_loop(move || { start(); }, emscripten::MainLoopFPS::UsingAnimationFrame, true);
 
     #[cfg(not(target_os = "emscripten"))]
     while !start() && !app_clone.window.should_close() {

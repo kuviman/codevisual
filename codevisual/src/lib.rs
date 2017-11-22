@@ -27,10 +27,12 @@ extern crate codevisual_derive;
 
 mod core;
 
-pub ( crate ) use prelude::*;
-pub use core::*;
+pub(crate) use prelude::*;
 #[doc(hidden)]
 pub use codevisual_derive::*;
+#[cfg(target_os = "emscripten")]
+pub(crate) use webby::emscripten;
+pub use core::*;
 
 #[macro_export]
 macro_rules! uniforms {

@@ -1,8 +1,8 @@
 use ::*;
 
-fn convert_key(code: String) -> Key {
+fn convert_key(code: &str) -> Key {
     use Key::*;
-    match code.as_str() {
+    match code {
         "KeyA" => A,
         "KeyB" => B,
         "KeyC" => C,
@@ -62,119 +62,163 @@ fn convert_key(code: String) -> Key {
         "PageDown" => PageDown,
 
         _ => {
-//            eprintln!("Key unrecognized: {:?}", code);
+            //            eprintln!("Key unrecognized: {:?}", code);
             Key::Unknown
         }
     }
 }
 
-impl From<webby::KeyDownEvent> for Event {
-    fn from(event: webby::KeyDownEvent) -> Self {
-        Event::KeyDown {
-            key: convert_key(event.key.code),
+impl<'a> From<(emscripten::KeyboardEventType, emscripten::KeyboardEvent<'a>)> for Event {
+    fn from((typ, event): (emscripten::KeyboardEventType, emscripten::KeyboardEvent<'a>)) -> Event {
+        match typ {
+            emscripten::KeyboardEventType::KeyDown => Event::KeyDown {
+                key: convert_key(event.code),
+            },
+            emscripten::KeyboardEventType::KeyUp => Event::KeyUp {
+                key: convert_key(event.code),
+            },
+            _ => unimplemented!()
         }
     }
 }
 
-impl From<webby::KeyUpEvent> for Event {
-    fn from(event: webby::KeyUpEvent) -> Self {
-        Event::KeyUp {
-            key: convert_key(event.key.code),
-        }
-    }
-}
-
-impl From<webby::MouseButton> for MouseButton {
-    fn from(button: webby::MouseButton) -> Self {
-        use webby::MouseButton as BMB;
+impl From<emscripten::MouseButton> for MouseButton {
+    fn from(button: emscripten::MouseButton) -> Self {
+        use emscripten::MouseButton as EMB;
         match button {
-            BMB::Left => MouseButton::Left,
-            BMB::Middle => MouseButton::Middle,
-            BMB::Right => MouseButton::Right,
+            EMB::Left => MouseButton::Left,
+            EMB::Middle => MouseButton::Middle,
+            EMB::Right => MouseButton::Right,
         }
     }
 }
 
-impl From<webby::MouseDownEvent> for Event {
-    fn from(event: webby::MouseDownEvent) -> Self {
-        Event::MouseDown {
-            position: event.canvas_pos,
-            button: event.button.into(),
+impl From<(emscripten::MouseEventType, emscripten::MouseEvent)> for Event {
+    fn from((typ, event): (emscripten::MouseEventType, emscripten::MouseEvent)) -> Event {
+        match typ {
+            emscripten::MouseEventType::MouseDown => Event::MouseDown {
+                position: vec2(event.canvas_pos.x as f64, event.canvas_pos.y as f64),
+                button: event.button.into(),
+            },
+            emscripten::MouseEventType::MouseUp => Event::MouseUp {
+                position: vec2(event.canvas_pos.x as f64, event.canvas_pos.y as f64),
+                button: event.button.into(),
+            },
+            emscripten::MouseEventType::MouseMove => Event::MouseMove {
+                position: vec2(event.canvas_pos.x as f64, event.canvas_pos.y as f64),
+            },
+            _ => unimplemented!()
         }
     }
 }
 
-impl From<webby::MouseUpEvent> for Event {
-    fn from(event: webby::MouseUpEvent) -> Self {
-        Event::MouseUp {
-            position: event.canvas_pos,
-            button: event.button.into(),
+impl From<emscripten::WheelEvent> for Event {
+    fn from(event: emscripten::WheelEvent) -> Event {
+        Event::Wheel {
+            delta: event.delta.y as f64 * match event.delta_mode {
+                emscripten::DomDeltaMode::Pixel => 1.0,
+                emscripten::DomDeltaMode::Line => 17.0,
+                emscripten::DomDeltaMode::Page => 800.0,
+            },
         }
     }
 }
 
-impl From<webby::MouseMoveEvent> for Event {
-    fn from(event: webby::MouseMoveEvent) -> Self {
-        Event::MouseMove { position: event.canvas_pos }
+impl From<emscripten::TouchPoint> for TouchPoint {
+    fn from(touch: emscripten::TouchPoint) -> TouchPoint {
+        TouchPoint {
+            position: vec2(touch.canvas_pos.x as f64, touch.canvas_pos.y as f64),
+        }
     }
 }
 
-impl From<webby::WheelEvent> for Event {
-    fn from(event: webby::WheelEvent) -> Self {
-        Event::Wheel { delta: event.delta }
+impl From<(emscripten::TouchEventType, emscripten::TouchEvent)> for Event {
+    fn from((typ, event): (emscripten::TouchEventType, emscripten::TouchEvent)) -> Event {
+        match typ {
+            emscripten::TouchEventType::TouchStart => Event::TouchStart {
+                touches: event.touches.into_iter().map(TouchPoint::from).collect(),
+            },
+            emscripten::TouchEventType::TouchEnd => Event::TouchEnd,
+            emscripten::TouchEventType::TouchMove => Event::TouchMove {
+                touches: event.touches.into_iter().map(TouchPoint::from).collect(),
+            },
+            _ => unimplemented!()
+        }
     }
 }
 
-impl From<webby::TouchPoint> for TouchPoint {
-    fn from(point: webby::TouchPoint) -> Self {
-        TouchPoint { position: point.canvas_pos }
-    }
-}
-
-fn convert_touches(touches: Vec<webby::TouchPoint>) -> Vec<TouchPoint> {
-    touches.into_iter().map(|touch| touch.into()).collect()
-}
-
-impl From<webby::TouchStartEvent> for Event {
-    fn from(event: webby::TouchStartEvent) -> Self {
-        Event::TouchStart { touches: convert_touches(event.touches) }
-    }
-}
-
-impl From<webby::TouchEndEvent> for Event {
-    fn from(_: webby::TouchEndEvent) -> Self {
-        Event::TouchEnd
-    }
-}
-
-impl From<webby::TouchMoveEvent> for Event {
-    fn from(event: webby::TouchMoveEvent) -> Self {
-        Event::TouchMove { touches: convert_touches(event.touches) }
-    }
+fn init_events() -> emscripten::HtmlResult<Arc<Mutex<Vec<Event>>>> {
+    let events = Arc::new(Mutex::new(Vec::new()));
+    emscripten::set_mouse_down_callback(emscripten::Selector::Canvas, true, {
+        let events = events.clone();
+        move |typ, event| {
+            events.lock().unwrap().push((typ, event).into());
+            true
+        }
+    })?;
+    emscripten::set_mouse_up_callback(emscripten::Selector::Canvas, true, {
+        let events = events.clone();
+        move |typ, event| {
+            events.lock().unwrap().push((typ, event).into());
+            true
+        }
+    })?;
+    emscripten::set_mouse_move_callback(emscripten::Selector::Canvas, true, {
+        let events = events.clone();
+        move |typ, event| {
+            events.lock().unwrap().push((typ, event).into());
+            true
+        }
+    })?;
+    emscripten::set_touch_start_callback(emscripten::Selector::Canvas, true, {
+        let events = events.clone();
+        move |typ, event| {
+            events.lock().unwrap().push((typ, event).into());
+            true
+        }
+    })?;
+    emscripten::set_touch_end_callback(emscripten::Selector::Canvas, true, {
+        let events = events.clone();
+        move |typ, event| {
+            events.lock().unwrap().push((typ, event).into());
+            true
+        }
+    })?;
+    emscripten::set_touch_move_callback(emscripten::Selector::Canvas, true, {
+        let events = events.clone();
+        move |typ, event| {
+            events.lock().unwrap().push((typ, event).into());
+            true
+        }
+    })?;
+    emscripten::set_key_down_callback(emscripten::Selector::Canvas, true, {
+        let events = events.clone();
+        move |typ, event| {
+            events.lock().unwrap().push((typ, event).into());
+            true
+        }
+    })?;
+    emscripten::set_key_up_callback(emscripten::Selector::Canvas, true, {
+        let events = events.clone();
+        move |typ, event| {
+            events.lock().unwrap().push((typ, event).into());
+            true
+        }
+    })?;
+    emscripten::set_wheel_callback(emscripten::Selector::Canvas, true, {
+        let events = events.clone();
+        move |event| {
+            events.lock().unwrap().push(event.into());
+            true
+        }
+    })?;
+    Ok(events)
 }
 
 impl Window {
-    pub ( crate ) fn internal_get_events(&self) -> Vec<Event> {
+    pub(crate) fn internal_get_events(&self) -> Vec<Event> {
         lazy_static! {
-            static ref EVENTS: Arc<Mutex<Vec<Event>>> = {
-                let events = Arc::new(Mutex::new(Vec::new()));
-                macro_rules! setup {
-                    ($setter:ident, $events:ident) => {
-                        let events = $events.clone();
-                        webby::$setter(move |event| events.lock().unwrap().push(event.into()));
-                    }
-                }
-                setup!(set_mousedown_callback, events);
-                setup!(set_mouseup_callback, events);
-                setup!(set_mousemove_callback, events);
-                setup!(set_touchstart_callback, events);
-                setup!(set_touchend_callback, events);
-                setup!(set_touchmove_callback, events);
-                setup!(set_wheel_callback, events);
-                setup!(set_keydown_callback, events);
-                setup!(set_keyup_callback, events);
-                events
-            };
+            static ref EVENTS: Arc < Mutex < Vec <Event > > > = init_events().unwrap();
         }
         EVENTS.lock().unwrap().split_off(0)
     }

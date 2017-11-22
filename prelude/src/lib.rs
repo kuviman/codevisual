@@ -19,6 +19,8 @@ pub use std::os::raw::{c_int, c_float, c_double, c_short, c_ushort, c_long, c_ul
 #[doc(no_inline)]
 pub use std::ffi::{CStr, CString};
 #[doc(no_inline)]
+pub use std::borrow::Cow;
+#[doc(no_inline)]
 pub use std::ops::{Deref, DerefMut, Range, RangeFrom, RangeTo, RangeFull};
 #[doc(no_inline)]
 pub use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign, Neg};
