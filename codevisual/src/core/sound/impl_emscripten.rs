@@ -6,9 +6,9 @@ pub struct Sound {
 
 impl Sound {
     pub fn play(&self, volume: f64) {
-        run_js! {
-            CodeVisual.internal.play_sound(&self.id.get(), &volume);
-        }
+        js! {
+            CodeVisual.internal.play_sound(@(self.id.get()), @(volume));
+        };
     }
 }
 
@@ -33,9 +33,9 @@ impl Asset for Sound {
                 mem::replace(&mut handle, None).unwrap().confirm();
             }
         });
-        run_js! {
-            CodeVisual.internal.load_sound(path, callback);
-        }
+        js! {
+            CodeVisual.internal.load_sound(@(path), @(callback));
+        };
         Sound { id: sound_id }
     }
 }

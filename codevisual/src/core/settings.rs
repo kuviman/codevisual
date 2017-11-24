@@ -81,8 +81,8 @@ pub trait Settings {
 impl Application {
     pub fn add_setting(&self, setting: Setting) {
         #[cfg(target_os = "emscripten")]
-            run_js! {
-            CodeVisual.settings.add(setting);
+        js! {
+            CodeVisual.settings.add(@(setting));
         }
     }
     pub fn register_settings<S: Settings>(&self) -> Rc<RefCell<S>> {

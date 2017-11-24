@@ -28,18 +28,17 @@ impl Application {
                 } else {
                     String::from("Something went wrong")
                 };
-                run_js! {
-                CodeVisual.internal.show_error(&error);
-            }
+                eprintln!("{:?}", error);
+                js! {
+                    CodeVisual.internal.show_error(@(error));
+                };
             }
             std::panic::set_hook(Box::new(panic_hook));
         }
         #[cfg(target_os = "emscripten")]
-        {
-            run_js! {
-                CodeVisual.internal.init();
-            }
-        }
+        js! {
+            CodeVisual.internal.init();
+        };
         Application {
             window: Window::new(title),
         }
@@ -81,25 +80,25 @@ pub fn run<G: Game>() {
     let resources_future = Rc::new(RefCell::new(Some(G::Resources::load(&resource_loader))));
 
     #[cfg(target_os = "emscripten")]
-    run_js! {
-        CodeVisual.internal.set_help_html(&G::get_help_html());
-    }
+    js! {
+        CodeVisual.internal.set_help_html(@(G::get_help_html()));
+    };
 
     let start = move || {
         if !resource_loader.ready() {
             #[cfg(target_os = "emscripten")]
-            run_js! {
-                CodeVisual.internal.set_load_progress(&resource_loader.get_loaded_count(), &resource_loader.get_total_count());
-            }
+            js! {
+                CodeVisual.internal.set_load_progress(@(resource_loader.get_loaded_count()), @(resource_loader.get_total_count()));
+            };
             return false;
         }
         let resources_future = mem::replace(&mut *resources_future.borrow_mut(), None).unwrap();
         let mut game = G::new(&app, resources_future.unwrap());
 
         #[cfg(target_os = "emscripten")]
-        run_js! {
+        js! {
             CodeVisual.internal.before_main_loop();
-        }
+        };
 
         #[cfg(not(target_os = "emscripten"))]
         app.window.show();
@@ -120,7 +119,7 @@ pub fn run<G: Game>() {
                 app.window.swap_buffers();
 
                 #[cfg(target_os = "emscripten")]
-                run_js! {
+                js! {
                     CodeVisual.internal.update_stats();
                 };
             }

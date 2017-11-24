@@ -9,4 +9,5 @@ members = [
     "prelude",
     "ugli",
     "web-build",
-    "webby"]
+    "webby",
+    "webby-macro"]

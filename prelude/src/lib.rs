@@ -47,12 +47,14 @@ mod algebra;
 mod range;
 mod timer;
 mod atomic;
+mod stable_fn;
 
 pub use color::*;
 pub use algebra::*;
 pub use range::*;
 pub use timer::*;
 pub use atomic::*;
+pub use stable_fn::*;
 
 pub use rand::Rng;
 
