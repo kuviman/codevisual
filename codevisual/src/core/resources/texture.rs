@@ -25,22 +25,14 @@ mod _impl {
                 );
                 let texture_handle = texture._get_handle();
                 let future = future.clone();
-                fn make_mut<F: FnOnce((i32, i32)) + 'static>(f: F) -> Box<FnMut(i32, i32) + 'static> {
-                    let mut f = Some(f);
-                    Box::new(move |arg0: i32, arg1: i32| {
-                        mem::replace(&mut f, None).unwrap()((arg0, arg1));
-                    })
-                };
-                let callback = move |size: (i32, i32)| {
-                    texture._set_size(vec2(size.0 as usize, size.1 as usize));
+                let callback = webby::CallbackOnce::from(move |width: i32, height: i32| {
+                    texture._set_size(vec2(width as usize, height as usize));
                     if texture.is_pot() {
                         texture.gen_mipmaps();
                     }
                     *future.borrow_mut() = Some(texture);
                     handle.confirm();
-                };
-                let mut callback = make_mut(callback);
-                let callback = webby::Callback::from(move |a, b| callback(a, b));
+                });
                 js! {
                     CodeVisual.internal.load_texture(@(path), @(texture_handle), @(callback));
                 };
