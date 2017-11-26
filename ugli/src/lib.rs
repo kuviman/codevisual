@@ -2,17 +2,11 @@
 
 #[macro_use]
 extern crate prelude;
-
-#[doc(hidden)]
 extern crate gl;
-
 #[cfg(target_os = "emscripten")]
 extern crate webby;
-
 #[cfg(not(target_os = "emscripten"))]
-#[doc(hidden)]
 extern crate image;
-
 #[cfg(not(target_os = "emscripten"))]
 extern crate glutin;
 

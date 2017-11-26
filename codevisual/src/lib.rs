@@ -14,13 +14,11 @@ extern crate lazy_static;
 extern crate threadpool;
 #[cfg(not(target_os = "emscripten"))]
 extern crate num_cpus;
-
 pub extern crate prelude;
 pub extern crate ugli;
 #[cfg(target_os = "emscripten")]
 #[macro_use]
 pub extern crate webby;
-
 #[allow(unused_imports)]
 #[macro_use]
 extern crate codevisual_derive;
@@ -28,7 +26,6 @@ extern crate codevisual_derive;
 mod core;
 
 pub(crate) use prelude::*;
-#[doc(hidden)]
 pub use codevisual_derive::*;
 #[cfg(target_os = "emscripten")]
 pub(crate) use webby::emscripten;

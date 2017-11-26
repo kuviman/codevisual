@@ -1,45 +1,26 @@
 #![deny(warnings)]
 
-#[doc(hidden)]
 pub extern crate rand;
-#[doc(hidden)]
 pub extern crate num;
 
-#[doc(no_inline)]
 pub use std::rc::Rc;
-#[doc(no_inline)]
 pub use std::cell::{Cell, RefCell, Ref, RefMut};
-#[doc(no_inline)]
 pub use std::marker::PhantomData;
-#[doc(no_inline)]
 pub use std::error::Error;
-#[doc(no_inline)]
 pub use std::os::raw::{c_int, c_float, c_double, c_short, c_ushort, c_long, c_ulong, c_char,
                        c_void};
-#[doc(no_inline)]
 pub use std::ffi::{CStr, CString};
-#[doc(no_inline)]
 pub use std::borrow::Cow;
-#[doc(no_inline)]
 pub use std::ops::{Deref, DerefMut, Range, RangeFrom, RangeTo, RangeFull};
-#[doc(no_inline)]
 pub use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign, Neg};
-#[doc(no_inline)]
 pub use std::ops::{Index, IndexMut};
-#[doc(no_inline)]
 pub use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
-#[doc(no_inline)]
 pub use std::fmt::{Debug, Display, Formatter};
-#[doc(no_inline)]
 pub use std::sync::{Arc, Mutex, RwLock};
-#[doc(no_inline)]
 pub use std::cmp::{Eq, PartialEq, Ord, PartialOrd};
-#[doc(no_inline)]
 pub use std::mem;
-#[doc(no_inline)]
 pub use std::thread;
 
-#[doc(no_inline)]
 pub use num::{Float, Num, Integer, clamp};
 
 mod color;
@@ -79,7 +60,6 @@ pub fn thread_rng() -> Box<Rng> {
 }
 
 #[cfg(not(target_os = "emscripten"))]
-#[doc(no_inline)]
 pub use rand::thread_rng;
 
 pub fn random<R: rand::Rand>() -> R {
