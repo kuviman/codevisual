@@ -6,7 +6,6 @@ pub extern crate num;
 pub use std::rc::Rc;
 pub use std::cell::{Cell, RefCell, Ref, RefMut};
 pub use std::marker::PhantomData;
-pub use std::error::Error;
 pub use std::os::raw::{c_int, c_float, c_double, c_short, c_ushort, c_long, c_ulong, c_char,
                        c_void};
 pub use std::ffi::{CStr, CString};
@@ -64,17 +63,6 @@ pub use rand::thread_rng;
 
 pub fn random<R: rand::Rand>() -> R {
     R::rand(&mut thread_rng())
-}
-
-#[macro_export]
-macro_rules! display_error_description {
-    ($name: ident) => {
-        impl ::std::fmt::Display for $name {
-            fn fmt(&self, formatter: &mut ::std::fmt::Formatter) -> std::fmt::Result {
-                write!(formatter, "{}", ::std::error::Error::description(self))
-            }
-        }
-    }
 }
 
 pub fn default<T: Default>() -> T {

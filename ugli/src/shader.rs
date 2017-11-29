@@ -19,30 +19,12 @@ impl Drop for Shader {
     }
 }
 
-#[derive(Debug)]
-pub enum ShaderCreationError {
-    Unknown,
-    CompilationError { description: String },
-}
-
-impl Error for ShaderCreationError {
-    fn description(&self) -> &str {
-        use ShaderCreationError::*;
-        match *self {
-            Unknown => "Unknown",
-            CompilationError { ref description } => description,
-        }
-    }
-}
-
-display_error_description!(ShaderCreationError);
-
 impl Shader {
     pub fn new(
         _: &Context,
         shader_type: ShaderType,
         sources: &[&str],
-    ) -> Result<Self, ShaderCreationError> {
+    ) -> Result<Self, String> {
         let shader = Self {
             handle: {
                 let handle = unsafe {
@@ -51,9 +33,7 @@ impl Shader {
                         ShaderType::Fragment => gl::FRAGMENT_SHADER,
                     })
                 };
-                if handle == 0 {
-                    return Err(ShaderCreationError::Unknown);
-                }
+                assert_ne!(handle, 0);
                 handle
             },
             phantom_data: PhantomData,
@@ -93,9 +73,7 @@ impl Shader {
                     std::ptr::null_mut(),
                     info_log_bytes.as_mut_ptr() as *mut _,
                 );
-                return Err(ShaderCreationError::CompilationError {
-                    description: String::from_utf8(info_log_bytes).unwrap(),
-                });
+                return Err(String::from_utf8(info_log_bytes).unwrap());
             }
         }
         Ok(shader)

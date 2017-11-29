@@ -1,7 +1,7 @@
 use ::*;
 
 pub struct Program {
-    pub ( crate ) handle: GLuint,
+    pub(crate) handle: GLuint,
     uniforms: RefCell<HashMap<String, GLint>>,
     attributes: RefCell<HashMap<String, GLint>>,
     phantom_data: PhantomData<*mut ()>,
@@ -15,32 +15,12 @@ impl Drop for Program {
     }
 }
 
-#[derive(Debug)]
-pub enum ProgramCreationError {
-    Unknown,
-    LinkError { description: String },
-}
-
-impl Error for ProgramCreationError {
-    fn description(&self) -> &str {
-        use ProgramCreationError::*;
-        match *self {
-            Unknown => "Unknown",
-            LinkError { ref description } => description,
-        }
-    }
-}
-
-display_error_description!(ProgramCreationError);
-
 impl Program {
-    pub fn new(_: &Context, shaders: &[&Shader]) -> Result<Self, ProgramCreationError> {
+    pub fn new(_: &Context, shaders: &[&Shader]) -> Result<Self, String> {
         let program = Self {
             handle: {
                 let handle = unsafe { gl::CreateProgram() };
-                if handle == 0 {
-                    return Err(ProgramCreationError::Unknown);
-                }
+                assert_ne!(handle, 0);
                 handle
             },
             uniforms: RefCell::new(HashMap::new()),
@@ -68,19 +48,17 @@ impl Program {
                     std::ptr::null_mut(),
                     info_log_bytes.as_mut_ptr() as *mut _,
                 );
-                return Err(ProgramCreationError::LinkError {
-                    description: String::from_utf8(info_log_bytes).unwrap(),
-                });
+                return Err(String::from_utf8(info_log_bytes).unwrap());
             }
         }
         Ok(program)
     }
-    pub ( crate ) fn bind(&self) {
+    pub(crate) fn bind(&self) {
         unsafe {
             gl::UseProgram(self.handle);
         }
     }
-    pub ( crate ) fn get_uniform_location(&self, name: &str) -> GLint {
+    pub(crate) fn get_uniform_location(&self, name: &str) -> GLint {
         let mut uniforms = self.uniforms.borrow_mut();
         if let Some(&location) = uniforms.get(name) {
             location
@@ -95,7 +73,7 @@ impl Program {
             location
         }
     }
-    pub ( crate ) fn get_attribute_location(&self, name: &str) -> GLint {
+    pub(crate) fn get_attribute_location(&self, name: &str) -> GLint {
         let mut attributes = self.attributes.borrow_mut();
         if let Some(&location) = attributes.get(name) {
             location

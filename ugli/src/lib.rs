@@ -1,6 +1,5 @@
 #![deny(warnings)]
 
-#[macro_use]
 extern crate prelude;
 extern crate gl;
 #[cfg(target_os = "emscripten")]
