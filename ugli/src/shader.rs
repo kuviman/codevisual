@@ -7,7 +7,8 @@ pub enum ShaderType {
 }
 
 pub struct Shader {
-    pub ( crate ) handle: GLuint,
+    pub(crate) handle: GLuint,
+    phantom_data: PhantomData<*mut ()>,
 }
 
 impl Drop for Shader {
@@ -55,6 +56,7 @@ impl Shader {
                 }
                 handle
             },
+            phantom_data: PhantomData,
         };
         #[cfg(not(target_os = "emscripten"))]
         let sources = {

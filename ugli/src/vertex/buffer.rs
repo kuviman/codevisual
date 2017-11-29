@@ -4,6 +4,7 @@ struct RawBuffer {
     handle: GLuint,
     usage: GLenum,
     size: Cell<usize>,
+    phantom_data: PhantomData<*mut ()>,
 }
 
 impl RawBuffer {
@@ -16,6 +17,7 @@ impl RawBuffer {
             },
             usage,
             size: Cell::new(0),
+            phantom_data: PhantomData,
         }
     }
     fn bind(&self) {
@@ -110,7 +112,7 @@ impl<T: Vertex> VertexBuffer<T> {
         }
     }
 
-    pub ( crate ) fn bind(&self) {
+    pub(crate) fn bind(&self) {
         if self.need_update.get() {
             self.buffer.set_data(&self.data);
             self.need_update.set(false);
@@ -120,8 +122,8 @@ impl<T: Vertex> VertexBuffer<T> {
 }
 
 pub struct VertexBufferSlice<'a, T: Vertex + 'a> {
-    pub ( crate ) buffer: &'a VertexBuffer<T>,
-    pub ( crate ) range: Range<usize>,
+    pub(crate) buffer: &'a VertexBuffer<T>,
+    pub(crate) range: Range<usize>,
 }
 
 impl<'a, T: Vertex + 'a> Deref for VertexBufferSlice<'a, T> {

@@ -2,7 +2,7 @@ use ::*;
 
 pub struct Renderbuffer<T: Pixel = Color> {
     pub ( crate ) handle: GLuint,
-    phantom_data: PhantomData<T>,
+    phantom_data: PhantomData<*mut T>,
 }
 
 impl<T: Pixel> Drop for Renderbuffer<T> {

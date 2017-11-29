@@ -13,9 +13,9 @@ pub enum Filter {
 }
 
 pub struct Texture<P: Pixel> {
-    pub ( crate ) handle: GLuint,
+    pub(crate) handle: GLuint,
     size: Cell<Vec2<usize>>,
-    phantom_data: PhantomData<P>,
+    phantom_data: PhantomData<*mut P>,
 }
 
 impl<P: Pixel> Drop for Texture<P> {

@@ -4,6 +4,7 @@ pub struct Program {
     pub ( crate ) handle: GLuint,
     uniforms: RefCell<HashMap<String, GLint>>,
     attributes: RefCell<HashMap<String, GLint>>,
+    phantom_data: PhantomData<*mut ()>,
 }
 
 impl Drop for Program {
@@ -44,6 +45,7 @@ impl Program {
             },
             uniforms: RefCell::new(HashMap::new()),
             attributes: RefCell::new(HashMap::new()),
+            phantom_data: PhantomData,
         };
         unsafe {
             for shader in shaders {

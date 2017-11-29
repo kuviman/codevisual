@@ -4,6 +4,7 @@ pub struct Context {
     #[cfg(target_os = "emscripten")]
     webgl_context: emscripten::webgl::Context,
     size: Cell<Vec2<usize>>,
+    phantom_data: PhantomData<*mut ()>,
 }
 
 #[cfg(target_os = "emscripten")]
@@ -20,6 +21,7 @@ impl Context {
         let context = Context {
             webgl_context,
             size: Cell::new(vec2(1, 1)),
+            phantom_data: PhantomData,
         };
         context.init(emscripten::get_proc_address);
         Ok(context)
@@ -34,6 +36,7 @@ impl Context {
     pub fn create_from_glutin<C: glutin::GlContext>(glutin_context: &C) -> Self {
         let context = Context {
             size: Cell::new(vec2(1, 1)),
+            phantom_data: PhantomData,
         };
         context.init(|symbol| glutin_context.get_proc_address(symbol) as *const c_void);
         context
@@ -44,10 +47,10 @@ impl Context {
     pub fn init<F: Fn(&str) -> *const c_void>(&self, get_proc_address: F) {
         gl::load_with(get_proc_address);
         #[cfg(not(target_os = "emscripten"))]
-        unsafe {
+            unsafe {
             gl::Enable(gl::PROGRAM_POINT_SIZE);
             #[cfg(target_os = "windows")]
-            gl::Enable(0x8861); // GL_POINT_SPRITE
+                gl::Enable(0x8861); // GL_POINT_SPRITE
         }
     }
     pub fn _set_size(&self, size: Vec2<usize>) {

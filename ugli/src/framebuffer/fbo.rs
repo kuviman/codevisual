@@ -2,11 +2,15 @@ use ::*;
 
 pub struct FBO {
     pub handle: GLuint,
+    phantom_data: PhantomData<*mut ()>,
 }
 
 impl Default for FBO {
     fn default() -> Self {
-        Self { handle: 0 }
+        Self {
+            handle: 0,
+            phantom_data: PhantomData,
+        }
     }
 }
 
@@ -18,6 +22,7 @@ impl FBO {
                 gl::GenFramebuffers(1, &mut handle);
                 handle
             },
+            phantom_data: PhantomData,
         }
     }
     pub fn bind(&self) {
