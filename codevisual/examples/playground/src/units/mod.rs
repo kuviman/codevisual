@@ -171,6 +171,11 @@ pub struct Resources {
     heli_obj: String,
 }
 
+#[derive(Vertex)]
+struct QuadVertex {
+    a_v: Vec2<f32>,
+}
+
 pub struct AllUnits {
     app: Rc<codevisual::Application>,
     current_time: f32,
@@ -180,6 +185,7 @@ pub struct AllUnits {
     screen_used_texture: Option<ugli::Texture2d>,
     screen_used_material: codevisual::Material<::ShaderLib, (), Defines>,
     settings: Rc<RefCell<Settings>>,
+    quad: ugli::VertexBuffer<QuadVertex>,
 }
 
 impl AllUnits {
@@ -220,6 +226,11 @@ impl AllUnits {
                 include_str!("screen_used.glsl"),
             ),
             settings: settings.clone(),
+            quad: ugli::VertexBuffer::new_static(app.ugli_context(), vec![
+                QuadVertex { a_v: vec2(-1.0, -1.0) },
+                QuadVertex { a_v: vec2(-1.0, 1.0) },
+                QuadVertex { a_v: vec2(1.0, 1.0) },
+                QuadVertex { a_v: vec2(1.0, -1.0) }, ]),
         }
     }
 
@@ -276,7 +287,7 @@ impl AllUnits {
                 &self.screen_used_material.ugli_program(),
                 ugli::DrawMode::TriangleFan,
                 ugli::instanced(
-                    &**ugli::quad(context),
+                    &self.quad,
                     self.cars.instances.slice(..self.settings.borrow().draw_count),
                 ),
                 uniforms,

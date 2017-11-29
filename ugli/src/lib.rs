@@ -24,8 +24,6 @@ mod framebuffer;
 mod draw;
 mod vertex;
 mod uniform;
-mod quad;
-mod cube;
 
 pub use context::*;
 pub use shader::*;
@@ -36,8 +34,6 @@ pub use framebuffer::*;
 pub use draw::*;
 pub use vertex::*;
 pub use uniform::*;
-pub use quad::*;
-pub use cube::*;
 
 mod private {
     pub trait Sealed {}

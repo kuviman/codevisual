@@ -4,8 +4,6 @@ pub struct Context {
     #[cfg(target_os = "emscripten")]
     webgl_context: emscripten::webgl::Context,
     size: Cell<Vec2<usize>>,
-    pub(crate) quad: RefCell<Option<Quad>>,
-    pub(crate) cube: RefCell<Option<Cube>>,
 }
 
 #[cfg(target_os = "emscripten")]
@@ -22,8 +20,6 @@ impl Context {
         let context = Context {
             webgl_context,
             size: Cell::new(vec2(1, 1)),
-            quad: RefCell::new(None),
-            cube: RefCell::new(None),
         };
         context.init(emscripten::get_proc_address);
         Ok(context)
@@ -38,8 +34,6 @@ impl Context {
     pub fn create_from_glutin<C: glutin::GlContext>(glutin_context: &C) -> Self {
         let context = Context {
             size: Cell::new(vec2(1, 1)),
-            quad: RefCell::new(None),
-            cube: RefCell::new(None),
         };
         context.init(|symbol| glutin_context.get_proc_address(symbol) as *const c_void);
         context
