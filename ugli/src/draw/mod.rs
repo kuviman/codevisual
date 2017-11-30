@@ -89,7 +89,7 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
     #[cfg(not(target_os = "emscripten"))]
     let vao = VAO::new();
     #[cfg(not(target_os = "emscripten"))]
-    vao.bind();
+        vao.bind();
 
     let mut vertex_count = None;
     let mut instance_count = None;
@@ -160,10 +160,9 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
     }
     impl<'a> UniformConsumer for UC<'a> {
         fn consume<U: Uniform>(&mut self, name: &str, uniform: &U) {
-            let location = self.program.get_uniform_location(name);
-            if location >= 0 {
+            if let Some(uniform_info) = self.program.uniforms.get(name) {
                 uniform.apply(UniformLocation {
-                    location,
+                    location: uniform_info.location,
                     texture_count: &mut self.texture_count,
                 });
             }
@@ -242,28 +241,25 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
             }
             impl<'a, D: Vertex> VertexAttributeConsumer for VAC<'a, D> {
                 fn consume<A: VertexAttribute>(&mut self, name: &str, attribute: &A) {
-                    let location = self.program.get_attribute_location(name);
-                    if location == -1 {
-                        return;
-                    }
-                    let location = location as GLuint;
-                    let gl_type = A::get_gl_type();
-                    let offset = self.offset + attribute as *const _ as usize -
-                        self.sample as *const _ as usize;
-                    unsafe {
-                        gl::EnableVertexAttribArray(location);
-                        gl::VertexAttribPointer(
-                            location,
-                            gl_type.gl_size,
-                            gl_type.gl_type,
-                            gl::FALSE,
-                            mem::size_of::<D>() as GLsizei,
-                            offset as *const GLvoid,
-                        );
-                        if let Some(divisor) = self.divisor {
-                            gl::VertexAttribDivisor(location, divisor as GLuint);
-                        } else {
-                            gl::VertexAttribDivisor(location, 0);
+                    if let Some(attribute_info) = self.program.attributes.get(name) {
+                        let gl_type = A::get_gl_type();
+                        let offset = self.offset + attribute as *const _ as usize -
+                            self.sample as *const _ as usize;
+                        unsafe {
+                            gl::EnableVertexAttribArray(attribute_info.location);
+                            gl::VertexAttribPointer(
+                                attribute_info.location,
+                                gl_type.gl_size,
+                                gl_type.gl_type,
+                                gl::FALSE,
+                                mem::size_of::<D>() as GLsizei,
+                                offset as *const GLvoid,
+                            );
+                            if let Some(divisor) = self.divisor {
+                                gl::VertexAttribDivisor(attribute_info.location, divisor as GLuint);
+                            } else {
+                                gl::VertexAttribDivisor(attribute_info.location, 0);
+                            }
                         }
                     }
                 }
