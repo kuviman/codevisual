@@ -2,7 +2,7 @@ use ::*;
 
 pub struct Context {
     #[cfg(target_os = "emscripten")]
-    webgl_context: emscripten::webgl::Context,
+    pub(crate) webgl_context: emscripten::webgl::Context,
     size: Cell<Vec2<usize>>,
     phantom_data: PhantomData<*mut ()>,
 }

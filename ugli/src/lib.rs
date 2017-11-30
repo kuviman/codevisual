@@ -34,13 +34,7 @@ pub use draw::*;
 pub use vertex::*;
 pub use uniform::*;
 
-mod private {
-    pub trait Sealed {}
-}
-
-pub(crate) use private::*;
-
-pub unsafe trait Pixel: Sealed {
+pub unsafe trait Pixel {
     fn possible_texture(context: &Context) -> bool;
     const GL_TEXTURE_FORMAT: GLenum;
     const GL_FRAMEBUFFER_FORMAT: GLenum;
@@ -54,8 +48,6 @@ unsafe impl Pixel for Color {
     const GL_TEXTURE_TYPE: GLenum = gl::UNSIGNED_BYTE;
 }
 
-impl Sealed for Color {}
-
 #[derive(Debug, Copy, Clone, PartialOrd, PartialEq)]
 pub struct DepthComponent(GLfloat);
 
@@ -64,20 +56,10 @@ unsafe impl Pixel for DepthComponent {
         #![allow(unused_variables)]
 
         #[cfg(target_os = "emscripten")]
-        return unsafe {
-            type EmscriptenContext = c_int;
-            extern "C" {
-                fn emscripten_webgl_get_current_context() -> EmscriptenContext;
-                fn emscripten_webgl_enable_extension(context: EmscriptenContext, name: *const c_char) -> c_int;
-            }
-            emscripten_webgl_enable_extension(
-                emscripten_webgl_get_current_context(),
-                CString::new("WEBGL_depth_texture").unwrap().as_ptr()
-            ) != 0
-        };
+            return context.webgl_context.enable_extension("WEBGL_depth_texture");
 
         #[cfg(not(target_os = "emscripten"))]
-        return true; // TODO: maybe not always available?
+            return true; // TODO: maybe not always available?
     }
 
     const GL_TEXTURE_FORMAT: GLenum = gl::DEPTH_COMPONENT;
@@ -88,13 +70,12 @@ unsafe impl Pixel for DepthComponent {
     const GL_TEXTURE_TYPE: GLenum = gl::UNSIGNED_INT;
 }
 
-impl Sealed for DepthComponent {}
-
 fn check_gl_error() {
+    // TODO: text instead of just code
     assert_eq!(unsafe { gl::GetError() }, gl::NO_ERROR, "OpenGL error");
 }
 
-pub fn sync() {
+fn sync() {
     check_gl_error();
     unsafe {
         gl::Finish();
