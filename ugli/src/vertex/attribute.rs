@@ -1,49 +1,36 @@
 use ::*;
 
-mod raw {
-    use ::*;
-    pub struct AttributeType {
-        pub gl_size: GLsizei,
-        pub gl_type: GLenum,
-    }
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum AttributeType {
+    Float = gl::FLOAT as _,
 }
 
-pub trait VertexAttribute {
-    fn get_gl_type() -> raw::AttributeType;
+pub unsafe trait VertexAttribute {
+    const SIZE: usize;
+    const TYPE: AttributeType;
 }
 
-impl VertexAttribute for f32 {
-    fn get_gl_type() -> raw::AttributeType {
-        raw::AttributeType {
-            gl_size: 1,
-            gl_type: gl::FLOAT,
-        }
-    }
+unsafe impl VertexAttribute for f32 {
+    const SIZE: usize = 1;
+    const TYPE: AttributeType = AttributeType::Float;
 }
 
-impl VertexAttribute for Vec2<f32> {
-    fn get_gl_type() -> raw::AttributeType {
-        raw::AttributeType {
-            gl_size: 2,
-            gl_type: gl::FLOAT,
-        }
-    }
+unsafe impl VertexAttribute for Vec2<f32> {
+    const SIZE: usize = 2;
+    const TYPE: AttributeType = AttributeType::Float;
 }
 
-impl VertexAttribute for Vec3<f32> {
-    fn get_gl_type() -> raw::AttributeType {
-        raw::AttributeType {
-            gl_size: 3,
-            gl_type: gl::FLOAT,
-        }
-    }
+unsafe impl VertexAttribute for Vec3<f32> {
+    const SIZE: usize = 3;
+    const TYPE: AttributeType = AttributeType::Float;
 }
 
-impl VertexAttribute for Color {
-    fn get_gl_type() -> raw::AttributeType {
-        raw::AttributeType {
-            gl_size: 4,
-            gl_type: gl::FLOAT,
-        }
-    }
+unsafe impl VertexAttribute for Vec4<f32> {
+    const SIZE: usize = 4;
+    const TYPE: AttributeType = AttributeType::Float;
+}
+
+unsafe impl VertexAttribute for Color {
+    const SIZE: usize = 4;
+    const TYPE: AttributeType = AttributeType::Float;
 }

@@ -6,12 +6,6 @@ pub use self::parameters::*;
 
 static mut SYNC_DRAW: bool = false;
 
-pub fn sync_draw(sync: bool) {
-    unsafe {
-        SYNC_DRAW = sync;
-    }
-}
-
 pub enum DrawMode {
     Points,
     Lines {
@@ -238,15 +232,14 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
             impl<'a, D: Vertex> VertexAttributeConsumer for VAC<'a, D> {
                 fn consume<A: VertexAttribute>(&mut self, name: &str, attribute: &A) {
                     if let Some(attribute_info) = self.program.attributes.get(name) {
-                        let gl_type = A::get_gl_type();
                         let offset = self.offset + attribute as *const _ as usize -
                             self.sample as *const _ as usize;
                         unsafe {
                             gl::EnableVertexAttribArray(attribute_info.location);
                             gl::VertexAttribPointer(
                                 attribute_info.location,
-                                gl_type.gl_size,
-                                gl_type.gl_type,
+                                A::SIZE as GLint,
+                                A::TYPE as GLenum,
                                 gl::FALSE,
                                 mem::size_of::<D>() as GLsizei,
                                 offset as *const GLvoid,
