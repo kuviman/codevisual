@@ -2,7 +2,7 @@ use ::*;
 
 mod fbo;
 
-pub ( crate ) use self::fbo::*;
+pub(crate) use self::fbo::*;
 
 mod read;
 
@@ -20,7 +20,7 @@ pub enum DepthAttachmentRead<'a> {
 }
 
 pub struct FramebufferRead<'a> {
-    pub ( crate ) fbo: FBO,
+    pub(crate) fbo: FBO,
     color: ColorAttachmentRead<'a>,
     depth: DepthAttachmentRead<'a>,
     size: Vec2<usize>,

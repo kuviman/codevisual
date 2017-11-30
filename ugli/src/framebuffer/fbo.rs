@@ -31,6 +31,7 @@ impl FBO {
         }
     }
     pub fn check(&self) {
+        // TODO: text instead of raw codes
         unsafe {
             assert_eq!(
                 gl::CheckFramebufferStatus(gl::FRAMEBUFFER),

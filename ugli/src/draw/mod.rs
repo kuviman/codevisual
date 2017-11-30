@@ -81,9 +81,9 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
                                        vec2(framebuffer.get_size().x as f32,
                                             framebuffer.get_size().y as f32)),
                     uniforms);
+    unsafe { UNIFORM_TEXTURE_COUNT = 0; }
     uniforms.walk_uniforms(&mut UC {
         program,
-        texture_count: 0,
     });
 
     #[cfg(not(target_os = "emscripten"))]
@@ -156,15 +156,11 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
 
     struct UC<'a> {
         program: &'a Program,
-        texture_count: usize,
     }
     impl<'a> UniformConsumer for UC<'a> {
         fn consume<U: Uniform>(&mut self, name: &str, uniform: &U) {
             if let Some(uniform_info) = self.program.uniforms.get(name) {
-                uniform.apply(UniformLocation {
-                    location: uniform_info.location,
-                    texture_count: &mut self.texture_count,
-                });
+                uniform.apply(uniform_info);
             }
             uniform.walk_extra(name, self);
         }

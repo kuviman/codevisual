@@ -1,25 +1,15 @@
 use ::*;
 
-mod raw {
-    use ::*;
-
-    pub struct Location<'a> {
-        pub location: GLint,
-        pub texture_count: &'a mut usize,
-    }
-}
-
 mod storage;
 
 pub use self::storage::*;
 
-pub ( crate ) use self::raw::Location as UniformLocation;
+pub(crate) static mut UNIFORM_TEXTURE_COUNT: usize = 0;
 
 pub trait Uniform {
-    fn apply<'a>(&self, location: raw::Location<'a>);
-    fn walk_extra<C>(&self, name: &str, consumer: &mut C) where C: UniformConsumer {
-        #![allow(unused_variables)]
-    }
+    fn apply(&self, info: &UniformInfo);
+    #[allow(unused_variables)]
+    fn walk_extra<C>(&self, name: &str, consumer: &mut C) where C: UniformConsumer {}
 }
 
 pub trait UniformConsumer {
@@ -27,42 +17,43 @@ pub trait UniformConsumer {
 }
 
 impl Uniform for f32 {
-    fn apply<'a>(&self, location: raw::Location<'a>) {
+    fn apply(&self, info: &UniformInfo) {
         unsafe {
-            gl::Uniform1f(location.location, *self);
+            gl::Uniform1f(info.location, *self);
         }
     }
 }
 
 impl Uniform for Vec2<f32> {
-    fn apply<'a>(&self, location: raw::Location<'a>) {
+    fn apply(&self, info: &UniformInfo) {
         unsafe {
-            gl::Uniform2f(location.location, self.x, self.y);
+            gl::Uniform2f(info.location, self.x, self.y);
         }
     }
 }
 
 impl Uniform for Vec2<usize> {
-    fn apply<'a>(&self, location: raw::Location<'a>) {
+    fn apply(&self, info: &UniformInfo) {
+        // TODO: should be uniform2i?
         unsafe {
-            gl::Uniform2f(location.location, self.x as f32, self.y as f32);
+            gl::Uniform2f(info.location, self.x as f32, self.y as f32);
         }
     }
 }
 
 impl Uniform for Vec3<f32> {
-    fn apply<'a>(&self, location: raw::Location<'a>) {
+    fn apply(&self, info: &UniformInfo) {
         unsafe {
-            gl::Uniform3f(location.location, self.x, self.y, self.z);
+            gl::Uniform3f(info.location, self.x, self.y, self.z);
         }
     }
 }
 
 impl Uniform for Mat4<f32> {
-    fn apply<'a>(&self, location: raw::Location<'a>) {
+    fn apply(&self, info: &UniformInfo) {
         unsafe {
             gl::UniformMatrix4fv(
-                location.location,
+                info.location,
                 1,
                 gl::FALSE,
                 self as *const Self as *const _,
@@ -72,10 +63,10 @@ impl Uniform for Mat4<f32> {
 }
 
 impl Uniform for Color {
-    fn apply<'a>(&self, location: raw::Location<'a>) {
+    fn apply(&self, info: &UniformInfo) {
         unsafe {
             gl::Uniform4f(
-                location.location,
+                info.location,
                 self.red,
                 self.green,
                 self.blue,
@@ -86,13 +77,13 @@ impl Uniform for Color {
 }
 
 impl<P: Pixel> Uniform for Texture<P> {
-    fn apply<'a>(&self, location: raw::Location<'a>) {
+    fn apply(&self, info: &UniformInfo) {
         unsafe {
-            gl::ActiveTexture(gl::TEXTURE0 + (*location.texture_count) as GLenum);
+            gl::ActiveTexture(gl::TEXTURE0 + UNIFORM_TEXTURE_COUNT as GLenum);
             gl::BindTexture(gl::TEXTURE_2D, self.handle);
-            gl::Uniform1i(location.location, (*location.texture_count) as GLint);
+            gl::Uniform1i(info.location, UNIFORM_TEXTURE_COUNT as GLint);
+            UNIFORM_TEXTURE_COUNT += 1;
         }
-        (*location.texture_count) += 1;
     }
     fn walk_extra<C>(&self, name: &str, consumer: &mut C) where C: UniformConsumer {
         consumer.consume(&(name.to_owned() + "_size"), &self.get_size());
@@ -100,8 +91,8 @@ impl<P: Pixel> Uniform for Texture<P> {
 }
 
 impl<'a, U: Uniform> Uniform for &'a U {
-    fn apply<'b>(&self, location: raw::Location<'b>) {
-        (*self).apply(location);
+    fn apply(&self, info: &UniformInfo) {
+        (*self).apply(info);
     }
     fn walk_extra<C>(&self, name: &str, consumer: &mut C) where C: UniformConsumer {
         (*self).walk_extra(name, consumer);
@@ -109,9 +100,9 @@ impl<'a, U: Uniform> Uniform for &'a U {
 }
 
 impl<U: Uniform> Uniform for Option<U> {
-    fn apply<'b>(&self, location: raw::Location<'b>) {
+    fn apply(&self, info: &UniformInfo) {
         if let Some(ref value) = *self {
-            value.apply(location);
+            value.apply(info);
         }
     }
     fn walk_extra<C>(&self, name: &str, consumer: &mut C) where C: UniformConsumer {
