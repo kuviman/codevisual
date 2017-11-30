@@ -1,17 +1,18 @@
 use ::*;
 
-#[derive(Debug, PartialEq, Eq, Copy, Clone)]
+#[derive(Debug, PartialEq, Eq, Copy, Clone, Hash)]
 pub enum WrapMode {
-    Repeat,
-    Clamp,
+    Repeat = gl::REPEAT as _,
+    Clamp = gl::CLAMP_TO_EDGE as _,
 }
 
-#[derive(Debug, PartialEq, Eq, Copy, Clone)]
+#[derive(Debug, PartialEq, Eq, Copy, Clone, Hash)]
 pub enum Filter {
-    Nearest,
-    Linear,
+    Nearest = gl::NEAREST as _,
+    Linear = gl::LINEAR as _,
 }
 
+#[derive(Debug)]
 pub struct Texture<P: Pixel> {
     pub(crate) handle: GLuint,
     size: Cell<Vec2<usize>>,
@@ -28,12 +29,6 @@ impl<P: Pixel> Drop for Texture<P> {
 
 pub type Texture2d = Texture<Color>;
 pub type DepthTexture = Texture<DepthComponent>;
-
-impl Debug for Texture2d {
-    fn fmt(&self, formatter: &mut Formatter) -> std::fmt::Result {
-        write!(formatter, "Texture2d {{ size: {:?} }}", self.size.get())
-    }
-}
 
 impl<P: Pixel> Texture<P> {
     fn new_raw(context: &Context, size: Vec2<usize>) -> Self {
@@ -78,26 +73,18 @@ impl<P: Pixel> Texture<P> {
     }
     pub fn set_wrap_mode(&mut self, wrap_mode: WrapMode) {
         assert!(self.is_pot() || wrap_mode == WrapMode::Clamp);
-        let wrap_mode = match wrap_mode {
-            WrapMode::Clamp => gl::CLAMP_TO_EDGE,
-            WrapMode::Repeat => gl::REPEAT,
-        } as GLint;
         unsafe {
             gl::BindTexture(gl::TEXTURE_2D, self.handle);
-            gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, wrap_mode);
-            gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, wrap_mode);
+            gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, wrap_mode as GLint);
+            gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, wrap_mode as GLint);
         }
     }
 
     pub fn set_filter(&mut self, filter: Filter) {
         assert!(self.is_pot() || filter == Filter::Nearest || filter == Filter::Linear);
-        let filter = match filter {
-            Filter::Nearest => gl::NEAREST,
-            Filter::Linear => gl::LINEAR,
-        } as GLint;
         unsafe {
             gl::BindTexture(gl::TEXTURE_2D, self.handle);
-            gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, filter);
+            gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, filter as GLint);
         }
     }
 
@@ -116,6 +103,7 @@ impl<P: Pixel> Texture<P> {
 
 impl Texture2d {
     pub fn gen_mipmaps(&mut self) {
+        assert!(self.is_pot());
         unsafe {
             gl::BindTexture(gl::TEXTURE_2D, self.handle);
             gl::GenerateMipmap(gl::TEXTURE_2D);
@@ -155,6 +143,7 @@ impl Texture2d {
         texture
     }
 
+    // TODO: use like Matrix<Color>?
     pub unsafe fn sub_image(&mut self, pos: Vec2<usize>, size: Vec2<usize>, data: &[u8]) {
         gl::BindTexture(gl::TEXTURE_2D, self.handle);
         gl::TexSubImage2D(gl::TEXTURE_2D,
