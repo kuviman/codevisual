@@ -23,19 +23,19 @@ pub struct ContextAttributes {
 impl ContextAttributes {
     fn from(attr: &EmscriptenWebGLContextAttributes) -> ContextAttributes {
         ContextAttributes {
-            alpha: attr.alpha == EM_TRUE,
-            depth: attr.depth == EM_TRUE,
-            stencil: attr.stencil == EM_TRUE,
-            antialias: attr.antialias == EM_TRUE,
-            premultiplied_alpha: attr.premultipliedAlpha == EM_TRUE,
-            preserve_drawing_buffer: attr.preserveDrawingBuffer == EM_TRUE,
-            prefer_low_power_to_high_performance: attr.preferLowPowerToHighPerformance == EM_TRUE,
-            fail_if_major_performance_caveat: attr.failIfMajorPerformanceCaveat == EM_TRUE,
+            alpha: attr.alpha != EM_FALSE,
+            depth: attr.depth != EM_FALSE,
+            stencil: attr.stencil != EM_FALSE,
+            antialias: attr.antialias != EM_FALSE,
+            premultiplied_alpha: attr.premultipliedAlpha != EM_FALSE,
+            preserve_drawing_buffer: attr.preserveDrawingBuffer != EM_FALSE,
+            prefer_low_power_to_high_performance: attr.preferLowPowerToHighPerformance != EM_FALSE,
+            fail_if_major_performance_caveat: attr.failIfMajorPerformanceCaveat != EM_FALSE,
             version: Version {
                 major: attr.majorVersion as i32,
                 minor: attr.minorVersion as i32,
             },
-            enable_extensions_by_default: attr.enableExtensionsByDefault == EM_TRUE,
+            enable_extensions_by_default: attr.enableExtensionsByDefault != EM_FALSE,
         }
     }
     fn into(&self) -> EmscriptenWebGLContextAttributes {
@@ -86,6 +86,13 @@ impl Context {
         match parse_html_result(result) {
             None => Ok(()),
             Some(err) => Err(err),
+        }
+    }
+
+    pub fn enable_extension(&self, extension: &str) -> bool {
+        let extension = CString::new(extension).unwrap();
+        unsafe {
+            emscripten_webgl_enable_extension(self.0, extension.as_ptr()) != EM_FALSE
         }
     }
 }

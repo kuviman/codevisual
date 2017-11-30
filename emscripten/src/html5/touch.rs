@@ -42,8 +42,8 @@ impl TouchPoint {
             screen_pos: vec2(touch.screenX as i32, touch.screenY as i32),
             client_pos: vec2(touch.clientX as i32, touch.clientY as i32),
             page_pos: vec2(touch.pageX as i32, touch.pageY as i32),
-            is_changed: touch.isChanged == EM_TRUE,
-            on_target: touch.onTarget == EM_TRUE,
+            is_changed: touch.isChanged != EM_FALSE,
+            on_target: touch.onTarget != EM_FALSE,
             target_pos: vec2(touch.targetX as i32, touch.targetY as i32),
             canvas_pos: vec2(touch.canvasX as i32, touch.canvasY as i32),
         }
@@ -62,10 +62,10 @@ pub struct TouchEvent {
 impl TouchEvent {
     fn from(event: &EmscriptenTouchEvent) -> TouchEvent {
         TouchEvent {
-            ctrl_key: event.ctrlKey == EM_TRUE,
-            shift_key: event.shiftKey == EM_TRUE,
-            alt_key: event.altKey == EM_TRUE,
-            meta_key: event.metaKey == EM_TRUE,
+            ctrl_key: event.ctrlKey != EM_FALSE,
+            shift_key: event.shiftKey != EM_FALSE,
+            alt_key: event.altKey != EM_FALSE,
+            meta_key: event.metaKey != EM_FALSE,
             touches: event.touches[..event.numTouches as usize]
                 .iter().map(|touch| TouchPoint::from(touch)).collect(),
         }
