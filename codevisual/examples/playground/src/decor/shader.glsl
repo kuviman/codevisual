@@ -31,7 +31,7 @@ uniform sampler2D u_screen_used_texture;
 uniform vec2 FRAMEBUFFER_SIZE;
 
 void main() {
-    gl_FragColor = texture2D(u_texture, vec2(v_vt.x, -v_vt.y));
+    gl_FragColor = texture2D(u_texture, v_vt);
     if (gl_FragColor.w < 0.5) {
         discard;
     }
