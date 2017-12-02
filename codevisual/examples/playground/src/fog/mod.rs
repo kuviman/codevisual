@@ -58,8 +58,8 @@ impl Fog {
                 ),
                 uniforms,
                 ugli::DrawParameters {
-                    blend_mode: ugli::BlendMode::Alpha,
-                    depth_test: ugli::DepthTest::Off,
+                    blend_mode: Some(default()),
+                    depth_func: None,
                     ..Default::default()
                 },
             );

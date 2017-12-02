@@ -18,8 +18,8 @@ impl Minimap {
             x * h / 480
         };
         let draw_parameters = ugli::DrawParameters {
-            depth_test: ugli::DepthTest::Off,
-            blend_mode: ugli::BlendMode::Alpha,
+            depth_func: None,
+            blend_mode: Some(default()),
             viewport: Some(Rect::from_corners(vec2(conv(10), conv(10)), vec2(conv(100), conv(100)))),
             ..Default::default()
         };

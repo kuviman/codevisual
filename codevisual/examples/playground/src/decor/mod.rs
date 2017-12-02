@@ -106,7 +106,7 @@ impl Decor {
             ugli::instanced(&self.geometry, self.instances.slice(..count)),
             &(uniforms, uniforms!(u_texture: &self.texture)),
             ugli::DrawParameters {
-                blend_mode: ugli::BlendMode::Alpha,
+                blend_mode: Some(default()),
                 ..Default::default()
             },
         );

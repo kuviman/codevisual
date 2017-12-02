@@ -46,9 +46,10 @@ impl Context {
 impl Context {
     pub fn init<F: Fn(&str) -> *const c_void>(&self, get_proc_address: F) {
         gl::load_with(get_proc_address);
-        #[cfg(not(target_os = "emscripten"))]
-            unsafe {
-            gl::Enable(gl::PROGRAM_POINT_SIZE);
+        unsafe {
+            gl::Enable(gl::DEPTH_TEST);
+            #[cfg(not(target_os = "emscripten"))]
+                gl::Enable(gl::PROGRAM_POINT_SIZE);
             #[cfg(target_os = "windows")]
                 gl::Enable(0x8861); // GL_POINT_SPRITE
         }

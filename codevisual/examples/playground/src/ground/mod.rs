@@ -133,7 +133,7 @@ impl Ground {
             &self.water_geometry,
             &(uniforms, &self.uniforms),
             ugli::DrawParameters {
-                blend_mode: ugli::BlendMode::Alpha,
+                blend_mode: Some(default()),
                 ..Default::default()
             },
         );

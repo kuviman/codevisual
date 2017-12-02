@@ -66,8 +66,8 @@ impl Clouds {
             &self.data,
             &(uniforms, &self.uniforms),
             ugli::DrawParameters {
-                depth_test: ugli::DepthTest::Off,
-                blend_mode: ugli::BlendMode::Alpha,
+                depth_func: None,
+                blend_mode: Some(default()),
                 ..Default::default()
             },
         );

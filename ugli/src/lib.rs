@@ -70,6 +70,10 @@ unsafe impl Pixel for DepthComponent {
     const GL_TEXTURE_TYPE: GLenum = gl::UNSIGNED_INT;
 }
 
+fn gl_bool(b: bool) -> GLboolean {
+    if b { gl::TRUE } else { gl::FALSE }
+}
+
 fn check_gl_error() {
     // TODO: text instead of just code
     assert_eq!(unsafe { gl::GetError() }, gl::NO_ERROR, "OpenGL error");

@@ -64,12 +64,8 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
           U: Uniforms,
           DP: std::borrow::Borrow<DrawParameters> {
     framebuffer.fbo.bind();
-    unsafe {
-        let size = framebuffer.get_size();
-        gl::Viewport(0, 0, size.x as GLsizei, size.y as GLsizei);
-    }
     let draw_parameters = draw_parameters.borrow();
-    draw_parameters.apply();
+    draw_parameters.apply(framebuffer.get_size());
     program.bind();
     let uniforms = (SingleUniform::new("u_framebuffer_size",
                                        vec2(framebuffer.get_size().x as f32,

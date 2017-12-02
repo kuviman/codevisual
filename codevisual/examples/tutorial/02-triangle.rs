@@ -79,7 +79,7 @@ impl codevisual::Game for Tutorial {
             &self.vertices,
             (),
             ugli::DrawParameters {
-                depth_test: ugli::DepthTest::Off,
+                depth_func: None,
                 ..Default::default()
             },
         );
