@@ -6,6 +6,6 @@ authors = ["kuviman <kuviman@gmail.com>"]
 [dependencies]
 prelude = { path = "../prelude" }
 codevisual-web = { path = "../codevisual-web" }
-open = "*"
-fs_extra = "*"
-argparse = "*"
+open = "1.2"
+fs_extra = "1.0"
+argparse = "0.2.1"

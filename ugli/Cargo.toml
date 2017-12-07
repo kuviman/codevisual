@@ -4,12 +4,12 @@ version = "0.1.0"
 authors = ["kuviman <kuviman@gmail.com>"]
 
 [dependencies]
-gl = "*"
+gl = "0.7.0"
 prelude = { path = "../prelude" }
 
 [target.'cfg(target_os = "emscripten")'.dependencies]
 webby = { path = "../webby" }
 
 [target.'cfg(not(target_os = "emscripten"))'.dependencies]
-image = "*"
-glutin = "*"
+image = "0.18.0"
+glutin = "0.11.0"

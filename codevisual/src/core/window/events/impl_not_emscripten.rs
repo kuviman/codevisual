@@ -14,7 +14,7 @@ impl Window {
                         },
                     });
                 }
-                glutin::WindowEvent::MouseMoved { position: (x, y), .. } => {
+                glutin::WindowEvent::CursorMoved { position: (x, y), .. } => {
                     let position = vec2(x as f64, y as f64);
                     self.mouse_pos.set(position);
                     events.push(Event::MouseMove { position })

@@ -8,14 +8,14 @@ prelude = { path = "../prelude" }
 ugli = { path = "../ugli" }
 codevisual-derive = { path = "../codevisual-derive" }
 serde = "1.0"
-lazy_static = "*"
+lazy_static = "1.0"
 
 [target.'cfg(not(target_os = "emscripten"))'.dependencies]
-image = "*"
-glutin = "*"
-threadpool = "*"
+image = "0.18.0"
+glutin = "0.11.0"
+threadpool = "1.7"
 num_cpus = "1.0"
-rodio = "*"
+rodio = "0.5.2"
 
 [target.'cfg(target_os = "emscripten")'.dependencies]
 webby = { path = "../webby" }

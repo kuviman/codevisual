@@ -74,7 +74,7 @@ impl Window {
         return emscripten::get_canvas_size();
         #[cfg(not(target_os = "emscripten"))]
         return {
-            let (width, height) = self.glutin_window.get_inner_size_pixels().unwrap_or((1, 1));
+            let (width, height) = self.glutin_window.get_inner_size().unwrap_or((1, 1));
             vec2(width as usize, height as usize)
         };
     }
