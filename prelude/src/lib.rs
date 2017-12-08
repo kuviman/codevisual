@@ -2,6 +2,7 @@
 
 pub extern crate rand;
 pub extern crate num;
+pub extern crate owning_ref;
 
 pub use std::rc::Rc;
 pub use std::cell::{Cell, RefCell, Ref, RefMut};
@@ -21,6 +22,8 @@ pub use std::mem;
 pub use std::thread;
 
 pub use num::{Float, Num, Integer, clamp};
+
+pub use owning_ref::{OwningRef, OwningRefMut, OwningHandle};
 
 mod color;
 mod algebra;
