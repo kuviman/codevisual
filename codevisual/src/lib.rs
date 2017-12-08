@@ -6,6 +6,7 @@ extern crate image;
 extern crate rodio;
 #[cfg(not(target_os = "emscripten"))]
 extern crate glutin;
+extern crate rusttype;
 extern crate serde;
 #[allow(unused_imports)]
 #[macro_use]

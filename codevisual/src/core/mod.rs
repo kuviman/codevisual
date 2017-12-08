@@ -5,12 +5,14 @@ mod material;
 mod resources;
 mod settings;
 mod sound;
+mod font;
 
 pub use self::material::*;
 pub use self::window::*;
 pub use self::resources::*;
 pub use self::settings::*;
 pub use self::sound::*;
+pub use self::font::*;
 
 pub struct Application {
     window: Window,
