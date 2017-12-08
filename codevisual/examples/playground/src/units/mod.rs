@@ -77,7 +77,7 @@ pub struct Units {
 
 impl Units {
     pub fn new(
-        app: &codevisual::Application,
+        app: &codevisual::App,
         settings: &Rc<RefCell<Settings>>,
         unit_type: UnitType,
         geometry: obj::Geometry,
@@ -177,7 +177,7 @@ struct QuadVertex {
 }
 
 pub struct AllUnits {
-    app: Rc<codevisual::Application>,
+    app: Rc<codevisual::App>,
     current_time: f32,
     next_action: f32,
     pub cars: Units,
@@ -190,7 +190,7 @@ pub struct AllUnits {
 
 impl AllUnits {
     pub fn new(
-        app: &Rc<codevisual::Application>,
+        app: &Rc<codevisual::App>,
         resources: Resources,
         settings: &Rc<RefCell<Settings>>,
     ) -> Self {

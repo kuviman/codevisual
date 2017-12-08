@@ -7,7 +7,7 @@ struct Tutorial;
 
 impl codevisual::Game for Tutorial {
     type Resources = ();
-    fn new(_: &Rc<codevisual::Application>, _: ()) -> Self {
+    fn new(_: &Rc<codevisual::App>, _: ()) -> Self {
         Self {}
     }
     fn get_title() -> String {

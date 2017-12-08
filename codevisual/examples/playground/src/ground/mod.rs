@@ -47,7 +47,7 @@ fn repeatable(mut texture: ugli::Texture2d) -> ugli::Texture2d {
 
 impl Ground {
     pub fn new(
-        app: &codevisual::Application,
+        app: &codevisual::App,
         resources: Resources,
         settings: &Rc<RefCell<Settings>>,
     ) -> Self {

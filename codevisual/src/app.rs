@@ -8,7 +8,7 @@ pub trait Game: 'static {
     fn get_help_html() -> String {
         String::from("No help")
     }
-    fn new(app: &Rc<Application>, resources: Self::Resources) -> Self;
+    fn new(app: &Rc<App>, resources: Self::Resources) -> Self;
     fn update(&mut self, delta_time: f64) {
         #![allow(unused_variables)]
     }
@@ -18,11 +18,11 @@ pub trait Game: 'static {
     }
 }
 
-pub struct Application {
+pub struct App {
     window: Window,
 }
 
-impl Application {
+impl App {
     fn new(title: &str) -> Self {
         #[cfg(target_os = "emscripten")]
             {
@@ -45,7 +45,7 @@ impl Application {
             js! {
             CodeVisual.internal.init();
         };
-        Application {
+        App {
             window: Window::new(title),
         }
     }
@@ -60,7 +60,7 @@ impl Application {
 }
 
 pub fn run<G: Game>() {
-    let app = Rc::new(Application::new(&G::get_title()));
+    let app = Rc::new(App::new(&G::get_title()));
     #[cfg(not(target_os = "emscripten"))]
     let app_clone = app.clone();
 

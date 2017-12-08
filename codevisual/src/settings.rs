@@ -75,10 +75,10 @@ impl webby::IntoJson for Setting {
 }
 
 pub trait Settings {
-    fn register(app: &Application) -> Rc<RefCell<Self>>;
+    fn register(app: &App) -> Rc<RefCell<Self>>;
 }
 
-impl Application {
+impl App {
     pub fn add_setting(&self, setting: Setting) {
         #[cfg(target_os = "emscripten")]
         js! {

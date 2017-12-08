@@ -38,7 +38,7 @@ struct Decor {
 
 impl Decor {
     pub fn new(
-        app: &codevisual::Application,
+        app: &codevisual::App,
         settings: &Rc<RefCell<Settings>>,
         geometry: ugli::VertexBuffer<Vertex>,
         texture: ugli::Texture2d,
@@ -121,7 +121,7 @@ pub struct AllDecor {
 
 impl AllDecor {
     pub fn new(
-        app: &codevisual::Application,
+        app: &codevisual::App,
         resources: Resources,
         map_texture: &ugli::Texture2d,
         settings: &Rc<RefCell<Settings>>,

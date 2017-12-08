@@ -9,7 +9,7 @@ mod texture;
 pub use self::texture::*;
 
 pub struct ResourceLoader {
-    app: Rc<Application>,
+    app: Rc<App>,
     resource_count: Cell<usize>,
     loaded_count: Arc<AtomicCell<usize>>,
     #[cfg(not(target_os = "emscripten"))]
@@ -17,14 +17,14 @@ pub struct ResourceLoader {
 }
 
 impl Deref for ResourceLoader {
-    type Target = Rc<Application>;
+    type Target = Rc<App>;
     fn deref(&self) -> &Self::Target {
         &self.app
     }
 }
 
 impl ResourceLoader {
-    pub ( crate ) fn new(app: &Rc<Application>) -> Self {
+    pub ( crate ) fn new(app: &Rc<App>) -> Self {
         Self {
             app: app.clone(),
             resource_count: Cell::new(1),

@@ -9,7 +9,7 @@ pub struct VertexData {
 
 pub type Geometry = ugli::VertexBuffer<VertexData>;
 
-pub fn parse(app: &codevisual::Application, source: &str) -> Geometry {
+pub fn parse(app: &codevisual::App, source: &str) -> Geometry {
     let mut v = Vec::new();
     let mut vn = Vec::new();
     let mut vt = Vec::new();

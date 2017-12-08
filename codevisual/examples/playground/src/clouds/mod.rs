@@ -26,7 +26,7 @@ pub struct Clouds {
 
 impl Clouds {
     pub fn new(
-        app: &Rc<codevisual::Application>,
+        app: &Rc<codevisual::App>,
         resources: Resources
     ) -> Self {
         let mut data = Vec::new();

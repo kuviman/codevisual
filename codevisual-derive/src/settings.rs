@@ -84,7 +84,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
     });
     let result = quote! {
         impl#impl_generics ::codevisual::Settings for #input_type#ty_generics #where_clause {
-            fn register(app: &::codevisual::Application) -> ::std::rc::Rc<::std::cell::RefCell<Self>> {
+            fn register(app: &::codevisual::App) -> ::std::rc::Rc<::std::cell::RefCell<Self>> {
                 let settings = ::std::rc::Rc::new(::std::cell::RefCell::new(
                     Self {
                         #(#field_names: #field_defaults,)*

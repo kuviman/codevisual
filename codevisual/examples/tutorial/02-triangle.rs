@@ -35,7 +35,7 @@ void main() {
 
 impl codevisual::Game for Tutorial {
     type Resources = ();
-    fn new(app: &Rc<codevisual::Application>, _: ()) -> Self {
+    fn new(app: &Rc<codevisual::App>, _: ()) -> Self {
         let context = app.ugli_context();
 
         Tutorial {

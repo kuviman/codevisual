@@ -12,7 +12,7 @@ pub struct Uniforms {
 }
 
 pub struct Fog {
-    app: Rc<codevisual::Application>,
+    app: Rc<codevisual::App>,
     quad: ugli::VertexBuffer<QuadVertex>,
     material: codevisual::Material<ShaderLib>,
     pub uniforms: Uniforms,
@@ -20,7 +20,7 @@ pub struct Fog {
 }
 
 impl Fog {
-    pub fn new(app: &Rc<codevisual::Application>, settings: &Rc<RefCell<Settings>>) -> Self {
+    pub fn new(app: &Rc<codevisual::App>, settings: &Rc<RefCell<Settings>>) -> Self {
         let context = app.ugli_context();
 
         Self {

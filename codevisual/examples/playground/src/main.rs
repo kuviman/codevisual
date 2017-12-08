@@ -60,7 +60,7 @@ pub struct GlobalUniforms {
 }
 
 pub struct Playground {
-    app: Rc<codevisual::Application>,
+    app: Rc<codevisual::App>,
 
     fog: fog::Fog,
     units: Units,
@@ -100,7 +100,7 @@ impl codevisual::Game for Playground {
         String::from("CodeVisual Playground")
     }
 
-    fn new(app: &Rc<codevisual::Application>, resources: Resources) -> Self {
+    fn new(app: &Rc<codevisual::App>, resources: Resources) -> Self {
         app.window().set_cursor_type(
             codevisual::CursorType::Pointer,
         );

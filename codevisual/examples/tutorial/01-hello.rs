@@ -9,7 +9,7 @@ struct Tutorial {
 
 impl codevisual::Game for Tutorial {
     type Resources = ();
-    fn new(app: &Rc<codevisual::Application>, _: ()) -> Self {
+    fn new(app: &Rc<codevisual::App>, _: ()) -> Self {
         Self { font: codevisual::Font::default(app.ugli_context()) }
     }
     fn get_title() -> String {
