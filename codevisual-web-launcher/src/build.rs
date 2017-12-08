@@ -81,27 +81,30 @@ pub fn build(options: &Options) {
     if let Some(ref path) = options.static_path {
         copy_dir_contents(path, &target_dir);
     }
-    let target_exe = if let Some(_) = options.example {
+    let target_js = if let Some(_) = options.example {
         build_dir.join("examples").join(format!("{}.js", target_name))
     } else {
         build_dir.join(format!("{}.js", target_name))
     };
-    fs::copy(target_exe, target_dir.join("code.js")).unwrap();
+    fs::copy(target_js, target_dir.join("code.js")).unwrap();
     if options.target == "wasm32" {
-        let mut wasm_path = None;
+        let mut target_wasm: Option<std::path::PathBuf> = None;
         let wasm_dir = if let Some(_) = options.example { "examples" } else { "deps" };
         for entry in fs::read_dir(build_dir.join(wasm_dir)).unwrap() {
             let entry = entry.unwrap();
             if entry.file_type().unwrap().is_file() {
-                if let Some(ext) = entry.path().extension() {
-                    if ext == "wasm" {
-                        assert!(wasm_path.is_none(), "Multiple .wasm files");
-                        wasm_path = Some(entry.path());
+                let path = entry.path();
+                if let Some(ext) = path.extension() {
+                    let file_name = path.file_name().unwrap().to_str().unwrap();
+                    if ext == "wasm" && file_name.starts_with(&target_name) {
+                        assert!(target_wasm.is_none(), "Multiple .wasm files ({:?} and {:?})",
+                                target_wasm.unwrap().file_name().unwrap(), file_name);
+                        target_wasm = Some(path.clone());
                     }
                 }
             }
         }
-        let wasm_path = wasm_path.unwrap();
-        fs::copy(&wasm_path, target_dir.join(wasm_path.file_name().unwrap())).unwrap();
+        let target_wasm = target_wasm.unwrap();
+        fs::copy(&target_wasm, target_dir.join(target_wasm.file_name().unwrap())).unwrap();
     }
 }
