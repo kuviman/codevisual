@@ -24,14 +24,12 @@ pub extern crate webby;
 #[macro_use]
 extern crate codevisual_derive;
 
-mod core;
-
 pub(crate) use prelude::*;
 pub use codevisual_derive::*;
 #[cfg(target_os = "emscripten")]
 pub(crate) use webby::emscripten;
-pub use core::*;
 
+// TODO: should be in ugli, but macro reexport is not there yet
 #[macro_export]
 macro_rules! uniforms {
     () => {
@@ -81,25 +79,18 @@ macro_rules! impl_shader_library {
     }
 }
 
-// Reimplement web macros, since macro_reexport is not stable
-mod web_macros {
-    #[macro_export]
-    macro_rules! format_placeholders {
-        () => ("");
-        ($arg:expr) => ("{}");
-        ($head:expr, $($tail:expr),+) => (
-            concat!("{},", format_placeholders!($($tail),+))
-        )
-    }
+mod app;
+mod window;
+mod material;
+mod resources;
+mod settings;
+mod sound;
+mod font;
 
-    #[macro_export]
-    macro_rules! run_js {
-        ($($($f:ident).+ ( $($args:expr),* );)*) => (
-            $(
-                $crate::webby::run_script(&format!(
-                    concat!(stringify!($($f).+), "(", format_placeholders!($($args),*), ")"),
-                    $($crate::webby::IntoJson::into_json($args)),*));
-            )*
-        )
-    }
-}
+pub use self::app::*;
+pub use self::material::*;
+pub use self::window::*;
+pub use self::resources::*;
+pub use self::settings::*;
+pub use self::sound::*;
+pub use self::font::*;
