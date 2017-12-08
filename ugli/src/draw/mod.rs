@@ -4,8 +4,6 @@ mod parameters;
 
 pub use self::parameters::*;
 
-static mut SYNC_DRAW: bool = false;
-
 pub enum DrawMode {
     Points,
     Lines {
@@ -49,9 +47,6 @@ pub fn clear(framebuffer: &mut Framebuffer,
     unsafe {
         gl::Clear(flags);
     }
-    if unsafe { SYNC_DRAW } {
-        sync();
-    }
 }
 
 pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
@@ -67,10 +62,7 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
     let draw_parameters = draw_parameters.borrow();
     draw_parameters.apply(framebuffer.get_size());
     program.bind();
-    let uniforms = (SingleUniform::new("u_framebuffer_size",
-                                       vec2(framebuffer.get_size().x as f32,
-                                            framebuffer.get_size().y as f32)),
-                    uniforms);
+    let uniforms = (SingleUniform::new("u_framebuffer_size", framebuffer.get_size()), uniforms);
     unsafe { UNIFORM_TEXTURE_COUNT = 0; }
     uniforms.walk_uniforms(&mut UC {
         program,
@@ -140,9 +132,8 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
             gl::DrawArrays(gl_mode, 0, vertex_count as GLsizei);
         }
     }
-    if unsafe { SYNC_DRAW } {
-        sync();
-    }
+
+    check_gl_error();
 
     struct UC<'a> {
         program: &'a Program,

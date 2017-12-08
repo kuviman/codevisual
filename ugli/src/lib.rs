@@ -78,10 +78,3 @@ fn check_gl_error() {
     // TODO: text instead of just code
     assert_eq!(unsafe { gl::GetError() }, gl::NO_ERROR, "OpenGL error");
 }
-
-fn sync() {
-    check_gl_error();
-    unsafe {
-        gl::Finish();
-    }
-}

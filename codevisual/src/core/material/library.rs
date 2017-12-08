@@ -59,7 +59,7 @@ impl<'a> PreprocessedShader<'a> {
                 self.sources.push("\n");
                 if line.starts_with("uniform sampler2D ") && line.ends_with(';') {
                     let name = &line["uniform sampler2D ".len()..line.len() - ";".len()];
-                    self.sources.push("uniform vec2 ");
+                    self.sources.push("uniform ivec2 ");
                     self.sources.push(name);
                     self.sources.push("_size;\n");
                 }

@@ -34,9 +34,8 @@ impl Uniform for Vec2<f32> {
 
 impl Uniform for Vec2<usize> {
     fn apply(&self, info: &UniformInfo) {
-        // TODO: should be uniform2i?
         unsafe {
-            gl::Uniform2f(info.location, self.x as f32, self.y as f32);
+            gl::Uniform2i(info.location, self.x as GLint, self.y as GLint);
         }
     }
 }
