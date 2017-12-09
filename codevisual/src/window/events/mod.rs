@@ -73,6 +73,8 @@ pub enum Key {
 
     Escape,
     Space,
+    Enter,
+    Backspace,
 
     LShift,
     RShift,

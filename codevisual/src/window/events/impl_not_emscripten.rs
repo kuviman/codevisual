@@ -102,6 +102,8 @@ fn from_glutin_key(key: glutin::VirtualKeyCode) -> Key {
 
         GKey::Escape => Key::Escape,
         GKey::Space => Key::Space,
+        GKey::Return => Key::Enter,
+        GKey::Back => Key::Backspace,
 
         GKey::LShift => Key::LShift,
         GKey::RShift => Key::RShift,

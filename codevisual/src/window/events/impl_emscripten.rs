@@ -43,6 +43,8 @@ fn convert_key(code: &str) -> Key {
 
         "Escape" => Escape,
         "Space" => Space,
+        "Enter" => Enter,
+        "Backspace" => Backspace,
 
         "ShiftLeft" => LShift,
         "ShiftRight" => RShift,
