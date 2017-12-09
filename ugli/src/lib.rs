@@ -8,6 +8,11 @@ extern crate webby;
 extern crate image;
 #[cfg(not(target_os = "emscripten"))]
 extern crate glutin;
+#[allow(unused_imports)]
+#[macro_use]
+extern crate ugli_derive;
+
+pub use ugli_derive::*;
 
 pub(crate) use prelude::*;
 pub(crate) use gl::types::*;
@@ -77,4 +82,20 @@ fn gl_bool(b: bool) -> GLboolean {
 fn check_gl_error() {
     // TODO: text instead of just code
     assert_eq!(unsafe { gl::GetError() }, gl::NO_ERROR, "OpenGL error");
+}
+
+#[macro_export]
+macro_rules! uniforms {
+    () => {
+        ()
+    };
+    ($name:ident : $value:expr) => {
+        $crate::SingleUniform::new(stringify!($name), $value)
+    };
+    ($name:ident : $value:expr, $($names:ident : $values:expr),+) => {
+        (uniforms!($name : $value), uniforms!($($names : $values),+))
+    };
+    ($($name:ident : $value:expr),*,) => {
+        uniforms!($($name : $value),*)
+    }
 }

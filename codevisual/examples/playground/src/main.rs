@@ -1,36 +1,25 @@
 #[macro_use]
 extern crate codevisual;
+#[macro_use]
+extern crate ugli;
 
-pub ( crate ) use codevisual::prelude::*;
-pub ( crate ) use codevisual::ugli;
+pub(crate) use codevisual::prelude::*;
 
 mod obj;
-
 mod ground;
-
-use ground::Ground;
-
 mod units;
-
-use units::AllUnits as Units;
-
 mod decor;
-
-use decor::AllDecor as Decor;
-
 mod clouds;
-
-use clouds::Clouds;
-
 mod settings;
-
-pub ( crate ) use settings::*;
-
 mod fog;
-
 mod minimap;
 
-pub ( crate ) use minimap::*;
+use ground::Ground;
+use units::AllUnits as Units;
+use decor::AllDecor as Decor;
+use clouds::Clouds;
+pub(crate) use settings::*;
+pub(crate) use minimap::*;
 
 struct ShaderLib;
 
@@ -317,6 +306,6 @@ impl codevisual::Game for Playground {
 
 fn main() {
     #[cfg(not(target_os = "emscripten"))]
-    std::env::set_current_dir("codevisual/examples/playground/static").unwrap();
+        std::env::set_current_dir("codevisual/examples/playground/static").unwrap();
     codevisual::run::<Playground>();
 }

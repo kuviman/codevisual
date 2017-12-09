@@ -16,7 +16,7 @@ extern crate threadpool;
 #[cfg(not(target_os = "emscripten"))]
 extern crate num_cpus;
 pub extern crate prelude;
-pub extern crate ugli;
+extern crate ugli;
 #[cfg(target_os = "emscripten")]
 #[macro_use]
 pub extern crate webby;
@@ -28,23 +28,6 @@ pub(crate) use prelude::*;
 pub use codevisual_derive::*;
 #[cfg(target_os = "emscripten")]
 pub(crate) use webby::emscripten;
-
-// TODO: should be in ugli, but macro reexport is not there yet
-#[macro_export]
-macro_rules! uniforms {
-    () => {
-        ()
-    };
-    ($name:ident : $value:expr) => {
-        $crate::ugli::SingleUniform::new(stringify!($name), $value)
-    };
-    ($name:ident : $value:expr, $($names:ident : $values:expr),+) => {
-        (uniforms!($name : $value), uniforms!($($names : $values),+))
-    };
-    ($($name:ident : $value:expr),*,) => {
-        uniforms!($($name : $value),*)
-    }
-}
 
 #[macro_export]
 macro_rules! defines {

@@ -6,6 +6,7 @@ authors = ["kuviman <kuviman@gmail.com>"]
 [dependencies]
 gl = "0.7.0"
 prelude = { path = "../prelude" }
+ugli-derive = { path = "../ugli-derive" }
 
 [target.'cfg(target_os = "emscripten")'.dependencies]
 webby = { path = "../webby" }

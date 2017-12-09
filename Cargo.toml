@@ -8,6 +8,7 @@ members = [
     "emscripten-sys",
     "prelude",
     "ugli",
+    "ugli-derive",
     "web-build",
     "webby",
     "webby-macro"]

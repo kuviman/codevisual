@@ -12,25 +12,18 @@ pub(crate) use proc_macro::TokenStream;
 pub(crate) use quote::Tokens;
 pub(crate) use syn::{Body, Ident, Field, VariantData, DeriveInput};
 
-mod resources;
+mod uniforms;
 
-#[proc_macro_derive(Resources, attributes(path))]
-pub fn derive_resources(input: TokenStream) -> TokenStream {
-    resources::derive(input)
+#[proc_macro_derive(Uniforms)]
+pub fn derive_uniforms(input: TokenStream) -> TokenStream {
+    uniforms::derive(input)
 }
 
-mod settings;
+mod vertex;
 
-#[proc_macro_derive(Settings, attributes(setting))]
-pub fn derive_settings(input: TokenStream) -> TokenStream {
-    settings::derive(input)
-}
-
-mod shader_defines;
-
-#[proc_macro_derive(ShaderDefines)]
-pub fn derive_shader_defines(input: TokenStream) -> TokenStream {
-    shader_defines::derive(input)
+#[proc_macro_derive(Vertex)]
+pub fn derive_vertex(input: TokenStream) -> TokenStream {
+    vertex::derive(input)
 }
 
 fn simple_derive(input: TokenStream, typ: syn::Path, expand: fn(&DeriveInput) -> Tokens) -> TokenStream {

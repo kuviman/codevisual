@@ -1,8 +1,9 @@
 #[macro_use]
 extern crate codevisual;
+#[macro_use]
+extern crate ugli;
 
 use codevisual::prelude::*;
-use codevisual::ugli;
 
 #[derive(Vertex)]
 struct Vertex {

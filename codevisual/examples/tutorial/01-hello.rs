@@ -1,7 +1,7 @@
 extern crate codevisual;
+extern crate ugli;
 
 use codevisual::prelude::*;
-use codevisual::ugli;
 
 struct Tutorial {
     font: Rc<codevisual::Font>,
