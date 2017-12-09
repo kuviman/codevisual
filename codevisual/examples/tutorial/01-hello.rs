@@ -22,11 +22,13 @@ impl codevisual::Game for Tutorial {
             None,
         );
         let framebuffer_size = framebuffer.get_size();
-        let center = vec2(framebuffer_size.x as f32, framebuffer_size.y as f32) / 2.0;
-        const HELLO: &str = "Hello, World! :)";
-        const TEXT_SIZE: f32 = 64.0;
-        let pos = center - vec2(self.font.measure(HELLO, TEXT_SIZE).unwrap().width() / 2.0, 0.0);
-        self.font.draw(framebuffer, HELLO, pos, TEXT_SIZE, Color::BLACK);
+        self.font.draw_aligned(
+            framebuffer,
+            "Hello, World! :)",
+            vec2(framebuffer_size.x as f32, framebuffer_size.y as f32) / 2.0,
+            0.5,
+            64.0,
+            Color::BLACK);
     }
 }
 

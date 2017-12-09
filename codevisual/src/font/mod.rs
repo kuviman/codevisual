@@ -149,4 +149,10 @@ impl Font {
                        ..default()
                    });
     }
+    pub fn draw_aligned(&self, framebuffer: &mut ugli::Framebuffer,
+                        text: &str, pos: Vec2<f32>, align: f32, size: f32, color: Color) {
+        if let Some(rect) = self.measure(text, size) {
+            self.draw(framebuffer, text, vec2(pos.x - rect.width() * align, pos.y), size, color);
+        }
+    }
 }
