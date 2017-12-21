@@ -24,4 +24,9 @@ impl<T: Num + Copy + PartialOrd> Rect<T> {
     pub fn size(&self) -> Vec2<T> {
         vec2(self.width(), self.height())
     }
+
+    pub fn contains(&self, point: Vec2<T>) -> bool {
+        self.bottom_left.x <= point.x && point.x < self.top_right.x &&
+            self.bottom_left.y <= point.y && point.y < self.top_right.y
+    }
 }
