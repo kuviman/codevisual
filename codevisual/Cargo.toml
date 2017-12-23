@@ -20,19 +20,3 @@ rodio = "0.5.2"
 
 [target.'cfg(target_os = "emscripten")'.dependencies]
 webby = { path = "../webby" }
-
-[[example]]
-name = "playground"
-path = "examples/playground/src/main.rs"
-
-[[example]]
-name = "tutorial_01"
-path = "examples/tutorial/01-hello.rs"
-
-[[example]]
-name = "tutorial_02"
-path = "examples/tutorial/02-triangle.rs"
-
-[[example]]
-name = "tutorial_03"
-path = "examples/tutorial/03-events.rs"
