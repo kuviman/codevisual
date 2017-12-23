@@ -10,8 +10,8 @@ fn expand(input: &DeriveInput) -> Tokens {
             let field_names = fields.iter().map(|field| field.ident.as_ref().unwrap());
             let field_names_copy = fields.iter().map(|field| field.ident.as_ref().unwrap());
             quote! {
-                    fn walk_uniforms<C>(&self, consumer: &mut C) where C: ::ugli::UniformConsumer {
-                        #(consumer.consume(stringify!(#field_names_copy), &self.#field_names));*
+                    fn walk_uniforms<C>(&self, visitor: &mut C) where C: ::ugli::UniformVisitor {
+                        #(visitor.visit(stringify!(#field_names_copy), &self.#field_names));*
                     }
                 }
         }

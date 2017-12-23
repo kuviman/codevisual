@@ -6,48 +6,48 @@ mod buffer;
 
 pub use self::buffer::*;
 
-pub trait VertexAttributeConsumer {
-    fn consume<A: VertexAttribute>(&mut self, name: &str, attribute: &A);
+pub trait VertexAttributeVisitor {
+    fn visit<A: VertexAttribute>(&mut self, name: &str, attribute: &A);
 }
 
 pub trait Vertex {
-    fn walk_attributes<C>(&self, consumer: C)
+    fn walk_attributes<C>(&self, visitor: C)
         where
-            C: VertexAttributeConsumer;
+            C: VertexAttributeVisitor;
 }
 
-pub trait VertexDataConsumer {
-    fn consume<'a, T: Vertex + 'a, D: IntoVertexBufferSlice<'a, T>>(&mut self, data: D, divisor: Option<usize>);
+pub trait VertexDataVisitor {
+    fn visit<'a, T: Vertex + 'a, D: IntoVertexBufferSlice<'a, T>>(&mut self, data: D, divisor: Option<usize>);
 }
 
 pub trait VertexDataSource {
-    fn walk_data<C>(&self, consumer: C)
+    fn walk_data<C>(&self, visitor: C)
         where
-            C: VertexDataConsumer;
+            C: VertexDataVisitor;
 }
 
 impl<'a, S: VertexDataSource> VertexDataSource for &'a S {
-    fn walk_data<C>(&self, consumer: C) where
-        C: VertexDataConsumer {
-        (*self).walk_data(consumer);
+    fn walk_data<C>(&self, visitor: C) where
+        C: VertexDataVisitor {
+        (*self).walk_data(visitor);
     }
 }
 
 impl<'a, T: Vertex + 'a> VertexDataSource for &'a VertexBuffer<T> {
-    fn walk_data<C>(&self, mut consumer: C)
+    fn walk_data<C>(&self, mut visitor: C)
         where
-            C: VertexDataConsumer,
+            C: VertexDataVisitor,
     {
-        consumer.consume(*self, None);
+        visitor.visit(*self, None);
     }
 }
 
 impl<'a, T: Vertex + 'a> VertexDataSource for VertexBufferSlice<'a, T> {
-    fn walk_data<C>(&self, mut consumer: C)
+    fn walk_data<C>(&self, mut visitor: C)
         where
-            C: VertexDataConsumer,
+            C: VertexDataVisitor,
     {
-        consumer.consume(self, None);
+        visitor.visit(self, None);
     }
 }
 
@@ -61,12 +61,12 @@ impl<'a, V, I> VertexDataSource for InstancedVertexDataSource<'a, V, I>
         V: Vertex + 'a,
         I: Vertex + 'a,
 {
-    fn walk_data<C>(&self, mut consumer: C)
+    fn walk_data<C>(&self, mut visitor: C)
         where
-            C: VertexDataConsumer,
+            C: VertexDataVisitor,
     {
-        consumer.consume(&self.vertices, None);
-        consumer.consume(&self.instances, Some(1));
+        visitor.visit(&self.vertices, None);
+        visitor.visit(&self.instances, Some(1));
     }
 }
 

@@ -8,9 +8,9 @@ struct Vertex {
 
 // TODO: derive should be in ugli-derive instead of codevisual-derive
 impl ugli::Vertex for Vertex {
-    fn walk_attributes<C: ugli::VertexAttributeConsumer>(&self, mut consumer: C) {
-        consumer.consume("a_pos", &self.a_pos);
-        consumer.consume("a_vt", &self.a_vt);
+    fn walk_attributes<C: ugli::VertexAttributeVisitor>(&self, mut visitor: C) {
+        visitor.visit("a_pos", &self.a_pos);
+        visitor.visit("a_vt", &self.a_vt);
     }
 }
 

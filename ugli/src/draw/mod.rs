@@ -138,8 +138,8 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
     struct UC<'a> {
         program: &'a Program,
     }
-    impl<'a> UniformConsumer for UC<'a> {
-        fn consume<U: Uniform>(&mut self, name: &str, uniform: &U) {
+    impl<'a> UniformVisitor for UC<'a> {
+        fn visit<U: Uniform>(&mut self, name: &str, uniform: &U) {
             if let Some(uniform_info) = self.program.uniforms.get(name) {
                 uniform.apply(uniform_info);
             }
@@ -184,8 +184,8 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
         vertex_count: &'a mut Option<usize>,
         instance_count: &'a mut Option<usize>,
     }
-    impl<'a> VertexDataConsumer for VDC<'a> {
-        fn consume<'b, D: Vertex + 'b, T: IntoVertexBufferSlice<'b, D>>(&mut self, data: T, divisor: Option<usize>) {
+    impl<'a> VertexDataVisitor for VDC<'a> {
+        fn visit<'b, D: Vertex + 'b, T: IntoVertexBufferSlice<'b, D>>(&mut self, data: T, divisor: Option<usize>) {
             let data = data.into_slice();
             if let Some(divisor) = divisor {
                 let instance_count = data.len() * divisor;
@@ -216,8 +216,8 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
                 divisor: Option<usize>,
                 program: &'a Program,
             }
-            impl<'a, D: Vertex> VertexAttributeConsumer for VAC<'a, D> {
-                fn consume<A: VertexAttribute>(&mut self, name: &str, attribute: &A) {
+            impl<'a, D: Vertex> VertexAttributeVisitor for VAC<'a, D> {
+                fn visit<A: VertexAttribute>(&mut self, name: &str, attribute: &A) {
                     if let Some(attribute_info) = self.program.attributes.get(name) {
                         let offset = self.offset + attribute as *const _ as usize -
                             self.sample as *const _ as usize;

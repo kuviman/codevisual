@@ -9,11 +9,11 @@ pub(crate) static mut UNIFORM_TEXTURE_COUNT: usize = 0;
 pub trait Uniform {
     fn apply(&self, info: &UniformInfo);
     #[allow(unused_variables)]
-    fn walk_extra<C>(&self, name: &str, consumer: &mut C) where C: UniformConsumer {}
+    fn walk_extra<C>(&self, name: &str, visitor: &mut C) where C: UniformVisitor {}
 }
 
-pub trait UniformConsumer {
-    fn consume<U: Uniform>(&mut self, name: &str, uniform: &U);
+pub trait UniformVisitor {
+    fn visit<U: Uniform>(&mut self, name: &str, uniform: &U);
 }
 
 impl Uniform for f32 {
@@ -84,8 +84,8 @@ impl<P: Pixel> Uniform for Texture<P> {
             UNIFORM_TEXTURE_COUNT += 1;
         }
     }
-    fn walk_extra<C>(&self, name: &str, consumer: &mut C) where C: UniformConsumer {
-        consumer.consume(&(name.to_owned() + "_size"), &self.get_size());
+    fn walk_extra<C>(&self, name: &str, visitor: &mut C) where C: UniformVisitor {
+        visitor.visit(&(name.to_owned() + "_size"), &self.get_size());
     }
 }
 
@@ -93,8 +93,8 @@ impl<'a, U: Uniform> Uniform for &'a U {
     fn apply(&self, info: &UniformInfo) {
         (*self).apply(info);
     }
-    fn walk_extra<C>(&self, name: &str, consumer: &mut C) where C: UniformConsumer {
-        (*self).walk_extra(name, consumer);
+    fn walk_extra<C>(&self, name: &str, visitor: &mut C) where C: UniformVisitor {
+        (*self).walk_extra(name, visitor);
     }
 }
 
@@ -104,9 +104,9 @@ impl<U: Uniform> Uniform for Option<U> {
             value.apply(info);
         }
     }
-    fn walk_extra<C>(&self, name: &str, consumer: &mut C) where C: UniformConsumer {
+    fn walk_extra<C>(&self, name: &str, visitor: &mut C) where C: UniformVisitor {
         if let Some(ref value) = *self {
-            value.walk_extra(name, consumer);
+            value.walk_extra(name, visitor);
         }
     }
 }
