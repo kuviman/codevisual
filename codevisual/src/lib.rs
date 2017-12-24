@@ -16,6 +16,7 @@ extern crate threadpool;
 #[cfg(not(target_os = "emscripten"))]
 extern crate num_cpus;
 pub extern crate prelude;
+#[macro_use]
 extern crate ugli;
 #[cfg(target_os = "emscripten")]
 #[macro_use]

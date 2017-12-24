@@ -142,7 +142,10 @@ impl Font {
                    &self.material.ugli_program(),
                    ugli::DrawMode::Triangles,
                    &*geometry,
-                   ugli::SingleUniform::new("u_color", color),
+                   uniforms! {
+                       u_color: color,
+                       u_cache_texture: &*self.cache_texture.borrow(),
+                   },
                    ugli::DrawParameters {
                        depth_func: None,
                        blend_mode: Some(ugli::BlendMode::Alpha),
