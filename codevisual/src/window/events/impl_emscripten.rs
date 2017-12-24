@@ -193,14 +193,15 @@ fn init_events() -> emscripten::HtmlResult<Arc<Mutex<Vec<Event>>>> {
             true
         }
     })?;
-    emscripten::set_key_down_callback(emscripten::Selector::Canvas, true, {
+    // TODO: Should use canvas selector
+    emscripten::set_key_down_callback(emscripten::Selector::Document, true, {
         let events = events.clone();
         move |typ, event| {
             events.lock().unwrap().push((typ, event).into());
             true
         }
     })?;
-    emscripten::set_key_up_callback(emscripten::Selector::Canvas, true, {
+    emscripten::set_key_up_callback(emscripten::Selector::Document, true, {
         let events = events.clone();
         move |typ, event| {
             events.lock().unwrap().push((typ, event).into());
