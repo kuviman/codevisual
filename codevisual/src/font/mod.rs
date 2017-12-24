@@ -144,7 +144,7 @@ impl Font {
                    &*geometry,
                    uniforms! {
                        u_color: color,
-                       u_cache_texture: &*self.cache_texture.borrow(),
+                       u_cache_texture: &*cache_texture,
                    },
                    ugli::DrawParameters {
                        depth_func: None,
