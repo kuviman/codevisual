@@ -133,6 +133,12 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
         }
     }
 
+    for attribute_info in program.attributes.values() {
+        unsafe {
+            gl::DisableVertexAttribArray(attribute_info.location);
+        }
+    }
+
     check_gl_error();
 
     struct UC<'a> {
