@@ -63,7 +63,7 @@ impl Window {
     pub fn swap_buffers(&self) {
         // ugli::sync();
         #[cfg(not(target_os = "emscripten"))]
-        return {
+            return {
             use glutin::GlContext;
             self.glutin_window.swap_buffers().unwrap();
         };
@@ -71,9 +71,9 @@ impl Window {
 
     pub fn get_size(&self) -> Vec2<usize> {
         #[cfg(target_os = "emscripten")]
-        return emscripten::get_canvas_size();
+            return emscripten::get_canvas_size();
         #[cfg(not(target_os = "emscripten"))]
-        return {
+            return {
             let (width, height) = self.glutin_window.get_inner_size().unwrap_or((1, 1));
             vec2(width as usize, height as usize)
         };
@@ -97,6 +97,9 @@ impl Window {
                 }
                 Event::KeyUp { key } => {
                     self.pressed_keys.borrow_mut().remove(&key);
+                }
+                Event::MouseMove { position } => {
+                    self.mouse_pos.set(position);
                 }
                 _ => {}
             }
