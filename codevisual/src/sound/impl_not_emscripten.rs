@@ -9,7 +9,10 @@ impl Sound {
     #[allow(deprecated)]
     pub fn play(&self, volume: f64) {
         if let Some(end) = rodio::get_default_endpoint() {
-            rodio::play_raw(&end, self.sound.clone().convert_samples().amplify(volume as _));
+            rodio::play_raw(
+                &end,
+                self.sound.clone().convert_samples().amplify(volume as _),
+            );
         }
     }
 }
@@ -26,9 +29,7 @@ impl Asset for Sound {
             let file = std::fs::File::open(path).unwrap();
             let sound = rodio::Decoder::new(file).unwrap().buffered();
             handle.confirm();
-            Sound {
-                sound,
-            }
+            Sound { sound }
         })
     }
 }

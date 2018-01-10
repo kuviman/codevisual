@@ -1,8 +1,7 @@
 use ::*;
 
 pub struct Context {
-    #[cfg(target_os = "emscripten")]
-    pub(crate) webgl_context: emscripten::webgl::Context,
+    #[cfg(target_os = "emscripten")] pub(crate) webgl_context: emscripten::webgl::Context,
     size: Cell<Vec2<usize>>,
     phantom_data: PhantomData<*mut ()>,
 }
@@ -11,12 +10,14 @@ pub struct Context {
 impl Context {
     pub fn create_webgl(target: emscripten::Selector) -> emscripten::HtmlResult<Self> {
         let webgl_context = emscripten::webgl::Context::create(
-            target, &emscripten::webgl::ContextAttributes {
+            target,
+            &emscripten::webgl::ContextAttributes {
                 alpha: false,
                 antialias: false,
                 preserve_drawing_buffer: false,
                 ..default()
-            })?;
+            },
+        )?;
         webgl_context.make_current()?;
         let context = Context {
             webgl_context,
@@ -49,9 +50,9 @@ impl Context {
         unsafe {
             gl::Enable(gl::DEPTH_TEST);
             #[cfg(not(target_os = "emscripten"))]
-                gl::Enable(gl::PROGRAM_POINT_SIZE);
+            gl::Enable(gl::PROGRAM_POINT_SIZE);
             #[cfg(target_os = "windows")]
-                gl::Enable(0x8861); // GL_POINT_SPRITE
+            gl::Enable(0x8861); // GL_POINT_SPRITE
         }
     }
     pub fn _set_size(&self, size: Vec2<usize>) {

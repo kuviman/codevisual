@@ -61,17 +61,13 @@ pub enum Selector<'a> {
     Document,
     Screen,
     Canvas,
-    Element {
-        id: &'a str,
-    }
+    Element { id: &'a str },
 }
 
 impl<'a> Selector<'a> {
     pub(crate) fn as_c_str(&self) -> Option<Cow<CStr>> {
         fn static_selector(selector: &'static [u8]) -> Option<Cow<CStr>> {
-            unsafe {
-                Some(Cow::Borrowed(CStr::from_bytes_with_nul_unchecked(selector)))
-            }
+            unsafe { Some(Cow::Borrowed(CStr::from_bytes_with_nul_unchecked(selector))) }
         }
         match *self {
             Selector::Default => None,

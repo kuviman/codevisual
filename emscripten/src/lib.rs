@@ -14,7 +14,5 @@ pub use html5::*;
 
 pub fn get_proc_address(name: &str) -> *const c_void {
     let name = CString::new(name).unwrap();
-    unsafe {
-        emscripten_GetProcAddress(name.as_ptr())
-    }
+    unsafe { emscripten_GetProcAddress(name.as_ptr()) }
 }

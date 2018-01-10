@@ -44,13 +44,33 @@ impl ContextAttributes {
             depth: if self.depth { EM_TRUE } else { EM_FALSE },
             stencil: if self.stencil { EM_TRUE } else { EM_FALSE },
             antialias: if self.antialias { EM_TRUE } else { EM_FALSE },
-            premultipliedAlpha: if self.premultiplied_alpha { EM_TRUE } else { EM_FALSE },
-            preserveDrawingBuffer: if self.preserve_drawing_buffer { EM_TRUE } else { EM_FALSE },
-            preferLowPowerToHighPerformance: if self.prefer_low_power_to_high_performance { EM_TRUE } else { EM_FALSE },
-            failIfMajorPerformanceCaveat: if self.fail_if_major_performance_caveat { EM_TRUE } else { EM_FALSE },
+            premultipliedAlpha: if self.premultiplied_alpha {
+                EM_TRUE
+            } else {
+                EM_FALSE
+            },
+            preserveDrawingBuffer: if self.preserve_drawing_buffer {
+                EM_TRUE
+            } else {
+                EM_FALSE
+            },
+            preferLowPowerToHighPerformance: if self.prefer_low_power_to_high_performance {
+                EM_TRUE
+            } else {
+                EM_FALSE
+            },
+            failIfMajorPerformanceCaveat: if self.fail_if_major_performance_caveat {
+                EM_TRUE
+            } else {
+                EM_FALSE
+            },
             majorVersion: self.version.major as c_int,
             minorVersion: self.version.minor as c_int,
-            enableExtensionsByDefault: if self.enable_extensions_by_default { EM_TRUE } else { EM_FALSE },
+            enableExtensionsByDefault: if self.enable_extensions_by_default {
+                EM_TRUE
+            } else {
+                EM_FALSE
+            },
         }
     }
 }
@@ -58,7 +78,9 @@ impl ContextAttributes {
 impl Default for ContextAttributes {
     fn default() -> Self {
         let mut attr: EmscriptenWebGLContextAttributes = unsafe { mem::uninitialized() };
-        unsafe { emscripten_webgl_init_context_attributes(&mut attr); }
+        unsafe {
+            emscripten_webgl_init_context_attributes(&mut attr);
+        }
         ContextAttributes::from(&attr)
     }
 }
@@ -69,9 +91,7 @@ pub struct Context(EMSCRIPTEN_WEBGL_CONTEXT_HANDLE);
 impl Context {
     pub fn create(target: Selector, attr: &ContextAttributes) -> HtmlResult<Context> {
         let attr = attr.into();
-        let result = unsafe {
-            emscripten_webgl_create_context(selector_as_ptr!(target), &attr)
-        };
+        let result = unsafe { emscripten_webgl_create_context(selector_as_ptr!(target), &attr) };
         if result > 0 {
             Ok(Context(result))
         } else {
@@ -80,9 +100,7 @@ impl Context {
     }
 
     pub fn make_current(&self) -> HtmlResult<()> {
-        let result = unsafe {
-            emscripten_webgl_make_context_current(self.0)
-        };
+        let result = unsafe { emscripten_webgl_make_context_current(self.0) };
         match parse_html_result(result) {
             None => Ok(()),
             Some(err) => Err(err),
@@ -91,8 +109,6 @@ impl Context {
 
     pub fn enable_extension(&self, extension: &str) -> bool {
         let extension = CString::new(extension).unwrap();
-        unsafe {
-            emscripten_webgl_enable_extension(self.0, extension.as_ptr()) != EM_FALSE
-        }
+        unsafe { emscripten_webgl_enable_extension(self.0, extension.as_ptr()) != EM_FALSE }
     }
 }

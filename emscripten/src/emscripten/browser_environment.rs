@@ -19,7 +19,11 @@ fn call_main_loop() {
     callback();
 }
 
-pub fn set_main_loop<F: FnMut() + 'static>(callback: F, fps: MainLoopFPS, simulate_infinite_loop: bool) {
+pub fn set_main_loop<F: FnMut() + 'static>(
+    callback: F,
+    fps: MainLoopFPS,
+    simulate_infinite_loop: bool,
+) {
     unsafe {
         let callback: Rc<MainLoopCallback> = Rc::new(RefCell::new(Box::new(callback)));
         match MAIN_LOOP_CALLBACK {
@@ -38,7 +42,8 @@ pub fn set_main_loop<F: FnMut() + 'static>(callback: F, fps: MainLoopFPS, simula
                         MainLoopFPS::Fixed(fps) => fps as c_int,
                         MainLoopFPS::UsingAnimationFrame => 0,
                     },
-                    if simulate_infinite_loop { 1 } else { 0 });
+                    if simulate_infinite_loop { 1 } else { 0 },
+                );
             }
         }
     }

@@ -40,11 +40,7 @@ impl codevisual::Game for Tutorial {
         let context = app.ugli_context();
 
         Tutorial {
-            material: codevisual::Material::new(
-                context,
-                (), (),
-                SHADER_SOURCE,
-            ),
+            material: codevisual::Material::new(context, (), (), SHADER_SOURCE),
             vertices: ugli::VertexBuffer::new_static(
                 context,
                 vec![
@@ -68,11 +64,7 @@ impl codevisual::Game for Tutorial {
         String::from("CodeVisual Tutorial 02 - Triangle")
     }
     fn draw(&mut self, framebuffer: &mut ugli::Framebuffer) {
-        ugli::clear(
-            framebuffer,
-            Some(Color::rgb(0.0, 0.0, 0.0)),
-            None,
-        );
+        ugli::clear(framebuffer, Some(Color::rgb(0.0, 0.0, 0.0)), None);
         ugli::draw(
             framebuffer,
             &self.material.ugli_program(),

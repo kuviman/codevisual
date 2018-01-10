@@ -1,7 +1,7 @@
 use ::*;
 
 impl Window {
-    pub ( crate ) fn internal_get_events(&self) -> Vec<Event> {
+    pub(crate) fn internal_get_events(&self) -> Vec<Event> {
         let mut events = Vec::new();
         {
             let mut handle_event = |e| match e {
@@ -14,7 +14,9 @@ impl Window {
                         },
                     });
                 }
-                glutin::WindowEvent::CursorMoved { position: (x, y), .. } => {
+                glutin::WindowEvent::CursorMoved {
+                    position: (x, y), ..
+                } => {
                     let position = vec2(x as f64, y as f64);
                     events.push(Event::MouseMove { position })
                 }
@@ -37,12 +39,8 @@ impl Window {
                     if let Some(key) = input.virtual_keycode {
                         let key = from_glutin_key(key);
                         events.push(match input.state {
-                            glutin::ElementState::Pressed => {
-                                Event::KeyDown { key: key }
-                            }
-                            glutin::ElementState::Released => {
-                                Event::KeyUp { key: key }
-                            }
+                            glutin::ElementState::Pressed => Event::KeyDown { key: key },
+                            glutin::ElementState::Released => Event::KeyUp { key: key },
                         });
                     }
                 }
@@ -122,7 +120,7 @@ fn from_glutin_key(key: glutin::VirtualKeyCode) -> Key {
         GKey::PageDown => Key::PageDown,
 
         _ => {
-//            eprintln!("Unrecognized key: {:?}", key);
+            //            eprintln!("Unrecognized key: {:?}", key);
             Key::Unknown
         }
     }

@@ -7,7 +7,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
     let (impl_generics, ty_generics, where_clause) = input.generics.split_for_impl();
     let fields = match input.body {
         Body::Struct(VariantData::Struct(ref fields)) => fields,
-        _ => panic!("codevisual::Settings can only be derived by structs")
+        _ => panic!("codevisual::Settings can only be derived by structs"),
     };
     let field_names = fields.iter().map(|field| field.ident.as_ref().unwrap());
     fn find_attr(field: &Field, name: &str, parse: bool) -> Option<Option<Tokens>> {
@@ -41,10 +41,11 @@ pub fn derive(input: TokenStream) -> TokenStream {
         }
         None
     }
-    let field_defaults = fields.iter().map(|field|
+    let field_defaults = fields.iter().map(|field| {
         find_attr(field, "default", true)
             .expect("default attr not present")
-            .expect("default attr should have a value"));
+            .expect("default attr should have a value")
+    });
     let field_settings = fields.iter().filter_map(|field| {
         if let Some(None) = find_attr(field, "disabled", false) {
             return None;
@@ -94,5 +95,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
             }
         }
     };
-    result.parse().expect("Expanded output was no correct Rust code")
+    result
+        .parse()
+        .expect("Expanded output was no correct Rust code")
 }

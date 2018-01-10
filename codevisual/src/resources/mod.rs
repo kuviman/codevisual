@@ -12,8 +12,7 @@ pub struct ResourceLoader {
     app: Rc<App>,
     resource_count: Cell<usize>,
     loaded_count: Arc<AtomicCell<usize>>,
-    #[cfg(not(target_os = "emscripten"))]
-    thread_pool: threadpool::ThreadPool,
+    #[cfg(not(target_os = "emscripten"))] thread_pool: threadpool::ThreadPool,
 }
 
 impl Deref for ResourceLoader {
@@ -24,7 +23,7 @@ impl Deref for ResourceLoader {
 }
 
 impl ResourceLoader {
-    pub ( crate ) fn new(app: &Rc<App>) -> Self {
+    pub(crate) fn new(app: &Rc<App>) -> Self {
         Self {
             app: app.clone(),
             resource_count: Cell::new(1),
@@ -34,7 +33,11 @@ impl ResourceLoader {
         }
     }
     #[cfg(not(target_os = "emscripten"))]
-    pub fn spawn_thread<T: Send + 'static, F: FnOnce() -> T + Send + 'static>(&self, name: &str, f: F) -> ResourceJob<T> {
+    pub fn spawn_thread<T: Send + 'static, F: FnOnce() -> T + Send + 'static>(
+        &self,
+        name: &str,
+        f: F,
+    ) -> ResourceJob<T> {
         let future = ResourceJob::new();
         let result = future.result.clone();
         let handle = AssetHandle::new(self, name);
@@ -83,10 +86,8 @@ impl<T: 'static> ResourceFuture<T> for ResourceJob<T> {
 }
 
 pub struct AssetHandle {
-    #[allow(dead_code)]
-    timer: Timer,
-    #[allow(dead_code)]
-    name: String,
+    #[allow(dead_code)] timer: Timer,
+    #[allow(dead_code)] name: String,
     loaded_count: Arc<AtomicCell<usize>>,
 }
 
@@ -101,7 +102,7 @@ impl AssetHandle {
     }
     pub fn confirm(self) {
         self.loaded_count.set(self.loaded_count.get() + 1);
-//        eprintln!("{} finished in {:.2} secs", self.name, self.timer.elapsed());
+        //        eprintln!("{} finished in {:.2} secs", self.name, self.timer.elapsed());
     }
 }
 

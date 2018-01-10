@@ -27,7 +27,11 @@ pub struct FramebufferRead<'a> {
 }
 
 impl<'a> FramebufferRead<'a> {
-    pub fn new(context: &Context, color: ColorAttachmentRead<'a>, depth: DepthAttachmentRead<'a>) -> Self {
+    pub fn new(
+        context: &Context,
+        color: ColorAttachmentRead<'a>,
+        depth: DepthAttachmentRead<'a>,
+    ) -> Self {
         let fbo = FBO::new(context);
         fbo.bind();
         let mut size = None;
@@ -54,7 +58,7 @@ impl<'a> FramebufferRead<'a> {
                         gl::FRAMEBUFFER,
                         gl::DEPTH_ATTACHMENT,
                         gl::RENDERBUFFER,
-                        renderbuffer.handle
+                        renderbuffer.handle,
                     );
                 }
                 // TODO: update/check size
@@ -73,7 +77,12 @@ impl<'a> FramebufferRead<'a> {
             }
         }
         fbo.check();
-        Self { fbo, color, depth, size: size.unwrap() }
+        Self {
+            fbo,
+            color,
+            depth,
+            size: size.unwrap(),
+        }
     }
     pub fn new_color(context: &Context, color: ColorAttachmentRead<'a>) -> Self {
         Self::new(context, color, DepthAttachmentRead::None)
@@ -119,9 +128,12 @@ impl<'a> Framebuffer<'a> {
                 },
                 match depth {
                     DepthAttachment::None => DepthAttachmentRead::None,
-                    DepthAttachment::Renderbuffer(renderbuffer) => DepthAttachmentRead::Renderbuffer(renderbuffer),
+                    DepthAttachment::Renderbuffer(renderbuffer) => {
+                        DepthAttachmentRead::Renderbuffer(renderbuffer)
+                    }
                     DepthAttachment::Texture(texture) => DepthAttachmentRead::Texture(texture),
-                }),
+                },
+            ),
         }
     }
     pub fn new_color(context: &Context, color: ColorAttachment<'a>) -> Self {

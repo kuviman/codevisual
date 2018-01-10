@@ -1,29 +1,29 @@
 #![deny(warnings)]
 
-#[cfg(not(target_os = "emscripten"))]
-extern crate image;
-#[cfg(not(target_os = "emscripten"))]
-extern crate rodio;
+#[allow(unused_imports)]
+#[macro_use]
+extern crate codevisual_derive;
 #[cfg(not(target_os = "emscripten"))]
 extern crate glutin;
-extern crate rusttype;
-extern crate serde;
+#[cfg(not(target_os = "emscripten"))]
+extern crate image;
 #[allow(unused_imports)]
 #[macro_use]
 extern crate lazy_static;
 #[cfg(not(target_os = "emscripten"))]
-extern crate threadpool;
-#[cfg(not(target_os = "emscripten"))]
 extern crate num_cpus;
-pub extern crate prelude;
+#[cfg(not(target_os = "emscripten"))]
+extern crate rodio;
+extern crate rusttype;
+extern crate serde;
+#[cfg(not(target_os = "emscripten"))]
+extern crate threadpool;
 #[macro_use]
 extern crate ugli;
+pub extern crate prelude;
 #[cfg(target_os = "emscripten")]
 #[macro_use]
 pub extern crate webby;
-#[allow(unused_imports)]
-#[macro_use]
-extern crate codevisual_derive;
 
 pub(crate) use prelude::*;
 pub use codevisual_derive::*;

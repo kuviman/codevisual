@@ -29,15 +29,16 @@ impl<'a> FramebufferRead<'a> {
         }
         self.fbo.bind();
         unsafe {
-            let mut buffer =
-                vec![mem::uninitialized::<GLubyte>(); self.size.x * self.size.y * 4];
-            gl::ReadPixels(0,
-                           0,
-                           self.size.x as GLsizei,
-                           self.size.y as GLsizei,
-                           gl::RGBA,
-                           gl::UNSIGNED_BYTE,
-                           buffer.as_mut_ptr() as *mut _);
+            let mut buffer = vec![mem::uninitialized::<GLubyte>(); self.size.x * self.size.y * 4];
+            gl::ReadPixels(
+                0,
+                0,
+                self.size.x as GLsizei,
+                self.size.y as GLsizei,
+                gl::RGBA,
+                gl::UNSIGNED_BYTE,
+                buffer.as_mut_ptr() as *mut _,
+            );
             ColorData {
                 width: self.size.x,
                 height: self.size.y,

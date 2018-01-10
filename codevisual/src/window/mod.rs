@@ -7,10 +7,8 @@ pub use self::cursor::*;
 pub use self::events::*;
 
 pub struct Window {
-    #[cfg(not(target_os = "emscripten"))]
-    glutin_window: glutin::GlWindow,
-    #[cfg(not(target_os = "emscripten"))]
-    glutin_events_loop: RefCell<glutin::EventsLoop>,
+    #[cfg(not(target_os = "emscripten"))] glutin_window: glutin::GlWindow,
+    #[cfg(not(target_os = "emscripten"))] glutin_events_loop: RefCell<glutin::EventsLoop>,
     pressed_keys: RefCell<HashSet<Key>>,
     should_close: Cell<bool>,
     mouse_pos: Cell<Vec2>,
@@ -22,7 +20,8 @@ impl Window {
         #[cfg(target_os = "emscripten")]
         let window = {
             println!("Starting {}", title);
-            let ugli_context = Rc::new(ugli::Context::create_webgl(emscripten::Selector::Canvas).unwrap());
+            let ugli_context =
+                Rc::new(ugli::Context::create_webgl(emscripten::Selector::Canvas).unwrap());
             Self {
                 ugli_context,
                 should_close: Cell::new(false),
@@ -40,9 +39,7 @@ impl Window {
                 &glutin_events_loop,
             ).unwrap();
             unsafe { glutin_window.make_current() }.unwrap();
-            let ugli_context = Rc::new(
-                ugli::Context::create_from_glutin(&glutin_window),
-            );
+            let ugli_context = Rc::new(ugli::Context::create_from_glutin(&glutin_window));
             Self {
                 glutin_window,
                 glutin_events_loop: RefCell::new(glutin_events_loop),
@@ -63,7 +60,7 @@ impl Window {
     pub fn swap_buffers(&self) {
         // ugli::sync();
         #[cfg(not(target_os = "emscripten"))]
-            return {
+        return {
             use glutin::GlContext;
             self.glutin_window.swap_buffers().unwrap();
         };
@@ -71,9 +68,9 @@ impl Window {
 
     pub fn get_size(&self) -> Vec2<usize> {
         #[cfg(target_os = "emscripten")]
-            return emscripten::get_canvas_size();
+        return emscripten::get_canvas_size();
         #[cfg(not(target_os = "emscripten"))]
-            return {
+        return {
             let (width, height) = self.glutin_window.get_inner_size().unwrap_or((1, 1));
             vec2(width as usize, height as usize)
         };

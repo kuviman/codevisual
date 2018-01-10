@@ -2,16 +2,16 @@ use ::*;
 
 #[derive(Debug)]
 pub struct AtomicCell<T: Copy> {
-    #[cfg(target_os = "emscripten")]
-    inner: Cell<T>,
-    #[cfg(not(target_os = "emscripten"))]
-    inner: Mutex<T>,
+    #[cfg(target_os = "emscripten")] inner: Cell<T>,
+    #[cfg(not(target_os = "emscripten"))] inner: Mutex<T>,
 }
 
 #[cfg(target_os = "emscripten")]
 impl<T: Copy> AtomicCell<T> {
     pub fn new(value: T) -> Self {
-        Self { inner: Cell::new(value) }
+        Self {
+            inner: Cell::new(value),
+        }
     }
     pub fn get(&self) -> T {
         self.inner.get()
@@ -24,7 +24,9 @@ impl<T: Copy> AtomicCell<T> {
 #[cfg(not(target_os = "emscripten"))]
 impl<T: Copy> AtomicCell<T> {
     pub fn new(value: T) -> Self {
-        Self { inner: Mutex::new(value) }
+        Self {
+            inner: Mutex::new(value),
+        }
     }
     pub fn get(&self) -> T {
         *self.inner.lock().unwrap()

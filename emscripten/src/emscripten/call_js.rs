@@ -2,7 +2,9 @@ use ::*;
 
 pub fn run_script(script: &str) {
     let script = CString::new(script).unwrap();
-    unsafe { emscripten_run_script(script.as_ptr()); }
+    unsafe {
+        emscripten_run_script(script.as_ptr());
+    }
 }
 
 pub fn run_script_i32(script: &str) -> i32 {

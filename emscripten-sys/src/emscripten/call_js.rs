@@ -12,5 +12,6 @@ extern "C" {
     pub fn emscripten_async_load_script(
         script: *const c_char,
         onload: em_callback_func,
-        onerror: em_callback_func);
+        onerror: em_callback_func,
+    );
 }

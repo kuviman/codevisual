@@ -115,7 +115,11 @@ impl Texture2d {
         }
     }
 
-    pub fn new_with<F: FnMut(Vec2<usize>) -> Color>(context: &Context, size: Vec2<usize>, mut f: F) -> Self {
+    pub fn new_with<F: FnMut(Vec2<usize>) -> Color>(
+        context: &Context,
+        size: Vec2<usize>,
+        mut f: F,
+    ) -> Self {
         let texture = Texture2d::new_raw(context, size);
         let mut data: Vec<u8> = Vec::with_capacity(size.x * size.y * 4);
         for y in 0..size.y {
@@ -146,15 +150,17 @@ impl Texture2d {
     // TODO: use like Matrix<Color>?
     pub unsafe fn sub_image(&mut self, pos: Vec2<usize>, size: Vec2<usize>, data: &[u8]) {
         gl::BindTexture(gl::TEXTURE_2D, self.handle);
-        gl::TexSubImage2D(gl::TEXTURE_2D,
-                          0,
-                          pos.x as GLint,
-                          pos.y as GLint,
-                          size.x as GLsizei,
-                          size.y as GLsizei,
-                          gl::RGBA,
-                          gl::UNSIGNED_BYTE,
-                          data.as_ptr() as *const _);
+        gl::TexSubImage2D(
+            gl::TEXTURE_2D,
+            0,
+            pos.x as GLint,
+            pos.y as GLint,
+            size.x as GLsizei,
+            size.y as GLsizei,
+            gl::RGBA,
+            gl::UNSIGNED_BYTE,
+            data.as_ptr() as *const _,
+        );
     }
 
     #[cfg(not(target_os = "emscripten"))]

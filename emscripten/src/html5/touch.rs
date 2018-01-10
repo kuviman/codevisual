@@ -15,7 +15,7 @@ impl TouchEventType {
             EMSCRIPTEN_EVENT_TOUCHEND => TouchEventType::TouchEnd,
             EMSCRIPTEN_EVENT_TOUCHMOVE => TouchEventType::TouchMove,
             EMSCRIPTEN_EVENT_TOUCHCANCEL => TouchEventType::TouchCancel,
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
 }
@@ -67,7 +67,9 @@ impl TouchEvent {
             alt_key: event.altKey != EM_FALSE,
             meta_key: event.metaKey != EM_FALSE,
             touches: event.touches[..event.numTouches as usize]
-                .iter().map(|touch| TouchPoint::from(touch)).collect(),
+                .iter()
+                .map(|touch| TouchPoint::from(touch))
+                .collect(),
         }
     }
 }
@@ -77,19 +79,25 @@ type Registrator = unsafe extern "C" fn(
     target: *const c_char,
     userData: *mut c_void,
     useCapture: EM_BOOL,
-    callback: em_touch_callback_func) -> EMSCRIPTEN_RESULT;
+    callback: em_touch_callback_func,
+) -> EMSCRIPTEN_RESULT;
 
 fn set_callback<F>(
     registrator: Registrator,
     target: Selector,
     use_capture: bool,
-    callback: F) -> HtmlResult<()>
-    where F: FnMut(TouchEventType, TouchEvent) -> bool + 'static {
+    callback: F,
+) -> HtmlResult<()>
+where
+    F: FnMut(TouchEventType, TouchEvent) -> bool + 'static,
+{
     let result = unsafe {
-        registrator(selector_as_ptr!(target),
-                    Box::<F>::into_raw(Box::new(callback)) as *mut _,
-                    if use_capture { EM_TRUE } else { EM_FALSE },
-                    Some(wrapper::<F>))
+        registrator(
+            selector_as_ptr!(target),
+            Box::<F>::into_raw(Box::new(callback)) as *mut _,
+            if use_capture { EM_TRUE } else { EM_FALSE },
+            Some(wrapper::<F>),
+        )
     };
     return match parse_html_result(result) {
         None => Ok(()),
@@ -99,43 +107,79 @@ fn set_callback<F>(
     unsafe extern "C" fn wrapper<F: FnMut(TouchEventType, TouchEvent) -> bool + 'static>(
         eventType: EM_EVENT_TYPE,
         touchEvent: *const EmscriptenTouchEvent,
-        userData: *mut c_void) -> EM_BOOL {
+        userData: *mut c_void,
+    ) -> EM_BOOL {
         let touchEvent = &*touchEvent;
         let mut callback = Box::<F>::from_raw(userData as *mut F);
-        let result = callback(TouchEventType::from(eventType), TouchEvent::from(touchEvent));
+        let result = callback(
+            TouchEventType::from(eventType),
+            TouchEvent::from(touchEvent),
+        );
         mem::forget(callback);
-        if result { EM_TRUE } else { EM_FALSE }
+        if result {
+            EM_TRUE
+        } else {
+            EM_FALSE
+        }
     }
 }
 
 pub fn set_touch_start_callback<F>(
     target: Selector,
     use_capture: bool,
-    callback: F) -> HtmlResult<()>
-    where F: FnMut(TouchEventType, TouchEvent) -> bool + 'static {
-    set_callback(emscripten_set_touchstart_callback, target, use_capture, callback)
+    callback: F,
+) -> HtmlResult<()>
+where
+    F: FnMut(TouchEventType, TouchEvent) -> bool + 'static,
+{
+    set_callback(
+        emscripten_set_touchstart_callback,
+        target,
+        use_capture,
+        callback,
+    )
 }
 
-pub fn set_touch_end_callback<F>(
-    target: Selector,
-    use_capture: bool,
-    callback: F) -> HtmlResult<()>
-    where F: FnMut(TouchEventType, TouchEvent) -> bool + 'static {
-    set_callback(emscripten_set_touchend_callback, target, use_capture, callback)
+pub fn set_touch_end_callback<F>(target: Selector, use_capture: bool, callback: F) -> HtmlResult<()>
+where
+    F: FnMut(TouchEventType, TouchEvent) -> bool + 'static,
+{
+    set_callback(
+        emscripten_set_touchend_callback,
+        target,
+        use_capture,
+        callback,
+    )
 }
 
 pub fn set_touch_move_callback<F>(
     target: Selector,
     use_capture: bool,
-    callback: F) -> HtmlResult<()>
-    where F: FnMut(TouchEventType, TouchEvent) -> bool + 'static {
-    set_callback(emscripten_set_touchmove_callback, target, use_capture, callback)
+    callback: F,
+) -> HtmlResult<()>
+where
+    F: FnMut(TouchEventType, TouchEvent) -> bool + 'static,
+{
+    set_callback(
+        emscripten_set_touchmove_callback,
+        target,
+        use_capture,
+        callback,
+    )
 }
 
 pub fn set_touch_cancel_callback<F>(
     target: Selector,
     use_capture: bool,
-    callback: F) -> HtmlResult<()>
-    where F: FnMut(TouchEventType, TouchEvent) -> bool + 'static {
-    set_callback(emscripten_set_touchcancel_callback, target, use_capture, callback)
+    callback: F,
+) -> HtmlResult<()>
+where
+    F: FnMut(TouchEventType, TouchEvent) -> bool + 'static,
+{
+    set_callback(
+        emscripten_set_touchcancel_callback,
+        target,
+        use_capture,
+        callback,
+    )
 }

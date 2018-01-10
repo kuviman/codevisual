@@ -5,7 +5,11 @@ pub fn run(options: &Options) {
 
     std::thread::spawn(move || {
         std::thread::sleep(std::time::Duration::from_millis(1000));
-        assert!(open::that(format!("http://127.0.0.1:{}/codevisual.html", port)).unwrap().success());
+        assert!(
+            open::that(format!("http://127.0.0.1:{}/codevisual.html", port))
+                .unwrap()
+                .success()
+        );
     });
 
     let mut server = Command::new("python");

@@ -29,25 +29,31 @@ pub struct EmscriptenKeyboardEvent {
     pub which: c_ulong,
 }
 
-pub type em_key_callback_func = Option<unsafe extern "C" fn(
-    eventType: EM_EVENT_TYPE,
-    keyEvent: *const EmscriptenKeyboardEvent,
-    userData: *mut c_void) -> EM_BOOL>;
+pub type em_key_callback_func = Option<
+    unsafe extern "C" fn(
+        eventType: EM_EVENT_TYPE,
+        keyEvent: *const EmscriptenKeyboardEvent,
+        userData: *mut c_void,
+    ) -> EM_BOOL,
+>;
 
 extern "C" {
     pub fn emscripten_set_keypress_callback(
         target: *const c_char,
         userData: *mut c_void,
         useCapture: EM_BOOL,
-        callback: em_key_callback_func) -> EMSCRIPTEN_RESULT;
+        callback: em_key_callback_func,
+    ) -> EMSCRIPTEN_RESULT;
     pub fn emscripten_set_keydown_callback(
         target: *const c_char,
         userData: *mut c_void,
         useCapture: EM_BOOL,
-        callback: em_key_callback_func) -> EMSCRIPTEN_RESULT;
+        callback: em_key_callback_func,
+    ) -> EMSCRIPTEN_RESULT;
     pub fn emscripten_set_keyup_callback(
         target: *const c_char,
         userData: *mut c_void,
         useCapture: EM_BOOL,
-        callback: em_key_callback_func) -> EMSCRIPTEN_RESULT;
+        callback: em_key_callback_func,
+    ) -> EMSCRIPTEN_RESULT;
 }

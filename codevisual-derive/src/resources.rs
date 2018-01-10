@@ -7,11 +7,17 @@ pub fn derive(input: TokenStream) -> TokenStream {
     let (impl_generics, ty_generics, where_clause) = input.generics.split_for_impl();
     let fields = match input.body {
         Body::Struct(VariantData::Struct(ref fields)) => fields,
-        _ => panic!("codevisual::Resources can only be derived by structs")
+        _ => panic!("codevisual::Resources can only be derived by structs"),
     };
-    let field_names: Vec<_> = fields.iter().map(|field| field.ident.as_ref().unwrap()).collect();
+    let field_names: Vec<_> = fields
+        .iter()
+        .map(|field| field.ident.as_ref().unwrap())
+        .collect();
     let field_names = &field_names;
-    let field_names_copy: Vec<_> = fields.iter().map(|field| field.ident.as_ref().unwrap()).collect();
+    let field_names_copy: Vec<_> = fields
+        .iter()
+        .map(|field| field.ident.as_ref().unwrap())
+        .collect();
     let field_types: Vec<_> = fields.iter().map(|field| &field.ty).collect();
     let field_types = &field_types;
     let field_loaders = fields.iter().map(|field| {
@@ -43,15 +49,17 @@ pub fn derive(input: TokenStream) -> TokenStream {
         }
         impl ::codevisual::ResourceFuture<#input_type> for #future {
             fn unwrap(self) -> #input_type {
+                use ::codevisual::ResourceFuture;
                 #input_type {
-                    #(#field_names: <#field_types as ::codevisual::Resource>::Future::unwrap(self.#field_names_copy),)*
+                    #(#field_names: self.#field_names_copy.unwrap(),)*
                 }
             }
         }
         impl#impl_generics ::codevisual::Resource for #input_type#ty_generics #where_clause {
             type Future = #future;
         }
-        impl#impl_generics ::codevisual::ResourceContainer for #input_type#ty_generics #where_clause {
+        impl#impl_generics ::codevisual::ResourceContainer
+            for #input_type#ty_generics #where_clause {
             fn load(loader: &::std::rc::Rc<::codevisual::ResourceLoader>) -> Self::Future {
                 Self::Future {
                     #(#field_loaders,)*
@@ -59,5 +67,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
             }
         }
     };
-    result.parse().expect("Expanded output was no correct Rust code")
+    result
+        .parse()
+        .expect("Expanded output was no correct Rust code")
 }

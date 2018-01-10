@@ -20,11 +20,7 @@ impl Drop for Shader {
 }
 
 impl Shader {
-    pub fn new(
-        _: &Context,
-        shader_type: ShaderType,
-        sources: &[&str],
-    ) -> Result<Self, String> {
+    pub fn new(_: &Context, shader_type: ShaderType, sources: &[&str]) -> Result<Self, String> {
         let shader = Self {
             handle: {
                 let handle = unsafe {
@@ -48,10 +44,7 @@ impl Shader {
             .iter()
             .map(|source| source.as_ptr() as *const GLchar)
             .collect();
-        let lengths: Vec<GLint> = sources
-            .iter()
-            .map(|source| source.len() as GLint)
-            .collect();
+        let lengths: Vec<GLint> = sources.iter().map(|source| source.len() as GLint).collect();
         unsafe {
             gl::ShaderSource(
                 shader.handle,
@@ -65,8 +58,7 @@ impl Shader {
             if compile_status == gl::FALSE as GLint {
                 let mut info_log_length: GLint = mem::uninitialized();
                 gl::GetShaderiv(shader.handle, gl::INFO_LOG_LENGTH, &mut info_log_length);
-                let mut info_log_bytes =
-                    vec![mem::uninitialized::<u8>(); info_log_length as usize];
+                let mut info_log_bytes = vec![mem::uninitialized::<u8>(); info_log_length as usize];
                 gl::GetShaderInfoLog(
                     shader.handle,
                     info_log_bytes.len() as GLsizei,

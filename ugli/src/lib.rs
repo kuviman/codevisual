@@ -1,16 +1,16 @@
 #![deny(warnings)]
 
-extern crate prelude;
 extern crate gl;
-#[cfg(target_os = "emscripten")]
-extern crate webby;
-#[cfg(not(target_os = "emscripten"))]
-extern crate image;
 #[cfg(not(target_os = "emscripten"))]
 extern crate glutin;
+#[cfg(not(target_os = "emscripten"))]
+extern crate image;
+extern crate prelude;
 #[allow(unused_imports)]
 #[macro_use]
 extern crate ugli_derive;
+#[cfg(target_os = "emscripten")]
+extern crate webby;
 
 pub use ugli_derive::*;
 
@@ -47,7 +47,9 @@ pub unsafe trait Pixel {
 }
 
 unsafe impl Pixel for Color {
-    fn possible_texture(_: &Context) -> bool { true }
+    fn possible_texture(_: &Context) -> bool {
+        true
+    }
     const GL_TEXTURE_FORMAT: GLenum = gl::RGBA;
     const GL_FRAMEBUFFER_FORMAT: GLenum = gl::RGBA;
     const GL_TEXTURE_TYPE: GLenum = gl::UNSIGNED_BYTE;
@@ -61,10 +63,12 @@ unsafe impl Pixel for DepthComponent {
         #![allow(unused_variables)]
 
         #[cfg(target_os = "emscripten")]
-            return context.webgl_context.enable_extension("WEBGL_depth_texture");
+        return context
+            .webgl_context
+            .enable_extension("WEBGL_depth_texture");
 
         #[cfg(not(target_os = "emscripten"))]
-            return true; // TODO: maybe not always available?
+        return true; // TODO: maybe not always available?
     }
 
     const GL_TEXTURE_FORMAT: GLenum = gl::DEPTH_COMPONENT;
@@ -76,7 +80,11 @@ unsafe impl Pixel for DepthComponent {
 }
 
 fn gl_bool(b: bool) -> GLboolean {
-    if b { gl::TRUE } else { gl::FALSE }
+    if b {
+        gl::TRUE
+    } else {
+        gl::FALSE
+    }
 }
 
 fn check_gl_error() {

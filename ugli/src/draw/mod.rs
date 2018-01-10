@@ -6,23 +6,15 @@ pub use self::parameters::*;
 
 pub enum DrawMode {
     Points,
-    Lines {
-        line_width: f32,
-    },
-    LineStrip {
-        line_width: f32,
-    },
-    LineLoop {
-        line_width: f32,
-    },
+    Lines { line_width: f32 },
+    LineStrip { line_width: f32 },
+    LineLoop { line_width: f32 },
     Triangles,
     TriangleStrip,
     TriangleFan,
 }
 
-pub fn clear(framebuffer: &mut Framebuffer,
-             color: Option<Color>,
-             depth: Option<f32>) {
+pub fn clear(framebuffer: &mut Framebuffer, color: Option<Color>, depth: Option<f32>) {
     framebuffer.fbo.bind();
     let mut flags = 0;
     if let Some(color) = color {
@@ -49,29 +41,35 @@ pub fn clear(framebuffer: &mut Framebuffer,
     }
 }
 
-pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
-                      program: &Program,
-                      mode: DrawMode,
-                      vertices: V,
-                      uniforms: U,
-                      draw_parameters: DP)
-    where V: VertexDataSource,
-          U: Uniforms,
-          DP: std::borrow::Borrow<DrawParameters> {
+pub fn draw<V, U, DP>(
+    framebuffer: &mut Framebuffer,
+    program: &Program,
+    mode: DrawMode,
+    vertices: V,
+    uniforms: U,
+    draw_parameters: DP,
+) where
+    V: VertexDataSource,
+    U: Uniforms,
+    DP: std::borrow::Borrow<DrawParameters>,
+{
     framebuffer.fbo.bind();
     let draw_parameters = draw_parameters.borrow();
     draw_parameters.apply(framebuffer.get_size());
     program.bind();
-    let uniforms = (SingleUniform::new("u_framebuffer_size", framebuffer.get_size()), uniforms);
-    unsafe { UNIFORM_TEXTURE_COUNT = 0; }
-    uniforms.walk_uniforms(&mut UC {
-        program,
-    });
+    let uniforms = (
+        SingleUniform::new("u_framebuffer_size", framebuffer.get_size()),
+        uniforms,
+    );
+    unsafe {
+        UNIFORM_TEXTURE_COUNT = 0;
+    }
+    uniforms.walk_uniforms(&mut UC { program });
 
     #[cfg(not(target_os = "emscripten"))]
     let vao = VAO::new();
     #[cfg(not(target_os = "emscripten"))]
-        vao.bind();
+    vao.bind();
 
     let mut vertex_count = None;
     let mut instance_count = None;
@@ -87,17 +85,23 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
     let gl_mode = match mode {
         DrawMode::Points => gl::POINTS,
         DrawMode::Lines { line_width } => {
-            unsafe { gl::LineWidth(line_width as GLfloat); }
+            unsafe {
+                gl::LineWidth(line_width as GLfloat);
+            }
             assert!(vertex_count % 2 == 0);
             gl::LINES
         }
         DrawMode::LineStrip { line_width } => {
-            unsafe { gl::LineWidth(line_width as GLfloat); }
+            unsafe {
+                gl::LineWidth(line_width as GLfloat);
+            }
             assert!(vertex_count >= 2);
             gl::LINE_STRIP
         }
         DrawMode::LineLoop { line_width } => {
-            unsafe { gl::LineWidth(line_width as GLfloat); }
+            unsafe {
+                gl::LineWidth(line_width as GLfloat);
+            }
             assert!(vertex_count >= 3);
             gl::LINE_LOOP
         }
@@ -191,7 +195,11 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
         instance_count: &'a mut Option<usize>,
     }
     impl<'a> VertexDataVisitor for VDC<'a> {
-        fn visit<'b, D: Vertex + 'b, T: IntoVertexBufferSlice<'b, D>>(&mut self, data: T, divisor: Option<usize>) {
+        fn visit<'b, D: Vertex + 'b, T: IntoVertexBufferSlice<'b, D>>(
+            &mut self,
+            data: T,
+            divisor: Option<usize>,
+        ) {
             let data = data.into_slice();
             if let Some(divisor) = divisor {
                 let instance_count = data.len() * divisor;
@@ -225,8 +233,8 @@ pub fn draw<V, U, DP>(framebuffer: &mut Framebuffer,
             impl<'a, D: Vertex> VertexAttributeVisitor for VAC<'a, D> {
                 fn visit<A: VertexAttribute>(&mut self, name: &str, attribute: &A) {
                     if let Some(attribute_info) = self.program.attributes.get(name) {
-                        let offset = self.offset + attribute as *const _ as usize -
-                            self.sample as *const _ as usize;
+                        let offset = self.offset + attribute as *const _ as usize
+                            - self.sample as *const _ as usize;
                         unsafe {
                             gl::EnableVertexAttribArray(attribute_info.location);
                             gl::VertexAttribPointer(

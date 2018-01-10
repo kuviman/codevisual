@@ -9,13 +9,11 @@ pub trait Game: 'static {
         String::from("No help")
     }
     fn new(app: &Rc<App>, resources: Self::Resources) -> Self;
-    fn update(&mut self, delta_time: f64) {
-        #![allow(unused_variables)]
-    }
+    #[allow(unused_variables)]
+    fn update(&mut self, delta_time: f64) {}
     fn draw(&mut self, framebuffer: &mut ugli::Framebuffer);
-    fn handle_event(&mut self, event: Event) {
-        #![allow(unused_variables)]
-    }
+    #[allow(unused_variables)]
+    fn handle_event(&mut self, event: Event) {}
 }
 
 pub struct App {
@@ -25,24 +23,24 @@ pub struct App {
 impl App {
     fn new(title: &str) -> Self {
         #[cfg(target_os = "emscripten")]
-            {
-                fn panic_hook(info: &std::panic::PanicInfo) {
-                    let error: String = if let Some(error) = info.payload().downcast_ref::<String>() {
-                        error.clone()
-                    } else if let Some(error) = info.payload().downcast_ref::<&str>() {
-                        error.to_string()
-                    } else {
-                        String::from("Something went wrong")
-                    };
-                    eprintln!("{:?}", error);
-                    js! {
+        {
+            fn panic_hook(info: &std::panic::PanicInfo) {
+                let error: String = if let Some(error) = info.payload().downcast_ref::<String>() {
+                    error.clone()
+                } else if let Some(error) = info.payload().downcast_ref::<&str>() {
+                    error.to_string()
+                } else {
+                    String::from("Something went wrong")
+                };
+                eprintln!("{:?}", error);
+                js! {
                     CodeVisual.internal.show_error(@(error));
                 };
-                }
-                std::panic::set_hook(Box::new(panic_hook));
             }
+            std::panic::set_hook(Box::new(panic_hook));
+        }
         #[cfg(target_os = "emscripten")]
-            js! {
+        js! {
             CodeVisual.internal.init();
         };
         App {
@@ -68,15 +66,17 @@ pub fn run<G: Game>() {
     let resources_future = Rc::new(RefCell::new(Some(G::Resources::load(&resource_loader))));
 
     #[cfg(target_os = "emscripten")]
-        js! {
+    js! {
         CodeVisual.internal.set_help_html(@(G::get_help_html()));
     };
 
     let start = move || {
         if !resource_loader.ready() {
             #[cfg(target_os = "emscripten")]
-                js! {
-                CodeVisual.internal.set_load_progress(@(resource_loader.get_loaded_count()), @(resource_loader.get_total_count()));
+            js! {
+                CodeVisual.internal.set_load_progress(
+                    @(resource_loader.get_loaded_count()),
+                    @(resource_loader.get_total_count()));
             };
             return false;
         }
@@ -84,12 +84,12 @@ pub fn run<G: Game>() {
         let mut game = G::new(&app, resources_future.unwrap());
 
         #[cfg(target_os = "emscripten")]
-            js! {
+        js! {
             CodeVisual.internal.before_main_loop();
         };
 
         #[cfg(not(target_os = "emscripten"))]
-            app.window.show();
+        app.window.show();
 
         let mut timer = Timer::new();
         let main_loop = {
@@ -107,33 +107,43 @@ pub fn run<G: Game>() {
                 app.window.swap_buffers();
 
                 #[cfg(target_os = "emscripten")]
-                    js! {
+                js! {
                     CodeVisual.internal.update_stats();
                 };
             }
         };
 
         #[cfg(target_os = "emscripten")]
-            emscripten::set_main_loop(main_loop, emscripten::MainLoopFPS::UsingAnimationFrame, true);
+        emscripten::set_main_loop(
+            main_loop,
+            emscripten::MainLoopFPS::UsingAnimationFrame,
+            true,
+        );
 
         #[cfg(not(target_os = "emscripten"))]
-            {
-                let mut main_loop = main_loop;
-                while !app.window.should_close() {
-                    main_loop();
-                }
+        {
+            let mut main_loop = main_loop;
+            while !app.window.should_close() {
+                main_loop();
             }
+        }
 
         true
     };
 
     #[cfg(target_os = "emscripten")]
-        emscripten::set_main_loop(move || { start(); }, emscripten::MainLoopFPS::UsingAnimationFrame, true);
+    emscripten::set_main_loop(
+        move || {
+            start();
+        },
+        emscripten::MainLoopFPS::UsingAnimationFrame,
+        true,
+    );
 
     #[cfg(not(target_os = "emscripten"))]
-        while !start() && !app_clone.window.should_close() {
+    while !start() && !app_clone.window.should_close() {
         // TODO: Loading screen
         thread::sleep(std::time::Duration::from_millis(100));
         app_clone.window.get_events();
-    };
+    }
 }

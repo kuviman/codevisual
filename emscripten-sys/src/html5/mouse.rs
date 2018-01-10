@@ -31,46 +31,56 @@ pub struct EmscriptenMouseEvent {
     pub padding: c_long,
 }
 
-pub type em_mouse_callback_func = Option<unsafe extern "C" fn(
-    eventType: EM_EVENT_TYPE,
-    mouseEvent: *const EmscriptenMouseEvent,
-    userData: *mut c_void) -> EM_BOOL>;
+pub type em_mouse_callback_func = Option<
+    unsafe extern "C" fn(
+        eventType: EM_EVENT_TYPE,
+        mouseEvent: *const EmscriptenMouseEvent,
+        userData: *mut c_void,
+    ) -> EM_BOOL,
+>;
 
 extern "C" {
     pub fn emscripten_set_click_callback(
         target: *const c_char,
         userData: *mut c_void,
         useCapture: EM_BOOL,
-        callback: em_mouse_callback_func) -> EMSCRIPTEN_RESULT;
+        callback: em_mouse_callback_func,
+    ) -> EMSCRIPTEN_RESULT;
     pub fn emscripten_set_mousedown_callback(
         target: *const c_char,
         userData: *mut c_void,
         useCapture: EM_BOOL,
-        callback: em_mouse_callback_func) -> EMSCRIPTEN_RESULT;
+        callback: em_mouse_callback_func,
+    ) -> EMSCRIPTEN_RESULT;
     pub fn emscripten_set_mouseup_callback(
         target: *const c_char,
         userData: *mut c_void,
         useCapture: EM_BOOL,
-        callback: em_mouse_callback_func) -> EMSCRIPTEN_RESULT;
+        callback: em_mouse_callback_func,
+    ) -> EMSCRIPTEN_RESULT;
     pub fn emscripten_set_dblclick_callback(
         target: *const c_char,
         userData: *mut c_void,
         useCapture: EM_BOOL,
-        callback: em_mouse_callback_func) -> EMSCRIPTEN_RESULT;
+        callback: em_mouse_callback_func,
+    ) -> EMSCRIPTEN_RESULT;
     pub fn emscripten_set_mousemove_callback(
         target: *const c_char,
         userData: *mut c_void,
         useCapture: EM_BOOL,
-        callback: em_mouse_callback_func) -> EMSCRIPTEN_RESULT;
+        callback: em_mouse_callback_func,
+    ) -> EMSCRIPTEN_RESULT;
     pub fn emscripten_set_mouseenter_callback(
         target: *const c_char,
         userData: *mut c_void,
         useCapture: EM_BOOL,
-        callback: em_mouse_callback_func) -> EMSCRIPTEN_RESULT;
+        callback: em_mouse_callback_func,
+    ) -> EMSCRIPTEN_RESULT;
     pub fn emscripten_set_mouseleave_callback(
         target: *const c_char,
         userData: *mut c_void,
         useCapture: EM_BOOL,
-        callback: em_mouse_callback_func) -> EMSCRIPTEN_RESULT;
+        callback: em_mouse_callback_func,
+    ) -> EMSCRIPTEN_RESULT;
     pub fn emscripten_get_mouse_status(mouseState: *mut EmscriptenMouseEvent) -> EMSCRIPTEN_RESULT;
 }

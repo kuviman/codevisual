@@ -18,22 +18,36 @@ pub enum Setting {
 
 impl Setting {
     pub fn create_range<T: Num + num::NumCast + Copy + 'static, S: FnMut(T) + 'static>(
-        name: &str, default: T, range: Range<T>, mut setter: S) -> Setting {
+        name: &str,
+        default: T,
+        range: Range<T>,
+        mut setter: S,
+    ) -> Setting {
         // TODO: check for float/int better?
         if T::one() / (T::one() + T::one()) == T::zero() {
             Setting::I32 {
                 name: String::from(name),
                 default: default.to_i32().unwrap(),
                 range: range.start.to_i32().unwrap()..range.end.to_i32().unwrap() - 1,
-                setter: Box::new(move |val| { setter(T::from(val).unwrap()); }),
+                setter: Box::new(move |val| {
+                    setter(T::from(val).unwrap());
+                }),
             }
         } else {
             const STEPS: i32 = 100500;
             Setting::I32 {
                 name: String::from(name),
-                default: (T::from(STEPS).unwrap() * (default - range.start) / (range.end - range.start)).to_i32().unwrap(),
+                default: (T::from(STEPS).unwrap() * (default - range.start)
+                    / (range.end - range.start))
+                    .to_i32()
+                    .unwrap(),
                 range: 0..STEPS + 1,
-                setter: Box::new(move |val| { setter(T::from(val).unwrap() / T::from(STEPS).unwrap() * (range.end - range.start) + range.start); }),
+                setter: Box::new(move |val| {
+                    setter(
+                        T::from(val).unwrap() / T::from(STEPS).unwrap() * (range.end - range.start)
+                            + range.start,
+                    );
+                }),
             }
         }
     }
@@ -47,29 +61,25 @@ impl webby::IntoJson for Setting {
                 name,
                 default,
                 mut setter,
-            } => {
-                format!(
-                    "new CodeVisual.BooleanSetting({}, {}, {})",
-                    name.into_json(),
-                    default.into_json(),
-                    webby::Callback::from(move |value| setter(value)).into_json()
-                )
-            }
+            } => format!(
+                "new CodeVisual.BooleanSetting({}, {}, {})",
+                name.into_json(),
+                default.into_json(),
+                webby::Callback::from(move |value| setter(value)).into_json()
+            ),
             Setting::I32 {
                 name,
                 default,
                 range,
                 mut setter,
-            } => {
-                format!(
-                    "new CodeVisual.NumberSetting({}, {}, {}, {}, 1, {})",
-                    name.into_json(),
-                    range.start.into_json(),
-                    range.end.into_json(),
-                    default.into_json(),
-                    webby::Callback::from(move |value| setter(value)).into_json()
-                )
-            }
+            } => format!(
+                "new CodeVisual.NumberSetting({}, {}, {}, {}, 1, {})",
+                name.into_json(),
+                range.start.into_json(),
+                range.end.into_json(),
+                default.into_json(),
+                webby::Callback::from(move |value| setter(value)).into_json()
+            ),
         }
     }
 }

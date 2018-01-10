@@ -100,8 +100,8 @@ impl<T: Vertex> VertexBuffer<T> {
     }
 
     pub fn slice<'a, R>(&'a self, range: R) -> VertexBufferSlice<'a, T>
-        where
-            R: RangeArgument<usize>,
+    where
+        R: RangeArgument<usize>,
     {
         VertexBufferSlice {
             buffer: self,

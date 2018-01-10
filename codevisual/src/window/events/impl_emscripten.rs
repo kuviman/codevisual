@@ -79,7 +79,7 @@ impl<'a> From<(emscripten::KeyboardEventType, emscripten::KeyboardEvent<'a>)> fo
             emscripten::KeyboardEventType::KeyUp => Event::KeyUp {
                 key: convert_key(event.code),
             },
-            _ => unimplemented!()
+            _ => unimplemented!(),
         }
     }
 }
@@ -109,7 +109,7 @@ impl From<(emscripten::MouseEventType, emscripten::MouseEvent)> for Event {
             emscripten::MouseEventType::MouseMove => Event::MouseMove {
                 position: vec2(event.canvas_pos.x as f64, event.canvas_pos.y as f64),
             },
-            _ => unimplemented!()
+            _ => unimplemented!(),
         }
     }
 }
@@ -144,7 +144,7 @@ impl From<(emscripten::TouchEventType, emscripten::TouchEvent)> for Event {
             emscripten::TouchEventType::TouchMove => Event::TouchMove {
                 touches: event.touches.into_iter().map(TouchPoint::from).collect(),
             },
-            _ => unimplemented!()
+            _ => unimplemented!(),
         }
     }
 }

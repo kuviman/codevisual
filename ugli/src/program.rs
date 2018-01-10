@@ -55,8 +55,7 @@ impl Program {
             if link_status == gl::FALSE as GLint {
                 let mut info_log_length: GLint = mem::uninitialized();
                 gl::GetProgramiv(program.handle, gl::INFO_LOG_LENGTH, &mut info_log_length);
-                let mut info_log_bytes =
-                    vec![mem::uninitialized::<u8>(); info_log_length as usize];
+                let mut info_log_bytes = vec![mem::uninitialized::<u8>(); info_log_length as usize];
                 gl::GetProgramInfoLog(
                     program.handle,
                     info_log_bytes.len() as GLsizei,
@@ -71,26 +70,37 @@ impl Program {
             let mut attribute_count: GLint = mem::uninitialized();
             let mut attribute_max_length: GLint = mem::uninitialized();
             gl::GetProgramiv(program.handle, gl::ACTIVE_ATTRIBUTES, &mut attribute_count);
-            gl::GetProgramiv(program.handle, gl::ACTIVE_ATTRIBUTE_MAX_LENGTH, &mut attribute_max_length);
+            gl::GetProgramiv(
+                program.handle,
+                gl::ACTIVE_ATTRIBUTE_MAX_LENGTH,
+                &mut attribute_max_length,
+            );
             let mut buf = vec![mem::uninitialized::<u8>(); attribute_max_length as usize];
             let mut length: GLsizei = mem::uninitialized();
             let mut size: GLint = mem::uninitialized();
             let mut typ: GLenum = mem::uninitialized();
             for index in 0..attribute_count {
-                gl::GetActiveAttrib(program.handle,
-                                    index as GLuint,
-                                    buf.len() as GLsizei,
-                                    &mut length,
-                                    &mut size,
-                                    &mut typ,
-                                    buf.as_mut_ptr() as *mut GLchar);
-                let name = std::str::from_utf8(&buf[..length as usize]).unwrap().to_owned();
+                gl::GetActiveAttrib(
+                    program.handle,
+                    index as GLuint,
+                    buf.len() as GLsizei,
+                    &mut length,
+                    &mut size,
+                    &mut typ,
+                    buf.as_mut_ptr() as *mut GLchar,
+                );
+                let name = std::str::from_utf8(&buf[..length as usize])
+                    .unwrap()
+                    .to_owned();
                 // TODO: save & check type info
                 let location = gl::GetAttribLocation(program.handle, buf.as_ptr() as *const _);
                 assert!(location >= 0);
-                program.attributes.insert(name, AttributeInfo {
-                    location: location as GLuint,
-                });
+                program.attributes.insert(
+                    name,
+                    AttributeInfo {
+                        location: location as GLuint,
+                    },
+                );
             }
         }
         // Get uniforms
@@ -98,26 +108,37 @@ impl Program {
             let mut uniform_count: GLint = mem::uninitialized();
             let mut uniform_max_length: GLint = mem::uninitialized();
             gl::GetProgramiv(program.handle, gl::ACTIVE_UNIFORMS, &mut uniform_count);
-            gl::GetProgramiv(program.handle, gl::ACTIVE_UNIFORM_MAX_LENGTH, &mut uniform_max_length);
+            gl::GetProgramiv(
+                program.handle,
+                gl::ACTIVE_UNIFORM_MAX_LENGTH,
+                &mut uniform_max_length,
+            );
             let mut buf = vec![mem::uninitialized::<u8>(); uniform_max_length as usize];
             let mut length: GLsizei = mem::uninitialized();
             let mut size: GLint = mem::uninitialized();
             let mut typ: GLenum = mem::uninitialized();
             for index in 0..uniform_count {
-                gl::GetActiveUniform(program.handle,
-                                     index as GLuint,
-                                     buf.len() as GLsizei,
-                                     &mut length,
-                                     &mut size,
-                                     &mut typ,
-                                     buf.as_mut_ptr() as *mut GLchar);
-                let name = std::str::from_utf8(&buf[..length as usize]).unwrap().to_owned();
+                gl::GetActiveUniform(
+                    program.handle,
+                    index as GLuint,
+                    buf.len() as GLsizei,
+                    &mut length,
+                    &mut size,
+                    &mut typ,
+                    buf.as_mut_ptr() as *mut GLchar,
+                );
+                let name = std::str::from_utf8(&buf[..length as usize])
+                    .unwrap()
+                    .to_owned();
                 // TODO: save & check type info
                 let location = gl::GetUniformLocation(program.handle, buf.as_ptr() as *const _);
                 assert!(location >= 0);
-                program.uniforms.insert(name, UniformInfo {
-                    location: location as GLint,
-                });
+                program.uniforms.insert(
+                    name,
+                    UniformInfo {
+                        location: location as GLint,
+                    },
+                );
             }
         }
         Ok(program)

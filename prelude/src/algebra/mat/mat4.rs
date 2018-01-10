@@ -52,7 +52,7 @@ impl<T: Num + Copy> SubAssign for Mat4<T> {
     }
 }
 
-impl<T: Num + Copy + Neg<Output=T>> Neg for Mat4<T> {
+impl<T: Num + Copy + Neg<Output = T>> Neg for Mat4<T> {
     type Output = Self;
     fn neg(self) -> Self {
         let mut result = self;
@@ -66,7 +66,9 @@ impl<T: Num + Copy + Neg<Output=T>> Neg for Mat4<T> {
 impl<T: Num + Copy> Mul for Mat4<T> {
     type Output = Self;
     fn mul(self, rhs: Self) -> Self {
-        let mut result = Self { values: [T::zero(); 16] };
+        let mut result = Self {
+            values: [T::zero(); 16],
+        };
         for i in 0..4 {
             for j in 0..4 {
                 let cur = &mut result[(i, j)];
@@ -124,7 +126,8 @@ impl<T: Float> Mul<Vec4<T>> for Mat4<T> {
 
     fn mul(self, rhs: Vec4<T>) -> Vec4<T> {
         let mul = |i| {
-            self[(i, 0)] * rhs.x + self[(i, 1)] * rhs.y + self[(i, 2)] * rhs.z + self[(i, 3)] * rhs.w
+            self[(i, 0)] * rhs.x + self[(i, 1)] * rhs.y + self[(i, 2)] * rhs.z
+                + self[(i, 3)] * rhs.w
         };
         vec4(mul(0), mul(1), mul(2), mul(3))
     }
@@ -132,7 +135,9 @@ impl<T: Float> Mul<Vec4<T>> for Mat4<T> {
 
 impl<T: Num + Copy> Mat4<T> {
     pub fn zero() -> Self {
-        Self { values: [T::zero(); 16] }
+        Self {
+            values: [T::zero(); 16],
+        }
     }
     pub fn identity() -> Self {
         let mut result = Self::zero();
@@ -235,7 +240,8 @@ impl<T: Float> Mat4<T> {
                     (a11 * b07 - a10 * b09 - a12 * b06) * det,
                     (a00 * b09 - a01 * b07 + a02 * b06) * det,
                     (a31 * b01 - a30 * b03 - a32 * b00) * det,
-                    (a20 * b03 - a21 * b01 + a22 * b00) * det, ]
+                    (a20 * b03 - a21 * b01 + a22 * b00) * det,
+                ],
             }
         }
     }

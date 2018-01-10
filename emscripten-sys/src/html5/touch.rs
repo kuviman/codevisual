@@ -34,30 +34,37 @@ pub struct EmscriptenTouchEvent {
     pub touches: [EmscriptenTouchPoint; 32],
 }
 
-pub type em_touch_callback_func = Option<unsafe extern "C" fn(
-    eventType: EM_EVENT_TYPE,
-    touchEvent: *const EmscriptenTouchEvent,
-    userData: *mut c_void) -> EM_BOOL>;
+pub type em_touch_callback_func = Option<
+    unsafe extern "C" fn(
+        eventType: EM_EVENT_TYPE,
+        touchEvent: *const EmscriptenTouchEvent,
+        userData: *mut c_void,
+    ) -> EM_BOOL,
+>;
 
 extern "C" {
     pub fn emscripten_set_touchstart_callback(
         target: *const c_char,
         userData: *mut c_void,
         useCapture: EM_BOOL,
-        callback: em_touch_callback_func) -> EMSCRIPTEN_RESULT;
+        callback: em_touch_callback_func,
+    ) -> EMSCRIPTEN_RESULT;
     pub fn emscripten_set_touchend_callback(
         target: *const c_char,
         userData: *mut c_void,
         useCapture: EM_BOOL,
-        callback: em_touch_callback_func) -> EMSCRIPTEN_RESULT;
+        callback: em_touch_callback_func,
+    ) -> EMSCRIPTEN_RESULT;
     pub fn emscripten_set_touchmove_callback(
         target: *const c_char,
         userData: *mut c_void,
         useCapture: EM_BOOL,
-        callback: em_touch_callback_func) -> EMSCRIPTEN_RESULT;
+        callback: em_touch_callback_func,
+    ) -> EMSCRIPTEN_RESULT;
     pub fn emscripten_set_touchcancel_callback(
         target: *const c_char,
         userData: *mut c_void,
         useCapture: EM_BOOL,
-        callback: em_touch_callback_func) -> EMSCRIPTEN_RESULT;
+        callback: em_touch_callback_func,
+    ) -> EMSCRIPTEN_RESULT;
 }

@@ -18,15 +18,19 @@ pub struct EmscriptenWheelEvent {
     pub deltaMode: DOM_DELTA_MODE,
 }
 
-pub type em_wheel_callback_func = Option<unsafe extern "C" fn(
-    eventType: EM_EVENT_TYPE,
-    wheelEvent: *const EmscriptenWheelEvent,
-    userData: *mut c_void) -> EM_BOOL>;
+pub type em_wheel_callback_func = Option<
+    unsafe extern "C" fn(
+        eventType: EM_EVENT_TYPE,
+        wheelEvent: *const EmscriptenWheelEvent,
+        userData: *mut c_void,
+    ) -> EM_BOOL,
+>;
 
 extern "C" {
     pub fn emscripten_set_wheel_callback(
         target: *const c_char,
         userData: *mut c_void,
         useCapture: EM_BOOL,
-        callback: em_wheel_callback_func) -> EMSCRIPTEN_RESULT;
+        callback: em_wheel_callback_func,
+    ) -> EMSCRIPTEN_RESULT;
 }

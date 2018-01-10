@@ -21,7 +21,7 @@ impl MouseEventType {
             EMSCRIPTEN_EVENT_MOUSEMOVE => MouseEventType::MouseMove,
             EMSCRIPTEN_EVENT_MOUSEENTER => MouseEventType::MouseEnter,
             EMSCRIPTEN_EVENT_MOUSELEAVE => MouseEventType::MouseLeave,
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
 }
@@ -39,7 +39,7 @@ impl MouseButton {
             0 => MouseButton::Left,
             1 => MouseButton::Middle,
             2 => MouseButton::Right,
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
 }
@@ -82,19 +82,25 @@ type Registrator = unsafe extern "C" fn(
     target: *const c_char,
     userData: *mut c_void,
     useCapture: EM_BOOL,
-    callback: em_mouse_callback_func) -> EMSCRIPTEN_RESULT;
+    callback: em_mouse_callback_func,
+) -> EMSCRIPTEN_RESULT;
 
 fn set_callback<F>(
     registrator: Registrator,
     target: Selector,
     use_capture: bool,
-    callback: F) -> HtmlResult<()>
-    where F: FnMut(MouseEventType, MouseEvent) -> bool + 'static {
+    callback: F,
+) -> HtmlResult<()>
+where
+    F: FnMut(MouseEventType, MouseEvent) -> bool + 'static,
+{
     let result = unsafe {
-        registrator(selector_as_ptr!(target),
-                    Box::<F>::into_raw(Box::new(callback)) as *mut _,
-                    if use_capture { EM_TRUE } else { EM_FALSE },
-                    Some(wrapper::<F>))
+        registrator(
+            selector_as_ptr!(target),
+            Box::<F>::into_raw(Box::new(callback)) as *mut _,
+            if use_capture { EM_TRUE } else { EM_FALSE },
+            Some(wrapper::<F>),
+        )
     };
     return match parse_html_result(result) {
         None => Ok(()),
@@ -104,67 +110,114 @@ fn set_callback<F>(
     unsafe extern "C" fn wrapper<F: FnMut(MouseEventType, MouseEvent) -> bool + 'static>(
         eventType: EM_EVENT_TYPE,
         mouseEvent: *const EmscriptenMouseEvent,
-        userData: *mut c_void) -> EM_BOOL {
+        userData: *mut c_void,
+    ) -> EM_BOOL {
         let mouseEvent = &*mouseEvent;
         let mut callback = Box::<F>::from_raw(userData as *mut F);
-        let result = callback(MouseEventType::from(eventType), MouseEvent::from(mouseEvent));
+        let result = callback(
+            MouseEventType::from(eventType),
+            MouseEvent::from(mouseEvent),
+        );
         mem::forget(callback);
-        if result { EM_TRUE } else { EM_FALSE }
+        if result {
+            EM_TRUE
+        } else {
+            EM_FALSE
+        }
     }
 }
 
-pub fn set_click_callback<F>(
-    target: Selector,
-    use_capture: bool,
-    callback: F) -> HtmlResult<()>
-    where F: FnMut(MouseEventType, MouseEvent) -> bool + 'static {
+pub fn set_click_callback<F>(target: Selector, use_capture: bool, callback: F) -> HtmlResult<()>
+where
+    F: FnMut(MouseEventType, MouseEvent) -> bool + 'static,
+{
     set_callback(emscripten_set_click_callback, target, use_capture, callback)
 }
 
 pub fn set_mouse_down_callback<F>(
     target: Selector,
     use_capture: bool,
-    callback: F) -> HtmlResult<()>
-    where F: FnMut(MouseEventType, MouseEvent) -> bool + 'static {
-    set_callback(emscripten_set_mousedown_callback, target, use_capture, callback)
+    callback: F,
+) -> HtmlResult<()>
+where
+    F: FnMut(MouseEventType, MouseEvent) -> bool + 'static,
+{
+    set_callback(
+        emscripten_set_mousedown_callback,
+        target,
+        use_capture,
+        callback,
+    )
 }
 
-pub fn set_mouse_up_callback<F>(
-    target: Selector,
-    use_capture: bool,
-    callback: F) -> HtmlResult<()>
-    where F: FnMut(MouseEventType, MouseEvent) -> bool + 'static {
-    set_callback(emscripten_set_mouseup_callback, target, use_capture, callback)
+pub fn set_mouse_up_callback<F>(target: Selector, use_capture: bool, callback: F) -> HtmlResult<()>
+where
+    F: FnMut(MouseEventType, MouseEvent) -> bool + 'static,
+{
+    set_callback(
+        emscripten_set_mouseup_callback,
+        target,
+        use_capture,
+        callback,
+    )
 }
 
-pub fn set_dbl_click_callback<F>(
-    target: Selector,
-    use_capture: bool,
-    callback: F) -> HtmlResult<()>
-    where F: FnMut(MouseEventType, MouseEvent) -> bool + 'static {
-    set_callback(emscripten_set_dblclick_callback, target, use_capture, callback)
+pub fn set_dbl_click_callback<F>(target: Selector, use_capture: bool, callback: F) -> HtmlResult<()>
+where
+    F: FnMut(MouseEventType, MouseEvent) -> bool + 'static,
+{
+    set_callback(
+        emscripten_set_dblclick_callback,
+        target,
+        use_capture,
+        callback,
+    )
 }
 
 pub fn set_mouse_move_callback<F>(
     target: Selector,
     use_capture: bool,
-    callback: F) -> HtmlResult<()>
-    where F: FnMut(MouseEventType, MouseEvent) -> bool + 'static {
-    set_callback(emscripten_set_mousemove_callback, target, use_capture, callback)
+    callback: F,
+) -> HtmlResult<()>
+where
+    F: FnMut(MouseEventType, MouseEvent) -> bool + 'static,
+{
+    set_callback(
+        emscripten_set_mousemove_callback,
+        target,
+        use_capture,
+        callback,
+    )
 }
 
 pub fn set_mouse_enter_callback<F>(
     target: Selector,
     use_capture: bool,
-    callback: F) -> HtmlResult<()>
-    where F: FnMut(MouseEventType, MouseEvent) -> bool + 'static {
-    set_callback(emscripten_set_mouseenter_callback, target, use_capture, callback)
+    callback: F,
+) -> HtmlResult<()>
+where
+    F: FnMut(MouseEventType, MouseEvent) -> bool + 'static,
+{
+    set_callback(
+        emscripten_set_mouseenter_callback,
+        target,
+        use_capture,
+        callback,
+    )
 }
 
 pub fn set_mouse_leave_callback<F>(
     target: Selector,
     use_capture: bool,
-    callback: F) -> HtmlResult<()>
-    where F: FnMut(MouseEventType, MouseEvent) -> bool + 'static {
-    set_callback(emscripten_set_mouseleave_callback, target, use_capture, callback)
+    callback: F,
+) -> HtmlResult<()>
+where
+    F: FnMut(MouseEventType, MouseEvent) -> bool + 'static,
+{
+    set_callback(
+        emscripten_set_mouseleave_callback,
+        target,
+        use_capture,
+        callback,
+    )
 }

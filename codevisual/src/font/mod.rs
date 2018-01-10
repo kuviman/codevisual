@@ -32,11 +32,19 @@ impl Font {
     }
     pub fn new(context: &Rc<ugli::Context>, data: Vec<u8>) -> Font {
         Font {
-            font: rusttype::FontCollection::from_bytes(data).into_font().unwrap(),
+            font: rusttype::FontCollection::from_bytes(data)
+                .into_font()
+                .unwrap(),
             cache: RefCell::new(rusttype::gpu_cache::Cache::new(
-                CACHE_SIZE as u32, CACHE_SIZE as u32, 0.1, 0.1)),
+                CACHE_SIZE as u32,
+                CACHE_SIZE as u32,
+                0.1,
+                0.1,
+            )),
             cache_texture: RefCell::new(ugli::Texture2d::new_uninitialized(
-                context, vec2(CACHE_SIZE, CACHE_SIZE))),
+                context,
+                vec2(CACHE_SIZE, CACHE_SIZE),
+            )),
             geometry: RefCell::new(ugli::VertexBuffer::new_dynamic(context, Vec::new())),
             material: Material::new(context, (), (), include_str!("shader.glsl")),
         }
@@ -49,13 +57,20 @@ impl Font {
             if let Some(bb) = glyph.pixel_bounding_box() {
                 if let Some(cur) = result {
                     result = Some(Rect::from_corners(
-                        vec2(min(bb.min.x as f32, cur.bottom_left.x),
-                             min(bb.min.y as f32, cur.bottom_left.y)),
-                        vec2(max(bb.max.x as f32, cur.top_right.x),
-                             max(bb.max.y as f32, cur.top_right.y))));
+                        vec2(
+                            min(bb.min.x as f32, cur.bottom_left.x),
+                            min(bb.min.y as f32, cur.bottom_left.y),
+                        ),
+                        vec2(
+                            max(bb.max.x as f32, cur.top_right.x),
+                            max(bb.max.y as f32, cur.top_right.y),
+                        ),
+                    ));
                 } else {
-                    result = Some(Rect::from_corners(vec2(bb.min.x as f32, bb.min.y as f32),
-                                                     vec2(bb.max.x as f32, bb.max.y as f32)));
+                    result = Some(Rect::from_corners(
+                        vec2(bb.min.x as f32, bb.min.y as f32),
+                        vec2(bb.max.x as f32, bb.max.y as f32),
+                    ));
                 }
             }
         }
@@ -64,10 +79,19 @@ impl Font {
     pub fn measure(&self, text: &str, size: f32) -> Option<Rect<f32>> {
         self.measure_at(text, vec2(0.0, 0.0), size)
     }
-    pub fn draw(&self, framebuffer: &mut ugli::Framebuffer,
-                text: &str, pos: Vec2<f32>, size: f32, color: Color) {
+    pub fn draw(
+        &self,
+        framebuffer: &mut ugli::Framebuffer,
+        text: &str,
+        pos: Vec2<f32>,
+        size: f32,
+        color: Color,
+    ) {
         let scale = rusttype::Scale { x: size, y: size };
-        let pos = rusttype::Point { x: pos.x, y: framebuffer.get_size().y as f32 - pos.y };
+        let pos = rusttype::Point {
+            x: pos.x,
+            y: framebuffer.get_size().y as f32 - pos.y,
+        };
 
         let mut cache = self.cache.borrow_mut();
         let mut cache_texture = self.cache_texture.borrow_mut();
@@ -78,25 +102,27 @@ impl Font {
             cache.queue_glyph(0, glyph.standalone()); // TODO: avoid cloning glyph?
         }
 
-        cache.cache_queued(|rect, data| {
-            let x = rect.min.x as usize;
-            let y = rect.min.y as usize;
-            let width = rect.width() as usize;
-            let height = rect.height() as usize;
+        cache
+            .cache_queued(|rect, data| {
+                let x = rect.min.x as usize;
+                let y = rect.min.y as usize;
+                let width = rect.width() as usize;
+                let height = rect.height() as usize;
 
-            // TODO: somehow without copying?
-            let mut fixed_data = Vec::with_capacity(data.len() * 4);
-            for byte in data {
-                for _ in 0..3 {
-                    fixed_data.push(0xff);
+                // TODO: somehow without copying?
+                let mut fixed_data = Vec::with_capacity(data.len() * 4);
+                for byte in data {
+                    for _ in 0..3 {
+                        fixed_data.push(0xff);
+                    }
+                    fixed_data.push(*byte);
                 }
-                fixed_data.push(*byte);
-            }
 
-            unsafe {
-                cache_texture.sub_image(vec2(x, y), vec2(width, height), &fixed_data);
-            }
-        }).unwrap();
+                unsafe {
+                    cache_texture.sub_image(vec2(x, y), vec2(width, height), &fixed_data);
+                }
+            })
+            .unwrap();
 
         let mut geometry = self.geometry.borrow_mut();
         geometry.clear();
@@ -138,24 +164,39 @@ impl Font {
             }
         }
 
-        ugli::draw(framebuffer,
-                   &self.material.ugli_program(),
-                   ugli::DrawMode::Triangles,
-                   &*geometry,
-                   uniforms! {
-                       u_color: color,
-                       u_cache_texture: &*cache_texture,
-                   },
-                   ugli::DrawParameters {
-                       depth_func: None,
-                       blend_mode: Some(ugli::BlendMode::Alpha),
-                       ..default()
-                   });
+        ugli::draw(
+            framebuffer,
+            &self.material.ugli_program(),
+            ugli::DrawMode::Triangles,
+            &*geometry,
+            uniforms! {
+                u_color: color,
+                u_cache_texture: &*cache_texture,
+            },
+            ugli::DrawParameters {
+                depth_func: None,
+                blend_mode: Some(ugli::BlendMode::Alpha),
+                ..default()
+            },
+        );
     }
-    pub fn draw_aligned(&self, framebuffer: &mut ugli::Framebuffer,
-                        text: &str, pos: Vec2<f32>, align: f32, size: f32, color: Color) {
+    pub fn draw_aligned(
+        &self,
+        framebuffer: &mut ugli::Framebuffer,
+        text: &str,
+        pos: Vec2<f32>,
+        align: f32,
+        size: f32,
+        color: Color,
+    ) {
         if let Some(rect) = self.measure(text, size) {
-            self.draw(framebuffer, text, vec2(pos.x - rect.width() * align, pos.y), size, color);
+            self.draw(
+                framebuffer,
+                text,
+                vec2(pos.x - rect.width() * align, pos.y),
+                size,
+                color,
+            );
         }
     }
 }

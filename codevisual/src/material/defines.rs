@@ -41,8 +41,8 @@ impl ShaderDefineStorage for () {
 }
 
 impl<'a, D> ShaderDefineStorage for &'a D
-    where
-        D: ShaderDefineStorage,
+where
+    D: ShaderDefineStorage,
 {
     fn as_glsl(&self, sources: &mut Vec<String>) {
         (*self).as_glsl(sources);
@@ -50,9 +50,9 @@ impl<'a, D> ShaderDefineStorage for &'a D
 }
 
 impl<A, B> ShaderDefineStorage for (A, B)
-    where
-        A: ShaderDefineStorage,
-        B: ShaderDefineStorage,
+where
+    A: ShaderDefineStorage,
+    B: ShaderDefineStorage,
 {
     fn as_glsl(&self, sources: &mut Vec<String>) {
         self.0.as_glsl(sources);

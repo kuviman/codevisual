@@ -6,7 +6,12 @@ pub fn build(options: &Options) {
     } else if let Some(ref package) = options.package {
         package.clone()
     } else {
-        Path::new(&options.path).file_name().unwrap().to_str().unwrap().into()
+        Path::new(&options.path)
+            .file_name()
+            .unwrap()
+            .to_str()
+            .unwrap()
+            .into()
     };
 
     // TODO: fixed memory should be better
@@ -15,15 +20,19 @@ pub fn build(options: &Options) {
 
     if let Some(ref emsdk) = options.emsdk {
         #[cfg(windows)]
-        let env_output = Command::new("cmd").arg("/C").arg(format!("{}\\emsdk_env.bat", emsdk))
-            .output().unwrap();
+        let env_output = Command::new("cmd")
+            .arg("/C")
+            .arg(format!("{}\\emsdk_env.bat", emsdk))
+            .output()
+            .unwrap();
         #[cfg(not(windows))]
         let env_output = Command::new("bash").arg(emsdk).output().unwrap();
 
         assert!(env_output.status.success());
         let env_output = env_output.stdout;
 
-        let mut path: Vec<std::path::PathBuf> = std::env::split_paths(&std::env::var("PATH").unwrap()).collect();
+        let mut path: Vec<std::path::PathBuf> =
+            std::env::split_paths(&std::env::var("PATH").unwrap()).collect();
 
         use std::io::BufRead;
         for line in env_output.lines() {
@@ -64,15 +73,27 @@ pub fn build(options: &Options) {
     let build_dir = Path::new("target").join(cargo_target).join(cargo_config);
     let target_dir = Path::new("target").join("web").join(&options.target);
     fs::create_dir_all(&target_dir).unwrap();
-    File::create(target_dir.join("codevisual.html")).unwrap()
-        .write_all(codevisual_web::HTML.as_ref()).unwrap();
-    File::create(target_dir.join("codevisual.css")).unwrap()
-        .write_all(codevisual_web::CSS.as_ref()).unwrap();
-    File::create(target_dir.join("codevisual.js")).unwrap()
-        .write_all(codevisual_web::JS.as_ref()).unwrap();
+    File::create(target_dir.join("codevisual.html"))
+        .unwrap()
+        .write_all(codevisual_web::HTML.as_ref())
+        .unwrap();
+    File::create(target_dir.join("codevisual.css"))
+        .unwrap()
+        .write_all(codevisual_web::CSS.as_ref())
+        .unwrap();
+    File::create(target_dir.join("codevisual.js"))
+        .unwrap()
+        .write_all(codevisual_web::JS.as_ref())
+        .unwrap();
     fn copy_dir_contents<P, Q>(source: P, target: Q)
-        where P: AsRef<Path>, Q: AsRef<Path> {
-        let entries = fs::read_dir(source).unwrap().map(|entry| entry.unwrap().path()).collect();
+    where
+        P: AsRef<Path>,
+        Q: AsRef<Path>,
+    {
+        let entries = fs::read_dir(source)
+            .unwrap()
+            .map(|entry| entry.unwrap().path())
+            .collect();
         let mut options = fs_extra::dir::CopyOptions::new();
         options.overwrite = true;
         fs_extra::copy_items(&entries, target, &options).unwrap();
@@ -82,14 +103,20 @@ pub fn build(options: &Options) {
         copy_dir_contents(path, &target_dir);
     }
     let target_js = if let Some(_) = options.example {
-        build_dir.join("examples").join(format!("{}.js", target_name))
+        build_dir
+            .join("examples")
+            .join(format!("{}.js", target_name))
     } else {
         build_dir.join(format!("{}.js", target_name))
     };
     fs::copy(target_js, target_dir.join("code.js")).unwrap();
     if options.target == "wasm32" {
         let mut target_wasm: Option<std::path::PathBuf> = None;
-        let wasm_dir = if let Some(_) = options.example { "examples" } else { "deps" };
+        let wasm_dir = if let Some(_) = options.example {
+            "examples"
+        } else {
+            "deps"
+        };
         for entry in fs::read_dir(build_dir.join(wasm_dir)).unwrap() {
             let entry = entry.unwrap();
             if entry.file_type().unwrap().is_file() {
@@ -97,14 +124,21 @@ pub fn build(options: &Options) {
                 if let Some(ext) = path.extension() {
                     let file_name = path.file_name().unwrap().to_str().unwrap();
                     if ext == "wasm" && file_name.starts_with(&target_name) {
-                        assert!(target_wasm.is_none(), "Multiple .wasm files ({:?} and {:?})",
-                                target_wasm.unwrap().file_name().unwrap(), file_name);
+                        assert!(
+                            target_wasm.is_none(),
+                            "Multiple .wasm files ({:?} and {:?})",
+                            target_wasm.unwrap().file_name().unwrap(),
+                            file_name
+                        );
                         target_wasm = Some(path.clone());
                     }
                 }
             }
         }
         let target_wasm = target_wasm.unwrap();
-        fs::copy(&target_wasm, target_dir.join(target_wasm.file_name().unwrap())).unwrap();
+        fs::copy(
+            &target_wasm,
+            target_dir.join(target_wasm.file_name().unwrap()),
+        ).unwrap();
     }
 }

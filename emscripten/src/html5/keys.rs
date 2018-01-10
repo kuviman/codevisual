@@ -13,7 +13,7 @@ impl KeyboardEventType {
             EMSCRIPTEN_EVENT_KEYPRESS => KeyboardEventType::KeyPress,
             EMSCRIPTEN_EVENT_KEYDOWN => KeyboardEventType::KeyDown,
             EMSCRIPTEN_EVENT_KEYUP => KeyboardEventType::KeyUp,
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
 }
@@ -33,7 +33,7 @@ impl DomKeyLocation {
             DOM_KEY_LOCATION_LEFT => DomKeyLocation::Left,
             DOM_KEY_LOCATION_RIGHT => DomKeyLocation::Right,
             DOM_KEY_LOCATION_NUMPAD => DomKeyLocation::NumPad,
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
 }
@@ -74,19 +74,25 @@ type Registrator = unsafe extern "C" fn(
     target: *const c_char,
     userData: *mut c_void,
     useCapture: EM_BOOL,
-    callback: em_key_callback_func) -> EMSCRIPTEN_RESULT;
+    callback: em_key_callback_func,
+) -> EMSCRIPTEN_RESULT;
 
 fn set_callback<F>(
     registrator: Registrator,
     target: Selector,
     use_capture: bool,
-    callback: F) -> HtmlResult<()>
-    where F: FnMut(KeyboardEventType, KeyboardEvent) -> bool + 'static {
+    callback: F,
+) -> HtmlResult<()>
+where
+    F: FnMut(KeyboardEventType, KeyboardEvent) -> bool + 'static,
+{
     let result = unsafe {
-        registrator(selector_as_ptr!(target),
-                    Box::<F>::into_raw(Box::new(callback)) as *mut _,
-                    if use_capture { EM_TRUE } else { EM_FALSE },
-                    Some(wrapper::<F>))
+        registrator(
+            selector_as_ptr!(target),
+            Box::<F>::into_raw(Box::new(callback)) as *mut _,
+            if use_capture { EM_TRUE } else { EM_FALSE },
+            Some(wrapper::<F>),
+        )
     };
     return match parse_html_result(result) {
         None => Ok(()),
@@ -96,35 +102,50 @@ fn set_callback<F>(
     unsafe extern "C" fn wrapper<F: FnMut(KeyboardEventType, KeyboardEvent) -> bool + 'static>(
         eventType: EM_EVENT_TYPE,
         keyEvent: *const EmscriptenKeyboardEvent,
-        userData: *mut c_void) -> EM_BOOL {
+        userData: *mut c_void,
+    ) -> EM_BOOL {
         let keyEvent = &*keyEvent;
         let mut callback = Box::<F>::from_raw(userData as *mut F);
-        let result = callback(KeyboardEventType::from(eventType), KeyboardEvent::from(keyEvent));
+        let result = callback(
+            KeyboardEventType::from(eventType),
+            KeyboardEvent::from(keyEvent),
+        );
         mem::forget(callback);
-        if result { EM_TRUE } else { EM_FALSE }
+        if result {
+            EM_TRUE
+        } else {
+            EM_FALSE
+        }
     }
 }
 
-pub fn set_key_press_callback<F>(
-    target: Selector,
-    use_capture: bool,
-    callback: F) -> HtmlResult<()>
-    where F: FnMut(KeyboardEventType, KeyboardEvent) -> bool + 'static {
-    set_callback(emscripten_set_keypress_callback, target, use_capture, callback)
+pub fn set_key_press_callback<F>(target: Selector, use_capture: bool, callback: F) -> HtmlResult<()>
+where
+    F: FnMut(KeyboardEventType, KeyboardEvent) -> bool + 'static,
+{
+    set_callback(
+        emscripten_set_keypress_callback,
+        target,
+        use_capture,
+        callback,
+    )
 }
 
-pub fn set_key_down_callback<F>(
-    target: Selector,
-    use_capture: bool,
-    callback: F) -> HtmlResult<()>
-    where F: FnMut(KeyboardEventType, KeyboardEvent) -> bool + 'static {
-    set_callback(emscripten_set_keydown_callback, target, use_capture, callback)
+pub fn set_key_down_callback<F>(target: Selector, use_capture: bool, callback: F) -> HtmlResult<()>
+where
+    F: FnMut(KeyboardEventType, KeyboardEvent) -> bool + 'static,
+{
+    set_callback(
+        emscripten_set_keydown_callback,
+        target,
+        use_capture,
+        callback,
+    )
 }
 
-pub fn set_key_up_callback<F>(
-    target: Selector,
-    use_capture: bool,
-    callback: F) -> HtmlResult<()>
-    where F: FnMut(KeyboardEventType, KeyboardEvent) -> bool + 'static {
+pub fn set_key_up_callback<F>(target: Selector, use_capture: bool, callback: F) -> HtmlResult<()>
+where
+    F: FnMut(KeyboardEventType, KeyboardEvent) -> bool + 'static,
+{
     set_callback(emscripten_set_keyup_callback, target, use_capture, callback)
 }

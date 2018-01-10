@@ -1,4 +1,4 @@
-use std::ops::{Range, RangeTo, RangeFrom, RangeFull};
+use std::ops::{Range, RangeFrom, RangeFull, RangeTo};
 
 /// Temporary re-implemenation of RangeArgument from stdlib while
 /// waiting for it to become stable
@@ -64,17 +64,13 @@ impl<T: Copy> CustomRange<T> {
 
 pub fn get_slice<T, R: RangeArgument<usize>>(array: &[T], range: R) -> &[T] {
     match range.start() {
-        Some(&start) => {
-            match range.end() {
-                Some(&end) => &array[start..end],
-                None => &array[start..],
-            }
-        }
-        None => {
-            match range.end() {
-                Some(&end) => &array[..end],
-                None => &array[..],
-            }
-        }
+        Some(&start) => match range.end() {
+            Some(&end) => &array[start..end],
+            None => &array[start..],
+        },
+        None => match range.end() {
+            Some(&end) => &array[..end],
+            None => &array[..],
+        },
     }
 }

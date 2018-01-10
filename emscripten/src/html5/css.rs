@@ -2,7 +2,11 @@ use ::*;
 
 pub fn set_element_css_size(target: Selector, size: Vec2<f64>) -> HtmlResult<()> {
     let result = unsafe {
-        emscripten_set_element_css_size(selector_as_ptr!(target), size.x as c_double, size.y as c_double)
+        emscripten_set_element_css_size(
+            selector_as_ptr!(target),
+            size.x as c_double,
+            size.y as c_double,
+        )
     };
     match parse_html_result(result) {
         None => Ok(()),

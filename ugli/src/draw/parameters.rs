@@ -72,15 +72,22 @@ impl DrawParameters {
                     gl::Enable(gl::CULL_FACE);
                     gl::CullFace(cull_face as _);
                 }
-                None => gl::Disable(gl::CULL_FACE)
+                None => gl::Disable(gl::CULL_FACE),
             }
             if let Some(rect) = self.viewport {
-                gl::Viewport(rect.bottom_left.x as GLint,
-                             rect.bottom_left.y as GLint,
-                             rect.width() as GLsizei,
-                             rect.height() as GLsizei);
+                gl::Viewport(
+                    rect.bottom_left.x as GLint,
+                    rect.bottom_left.y as GLint,
+                    rect.width() as GLsizei,
+                    rect.height() as GLsizei,
+                );
             } else {
-                gl::Viewport(0, 0, framebuffer_size.x as GLsizei, framebuffer_size.y as GLsizei);
+                gl::Viewport(
+                    0,
+                    0,
+                    framebuffer_size.x as GLsizei,
+                    framebuffer_size.y as GLsizei,
+                );
             }
             gl::DepthMask(gl_bool(self.write_depth));
         }

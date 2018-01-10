@@ -11,15 +11,15 @@ impl ShaderLibrary for ShaderPrelude {
         match path {
             "prelude" => Some(include_str!("glsl/prelude.glsl")),
             "noise2d" => Some(include_str!("glsl/noise2d.glsl")),
-            _ => None
+            _ => None,
         }
     }
 }
 
 impl<A, B> ShaderLibrary for (A, B)
-    where
-        A: ShaderLibrary,
-        B: ShaderLibrary,
+where
+    A: ShaderLibrary,
+    B: ShaderLibrary,
 {
     fn get(path: &str) -> Option<&str> {
         if let Some(result) = A::get(path) {
@@ -52,7 +52,9 @@ impl<'a> PreprocessedShader<'a> {
             if line.starts_with("#include <") && line.ends_with('>') {
                 let path = &line["#include <".len()..line.len() - ">".len()];
                 if self.included_headers.insert(path) {
-                    self.preprocess::<Lib>(Lib::get(path).expect(&format!("{:?} not found in library", path)));
+                    self.preprocess::<Lib>(
+                        Lib::get(path).expect(&format!("{:?} not found in library", path)),
+                    );
                 }
             } else {
                 self.sources.push(line);

@@ -14,11 +14,7 @@ impl codevisual::Game for Tutorial {
         String::from("CodeVisual Tutorial 03 - Events")
     }
     fn draw(&mut self, framebuffer: &mut ugli::Framebuffer) {
-        ugli::clear(
-            framebuffer,
-            Some(Color::rgb(0.2, 1.0, 0.2)),
-            None,
-        );
+        ugli::clear(framebuffer, Some(Color::rgb(0.2, 1.0, 0.2)), None);
     }
     fn handle_event(&mut self, event: codevisual::Event) {
         println!("{:?}", event);

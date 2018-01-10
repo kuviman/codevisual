@@ -10,7 +10,7 @@ extern crate syn;
 pub(crate) use prelude::*;
 pub(crate) use proc_macro::TokenStream;
 pub(crate) use quote::Tokens;
-pub(crate) use syn::{Body, Ident, Field, VariantData, DeriveInput};
+pub(crate) use syn::{Body, DeriveInput, Field, Ident, VariantData};
 
 mod uniforms;
 
@@ -26,7 +26,11 @@ pub fn derive_vertex(input: TokenStream) -> TokenStream {
     vertex::derive(input)
 }
 
-fn simple_derive(input: TokenStream, typ: syn::Path, expand: fn(&DeriveInput) -> Tokens) -> TokenStream {
+fn simple_derive(
+    input: TokenStream,
+    typ: syn::Path,
+    expand: fn(&DeriveInput) -> Tokens,
+) -> TokenStream {
     let s = input.to_string();
     let ast = syn::parse_derive_input(&s).unwrap();
     let input_type = &ast.ident;
@@ -37,5 +41,7 @@ fn simple_derive(input: TokenStream, typ: syn::Path, expand: fn(&DeriveInput) ->
             #impl_body
         }
     };
-    result.parse().expect("Expanded output was no correct Rust code")
+    result
+        .parse()
+        .expect("Expanded output was no correct Rust code")
 }

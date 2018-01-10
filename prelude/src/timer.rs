@@ -1,10 +1,8 @@
 use ::*;
 
 pub struct Timer {
-    #[cfg(target_os = "emscripten")]
-    start_time: f64,
-    #[cfg(not(target_os = "emscripten"))]
-    start: std::time::Instant,
+    #[cfg(target_os = "emscripten")] start_time: f64,
+    #[cfg(not(target_os = "emscripten"))] start: std::time::Instant,
 }
 
 #[cfg(target_os = "emscripten")]
@@ -20,9 +18,13 @@ fn to_secs(duration: std::time::Duration) -> f64 {
 impl Timer {
     pub fn new() -> Self {
         #[cfg(target_os = "emscripten")]
-        return Self { start_time: unsafe { emscripten_get_now() } as f64 / 1000.0 };
+        return Self {
+            start_time: unsafe { emscripten_get_now() } as f64 / 1000.0,
+        };
         #[cfg(not(target_os = "emscripten"))]
-        return Self { start: std::time::Instant::now() };
+        return Self {
+            start: std::time::Instant::now(),
+        };
     }
     pub fn elapsed(&self) -> f64 {
         #[cfg(target_os = "emscripten")]

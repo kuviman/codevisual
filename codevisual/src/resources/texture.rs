@@ -19,10 +19,8 @@ mod _impl {
             let handle = AssetHandle::new(loader, path);
             let future = Rc::new(RefCell::new(None));
             {
-                let mut texture = ugli::Texture2d::new_uninitialized(
-                    loader.app.ugli_context(),
-                    vec2(1, 1),
-                );
+                let mut texture =
+                    ugli::Texture2d::new_uninitialized(loader.app.ugli_context(), vec2(1, 1));
                 let texture_handle = texture._get_handle();
                 let future = future.clone();
                 let callback = webby::CallbackOnce::from(move |width: i32, height: i32| {
