@@ -3,12 +3,4 @@ members = [
     "codevisual",
     "codevisual-derive",
     "codevisual-web",
-    "codevisual-web-launcher",
-    "emscripten",
-    "emscripten-sys",
-    "prelude",
-    "ugli",
-    "ugli-derive",
-    "web-build",
-    "webby",
-    "webby-macro"]
+    "codevisual-web-launcher"]

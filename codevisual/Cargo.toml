@@ -4,8 +4,8 @@ version = "0.1.0"
 authors = ["kuviman <kuviman@gmail.com>"]
 
 [dependencies]
-prelude = { path = "../prelude" }
-ugli = { path = "../ugli" }
+prelude = { git = "https://github.com/kuviman/commons" }
+ugli = { git = "https://github.com/kuviman/ugli" }
 codevisual-derive = { path = "../codevisual-derive" }
 rusttype = "0.3.0"
 serde = "1.0"
@@ -19,4 +19,4 @@ num_cpus = "1.0"
 rodio = "0.5.2"
 
 [target.'cfg(target_os = "emscripten")'.dependencies]
-webby = { path = "../webby" }
+webby = { git = "https://github.com/kuviman/webby" }

@@ -4,4 +4,4 @@ version = "0.1.0"
 authors = ["kuviman <kuviman@gmail.com>"]
 
 [build-dependencies]
-web-build = { path = "../web-build" }
+web-build = { git = "https://github.com/kuviman/commons" }

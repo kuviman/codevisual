@@ -1,9 +1,0 @@
-[package]
-name = "prelude"
-version = "0.1.0"
-authors = ["kuviman <kuviman@gmail.com>"]
-
-[dependencies]
-rand = "0.3.18"
-num = "0.1.41"
-owning_ref = "0.3.3"
