@@ -3,5 +3,4 @@ target/
 Cargo.lock
 *~
 .idea/
-emsdk/
-codevisual.iml
+*.iml
