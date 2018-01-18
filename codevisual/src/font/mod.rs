@@ -1,17 +1,9 @@
 use ::*;
 
-#[derive(Debug)]
+#[derive(Vertex, Debug)]
 struct Vertex {
     a_pos: Vec2<f32>,
     a_vt: Vec2<f32>,
-}
-
-// TODO: derive should be in ugli-derive instead of codevisual-derive
-impl ugli::Vertex for Vertex {
-    fn walk_attributes<C: ugli::VertexAttributeVisitor>(&self, mut visitor: C) {
-        visitor.visit("a_pos", &self.a_pos);
-        visitor.visit("a_vt", &self.a_vt);
-    }
 }
 
 pub struct Font {
