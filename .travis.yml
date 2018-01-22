@@ -1,10 +1,16 @@
 language: rust
+before-install:
+  - sudo apt update
 install:
   - sudo apt install emscripten
   - sudo apt install libasound2-dev
   - rustup target add wasm32-unknown-emscripten
+  - cargo install
 script:
   - cargo test --verbose --package codevisual
+  - >-
+    cargo build --package codevisual --examples --target
+    wasm32-unknown-emscripten
 before_deploy:
   - cargo doc --no-deps --package codevisual
   - >-
