@@ -11,7 +11,7 @@ pub use self::texture::*;
 pub struct ResourceLoader {
     app: Rc<App>,
     resource_count: Cell<usize>,
-    loaded_count: Arc<AtomicCell<usize>>,
+    loaded_count: Arc<ACell<usize>>,
     #[cfg(not(target_os = "emscripten"))] thread_pool: threadpool::ThreadPool,
 }
 
@@ -27,7 +27,7 @@ impl ResourceLoader {
         Self {
             app: app.clone(),
             resource_count: Cell::new(1),
-            loaded_count: Arc::new(AtomicCell::new(1)),
+            loaded_count: Arc::new(ACell::new(1)),
             #[cfg(not(target_os = "emscripten"))]
             thread_pool: threadpool::ThreadPool::new(min(4, num_cpus::get())),
         }
@@ -88,7 +88,7 @@ impl<T: 'static> ResourceFuture<T> for ResourceJob<T> {
 pub struct AssetHandle {
     #[allow(dead_code)] timer: Timer,
     #[allow(dead_code)] name: String,
-    loaded_count: Arc<AtomicCell<usize>>,
+    loaded_count: Arc<ACell<usize>>,
 }
 
 impl AssetHandle {
