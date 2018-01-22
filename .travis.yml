@@ -6,7 +6,7 @@ install:
 script:
   - cargo test --verbose --package codevisual
   - >-
-    cargo build --verbose --package codevisual --target
+    cargo build --examples --verbose --package codevisual --target
     wasm32-unknown-emscripten
 before_deploy:
   - cargo doc --no-deps --package codevisual
