@@ -5,9 +5,6 @@ install:
   - rustup target add wasm32-unknown-emscripten
 script:
   - cargo test --verbose --package codevisual
-  - >-
-    cargo build --examples --verbose --package codevisual --target
-    wasm32-unknown-emscripten
 before_deploy:
   - cargo doc --no-deps --package codevisual
   - >-
