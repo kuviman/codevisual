@@ -1,5 +1,5 @@
 language: rust
-before-install:
+before_install:
   - sudo apt update
 install:
   - sudo apt install emscripten
