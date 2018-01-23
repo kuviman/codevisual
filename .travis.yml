@@ -9,7 +9,7 @@ script:
 before_deploy:
   - docker exec -it dock.rs cargo doc --no-deps --package codevisual
   - >-
-    echo '<meta http-equiv=refresh content=0;url=codevisual/index.html>' >
+    sudo echo '<meta http-equiv=refresh content=0;url=codevisual/index.html>' >
     target/doc/index.html
 deploy:
   provider: pages
