@@ -18,5 +18,6 @@ deploy:
   github-token: $TOKEN
   keep-history: true
   local-dir: target/doc
+  fqdn: codevisual.kuviman.com
   on:
     branch: master
