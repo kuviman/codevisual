@@ -11,6 +11,7 @@ before_deploy:
   - >-
     docker exec -it dock.rs bash -c "echo '<meta http-equiv=refresh
     content=0;url=codevisual/index.html>' > target/doc/index.html"
+  - 'sudo chown -R $(id -u):$(id -g) .'
 deploy:
   provider: pages
   skip-cleanup: true
