@@ -229,7 +229,7 @@
                 };
                 <span class="macro">eprintln</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">error</span>);
                 <span class="macro">js</span><span class="macro">!</span> {
-                    <span class="ident">CodeVisual</span>.<span class="ident">internal</span>.<span class="ident">show_error</span>(@(<span class="ident">error</span>));
+                    <span class="ident">CodeVisual</span>.<span class="ident">internal</span>.<span class="ident">show_error</span>(@<span class="ident">error</span>);
                 };
             }
             <span class="ident">std</span>::<span class="ident">panic</span>::<span class="ident">set_hook</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">panic_hook</span>));
@@ -270,8 +270,8 @@
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;emscripten&quot;</span>)]</span>
             <span class="macro">js</span><span class="macro">!</span> {
                 <span class="ident">CodeVisual</span>.<span class="ident">internal</span>.<span class="ident">set_load_progress</span>(
-                    @(<span class="ident">resource_loader</span>.<span class="ident">get_loaded_count</span>()),
-                    @(<span class="ident">resource_loader</span>.<span class="ident">get_total_count</span>()));
+                    @{<span class="ident">resource_loader</span>.<span class="ident">get_loaded_count</span>()},
+                    @{<span class="ident">resource_loader</span>.<span class="ident">get_total_count</span>()});
             };
             <span class="kw">return</span> <span class="bool-val">false</span>;
         }

@@ -110,11 +110,11 @@
         <span class="kw">use</span> <span class="ident">CursorType</span>::<span class="kw-2">*</span>;
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;emscripten&quot;</span>)]</span>
         <span class="macro">js</span><span class="macro">!</span> {
-            <span class="ident">CodeVisual</span>.<span class="ident">internal</span>.<span class="ident">set_cursor</span>(@(<span class="kw">match</span> <span class="ident">cursor_type</span> {
+            <span class="ident">CodeVisual</span>.<span class="ident">internal</span>.<span class="ident">set_cursor</span>(@{<span class="kw">match</span> <span class="ident">cursor_type</span> {
                 <span class="ident">Default</span> <span class="op">=&gt;</span> <span class="string">&quot;initial&quot;</span>,
                 <span class="ident">Pointer</span> <span class="op">=&gt;</span> <span class="string">&quot;pointer&quot;</span>,
                 <span class="ident">Drag</span> <span class="op">=&gt;</span> <span class="string">&quot;all-scroll&quot;</span>,
-            }));
+            }});
         };
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;emscripten&quot;</span>))]</span>
         {

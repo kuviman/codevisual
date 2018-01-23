@@ -239,7 +239,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_setting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">setting</span>: <span class="ident">Setting</span>) {
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;emscripten&quot;</span>)]</span>
         <span class="macro">js</span><span class="macro">!</span> {
-            <span class="ident">CodeVisual</span>.<span class="ident">settings</span>.<span class="ident">add</span>(@(<span class="ident">setting</span>));
+            <span class="ident">CodeVisual</span>.<span class="ident">settings</span>.<span class="ident">add</span>(@<span class="ident">setting</span>);
         }
     }
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">register_settings</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Settings</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;&gt;</span> {
