@@ -9,8 +9,8 @@ script:
 before_deploy:
   - docker exec -it dock.rs cargo doc --no-deps --package codevisual
   - >-
-    sudo echo '<meta http-equiv=refresh content=0;url=codevisual/index.html>' >
-    target/doc/index.html
+    docker exec -it dock.rs bash -c "echo '<meta http-equiv=refresh
+    content=0;url=codevisual/index.html>' > target/doc/index.html"
 deploy:
   provider: pages
   skip-cleanup: true
