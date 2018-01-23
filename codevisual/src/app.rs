@@ -34,7 +34,7 @@ impl App {
                 };
                 eprintln!("{:?}", error);
                 js! {
-                    CodeVisual.internal.show_error(@(error));
+                    CodeVisual.internal.show_error(@error);
                 };
             }
             std::panic::set_hook(Box::new(panic_hook));
@@ -75,8 +75,8 @@ pub fn run<G: Game>() {
             #[cfg(target_os = "emscripten")]
             js! {
                 CodeVisual.internal.set_load_progress(
-                    @(resource_loader.get_loaded_count()),
-                    @(resource_loader.get_total_count()));
+                    @{resource_loader.get_loaded_count()},
+                    @{resource_loader.get_total_count()});
             };
             return false;
         }

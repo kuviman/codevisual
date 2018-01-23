@@ -92,7 +92,7 @@ impl App {
     pub fn add_setting(&self, setting: Setting) {
         #[cfg(target_os = "emscripten")]
         js! {
-            CodeVisual.settings.add(@(setting));
+            CodeVisual.settings.add(@setting);
         }
     }
     pub fn register_settings<S: Settings>(&self) -> Rc<RefCell<S>> {

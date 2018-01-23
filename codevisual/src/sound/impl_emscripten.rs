@@ -7,7 +7,7 @@ pub struct Sound {
 impl Sound {
     pub fn play(&self, volume: f64) {
         js! {
-            CodeVisual.internal.play_sound(@(self.id.get()), @(volume));
+            CodeVisual.internal.play_sound(@{self.id.get()}, @volume);
         };
     }
 }
@@ -34,7 +34,7 @@ impl Asset for Sound {
             }
         });
         js! {
-            CodeVisual.internal.load_sound(@(path), @(callback));
+            CodeVisual.internal.load_sound(@path, @callback);
         };
         Sound { id: sound_id }
     }

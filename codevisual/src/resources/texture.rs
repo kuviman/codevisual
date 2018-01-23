@@ -32,7 +32,7 @@ mod _impl {
                     handle.confirm();
                 });
                 js! {
-                    CodeVisual.internal.load_texture(@(path), @(texture_handle), @(callback));
+                    CodeVisual.internal.load_texture(@path, @texture_handle, @callback);
                 };
             }
             future
