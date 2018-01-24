@@ -7,7 +7,7 @@ script:
     docker exec -it dock.rs cargo build --package codevisual --examples --target
     wasm32-unknown-emscripten
 before_deploy:
-  - docker exec -it dock.rs cargo doc --no-deps --package codevisual
+  - docker exec -it dock.rs cargo doc --package codevisual
   - >-
     docker exec -it dock.rs bash -c "echo '<meta http-equiv=refresh
     content=0;url=codevisual/index.html>' > target/doc/index.html"
