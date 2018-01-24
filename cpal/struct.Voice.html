@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Voice` struct in crate `cpal`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Voice">
+
+    <title>cpal::Voice - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Struct Voice</p><div class="block items"><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.new">new</a><a href="#method.format">format</a><a href="#method.get_channels">get_channels</a><a href="#method.get_samples_rate">get_samples_rate</a><a href="#method.get_samples_format">get_samples_format</a><a href="#method.play">play</a><a href="#method.pause">pause</a></div></div><p class='location'><a href='index.html'>cpal</a></p><script>window.sidebarCurrent = {name: 'Voice', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>cpal</a>::<wbr><a class="struct" href=''>Voice</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/cpal/lib.rs.html#358-361' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Voice { /* fields omitted */ }</pre><div class='docblock'><p>Controls a sound output. A typical application has one <code>Voice</code> for each sound
+it wants to output.</p>
+
+<p>A voice must be periodically filled with new data by calling <code>append_data</code>, or the sound
+will stop playing.</p>
+
+<p>Each <code>Voice</code> is bound to a specific number of channels, samples rate, and samples format,
+which can be retreived by calling <code>get_channels</code>, <code>get_samples_rate</code> and <code>get_samples_format</code>.
+If you call <code>append_data</code> with values different than these, then cpal will automatically
+perform a conversion on your data.</p>
+
+<p>If you have the possibility, you should try to match the format of the voice.</p>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl <a class="struct" href="../cpal/struct.Voice.html" title="struct cpal::Voice">Voice</a></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/cpal/lib.rs.html#363-436' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>pub fn <a href='#method.new' class='fnname'>new</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;endpoint: &amp;<a class="struct" href="../cpal/struct.Endpoint.html" title="struct cpal::Endpoint">Endpoint</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;format: &amp;<a class="struct" href="../cpal/struct.Format.html" title="struct cpal::Format">Format</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;event_loop: &amp;<a class="struct" href="../cpal/struct.EventLoop.html" title="struct cpal::EventLoop">EventLoop</a><br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a><a class="struct" href="../cpal/struct.Voice.html" title="struct cpal::Voice">Voice</a>, <a class="struct" href="../cpal/struct.SamplesStream.html" title="struct cpal::SamplesStream">SamplesStream</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>, <a class="enum" href="../cpal/enum.CreationError.html" title="enum cpal::CreationError">CreationError</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/cpal/lib.rs.html#366-378' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Builds a new channel.</p>
+</div><h4 id='method.format' class="method"><span id='format.v' class='invisible'><code>pub fn <a href='#method.format' class='fnname'>format</a>(&amp;self) -&gt; &amp;<a class="struct" href="../cpal/struct.Format.html" title="struct cpal::Format">Format</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/cpal/lib.rs.html#382-384' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns the format used by the voice.</p>
+</div><h4 id='method.get_channels' class="method"><span id='get_channels.v' class='invisible'><code>pub fn <a href='#method.get_channels' class='fnname'>get_channels</a>(&amp;self) -&gt; <a class="type" href="../cpal/type.ChannelsCount.html" title="type cpal::ChannelsCount">ChannelsCount</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/cpal/lib.rs.html#392-394' title='goto source code'>[src]</a></span></h4>
+<div class='stability'><div class='stab deprecated'>Deprecated</div></div><div class='docblock'><p>DEPRECATED: use <code>format</code> instead. Returns the number of channels.</p>
+
+<p>You can add data with any number of channels, but matching the voice&#39;s native format
+will lead to better performances.</p>
+</div><h4 id='method.get_samples_rate' class="method"><span id='get_samples_rate.v' class='invisible'><code>pub fn <a href='#method.get_samples_rate' class='fnname'>get_samples_rate</a>(&amp;self) -&gt; <a class="struct" href="../cpal/struct.SamplesRate.html" title="struct cpal::SamplesRate">SamplesRate</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/cpal/lib.rs.html#402-404' title='goto source code'>[src]</a></span></h4>
+<div class='stability'><div class='stab deprecated'>Deprecated</div></div><div class='docblock'><p>DEPRECATED: use <code>format</code> instead. Returns the number of samples that are played per second.</p>
+
+<p>You can add data with any samples rate, but matching the voice&#39;s native format
+will lead to better performances.</p>
+</div><h4 id='method.get_samples_format' class="method"><span id='get_samples_format.v' class='invisible'><code>pub fn <a href='#method.get_samples_format' class='fnname'>get_samples_format</a>(&amp;self) -&gt; <a class="enum" href="../cpal/enum.SampleFormat.html" title="enum cpal::SampleFormat">SampleFormat</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/cpal/lib.rs.html#412-414' title='goto source code'>[src]</a></span></h4>
+<div class='stability'><div class='stab deprecated'>Deprecated</div></div><div class='docblock'><p>DEPRECATED: use <code>format</code> instead. Returns the format of the samples that are accepted by the backend.</p>
+
+<p>You can add data of any format, but matching the voice&#39;s native format
+will lead to better performances.</p>
+</div><h4 id='method.play' class="method"><span id='play.v' class='invisible'><code>pub fn <a href='#method.play' class='fnname'>play</a>(&amp;mut self)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/cpal/lib.rs.html#423-425' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Sends a command to the audio device that it should start playing.</p>
+
+<p>Has no effect is the voice was already playing.</p>
+
+<p>Only call this after you have submitted some data, otherwise you may hear
+some glitches.</p>
+</div><h4 id='method.pause' class="method"><span id='pause.v' class='invisible'><code>pub fn <a href='#method.pause' class='fnname'>pause</a>(&amp;mut self)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/cpal/lib.rs.html#433-435' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Sends a command to the audio device that it should stop playing.</p>
+
+<p>Has no effect is the voice was already paused.</p>
+
+<p>If you call <code>play</code> afterwards, the playback will resume exactly where it was.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>↑</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>↓</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>↹</dt>
+                    <dd>Switch tab</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt style="width:31px;">+ / -</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "cpal";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

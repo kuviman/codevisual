@@ -52,7 +52,7 @@
 <pre class='rust trait'>pub trait Game: 'static {
     type <a href='#associatedtype.Resources' class="type">Resources</a>: <a class="trait" href="../codevisual/trait.ResourceContainer.html" title="trait codevisual::ResourceContainer">ResourceContainer</a>;
     fn <a href='#tymethod.new' class='fnname'>new</a>(app: &amp;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/rc/struct.Rc.html" title="struct alloc::rc::Rc">Rc</a>&lt;<a class="struct" href="../codevisual/struct.App.html" title="struct codevisual::App">App</a>&gt;, resources: Self::<a class="type" href="../codevisual/trait.Game.html#associatedtype.Resources" title="type codevisual::Game::Resources">Resources</a>) -&gt; Self;
-<div class='item-spacer'></div>    fn <a href='#tymethod.draw' class='fnname'>draw</a>(&amp;mut self, framebuffer: &amp;mut Framebuffer);
+<div class='item-spacer'></div>    fn <a href='#tymethod.draw' class='fnname'>draw</a>(&amp;mut self, framebuffer: &amp;mut <a class="struct" href="../ugli/framebuffer/struct.Framebuffer.html" title="struct ugli::framebuffer::Framebuffer">Framebuffer</a>);
 
     fn <a href='#method.get_title' class='fnname'>get_title</a>() -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a> { ... }
 <div class='item-spacer'></div>    fn <a href='#method.get_help_html' class='fnname'>get_help_html</a>() -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a> { ... }
@@ -68,7 +68,7 @@
               Required Methods<a href='#required-methods' class='anchor'></a>
             </h2>
             <div class='methods'>
-        <h3 id='tymethod.new' class='method'><span id='new.v' class='invisible'><code>fn <a href='#tymethod.new' class='fnname'>new</a>(app: &amp;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/rc/struct.Rc.html" title="struct alloc::rc::Rc">Rc</a>&lt;<a class="struct" href="../codevisual/struct.App.html" title="struct codevisual::App">App</a>&gt;, resources: Self::<a class="type" href="../codevisual/trait.Game.html#associatedtype.Resources" title="type codevisual::Game::Resources">Resources</a>) -&gt; Self</code></span></h3><h3 id='tymethod.draw' class='method'><span id='draw.v' class='invisible'><code>fn <a href='#tymethod.draw' class='fnname'>draw</a>(&amp;mut self, framebuffer: &amp;mut Framebuffer)</code></span></h3></div>
+        <h3 id='tymethod.new' class='method'><span id='new.v' class='invisible'><code>fn <a href='#tymethod.new' class='fnname'>new</a>(app: &amp;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/rc/struct.Rc.html" title="struct alloc::rc::Rc">Rc</a>&lt;<a class="struct" href="../codevisual/struct.App.html" title="struct codevisual::App">App</a>&gt;, resources: Self::<a class="type" href="../codevisual/trait.Game.html#associatedtype.Resources" title="type codevisual::Game::Resources">Resources</a>) -&gt; Self</code></span></h3><h3 id='tymethod.draw' class='method'><span id='draw.v' class='invisible'><code>fn <a href='#tymethod.draw' class='fnname'>draw</a>(&amp;mut self, framebuffer: &amp;mut <a class="struct" href="../ugli/framebuffer/struct.Framebuffer.html" title="struct ugli::framebuffer::Framebuffer">Framebuffer</a>)</code></span></h3></div>
             <h2 id='provided-methods' class='small-section-header'>
               Provided Methods<a href='#provided-methods' class='anchor'></a>
             </h2>
