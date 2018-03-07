@@ -10,7 +10,7 @@ impl ShaderLib {
         fn prepare(source: &str) -> Vec<&str> {
             vec![
                 #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
-                "#version 150",
+                "#version 150\n",
                 #[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
                 "precision highp int;\nprecision highp float;\n",
                 source,
