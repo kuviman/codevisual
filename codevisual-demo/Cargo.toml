@@ -1,0 +1,8 @@
+[package]
+name = "codevisual-demo"
+version = "0.1.0"
+authors = ["kuviman <kuviman@gmail.com>"]
+
+[dependencies]
+codevisual = { path = "../codevisual" }
+ugli = { git = "https://github.com/kuviman/ugli" }

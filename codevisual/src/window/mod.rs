@@ -7,8 +7,10 @@ pub use self::cursor::*;
 pub use self::events::*;
 
 pub struct Window {
-    #[cfg(not(target_os = "emscripten"))] glutin_window: glutin::GlWindow,
-    #[cfg(not(target_os = "emscripten"))] glutin_events_loop: RefCell<glutin::EventsLoop>,
+    #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
+    glutin_window: glutin::GlWindow,
+    #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
+    glutin_events_loop: RefCell<glutin::EventsLoop>,
     pressed_keys: RefCell<HashSet<Key>>,
     should_close: Cell<bool>,
     mouse_pos: Cell<Vec2>,
@@ -29,7 +31,7 @@ impl Window {
                 pressed_keys: RefCell::new(HashSet::new()),
             }
         };
-        #[cfg(not(target_os = "emscripten"))]
+        #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
         let window = {
             use glutin::GlContext;
             let glutin_events_loop = glutin::EventsLoop::new();
@@ -52,14 +54,14 @@ impl Window {
         window
     }
 
-    #[cfg(not(target_os = "emscripten"))]
+    #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
     pub fn show(&self) {
         self.glutin_window.show();
     }
 
     pub fn swap_buffers(&self) {
         // ugli::sync();
-        #[cfg(not(target_os = "emscripten"))]
+        #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
         return {
             use glutin::GlContext;
             self.glutin_window.swap_buffers().unwrap();
@@ -69,7 +71,7 @@ impl Window {
     pub fn get_size(&self) -> Vec2<usize> {
         #[cfg(target_os = "emscripten")]
         return emscripten::get_canvas_size();
-        #[cfg(not(target_os = "emscripten"))]
+        #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
         return {
             let (width, height) = self.glutin_window.get_inner_size().unwrap_or((1, 1));
             vec2(width as usize, height as usize)

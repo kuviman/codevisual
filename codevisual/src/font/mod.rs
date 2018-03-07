@@ -11,7 +11,7 @@ pub struct Font {
     cache: RefCell<rusttype::gpu_cache::Cache<'static>>,
     cache_texture: RefCell<ugli::Texture2d>,
     geometry: RefCell<ugli::VertexBuffer<Vertex>>,
-    material: Material,
+    program: ugli::Program,
 }
 
 const CACHE_SIZE: usize = 1024;
@@ -38,7 +38,11 @@ impl Font {
                 vec2(CACHE_SIZE, CACHE_SIZE),
             )),
             geometry: RefCell::new(ugli::VertexBuffer::new_dynamic(context, Vec::new())),
-            material: Material::new(context, (), (), include_str!("shader.glsl")),
+            program: ShaderLib::process(
+                context,
+                include_str!("vertex.glsl"),
+                include_str!("fragment.glsl"),
+            ),
         }
     }
     pub fn measure_at(&self, text: &str, pos: Vec2<f32>, size: f32) -> Option<Rect<f32>> {
@@ -158,7 +162,7 @@ impl Font {
 
         ugli::draw(
             framebuffer,
-            &self.material.ugli_program(),
+            &self.program,
             ugli::DrawMode::Triangles,
             &*geometry,
             uniforms! {

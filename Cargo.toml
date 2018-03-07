@@ -1,6 +1,4 @@
 [workspace]
 members = [
     "codevisual",
-    "codevisual-derive",
-    "codevisual-web",
-    "codevisual-web-launcher"]
+    "codevisual-demo"]

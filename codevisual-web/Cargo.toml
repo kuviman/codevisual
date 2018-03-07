@@ -1,7 +1,0 @@
-[package]
-name = "codevisual-web"
-version = "0.1.0"
-authors = ["kuviman <kuviman@gmail.com>"]
-
-[build-dependencies]
-web-build = { git = "https://github.com/kuviman/commons", rev = "29d32f625d072660e7876f2c2922ccf614a85533" }
