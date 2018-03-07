@@ -54,12 +54,13 @@ pub fn run<G: Game>() {
     };
 
     #[cfg(target_os = "emscripten")]
-    {
-        fn main_loop_wrapper<F: FnMut() + 'static>(mut main_loop: F) {
+    js! {
+        var main_loop = @{main_loop};
+        function main_loop_wrapper() {
             main_loop();
-            stdweb::web::window().request_animation_frame(move |_| main_loop_wrapper(main_loop));
+            window.requestAnimationFrame(main_loop_wrapper);
         }
-        main_loop_wrapper(main_loop);
+        main_loop_wrapper();
     }
 
     #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
