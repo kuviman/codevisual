@@ -8,6 +8,8 @@ use codevisual::prelude::*;
 struct Demo {
     font: Rc<codevisual::Font>,
     time: f64,
+    frames: usize,
+    fps: usize,
 }
 
 impl codevisual::Game for Demo {
@@ -17,6 +19,8 @@ impl codevisual::Game for Demo {
         Demo {
             font: codevisual::Font::default(context),
             time: 0.0,
+            frames: 0,
+            fps: 0,
         }
     }
     fn title() -> String {
@@ -35,14 +39,20 @@ impl codevisual::Game for Demo {
         );
         self.font.draw(
             framebuffer,
-            &format!("time passed: {} seconds", self.time as i32),
-            vec2(0.0, 0.0),
-            32.0,
+            &format!("FPS: {}", self.fps),
+            vec2(10.0, 10.0),
+            16.0,
             Color::WHITE,
         );
     }
     fn update(&mut self, delta_time: f64) {
         self.time += delta_time;
+        self.frames += 1;
+        if self.time > 1.0 {
+            self.fps = (self.frames as f64 / self.time) as _;
+            self.time = 0.0;
+            self.frames = 0;
+        }
     }
 }
 
