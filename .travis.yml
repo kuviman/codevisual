@@ -1,4 +1,6 @@
 language: rust
+install:
+  - sudo apt install libasound2-dev
 before_script:
   - cargo install cargo-web
 script:
