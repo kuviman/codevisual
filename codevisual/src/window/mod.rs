@@ -7,8 +7,7 @@ pub use self::cursor::*;
 pub use self::events::*;
 
 pub struct Window {
-    #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
-    glutin_window: glutin::GlWindow,
+    #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))] glutin_window: glutin::GlWindow,
     #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
     glutin_events_loop: RefCell<glutin::EventsLoop>,
     pressed_keys: RefCell<HashSet<Key>>,
@@ -19,6 +18,14 @@ pub struct Window {
 
 impl Window {
     pub fn new(title: &str) -> Self {
+        #[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
+        js! {
+            var canvas = Module.canvas;
+            window.setInterval(function() {
+                canvas.width = canvas.clientWidth;
+                canvas.height = canvas.clientHeight;
+            }, 300);
+        }
         #[cfg(target_os = "emscripten")]
         let window = {
             println!("Starting {}", title);
@@ -62,10 +69,10 @@ impl Window {
     pub fn swap_buffers(&self) {
         // ugli::sync();
         #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
-        return {
+        {
             use glutin::GlContext;
             self.glutin_window.swap_buffers().unwrap();
-        };
+        }
     }
 
     pub fn get_size(&self) -> Vec2<usize> {
