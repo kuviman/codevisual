@@ -1,10 +1,10 @@
 use ::*;
 
-#[cfg(target_os = "emscripten")]
-mod impl_emscripten;
+#[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
+mod impl_web;
 
-#[cfg(not(target_os = "emscripten"))]
-mod impl_not_emscripten;
+#[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
+mod impl_default;
 
 #[derive(Debug, Copy, Clone)]
 pub enum MouseButton {

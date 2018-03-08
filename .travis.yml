@@ -1,23 +1,25 @@
+language: rust
 install:
-  - 'docker build --tag dock.rs https://github.com/kuviman/dock.rs.git'
-  - 'docker run -dit -v $(pwd):/src --name dock.rs dock.rs bash'
+  - sudo apt install libasound2-dev
+before_script:
+  - cargo install cargo-web
 script:
-  - docker exec -it dock.rs cargo test --package codevisual
-  - >-
-    docker exec -it dock.rs cargo build --package codevisual --examples --target
-    wasm32-unknown-emscripten
+  - cargo test --package codevisual
+  - (cd codevisual && cargo web test)
+  - cargo test --package codevisual-demo
+  - (cd codevisual-demo && cargo web test)
 before_deploy:
-  - docker exec -it dock.rs cargo doc --package codevisual
-  - >-
-    docker exec -it dock.rs bash -c "echo '<meta http-equiv=refresh
-    content=0;url=codevisual/index.html>' > target/doc/index.html"
-  - 'sudo chown -R $(id -u):$(id -g) .'
+  - (cd codevisual-demo && cargo web deploy --release)
+  - mv codevisual-demo/target/deploy target/deploy
+  - cargo doc --package codevisual
+  - mv target/doc target/deploy
+  - echo '<meta http-equiv=refresh content=0;url=codevisual/index.html>' > target/deploy/doc/index.html
 deploy:
   provider: pages
   skip-cleanup: true
   github-token: $TOKEN
   keep-history: true
-  local-dir: target/doc
+  local-dir: target/deploy
   fqdn: codevisual.kuviman.com
   on:
     branch: master

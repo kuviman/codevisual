@@ -8,31 +8,34 @@ pub enum CursorType {
 
 impl Window {
     pub fn set_cursor_type(&self, cursor_type: CursorType) {
-        use CursorType::*;
-        #[cfg(target_os = "emscripten")]
-        js! {
-            CodeVisual.internal.set_cursor(@{match cursor_type {
-                Default => "initial",
-                Pointer => "pointer",
-                Drag => "all-scroll",
-            }});
-        };
-        #[cfg(not(target_os = "emscripten"))]
+        #[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
+        {
+            let cursor_type = match cursor_type {
+                CursorType::Default => "initial",
+                CursorType::Pointer => "pointer",
+                CursorType::Drag => "all-scroll",
+            };
+            // TODO: only canvas
+            js! {
+                document.body.style.cursor = @{cursor_type};
+            };
+        }
+        #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
         {
             use glutin::MouseCursor as GC;
             self.glutin_window.set_cursor(match cursor_type {
-                Default => GC::Default,
-                Pointer => GC::Hand,
-                Drag => GC::AllScroll,
+                CursorType::Default => GC::Default,
+                CursorType::Pointer => GC::Hand,
+                CursorType::Drag => GC::AllScroll,
             });
         };
     }
 
     pub fn set_cursor_position(&self, position: Vec2) {
         #![allow(unused_variables)]
-        #[cfg(target_os = "emscripten")]
+        #[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
         unimplemented!();
-        #[cfg(not(target_os = "emscripten"))]
+        #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
         self.glutin_window
             .set_cursor_position(position.x as i32, position.y as i32)
             .expect("Failed to set cursor position");
@@ -43,9 +46,9 @@ impl Window {
     }
 
     pub fn grab_cursor(&self) {
-        #[cfg(target_os = "emscripten")]
+        #[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
         unimplemented!();
-        #[cfg(not(target_os = "emscripten"))]
+        #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
         self.glutin_window
             .set_cursor_state(glutin::CursorState::Grab)
             .expect("Failed to grab cursor");
