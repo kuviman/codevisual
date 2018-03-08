@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["derive_resources",""],["derive_settings",""],["derive_shader_defines",""]]});

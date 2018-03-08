@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Window` struct in crate `stdweb`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Window">
+
+    <title>stdweb::web::Window - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'>Struct Window</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.alert">alert</a><a href="#method.local_storage">local_storage</a><a href="#method.session_storage">session_storage</a><a href="#method.location">location</a><a href="#method.request_animation_frame">request_animation_frame</a><a href="#method.history">history</a><a href="#method.inner_width">inner_width</a><a href="#method.inner_height">inner_height</a><a href="#method.outer_width">outer_width</a><a href="#method.outer_height">outer_height</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Clone">Clone</a><a href="#impl-Debug">Debug</a><a href="#impl-PartialEq">PartialEq</a><a href="#impl-Eq">Eq</a><a href="#impl-From%3CWindow%3E">From&lt;Window&gt;</a><a href="#impl-TryFrom%3CEventTarget%3E">TryFrom&lt;EventTarget&gt;</a><a href="#impl-InstanceOf">InstanceOf</a><a href="#impl-AsRef%3CReference%3E">AsRef&lt;Reference&gt;</a><a href="#impl-ReferenceType">ReferenceType</a><a href="#impl-TryFrom%3CWindow%3E">TryFrom&lt;Window&gt;</a><a href="#impl-TryFrom%3CReference%3E">TryFrom&lt;Reference&gt;</a><a href="#impl-TryFrom%3C%26%27_r%20Reference%3E">TryFrom&lt;&amp;&#39;_r Reference&gt;</a><a href="#impl-TryFrom%3CValue%3E">TryFrom&lt;Value&gt;</a><a href="#impl-TryFrom%3C%26%27_r%20Value%3E">TryFrom&lt;&amp;&#39;_r Value&gt;</a><a href="#impl-JsSerialize">JsSerialize</a><a href="#impl-IEventTarget">IEventTarget</a><a href="#impl-IWindowOrWorker">IWindowOrWorker</a></div></div><p class='location'><a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>web</a></p><script>window.sidebarCurrent = {name: 'Window', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>web</a>::<wbr><a class="struct" href=''>Window</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#35' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Window(_);</pre><div class='docblock'><p>The <code>Window</code> object represents a window containing a DOM document.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window">(JavaScript docs)</a></p>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#47-193' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.alert' class="method"><span id='alert.v' class='invisible'><code>pub fn <a href='#method.alert' class='fnname'>alert</a>(&amp;self, message: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#53-57' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>The Window.alert() method displays an alert dialog
+with the optional specified content and an OK button.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/alert">(JavaScript docs)</a></p>
+</div><h4 id='method.local_storage' class="method"><span id='local_storage.v' class='invisible'><code>pub fn <a href='#method.local_storage' class='fnname'>local_storage</a>(&amp;self) -&gt; <a class="struct" href="../../stdweb/web/struct.Storage.html" title="struct stdweb::web::Storage">Storage</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#69-75' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>The <code>local_storage</code> property allows you to access a local <a href="struct.Storage.html">Storage</a>
+object.</p>
+
+<p>It is similar to the <a href="struct.Window.html#method.session_storage">Window::session_storage</a>.
+The only difference is that, while data stored in <code>local_storage</code> has
+no expiration time, data stored in <code>session_storage</code> gets cleared when
+the browsing session ends - that is, when the browser is closed.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">(JavaScript docs)</a></p>
+</div><h4 id='method.session_storage' class="method"><span id='session_storage.v' class='invisible'><code>pub fn <a href='#method.session_storage' class='fnname'>session_storage</a>(&amp;self) -&gt; <a class="struct" href="../../stdweb/web/struct.Storage.html" title="struct stdweb::web::Storage">Storage</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#91-97' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>The <code>session_storage</code> property allows you to access a session <a href="struct.Storage.html">Storage</a>
+object for the current origin.</p>
+
+<p>It is similar to the <a href="struct.Window.html#method.local_storage">Window::local_storage</a>,
+The only difference is that, while data stored in <code>local_storage</code> has
+no expiration time, data stored in <code>session_storage</code> gets cleared when
+the browsing session ends.</p>
+
+<p>A page session lasts for as long as the browser is open and survives over
+page reloads and restores. Opening a page in a new tab or window will cause
+a new session to be initiated, which differs from how session cookies work.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage">(JavaScript docs)</a></p>
+</div><h4 id='method.location' class="method"><span id='location.v' class='invisible'><code>pub fn <a href='#method.location' class='fnname'>location</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.Location.html" title="struct stdweb::web::Location">Location</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#105-111' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns a <a href="struct.Location.html">Location</a> object which contains
+information about the URL of the document and provides methods
+for changing that URL and loading another URL.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/location">(JavaScript docs)</a></p>
+</div><h4 id='method.request_animation_frame' class="method"><span id='request_animation_frame.v' class='invisible'><code>pub fn <a href='#method.request_animation_frame' class='fnname'>request_animation_frame</a>&lt;F:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>) + 'static&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;callback: F<br>) -&gt; <a class="struct" href="../../stdweb/web/struct.RequestAnimationFrameHandle.html" title="struct stdweb::web::RequestAnimationFrameHandle">RequestAnimationFrameHandle</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#126-133' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>You should call this method whenever you&#39;re ready to update your animation onscreen.
+This will request that your animation function be called before the browser performs the next repaint.
+The number of callbacks is usually 60 times per second, but will generally match the display refresh
+rate in most web browsers as per W3C recommendation. request_animation_frame() calls are paused in most browsers
+when running in background tabs or hidden iframes in order to improve performance and battery life.</p>
+
+<p>The callback method is passed a single argument, a f64, which indicates the current time when
+callbacks queued by requestAnimationFrame() begin to fire. Multiple callbacks in a single frame, therefore,
+each receive the same timestamp even though time has passed during the computation of every previous callback&#39;s workload.
+This timestamp is a decimal number, in milliseconds, but with a minimal precision of 1ms (1000 µs).</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame">(JavaScript docs)</a></p>
+</div><h4 id='method.history' class="method"><span id='history.v' class='invisible'><code>pub fn <a href='#method.history' class='fnname'>history</a>(&amp;self) -&gt; <a class="struct" href="../../stdweb/web/struct.History.html" title="struct stdweb::web::History">History</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#140-146' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns the global <a href="struct.History.html">History</a> object, which provides methods to
+manipulate the browser history.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/history">(JavaScript docs)</a></p>
+</div><h4 id='method.inner_width' class="method"><span id='inner_width.v' class='invisible'><code>pub fn <a href='#method.inner_width' class='fnname'>inner_width</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#153-157' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns the width (in pixels) of the browser window viewport including, if rendered,
+the vertical scrollbar.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/window/innerWidth">(JavaScript docs)</a></p>
+</div><h4 id='method.inner_height' class="method"><span id='inner_height.v' class='invisible'><code>pub fn <a href='#method.inner_height' class='fnname'>inner_height</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#164-168' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns the height (in pixels) of the browser window viewport including, if rendered,
+the horizontal scrollbar.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/window/innerHeight">(JavaScript docs)</a></p>
+</div><h4 id='method.outer_width' class="method"><span id='outer_width.v' class='invisible'><code>pub fn <a href='#method.outer_width' class='fnname'>outer_width</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#176-180' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns the width of the outside of the browser window. It represents the width
+of the whole browser window including sidebar (if expanded), window chrome
+and window resizing borders/handles.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/outerWidth">(JavaScript docs)</a></p>
+</div><h4 id='method.outer_height' class="method"><span id='outer_height.v' class='invisible'><code>pub fn <a href='#method.outer_height' class='fnname'>outer_height</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#188-192' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns the height of the outside of the browser window. It represents the height
+of the whole browser window including sidebar (if expanded), window chrome
+and window resizing borders/handles.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/outerHeight">(JavaScript docs)</a></p>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Clone' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> for <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a></code><a href='#impl-Clone' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class="method"><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class="method"><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>Self)</code></span><span class='out-of-band'><div class='ghost'></div><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div><a class='srclink' href='https://doc.rust-lang.org/nightly/src/core/clone.rs.html#112-114' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 id='impl-Debug' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a></code><a href='#impl-Debug' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt">Read more</a></p>
+</div></div><h3 id='impl-PartialEq' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html" title="trait core::cmp::PartialEq">PartialEq</a> for <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a></code><a href='#impl-PartialEq' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.eq' class="method"><span id='eq.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
+</div><h4 id='method.ne' class="method"><span id='ne.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>This method tests for <code>!=</code>.</p>
+</div></div><h3 id='impl-Eq' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq">Eq</a> for <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a></code><a href='#impl-Eq' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 id='impl-From%3CWindow%3E' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;<a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a>&gt; for <a class="struct" href="../../stdweb/web/struct.EventTarget.html" title="struct stdweb::web::EventTarget">EventTarget</a></code><a href='#impl-From%3CWindow%3E' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32-1' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.from' class="method"><span id='from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html#tymethod.from' class='fnname'>from</a>(value: <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a>) -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 id='impl-TryFrom%3CEventTarget%3E' class='impl'><span class='in-band'><code>impl <a class="trait" href="../../stdweb/unstable/trait.TryFrom.html" title="trait stdweb::unstable::TryFrom">TryFrom</a>&lt;<a class="struct" href="../../stdweb/web/struct.EventTarget.html" title="struct stdweb::web::EventTarget">EventTarget</a>&gt; for <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a></code><a href='#impl-TryFrom%3CEventTarget%3E' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Error' class="type"><span id='Error.t' class='invisible'><code>type <a href='../../stdweb/unstable/trait.TryFrom.html#associatedtype.Error' class="type">Error</a> = ConversionError</code></span></h4>
+<div class='docblock'><p>The type returned in the event of a conversion error.</p>
+</div><h4 id='method.try_from' class="method"><span id='try_from.v' class='invisible'><code>fn <a href='../../stdweb/unstable/trait.TryFrom.html#tymethod.try_from' class='fnname'>try_from</a>(value: <a class="struct" href="../../stdweb/web/struct.EventTarget.html" title="struct stdweb::web::EventTarget">EventTarget</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, Self::<a class="type" href="../../stdweb/unstable/trait.TryFrom.html#associatedtype.Error" title="type stdweb::unstable::TryFrom::Error">Error</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 id='impl-InstanceOf' class='impl'><span class='in-band'><code>impl <a class="trait" href="../../stdweb/trait.InstanceOf.html" title="trait stdweb::InstanceOf">InstanceOf</a> for <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a></code><a href='#impl-InstanceOf' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.instance_of' class="method"><span id='instance_of.v' class='invisible'><code>fn <a href='../../stdweb/trait.InstanceOf.html#tymethod.instance_of' class='fnname'>instance_of</a>(reference: &amp;<a class="struct" href="../../stdweb/struct.Reference.html" title="struct stdweb::Reference">Reference</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Checks whenever a given Reference if of type <code>Self</code>.</p>
+</div></div><h3 id='impl-AsRef%3CReference%3E' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="struct" href="../../stdweb/struct.Reference.html" title="struct stdweb::Reference">Reference</a>&gt; for <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a></code><a href='#impl-AsRef%3CReference%3E' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.as_ref' class="method"><span id='as_ref.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html#tymethod.as_ref' class='fnname'>as_ref</a>(&amp;self) -&gt; &amp;<a class="struct" href="../../stdweb/struct.Reference.html" title="struct stdweb::Reference">Reference</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 id='impl-ReferenceType' class='impl'><span class='in-band'><code>impl <a class="trait" href="../../stdweb/trait.ReferenceType.html" title="trait stdweb::ReferenceType">ReferenceType</a> for <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a></code><a href='#impl-ReferenceType' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.from_reference_unchecked' class="method"><span id='from_reference_unchecked.v' class='invisible'><code>unsafe fn <a href='../../stdweb/trait.ReferenceType.html#tymethod.from_reference_unchecked' class='fnname'>from_reference_unchecked</a>(reference: <a class="struct" href="../../stdweb/struct.Reference.html" title="struct stdweb::Reference">Reference</a>) -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Converts a given reference into a concrete reference-like wrapper. Doesn&#39;t do any type checking; highly unsafe to use! <a href="../../stdweb/trait.ReferenceType.html#tymethod.from_reference_unchecked">Read more</a></p>
+</div></div><h3 id='impl-From%3CWindow%3E-1' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.From.html" title="trait core::convert::From">From</a>&lt;<a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a>&gt; for <a class="struct" href="../../stdweb/struct.Reference.html" title="struct stdweb::Reference">Reference</a></code><a href='#impl-From%3CWindow%3E-1' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.from-1' class="method"><span id='from.v-1' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.From.html#tymethod.from' class='fnname'>from</a>(value: <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a>) -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 id='impl-TryFrom%3CWindow%3E' class='impl'><span class='in-band'><code>impl <a class="trait" href="../../stdweb/unstable/trait.TryFrom.html" title="trait stdweb::unstable::TryFrom">TryFrom</a>&lt;<a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a>&gt; for <a class="struct" href="../../stdweb/struct.Reference.html" title="struct stdweb::Reference">Reference</a></code><a href='#impl-TryFrom%3CWindow%3E' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Error-1' class="type"><span id='Error.t-1' class='invisible'><code>type <a href='../../stdweb/unstable/trait.TryFrom.html#associatedtype.Error' class="type">Error</a> = <a class="enum" href="../../stdweb/unstable/enum.Void.html" title="enum stdweb::unstable::Void">Void</a></code></span></h4>
+<div class='docblock'><p>The type returned in the event of a conversion error.</p>
+</div><h4 id='method.try_from-1' class="method"><span id='try_from.v-1' class='invisible'><code>fn <a href='../../stdweb/unstable/trait.TryFrom.html#tymethod.try_from' class='fnname'>try_from</a>(value: <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, Self::<a class="type" href="../../stdweb/unstable/trait.TryFrom.html#associatedtype.Error" title="type stdweb::unstable::TryFrom::Error">Error</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 id='impl-TryFrom%3CReference%3E' class='impl'><span class='in-band'><code>impl <a class="trait" href="../../stdweb/unstable/trait.TryFrom.html" title="trait stdweb::unstable::TryFrom">TryFrom</a>&lt;<a class="struct" href="../../stdweb/struct.Reference.html" title="struct stdweb::Reference">Reference</a>&gt; for <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a></code><a href='#impl-TryFrom%3CReference%3E' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Error-2' class="type"><span id='Error.t-2' class='invisible'><code>type <a href='../../stdweb/unstable/trait.TryFrom.html#associatedtype.Error' class="type">Error</a> = ConversionError</code></span></h4>
+<div class='docblock'><p>The type returned in the event of a conversion error.</p>
+</div><h4 id='method.try_from-2' class="method"><span id='try_from.v-2' class='invisible'><code>fn <a href='../../stdweb/unstable/trait.TryFrom.html#tymethod.try_from' class='fnname'>try_from</a>(reference: <a class="struct" href="../../stdweb/struct.Reference.html" title="struct stdweb::Reference">Reference</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, Self::<a class="type" href="../../stdweb/unstable/trait.TryFrom.html#associatedtype.Error" title="type stdweb::unstable::TryFrom::Error">Error</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 id='impl-TryFrom%3C%26%27_r%20Reference%3E' class='impl'><span class='in-band'><code>impl&lt;'_r&gt; <a class="trait" href="../../stdweb/unstable/trait.TryFrom.html" title="trait stdweb::unstable::TryFrom">TryFrom</a>&lt;&amp;'_r <a class="struct" href="../../stdweb/struct.Reference.html" title="struct stdweb::Reference">Reference</a>&gt; for <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a></code><a href='#impl-TryFrom%3C%26%27_r%20Reference%3E' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Error-3' class="type"><span id='Error.t-3' class='invisible'><code>type <a href='../../stdweb/unstable/trait.TryFrom.html#associatedtype.Error' class="type">Error</a> = ConversionError</code></span></h4>
+<div class='docblock'><p>The type returned in the event of a conversion error.</p>
+</div><h4 id='method.try_from-3' class="method"><span id='try_from.v-3' class='invisible'><code>fn <a href='../../stdweb/unstable/trait.TryFrom.html#tymethod.try_from' class='fnname'>try_from</a>(reference: &amp;<a class="struct" href="../../stdweb/struct.Reference.html" title="struct stdweb::Reference">Reference</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, Self::<a class="type" href="../../stdweb/unstable/trait.TryFrom.html#associatedtype.Error" title="type stdweb::unstable::TryFrom::Error">Error</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 id='impl-TryFrom%3CValue%3E' class='impl'><span class='in-band'><code>impl <a class="trait" href="../../stdweb/unstable/trait.TryFrom.html" title="trait stdweb::unstable::TryFrom">TryFrom</a>&lt;<a class="enum" href="../../stdweb/enum.Value.html" title="enum stdweb::Value">Value</a>&gt; for <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a></code><a href='#impl-TryFrom%3CValue%3E' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Error-4' class="type"><span id='Error.t-4' class='invisible'><code>type <a href='../../stdweb/unstable/trait.TryFrom.html#associatedtype.Error' class="type">Error</a> = ConversionError</code></span></h4>
+<div class='docblock'><p>The type returned in the event of a conversion error.</p>
+</div><h4 id='method.try_from-4' class="method"><span id='try_from.v-4' class='invisible'><code>fn <a href='../../stdweb/unstable/trait.TryFrom.html#tymethod.try_from' class='fnname'>try_from</a>(value: <a class="enum" href="../../stdweb/enum.Value.html" title="enum stdweb::Value">Value</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, Self::<a class="type" href="../../stdweb/unstable/trait.TryFrom.html#associatedtype.Error" title="type stdweb::unstable::TryFrom::Error">Error</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 id='impl-TryFrom%3C%26%27_r%20Value%3E' class='impl'><span class='in-band'><code>impl&lt;'_r&gt; <a class="trait" href="../../stdweb/unstable/trait.TryFrom.html" title="trait stdweb::unstable::TryFrom">TryFrom</a>&lt;&amp;'_r <a class="enum" href="../../stdweb/enum.Value.html" title="enum stdweb::Value">Value</a>&gt; for <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a></code><a href='#impl-TryFrom%3C%26%27_r%20Value%3E' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Error-5' class="type"><span id='Error.t-5' class='invisible'><code>type <a href='../../stdweb/unstable/trait.TryFrom.html#associatedtype.Error' class="type">Error</a> = ConversionError</code></span></h4>
+<div class='docblock'><p>The type returned in the event of a conversion error.</p>
+</div><h4 id='method.try_from-5' class="method"><span id='try_from.v-5' class='invisible'><code>fn <a href='../../stdweb/unstable/trait.TryFrom.html#tymethod.try_from' class='fnname'>try_from</a>(value: &amp;<a class="enum" href="../../stdweb/enum.Value.html" title="enum stdweb::Value">Value</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, Self::<a class="type" href="../../stdweb/unstable/trait.TryFrom.html#associatedtype.Error" title="type stdweb::unstable::TryFrom::Error">Error</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div><h3 id='impl-JsSerialize' class='impl'><span class='in-band'><code>impl <a class="trait" href="../../stdweb/trait.JsSerialize.html" title="trait stdweb::JsSerialize">JsSerialize</a> for <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a></code><a href='#impl-JsSerialize' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'></div><h3 id='impl-IEventTarget' class='impl'><span class='in-band'><code>impl <a class="trait" href="../../stdweb/web/trait.IEventTarget.html" title="trait stdweb::web::IEventTarget">IEventTarget</a> for <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a></code><a href='#impl-IEventTarget' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#37' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.add_event_listener' class="method"><span id='add_event_listener.v' class='invisible'><code>fn <a href='../../stdweb/web/trait.IEventTarget.html#method.add_event_listener' class='fnname'>add_event_listener</a>&lt;T, F&gt;(&amp;self, listener: F) -&gt; <a class="struct" href="../../stdweb/web/struct.EventListenerHandle.html" title="struct stdweb::web::EventListenerHandle">EventListenerHandle</a> <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../../stdweb/web/event/trait.ConcreteEvent.html" title="trait stdweb::web::event::ConcreteEvent">ConcreteEvent</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(T) + 'static,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/event_target.rs.html#50-65' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Adds given event handler to the list the list of event listeners for the specified <code>EventTarget</code> on which it&#39;s called. <a href="../../stdweb/web/trait.IEventTarget.html#method.add_event_listener">Read more</a></p>
+</div><h4 id='method.dispatch_event' class="method"><span id='dispatch_event.v' class='invisible'><code>fn <a href='../../stdweb/web/trait.IEventTarget.html#method.dispatch_event' class='fnname'>dispatch_event</a>&lt;T:&nbsp;<a class="trait" href="../../stdweb/web/event/trait.IEvent.html" title="trait stdweb::web::event::IEvent">IEvent</a>&gt;(&amp;self, event: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>T) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, TODO&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/event_target.rs.html#71-75' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Dispatches an <code>Event</code> at this <code>EventTarget</code>, invoking the affected event listeners in the appropriate order. <a href="../../stdweb/web/trait.IEventTarget.html#method.dispatch_event">Read more</a></p>
+</div></div><h3 id='impl-IWindowOrWorker' class='impl'><span class='in-band'><code>impl <a class="trait" href="../../stdweb/web/trait.IWindowOrWorker.html" title="trait stdweb::web::IWindowOrWorker">IWindowOrWorker</a> for <a class="struct" href="../../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a></code><a href='#impl-IWindowOrWorker' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window.rs.html#38' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.set_timeout' class="method"><span id='set_timeout.v' class='invisible'><code>fn <a href='../../stdweb/web/trait.IWindowOrWorker.html#method.set_timeout' class='fnname'>set_timeout</a>&lt;F:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>() + 'static&gt;(&amp;self, callback: F, timeout: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/window_or_worker.rs.html#24-31' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Sets a timer which executes a function once after the timer expires. <a href="../../stdweb/web/trait.IWindowOrWorker.html#method.set_timeout">Read more</a></p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>↑</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>↓</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>↹</dt>
+                    <dd>Switch tab</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt style="width:31px;">+ / -</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "stdweb";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `InstanceOf` trait in crate `stdweb`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, InstanceOf">
+
+    <title>stdweb::InstanceOf - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc trait">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'>Trait InstanceOf</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#required-methods">Required Methods</a><div class="sidebar-links"><a href="#tymethod.instance_of">instance_of</a></div><a class="sidebar-title" href="#implementors">Implementors</a></div><p class='location'><a href='index.html'>stdweb</a></p><script>window.sidebarCurrent = {name: 'InstanceOf', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>stdweb</a>::<wbr><a class="trait" href=''>InstanceOf</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/stdweb/webcore/instance_of.rs.html#4-7' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait InstanceOf {
+    fn <a href='#tymethod.instance_of' class='fnname'>instance_of</a>(reference: &amp;<a class="struct" href="../stdweb/struct.Reference.html" title="struct stdweb::Reference">Reference</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>;
+}</pre><div class='docblock'><p>A trait to check whenever a given <a href="struct.Reference.html">Reference</a> is of a certain type.</p>
+</div>
+            <h2 id='required-methods' class='small-section-header'>
+              Required Methods<a href='#required-methods' class='anchor'></a>
+            </h2>
+            <div class='methods'>
+        <h3 id='tymethod.instance_of' class='method'><span id='instance_of.v' class='invisible'><code>fn <a href='#tymethod.instance_of' class='fnname'>instance_of</a>(reference: &amp;<a class="struct" href="../stdweb/struct.Reference.html" title="struct stdweb::Reference">Reference</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Checks whenever a given <a href="struct.Reference.html">Reference</a> if of type <code>Self</code>.</p>
+</div></div>
+        <h2 id='implementors' class='small-section-header'>
+          Implementors<a href='#implementors' class='anchor'></a>
+        </h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webcore/object.rs.html#8-1' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/struct.Object.html" title="struct stdweb::Object">Object</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webcore/array.rs.html#6-1' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/struct.Array.html" title="struct stdweb::Array">Array</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webcore/instance_of.rs.html#9-14' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/struct.Reference.html" title="struct stdweb::Reference">Reference</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/document.rs.html#16' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.Document.html" title="struct stdweb::web::Document">Document</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/window.rs.html#32' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.Window.html" title="struct stdweb::web::Window">Window</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/event_target.rs.html#83-1' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.EventTarget.html" title="struct stdweb::web::EventTarget">EventTarget</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/node.rs.html#357' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/element.rs.html#32' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.Element.html" title="struct stdweb::web::Element">Element</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/html_element.rs.html#85' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.HtmlElement.html" title="struct stdweb::web::HtmlElement">HtmlElement</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/html_elements/image.rs.html#14' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/html_element/struct.ImageElement.html" title="struct stdweb::web::html_element::ImageElement">ImageElement</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/html_elements/input.rs.html#13' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/html_element/struct.InputElement.html" title="struct stdweb::web::html_element::InputElement">InputElement</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/html_elements/textarea.rs.html#12' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/html_element/struct.TextAreaElement.html" title="struct stdweb::web::html_element::TextAreaElement">TextAreaElement</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/html_elements/canvas.rs.html#17' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/html_element/struct.CanvasElement.html" title="struct stdweb::web::html_element::CanvasElement">CanvasElement</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/token_list.rs.html#9-1' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.TokenList.html" title="struct stdweb::web::TokenList">TokenList</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/text_node.rs.html#14' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.TextNode.html" title="struct stdweb::web::TextNode">TextNode</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/node_list.rs.html#20-1' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.NodeList.html" title="struct stdweb::web::NodeList">NodeList</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/string_map.rs.html#9-1' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.StringMap.html" title="struct stdweb::web::StringMap">StringMap</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/location.rs.html#13-1' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.Location.html" title="struct stdweb::web::Location">Location</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/storage.rs.html#10-1' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.Storage.html" title="struct stdweb::web::Storage">Storage</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/blob.rs.html#41-1' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.Blob.html" title="struct stdweb::web::Blob">Blob</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/file_reader.rs.html#14' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.FileReader.html" title="struct stdweb::web::FileReader">FileReader</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/array_buffer.rs.html#13-1' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.ArrayBuffer.html" title="struct stdweb::web::ArrayBuffer">ArrayBuffer</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/typed_array.rs.html#98-103' title='goto source code'>[src]</a></div><code>impl&lt;T:&nbsp;ArrayKind&gt; InstanceOf for <a class="struct" href="../stdweb/web/struct.TypedArray.html" title="struct stdweb::web::TypedArray">TypedArray</a>&lt;T&gt;</code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/xml_http_request.rs.html#17' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.XmlHttpRequest.html" title="struct stdweb::web::XmlHttpRequest">XmlHttpRequest</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/history.rs.html#8-1' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.History.html" title="struct stdweb::web::History">History</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/web_socket.rs.html#68' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.WebSocket.html" title="struct stdweb::web::WebSocket">WebSocket</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/rendering_context.rs.html#20-1' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.CanvasRenderingContext2d.html" title="struct stdweb::web::CanvasRenderingContext2d">CanvasRenderingContext2d</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/rendering_context.rs.html#30-1' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.CanvasGradient.html" title="struct stdweb::web::CanvasGradient">CanvasGradient</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/rendering_context.rs.html#40-1' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.CanvasPattern.html" title="struct stdweb::web::CanvasPattern">CanvasPattern</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/rendering_context.rs.html#51-1' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.ImageData.html" title="struct stdweb::web::ImageData">ImageData</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/rendering_context.rs.html#59-1' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.TextMetrics.html" title="struct stdweb::web::TextMetrics">TextMetrics</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/mutation_observer.rs.html#12-1' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/struct.MutationObserver.html" title="struct stdweb::web::MutationObserver">MutationObserver</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/error.rs.html#39-1' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/error/struct.Error.html" title="struct stdweb::web::error::Error">Error</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/dom_exception.rs.html#15' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/error/struct.DomException.html" title="struct stdweb::web::error::DomException">DomException</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webcore/macros.rs.html#545-556' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/error/struct.HierarchyRequestError.html" title="struct stdweb::web::error::HierarchyRequestError">HierarchyRequestError</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webcore/macros.rs.html#545-556' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/error/struct.InvalidAccessError.html" title="struct stdweb::web::error::InvalidAccessError">InvalidAccessError</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webcore/macros.rs.html#545-556' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/error/struct.NotFoundError.html" title="struct stdweb::web::error::NotFoundError">NotFoundError</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webcore/macros.rs.html#545-556' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/error/struct.SecurityError.html" title="struct stdweb::web::error::SecurityError">SecurityError</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webcore/macros.rs.html#545-556' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/error/struct.SyntaxError.html" title="struct stdweb::web::error::SyntaxError">SyntaxError</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webcore/macros.rs.html#545-556' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/error/struct.IndexSizeError.html" title="struct stdweb::web::error::IndexSizeError">IndexSizeError</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webcore/macros.rs.html#545-556' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/error/struct.TypeError.html" title="struct stdweb::web::error::TypeError">TypeError</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webcore/macros.rs.html#545-556' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/error/struct.NotSupportedError.html" title="struct stdweb::web::error::NotSupportedError">NotSupportedError</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/dom.rs.html#11' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.ChangeEvent.html" title="struct stdweb::web::event::ChangeEvent">ChangeEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/dom.rs.html#31' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.InputEvent.html" title="struct stdweb::web::event::InputEvent">InputEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/dom.rs.html#45' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.ResourceLoadEvent.html" title="struct stdweb::web::event::ResourceLoadEvent">ResourceLoadEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/dom.rs.html#60' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.ResourceAbortEvent.html" title="struct stdweb::web::event::ResourceAbortEvent">ResourceAbortEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/dom.rs.html#76' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.ResourceErrorEvent.html" title="struct stdweb::web::event::ResourceErrorEvent">ResourceErrorEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/dom.rs.html#93' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.ResizeEvent.html" title="struct stdweb::web::event::ResizeEvent">ResizeEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/dom.rs.html#107' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.ReadyStateChangeEvent.html" title="struct stdweb::web::event::ReadyStateChangeEvent">ReadyStateChangeEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/focus.rs.html#42' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.FocusEvent.html" title="struct stdweb::web::event::FocusEvent">FocusEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/focus.rs.html#58' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.BlurEvent.html" title="struct stdweb::web::event::BlurEvent">BlurEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/history.rs.html#12' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.HashChangeEvent.html" title="struct stdweb::web::event::HashChangeEvent">HashChangeEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/history.rs.html#54' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.PopStateEvent.html" title="struct stdweb::web::event::PopStateEvent">PopStateEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/keyboard.rs.html#210' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.KeyPressEvent.html" title="struct stdweb::web::event::KeyPressEvent">KeyPressEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/keyboard.rs.html#227' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.KeyDownEvent.html" title="struct stdweb::web::event::KeyDownEvent">KeyDownEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/keyboard.rs.html#242' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.KeyUpEvent.html" title="struct stdweb::web::event::KeyUpEvent">KeyUpEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/mouse.rs.html#235' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.ClickEvent.html" title="struct stdweb::web::event::ClickEvent">ClickEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/mouse.rs.html#253' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.DoubleClickEvent.html" title="struct stdweb::web::event::DoubleClickEvent">DoubleClickEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/mouse.rs.html#270' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.MouseDownEvent.html" title="struct stdweb::web::event::MouseDownEvent">MouseDownEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/mouse.rs.html#287' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.MouseUpEvent.html" title="struct stdweb::web::event::MouseUpEvent">MouseUpEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/mouse.rs.html#304' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.MouseMoveEvent.html" title="struct stdweb::web::event::MouseMoveEvent">MouseMoveEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/progress.rs.html#62' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.ProgressEvent.html" title="struct stdweb::web::event::ProgressEvent">ProgressEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/progress.rs.html#77' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.ProgressLoadEvent.html" title="struct stdweb::web::event::ProgressLoadEvent">ProgressLoadEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/progress.rs.html#92' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.LoadStartEvent.html" title="struct stdweb::web::event::LoadStartEvent">LoadStartEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/progress.rs.html#109' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.LoadEndEvent.html" title="struct stdweb::web::event::LoadEndEvent">LoadEndEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/progress.rs.html#124' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.ProgressAbortEvent.html" title="struct stdweb::web::event::ProgressAbortEvent">ProgressAbortEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/progress.rs.html#139' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.ProgressErrorEvent.html" title="struct stdweb::web::event::ProgressErrorEvent">ProgressErrorEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/socket.rs.html#14' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.SocketCloseEvent.html" title="struct stdweb::web::event::SocketCloseEvent">SocketCloseEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/socket.rs.html#65' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.SocketErrorEvent.html" title="struct stdweb::web::event::SocketErrorEvent">SocketErrorEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/socket.rs.html#80' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.SocketOpenEvent.html" title="struct stdweb::web::event::SocketOpenEvent">SocketOpenEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../src/stdweb/webapi/events/socket.rs.html#211' title='goto source code'>[src]</a></div><code>impl InstanceOf for <a class="struct" href="../stdweb/web/event/struct.SocketMessageEvent.html" title="struct stdweb::web::event::SocketMessageEvent">SocketMessageEvent</a></code></li>
+</ul><script type="text/javascript" async
+                         src="../implementors/stdweb/trait.InstanceOf.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>↑</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>↓</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>↹</dt>
+                    <dd>Switch tab</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt style="width:31px;">+ / -</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "stdweb";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

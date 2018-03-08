@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ConcreteEvent` trait in crate `stdweb`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ConcreteEvent">
+
+    <title>stdweb::web::event::ConcreteEvent - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc trait">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'>Trait ConcreteEvent</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#associated-const">Associated Constants</a><div class="sidebar-links"><a href="#associatedconstant.EVENT_TYPE">EVENT_TYPE</a></div><a class="sidebar-title" href="#implementors">Implementors</a></div><p class='location'><a href='../../index.html'>stdweb</a>::<wbr><a href='../index.html'>web</a>::<wbr><a href='index.html'>event</a></p><script>window.sidebarCurrent = {name: 'ConcreteEvent', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../../index.html'>stdweb</a>::<wbr><a href='../index.html'>web</a>::<wbr><a href='index.html'>event</a>::<wbr><a class="trait" href=''>ConcreteEvent</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/stdweb/webapi/event.rs.html#195-200' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait ConcreteEvent: <a class="trait" href="../../../stdweb/web/event/trait.IEvent.html" title="trait stdweb::web::event::IEvent">IEvent</a> {
+    const <a href='#associatedconstant.EVENT_TYPE' class="constant"><b>EVENT_TYPE</b></a>: &amp;'static <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>;
+}</pre><div class='docblock'><p>A trait representing a concrete event type.</p>
+</div>
+            <h2 id='associated-const' class='small-section-header'>
+              Associated Constants<a href='#associated-const' class='anchor'></a>
+            </h2>
+            <div class='methods'>
+        <h3 id='associatedconstant.EVENT_TYPE' class='method'><span id='EVENT_TYPE.v' class='invisible'><code>const <a href='#associatedconstant.EVENT_TYPE' class="constant"><b>EVENT_TYPE</b></a>: &amp;'static <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span></h3><div class='docblock'><p>A string representing the event type.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/type">(JavaScript docs)</a></p>
+</div></div>
+        <h2 id='implementors' class='small-section-header'>
+          Implementors<a href='#implementors' class='anchor'></a>
+        </h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/dom.rs.html#17-19' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.ChangeEvent.html" title="struct stdweb::web::event::ChangeEvent">ChangeEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/dom.rs.html#37-39' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.InputEvent.html" title="struct stdweb::web::event::InputEvent">InputEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/dom.rs.html#52-54' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.ResourceLoadEvent.html" title="struct stdweb::web::event::ResourceLoadEvent">ResourceLoadEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/dom.rs.html#67-69' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.ResourceAbortEvent.html" title="struct stdweb::web::event::ResourceAbortEvent">ResourceAbortEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/dom.rs.html#83-85' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.ResourceErrorEvent.html" title="struct stdweb::web::event::ResourceErrorEvent">ResourceErrorEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/dom.rs.html#99-101' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.ResizeEvent.html" title="struct stdweb::web::event::ResizeEvent">ResizeEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/dom.rs.html#114-116' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.ReadyStateChangeEvent.html" title="struct stdweb::web::event::ReadyStateChangeEvent">ReadyStateChangeEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/focus.rs.html#49-51' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.FocusEvent.html" title="struct stdweb::web::event::FocusEvent">FocusEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/focus.rs.html#65-67' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.BlurEvent.html" title="struct stdweb::web::event::BlurEvent">BlurEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/history.rs.html#18-20' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.HashChangeEvent.html" title="struct stdweb::web::event::HashChangeEvent">HashChangeEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/history.rs.html#77-79' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.PopStateEvent.html" title="struct stdweb::web::event::PopStateEvent">PopStateEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/keyboard.rs.html#217-219' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.KeyPressEvent.html" title="struct stdweb::web::event::KeyPressEvent">KeyPressEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/keyboard.rs.html#234-236' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.KeyDownEvent.html" title="struct stdweb::web::event::KeyDownEvent">KeyDownEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/keyboard.rs.html#249-251' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.KeyUpEvent.html" title="struct stdweb::web::event::KeyUpEvent">KeyUpEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/mouse.rs.html#243-245' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.ClickEvent.html" title="struct stdweb::web::event::ClickEvent">ClickEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/mouse.rs.html#261-263' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.DoubleClickEvent.html" title="struct stdweb::web::event::DoubleClickEvent">DoubleClickEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/mouse.rs.html#278-280' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.MouseDownEvent.html" title="struct stdweb::web::event::MouseDownEvent">MouseDownEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/mouse.rs.html#295-297' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.MouseUpEvent.html" title="struct stdweb::web::event::MouseUpEvent">MouseUpEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/mouse.rs.html#312-314' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.MouseMoveEvent.html" title="struct stdweb::web::event::MouseMoveEvent">MouseMoveEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/progress.rs.html#69-71' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.ProgressEvent.html" title="struct stdweb::web::event::ProgressEvent">ProgressEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/progress.rs.html#84-86' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.ProgressLoadEvent.html" title="struct stdweb::web::event::ProgressLoadEvent">ProgressLoadEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/progress.rs.html#99-101' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.LoadStartEvent.html" title="struct stdweb::web::event::LoadStartEvent">LoadStartEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/progress.rs.html#116-118' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.LoadEndEvent.html" title="struct stdweb::web::event::LoadEndEvent">LoadEndEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/progress.rs.html#131-133' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.ProgressAbortEvent.html" title="struct stdweb::web::event::ProgressAbortEvent">ProgressAbortEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/progress.rs.html#146-148' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.ProgressErrorEvent.html" title="struct stdweb::web::event::ProgressErrorEvent">ProgressErrorEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/socket.rs.html#55-57' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.SocketCloseEvent.html" title="struct stdweb::web::event::SocketCloseEvent">SocketCloseEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/socket.rs.html#71-73' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.SocketErrorEvent.html" title="struct stdweb::web::event::SocketErrorEvent">SocketErrorEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/socket.rs.html#86-88' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.SocketOpenEvent.html" title="struct stdweb::web::event::SocketOpenEvent">SocketOpenEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/socket.rs.html#222-224' title='goto source code'>[src]</a></div><code>impl ConcreteEvent for <a class="struct" href="../../../stdweb/web/event/struct.SocketMessageEvent.html" title="struct stdweb::web::event::SocketMessageEvent">SocketMessageEvent</a></code></li>
+</ul><script type="text/javascript" async
+                         src="../../../implementors/stdweb/web/event/trait.ConcreteEvent.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>↑</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>↓</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>↹</dt>
+                    <dd>Switch tab</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt style="width:31px;">+ / -</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "stdweb";
+    </script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

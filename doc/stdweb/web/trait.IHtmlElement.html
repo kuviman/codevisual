@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `IHtmlElement` trait in crate `stdweb`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, IHtmlElement">
+
+    <title>stdweb::web::IHtmlElement - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc trait">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'>Trait IHtmlElement</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#provided-methods">Provided Methods</a><div class="sidebar-links"><a href="#method.focus">focus</a><a href="#method.blur">blur</a><a href="#method.dataset">dataset</a><a href="#method.offset_width">offset_width</a><a href="#method.offset_height">offset_height</a><a href="#method.inner_text">inner_text</a></div><a class="sidebar-title" href="#implementors">Implementors</a></div><p class='location'><a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>web</a></p><script>window.sidebarCurrent = {name: 'IHtmlElement', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>web</a>::<wbr><a class="trait" href=''>IHtmlElement</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/stdweb/webapi/html_element.rs.html#12-79' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait IHtmlElement: <a class="trait" href="../../stdweb/web/trait.IElement.html" title="trait stdweb::web::IElement">IElement</a> {
+    fn <a href='#method.focus' class='fnname'>focus</a>(&amp;self) { ... }
+<div class='item-spacer'></div>    fn <a href='#method.blur' class='fnname'>blur</a>(&amp;self) { ... }
+<div class='item-spacer'></div>    fn <a href='#method.dataset' class='fnname'>dataset</a>(&amp;self) -&gt; <a class="struct" href="../../stdweb/web/struct.StringMap.html" title="struct stdweb::web::StringMap">StringMap</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.offset_width' class='fnname'>offset_width</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.offset_height' class='fnname'>offset_height</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.inner_text' class='fnname'>inner_text</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a> { ... }
+}</pre><div class='docblock'><p>The <code>IHtmlElement</code> interface represents any HTML element.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement">(JavaScript docs)</a></p>
+</div>
+            <h2 id='provided-methods' class='small-section-header'>
+              Provided Methods<a href='#provided-methods' class='anchor'></a>
+            </h2>
+            <div class='methods'>
+        <h3 id='method.focus' class='method'><span id='focus.v' class='invisible'><code>fn <a href='#method.focus' class='fnname'>focus</a>(&amp;self)</code></span></h3><div class='docblock'><p>Sets focus on the specified element, if it can be focused.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus">(JavaScript docs)</a></p>
+</div><h3 id='method.blur' class='method'><span id='blur.v' class='invisible'><code>fn <a href='#method.blur' class='fnname'>blur</a>(&amp;self)</code></span></h3><div class='docblock'><p>Removes keyboard focus from the current element.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/blur">(JavaScript docs)</a></p>
+</div><h3 id='method.dataset' class='method'><span id='dataset.v' class='invisible'><code>fn <a href='#method.dataset' class='fnname'>dataset</a>(&amp;self) -&gt; <a class="struct" href="../../stdweb/web/struct.StringMap.html" title="struct stdweb::web::StringMap">StringMap</a></code></span></h3><div class='docblock'><p>Allows access, both in reading and writing, to all of the custom data attributes (data-*)
+set on the element, either in HTML or in the DOM.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset">(JavaScript docs)</a></p>
+</div><h3 id='method.offset_width' class='method'><span id='offset_width.v' class='invisible'><code>fn <a href='#method.offset_width' class='fnname'>offset_width</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></span></h3><div class='docblock'><p>Returns the layout width of an element. Typically, an element&#39;s offsetWidth is a
+measurement which includes the element borders, the element horizontal padding, the
+element vertical scrollbar (if present, if rendered) and the element CSS width.</p>
+</div><h3 id='method.offset_height' class='method'><span id='offset_height.v' class='invisible'><code>fn <a href='#method.offset_height' class='fnname'>offset_height</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></span></h3><div class='docblock'><p>Returns the height of the element including vertical padding and borders, as an
+integer.</p>
+</div><h3 id='method.inner_text' class='method'><span id='inner_text.v' class='invisible'><code>fn <a href='#method.inner_text' class='fnname'>inner_text</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span></h3><div class='docblock'><p>A property which represents the &quot;rendered&quot; text content of a node and its descendants.
+It approximates the text the user would get if they highlighted the contents of the element
+with the cursor and then copied to the clipboard.</p>
+
+<p>This feature was originally introduced by Internet Explorer, and was formally specified in the HTML
+standard in 2016 after being adopted by all major browser vendors.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/innerText">(JavaScript docs)</a></p>
+</div></div>
+        <h2 id='implementors' class='small-section-header'>
+          Implementors<a href='#implementors' class='anchor'></a>
+        </h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_element.rs.html#93' title='goto source code'>[src]</a></div><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/struct.HtmlElement.html" title="struct stdweb::web::HtmlElement">HtmlElement</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/image.rs.html#22' title='goto source code'>[src]</a></div><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/html_element/struct.ImageElement.html" title="struct stdweb::web::html_element::ImageElement">ImageElement</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/input.rs.html#21' title='goto source code'>[src]</a></div><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/html_element/struct.InputElement.html" title="struct stdweb::web::html_element::InputElement">InputElement</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/textarea.rs.html#20' title='goto source code'>[src]</a></div><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/html_element/struct.TextAreaElement.html" title="struct stdweb::web::html_element::TextAreaElement">TextAreaElement</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/canvas.rs.html#25' title='goto source code'>[src]</a></div><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/html_element/struct.CanvasElement.html" title="struct stdweb::web::html_element::CanvasElement">CanvasElement</a></code></li>
+</ul><script type="text/javascript" async
+                         src="../../implementors/stdweb/web/trait.IHtmlElement.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>↑</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>↓</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>↹</dt>
+                    <dd>Switch tab</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt style="width:31px;">+ / -</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "stdweb";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

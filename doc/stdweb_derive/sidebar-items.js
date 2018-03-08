@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["derive_reference_type","A derive macro for defining custom reference types."]]});

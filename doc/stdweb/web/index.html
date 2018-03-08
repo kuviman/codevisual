@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `web` mod in crate `stdweb`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, web">
+
+    <title>stdweb::web - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc mod">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'>Module web</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../index.html'>stdweb</a></p><script>window.sidebarCurrent = {name: 'web', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>stdweb</a>::<wbr><a class="mod" href=''>web</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/stdweb/lib.rs.html#195-329' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>A module with bindings to the Web APIs.</p>
+</div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="error/index.html"
+                                  title='mod stdweb::web::error'>error</a></td>
+                           <td class='docblock-short'>
+                                <p>A module containing error types.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="event/index.html"
+                                  title='mod stdweb::web::event'>event</a></td>
+                           <td class='docblock-short'>
+                                <p>A module containing JavaScript DOM events.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="mod" href="html_element/index.html"
+                                  title='mod stdweb::web::html_element'>html_element</a></td>
+                           <td class='docblock-short'>
+                                <p>A module containing HTML DOM elements.</p>
+                           </td>
+                       </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.ArrayBuffer.html"
+                                  title='struct stdweb::web::ArrayBuffer'>ArrayBuffer</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>ArrayBuffer</code> object is used to represent a generic, fixed-length raw binary data buffer.
+You cannot directly manipulate the contents of an ArrayBuffer; instead, you create an <a href="struct.TypedArray.html">TypedArray</a>
+to do it.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Blob.html"
+                                  title='struct stdweb::web::Blob'>Blob</a></td>
+                           <td class='docblock-short'>
+                                <p>A reference to a JavaScript object which implements the <a href="trait.IBlob.html">IBlob</a>
+interface.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.CanvasGradient.html"
+                                  title='struct stdweb::web::CanvasGradient'>CanvasGradient</a></td>
+                           <td class='docblock-short'>
+                                <p>The CanvasGradient struct represents an opaque object describing a gradient. 
+It is returned by the methods CanvasRenderingContext2D.createLinearGradient() or 
+CanvasRenderingContext2D.createRadialGradient().</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.CanvasPattern.html"
+                                  title='struct stdweb::web::CanvasPattern'>CanvasPattern</a></td>
+                           <td class='docblock-short'>
+                                <p>The CanvasPattern struct represents an opaque object describing a pattern, based on an image, 
+a canvas or a video, created by the CanvasRenderingContext2D.createPattern() method.
+Intentionally blank, no non-experimental properties or methods.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.CanvasRenderingContext2d.html"
+                                  title='struct stdweb::web::CanvasRenderingContext2d'>CanvasRenderingContext2d</a></td>
+                           <td class='docblock-short'>
+                                <p>Used for drawing rectangles, text, images and other objects onto the canvas element.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Date.html"
+                                  title='struct stdweb::web::Date'>Date</a></td>
+                           <td class='docblock-short'>
+                                <p><a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Date">(JavaScript docs)</a></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Document.html"
+                                  title='struct stdweb::web::Document'>Document</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Document</code> interface represents any web page loaded in the browser and
+serves as an entry point into the web page&#39;s content, which is the DOM tree.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Element.html"
+                                  title='struct stdweb::web::Element'>Element</a></td>
+                           <td class='docblock-short'>
+                                <p>A reference to a JavaScript object which implements the <a href="trait.IElement.html">IElement</a>
+interface.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.EventListenerHandle.html"
+                                  title='struct stdweb::web::EventListenerHandle'>EventListenerHandle</a></td>
+                           <td class='docblock-short'>
+                                <p>A handle to a particular event listener.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.EventTarget.html"
+                                  title='struct stdweb::web::EventTarget'>EventTarget</a></td>
+                           <td class='docblock-short'>
+                                <p>A reference to a JavaScript object which implements the <a href="trait.IEventTarget.html">IEventTarget</a>
+interface.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.FileReader.html"
+                                  title='struct stdweb::web::FileReader'>FileReader</a></td>
+                           <td class='docblock-short'>
+                                <p>The FileReader object lets web applications asynchronously read the contents of files
+(or raw data buffers) stored on the user&#39;s computer, using <a href="struct.File.html">File</a>
+or <a href="struct.Blob.html">Blob</a> objects to specify the file or data to read.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.History.html"
+                                  title='struct stdweb::web::History'>History</a></td>
+                           <td class='docblock-short'>
+                                <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/History">(JavaScript docs)</a></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.HtmlElement.html"
+                                  title='struct stdweb::web::HtmlElement'>HtmlElement</a></td>
+                           <td class='docblock-short'>
+                                <p>A reference to a JavaScript object which implements the <a href="trait.IHtmlElement.html">IHtmlElement</a>
+interface.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.ImageData.html"
+                                  title='struct stdweb::web::ImageData'>ImageData</a></td>
+                           <td class='docblock-short'>
+                                <p>The ImageData struct represents the underlying pixel data of an area of a <canvas> element. 
+It is created using the ImageData() constructor or creator methods on the CanvasRenderingContext2D
+ object associated with a canvas: createImageData() and getImageData(). It can also be used to set 
+a part of the canvas by using putImageData().</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Location.html"
+                                  title='struct stdweb::web::Location'>Location</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Location</code> interface represents the location (URL) of the object it
+is linked to. Changes done on it are reflected on the object it relates
+to. Both the <a href="struct.Document.html">Document</a> and <a href="struct.Window.html">Window</a>
+interface have such a linked <code>Location</code>, accessible via <a href="struct.Document.html#method.location">Document::location</a>
+and <a href="struct.Window.html#method.location">Window::location</a> respectively.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.MutationObserver.html"
+                                  title='struct stdweb::web::MutationObserver'>MutationObserver</a></td>
+                           <td class='docblock-short'>
+                                <p>Provides a way to receive notifications about changes to the DOM.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.MutationObserverHandle.html"
+                                  title='struct stdweb::web::MutationObserverHandle'>MutationObserverHandle</a></td>
+                           <td class='docblock-short'>
+                                <p>A wrapper which ensures that memory is properly cleaned up when it&#39;s no longer needed.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.MutationObserverInit.html"
+                                  title='struct stdweb::web::MutationObserverInit'>MutationObserverInit</a></td>
+                           <td class='docblock-short'>
+                                <p>Specifies which changes should be observed for the target.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Node.html"
+                                  title='struct stdweb::web::Node'>Node</a></td>
+                           <td class='docblock-short'>
+                                <p>A reference to a JavaScript object which implements the <a href="trait.INode.html">INode</a>
+interface.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.NodeList.html"
+                                  title='struct stdweb::web::NodeList'>NodeList</a></td>
+                           <td class='docblock-short'>
+                                <p><code>NodeList</code> objects are collections of nodes such as those returned by properties
+such as <a href="trait.INode.html#method.child_nodes">INode::child_nodes</a> and the
+<a href="struct.Document.html#method.query_selector_all">Document::query_selector_all</a> method.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.RequestAnimationFrameHandle.html"
+                                  title='struct stdweb::web::RequestAnimationFrameHandle'>RequestAnimationFrameHandle</a></td>
+                           <td class='docblock-short'>
+                                <p>A handle to a pending animation frame request.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.SocketCloseCode.html"
+                                  title='struct stdweb::web::SocketCloseCode'>SocketCloseCode</a></td>
+                           <td class='docblock-short'>
+                                <p>Wrapper type around a CloseEvent code, indicating why the WebSocket was closed</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Storage.html"
+                                  title='struct stdweb::web::Storage'>Storage</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Storage</code> interface of the Web Storage API provides access to
+the session storage or local storage for a particular domain.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.StringMap.html"
+                                  title='struct stdweb::web::StringMap'>StringMap</a></td>
+                           <td class='docblock-short'>
+                                <p>Used by the <code>dataset</code> HTML attribute to represent data for custom attributes added to elements.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.TextMetrics.html"
+                                  title='struct stdweb::web::TextMetrics'>TextMetrics</a></td>
+                           <td class='docblock-short'>
+                                <p>The TextMetrics struct represents the dimension of a text in the canvas, as created by the CanvasRenderingContext2D.measureText() method.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.TextNode.html"
+                                  title='struct stdweb::web::TextNode'>TextNode</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>TextNode</code> represents the textual content of an <a href="trait.IElement.html">IElement</a></p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.TokenList.html"
+                                  title='struct stdweb::web::TokenList'>TokenList</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>TokenList</code> represents a set of space-separated tokens.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.TypedArray.html"
+                                  title='struct stdweb::web::TypedArray'>TypedArray</a></td>
+                           <td class='docblock-short'>
+                                <p>JavaScript typed arrays are array-like objects and provide a mechanism for accessing raw binary data.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.WebSocket.html"
+                                  title='struct stdweb::web::WebSocket'>WebSocket</a></td>
+                           <td class='docblock-short'>
+                                <p>The WebSocket object provides the API for creating and managing a WebSocket connection to a
+server, as well as for sending and receiving data on the connection.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Window.html"
+                                  title='struct stdweb::web::Window'>Window</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>Window</code> object represents a window containing a DOM document.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.XmlHttpRequest.html"
+                                  title='struct stdweb::web::XmlHttpRequest'>XmlHttpRequest</a></td>
+                           <td class='docblock-short'>
+                                <p>Use XmlHttpRequest (XHR) objects to interact with servers.
+You can retrieve data from a URL without having to do a full page refresh.
+This enables a Web page to update just part of a page without disrupting
+what the user is doing. XmlHttpRequest is used heavily in Ajax programming.</p>
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.CanvasStyle.html"
+                                  title='enum stdweb::web::CanvasStyle'>CanvasStyle</a></td>
+                           <td class='docblock-short'>
+                                <p>Certain style functions can return multiple types</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.CloneKind.html"
+                                  title='enum stdweb::web::CloneKind'>CloneKind</a></td>
+                           <td class='docblock-short'>
+                                <p>An enum which determines whenever the DOM <a href="trait.INode.html">Node</a>&#39;s children will also be cloned or not.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.CrossOriginSetting.html"
+                                  title='enum stdweb::web::CrossOriginSetting'>CrossOriginSetting</a></td>
+                           <td class='docblock-short'>
+                                <p>Represents CORS (Cross Origin Resource Sharing) setting for an HTML element.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.FileReaderResult.html"
+                                  title='enum stdweb::web::FileReaderResult'>FileReaderResult</a></td>
+                           <td class='docblock-short'>
+                                <p>The <a href="struct.FileReader.html#method.result">result</a> of a read operation performed with a <a href="struct.File.html">FileReader</a>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.MutationRecord.html"
+                                  title='enum stdweb::web::MutationRecord'>MutationRecord</a></td>
+                           <td class='docblock-short'>
+                                <p>Contains information about an individual change to the DOM.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.SocketBinaryType.html"
+                                  title='enum stdweb::web::SocketBinaryType'>SocketBinaryType</a></td>
+                           <td class='docblock-short'>
+                                <p>The type of binary data being transmitted by the WebSocket connection.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.XhrReadyState.html"
+                                  title='enum stdweb::web::XhrReadyState'>XhrReadyState</a></td>
+                           <td class='docblock-short'>
+                                <p>An enum indicating the state of the <code>XmlHttpRequest</code>.</p>
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.IBlob.html"
+                                  title='trait stdweb::web::IBlob'>IBlob</a></td>
+                           <td class='docblock-short'>
+                                <p>A blob object represents a file-like object of immutable, raw data.
+Blobs represent data that isn&#39;t necessarily in a JavaScript-native format.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.IElement.html"
+                                  title='trait stdweb::web::IElement'>IElement</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>IElement</code> interface represents an object of a <a href="struct.Document.html">Document</a>.
+This interface describes methods and properties common to all
+kinds of elements.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.IEventTarget.html"
+                                  title='trait stdweb::web::IEventTarget'>IEventTarget</a></td>
+                           <td class='docblock-short'>
+                                <p><code>IEventTarget</code> is an interface implemented by objects that
+can receive events and may have listeners for them.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.IHtmlElement.html"
+                                  title='trait stdweb::web::IHtmlElement'>IHtmlElement</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>IHtmlElement</code> interface represents any HTML element.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.INode.html"
+                                  title='trait stdweb::web::INode'>INode</a></td>
+                           <td class='docblock-short'>
+                                <p><code>INode</code> is an interface from which a number of DOM API object types inherit.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.INonElementParentNode.html"
+                                  title='trait stdweb::web::INonElementParentNode'>INonElementParentNode</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>INonElementParentNode</code> mixin contains methods and properties
+that are common to <code>Document</code> and <code>DocumentFragment</code>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.IParentNode.html"
+                                  title='trait stdweb::web::IParentNode'>IParentNode</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>ParentNode</code> mixin contains methods and properties
+that are common to all types of <code>Node</code> objects that can
+have children.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.IWindowOrWorker.html"
+                                  title='trait stdweb::web::IWindowOrWorker'>IWindowOrWorker</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>IWindowOrWorker</code> mixin describes several features common to
+the <code>Window</code> and the global scope of web workers.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.RenderingContext.html"
+                                  title='trait stdweb::web::RenderingContext'>RenderingContext</a></td>
+                           <td class='docblock-short'>
+                                <p>Trait implemented by rendering contexts which can be obtained from a canvas.</p>
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.alert.html"
+                                  title='fn stdweb::web::alert'>alert</a></td>
+                           <td class='docblock-short'>
+                                <p>An alias for <a href="struct.Window.html#method.alert">window.alert</a>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.document.html"
+                                  title='fn stdweb::web::document'>document</a></td>
+                           <td class='docblock-short'>
+                                <p>A global instance of <a href="struct.Document.html">Document</a>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.set_timeout.html"
+                                  title='fn stdweb::web::set_timeout'>set_timeout</a></td>
+                           <td class='docblock-short'>
+                                <p>An alias for <a href="struct.Window.html#method.set_timeout">window.set_timeout</a>.</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="fn" href="fn.window.html"
+                                  title='fn stdweb::web::window'>window</a></td>
+                           <td class='docblock-short'>
+                                <p>A global instance of <a href="struct.Window.html">Window</a>.</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>↑</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>↓</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>↹</dt>
+                    <dd>Switch tab</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt style="width:31px;">+ / -</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "stdweb";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

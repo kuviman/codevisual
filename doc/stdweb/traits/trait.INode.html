@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `INode` trait in crate `stdweb`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, INode">
+
+    <title>stdweb::traits::INode - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc trait">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'>Trait INode</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#provided-methods">Provided Methods</a><div class="sidebar-links"><a href="#method.as_node">as_node</a><a href="#method.append_child">append_child</a><a href="#method.remove_child">remove_child</a><a href="#method.clone_node">clone_node</a><a href="#method.contains">contains</a><a href="#method.insert_before">insert_before</a><a href="#method.replace_child">replace_child</a><a href="#method.parent_node">parent_node</a><a href="#method.first_child">first_child</a><a href="#method.last_child">last_child</a><a href="#method.next_sibling">next_sibling</a><a href="#method.node_name">node_name</a><a href="#method.node_type">node_type</a><a href="#method.node_value">node_value</a><a href="#method.set_node_value">set_node_value</a><a href="#method.owner_document">owner_document</a><a href="#method.parent_element">parent_element</a><a href="#method.previous_sibling">previous_sibling</a><a href="#method.text_content">text_content</a><a href="#method.set_text_content">set_text_content</a><a href="#method.child_nodes">child_nodes</a><a href="#method.base_uri">base_uri</a><a href="#method.has_child_nodes">has_child_nodes</a><a href="#method.is_default_namespace">is_default_namespace</a><a href="#method.is_equal_node">is_equal_node</a><a href="#method.is_same_node">is_same_node</a><a href="#method.lookup_prefix">lookup_prefix</a><a href="#method.lookup_namespace_uri">lookup_namespace_uri</a><a href="#method.normalize">normalize</a></div><a class="sidebar-title" href="#implementors">Implementors</a></div><p class='location'><a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>traits</a></p><script>window.sidebarCurrent = {name: 'INode', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>traits</a>::<wbr><a class="trait" href=''>INode</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/stdweb/webapi/node.rs.html#27-344' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait INode: <a class="trait" href="../../stdweb/web/trait.IEventTarget.html" title="trait stdweb::web::IEventTarget">IEventTarget</a> {
+    fn <a href='#method.as_node' class='fnname'>as_node</a>(&amp;self) -&gt; &amp;<a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.append_child' class='fnname'>append_child</a>&lt;T:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>&gt;(&amp;self, child: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>T) { ... }
+<div class='item-spacer'></div>    fn <a href='#method.remove_child' class='fnname'>remove_child</a>&lt;T:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>&gt;(&amp;self, child: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>T) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a>, <a class="struct" href="../../stdweb/web/error/struct.NotFoundError.html" title="struct stdweb::web::error::NotFoundError">NotFoundError</a>&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.clone_node' class='fnname'>clone_node</a>(&amp;self, kind: <a class="enum" href="../../stdweb/web/enum.CloneKind.html" title="enum stdweb::web::CloneKind">CloneKind</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, TODO&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.contains' class='fnname'>contains</a>&lt;T:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>&gt;(&amp;self, node: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>T) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.insert_before' class='fnname'>insert_before</a>&lt;T:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>, U:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new_node: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>T, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reference_node: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>U<br>&nbsp;&nbsp;&nbsp;&nbsp;) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a>, InsertNodeError&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.replace_child' class='fnname'>replace_child</a>&lt;T:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>, U:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new_child: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>T, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;old_child: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>U<br>&nbsp;&nbsp;&nbsp;&nbsp;) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a>, InsertNodeError&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.parent_node' class='fnname'>parent_node</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a>&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.first_child' class='fnname'>first_child</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a>&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.last_child' class='fnname'>last_child</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a>&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.next_sibling' class='fnname'>next_sibling</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a>&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.node_name' class='fnname'>node_name</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.node_type' class='fnname'>node_type</a>(&amp;self) -&gt; NodeType { ... }
+<div class='item-spacer'></div>    fn <a href='#method.node_value' class='fnname'>node_value</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.set_node_value' class='fnname'>set_node_value</a>(&amp;self, value: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt;) { ... }
+<div class='item-spacer'></div>    fn <a href='#method.owner_document' class='fnname'>owner_document</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.Document.html" title="struct stdweb::web::Document">Document</a>&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.parent_element' class='fnname'>parent_element</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.Element.html" title="struct stdweb::web::Element">Element</a>&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.previous_sibling' class='fnname'>previous_sibling</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a>&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.text_content' class='fnname'>text_content</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.set_text_content' class='fnname'>set_text_content</a>(&amp;self, text: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) { ... }
+<div class='item-spacer'></div>    fn <a href='#method.child_nodes' class='fnname'>child_nodes</a>(&amp;self) -&gt; <a class="struct" href="../../stdweb/web/struct.NodeList.html" title="struct stdweb::web::NodeList">NodeList</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.base_uri' class='fnname'>base_uri</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.has_child_nodes' class='fnname'>has_child_nodes</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.is_default_namespace' class='fnname'>is_default_namespace</a>(&amp;self, namespace: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.is_equal_node' class='fnname'>is_equal_node</a>&lt;T:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>&gt;(&amp;self, node: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>T) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.is_same_node' class='fnname'>is_same_node</a>&lt;T:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>&gt;(&amp;self, node: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>T) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.lookup_prefix' class='fnname'>lookup_prefix</a>(&amp;self, namespace: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.lookup_namespace_uri' class='fnname'>lookup_namespace_uri</a>(&amp;self, prefix: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.normalize' class='fnname'>normalize</a>(&amp;self) { ... }
+}</pre><div class='docblock'><p><code>INode</code> is an interface from which a number of DOM API object types inherit.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">(JavaScript docs)</a></p>
+</div>
+            <h2 id='provided-methods' class='small-section-header'>
+              Provided Methods<a href='#provided-methods' class='anchor'></a>
+            </h2>
+            <div class='methods'>
+        <h3 id='method.as_node' class='method'><span id='as_node.v' class='invisible'><code>fn <a href='#method.as_node' class='fnname'>as_node</a>(&amp;self) -&gt; &amp;<a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a></code></span></h3><div class='docblock'><p>Casts a reference to this object into a reference to a <a href="struct.Node.html">Node</a>.</p>
+</div><h3 id='method.append_child' class='method'><span id='append_child.v' class='invisible'><code>fn <a href='#method.append_child' class='fnname'>append_child</a>&lt;T:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>&gt;(&amp;self, child: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>T)</code></span></h3><div class='docblock'><p>Adds a node to the end of the list of children of a specified parent node.</p>
+
+<p>If the given child is a reference to an existing node in the document then
+it is moved from its current position to the new position (there is no requirement
+to remove the node from its parent node before appending it to some other node).</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild">(JavaScript docs)</a></p>
+</div><h3 id='method.remove_child' class='method'><span id='remove_child.v' class='invisible'><code>fn <a href='#method.remove_child' class='fnname'>remove_child</a>&lt;T:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>&gt;(&amp;self, child: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>T) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a>, <a class="struct" href="../../stdweb/web/error/struct.NotFoundError.html" title="struct stdweb::web::error::NotFoundError">NotFoundError</a>&gt;</code></span></h3><div class='docblock'><p>Removes a child node from the DOM.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/removeChild">(JavaScript docs)</a></p>
+</div><h3 id='method.clone_node' class='method'><span id='clone_node.v' class='invisible'><code>fn <a href='#method.clone_node' class='fnname'>clone_node</a>(&amp;self, kind: <a class="enum" href="../../stdweb/web/enum.CloneKind.html" title="enum stdweb::web::CloneKind">CloneKind</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self, TODO&gt;</code></span></h3><div class='docblock'><p>Returns a duplicate of the node on which this method was called.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/cloneNode">(JavaScript docs)</a></p>
+</div><h3 id='method.contains' class='method'><span id='contains.v' class='invisible'><code>fn <a href='#method.contains' class='fnname'>contains</a>&lt;T:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>&gt;(&amp;self, node: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>T) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Checks whenever a given node is a descendant of this one or not.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/contains">(JavaScript docs)</a></p>
+</div><h3 id='method.insert_before' class='method'><span id='insert_before.v' class='invisible'><code>fn <a href='#method.insert_before' class='fnname'>insert_before</a>&lt;T:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>, U:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;new_node: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>T, <br>&nbsp;&nbsp;&nbsp;&nbsp;reference_node: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>U<br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a>, InsertNodeError&gt;</code></span></h3><div class='docblock'><p>Inserts the specified node before the reference node as a child of the current node.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/insertBefore">(JavaScript docs)</a></p>
+</div><h3 id='method.replace_child' class='method'><span id='replace_child.v' class='invisible'><code>fn <a href='#method.replace_child' class='fnname'>replace_child</a>&lt;T:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>, U:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;new_child: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>T, <br>&nbsp;&nbsp;&nbsp;&nbsp;old_child: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>U<br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a>, InsertNodeError&gt;</code></span></h3><div class='docblock'><p>Replaces one hild node of the specified node with another.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild">(JavaScript docs)</a></p>
+</div><h3 id='method.parent_node' class='method'><span id='parent_node.v' class='invisible'><code>fn <a href='#method.parent_node' class='fnname'>parent_node</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a>&gt;</code></span></h3><div class='docblock'><p>Returns the parent of this node in the DOM tree.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/parentNode">(JavaScript docs)</a></p>
+</div><h3 id='method.first_child' class='method'><span id='first_child.v' class='invisible'><code>fn <a href='#method.first_child' class='fnname'>first_child</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a>&gt;</code></span></h3><div class='docblock'><p>Returns the node&#39;s first child in the tree, or <code>None</code> if the node is childless.</p>
+
+<p><a href="https://developer.mozilla.org/en/docs/Web/API/Node/firstChild">(JavaScript docs)</a></p>
+</div><h3 id='method.last_child' class='method'><span id='last_child.v' class='invisible'><code>fn <a href='#method.last_child' class='fnname'>last_child</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a>&gt;</code></span></h3><div class='docblock'><p>Returns the node&#39;s last child in the tree, or <code>None</code> if the node is childless.</p>
+
+<p><a href="https://developer.mozilla.org/en/docs/Web/API/Node/lastChild">(JavaScript docs)</a></p>
+</div><h3 id='method.next_sibling' class='method'><span id='next_sibling.v' class='invisible'><code>fn <a href='#method.next_sibling' class='fnname'>next_sibling</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a>&gt;</code></span></h3><div class='docblock'><p>Returns the node&#39;s next sibling in the tree, or <code>None</code> if there isn&#39;t such a node.</p>
+
+<p><a href="https://developer.mozilla.org/en/docs/Web/API/Node/nextSibling">(JavaScript docs)</a></p>
+</div><h3 id='method.node_name' class='method'><span id='node_name.v' class='invisible'><code>fn <a href='#method.node_name' class='fnname'>node_name</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span></h3><div class='docblock'><p>Returns the name of the node.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeName">(JavaScript docs)</a></p>
+</div><h3 id='method.node_type' class='method'><span id='node_type.v' class='invisible'><code>fn <a href='#method.node_type' class='fnname'>node_type</a>(&amp;self) -&gt; NodeType</code></span></h3><div class='docblock'><p>Returns the type of the node.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType">(JavaScript docs)</a></p>
+</div><h3 id='method.node_value' class='method'><span id='node_value.v' class='invisible'><code>fn <a href='#method.node_value' class='fnname'>node_value</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</code></span></h3><div class='docblock'><p>Returns the value of the node.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeValue">(JavaScript docs)</a></p>
+</div><h3 id='method.set_node_value' class='method'><span id='set_node_value.v' class='invisible'><code>fn <a href='#method.set_node_value' class='fnname'>set_node_value</a>(&amp;self, value: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt;)</code></span></h3><div class='docblock'><p>Sets the value of the node.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeValue">(JavaScript docs)</a></p>
+</div><h3 id='method.owner_document' class='method'><span id='owner_document.v' class='invisible'><code>fn <a href='#method.owner_document' class='fnname'>owner_document</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.Document.html" title="struct stdweb::web::Document">Document</a>&gt;</code></span></h3><div class='docblock'><p>Returns the <code>Document</code> that this node belongs to.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/ownerDocument">(JavaScript docs)</a></p>
+</div><h3 id='method.parent_element' class='method'><span id='parent_element.v' class='invisible'><code>fn <a href='#method.parent_element' class='fnname'>parent_element</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.Element.html" title="struct stdweb::web::Element">Element</a>&gt;</code></span></h3><div class='docblock'><p>Returns an <code>Element</code> that is the parent of this node. Returns <code>null</code> if the node
+has no parent or the parent is not an <code>Element</code>.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/parentElement">(JavaScript docs)</a></p>
+</div><h3 id='method.previous_sibling' class='method'><span id='previous_sibling.v' class='invisible'><code>fn <a href='#method.previous_sibling' class='fnname'>previous_sibling</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a>&gt;</code></span></h3><div class='docblock'><p>Returns the node&#39;s previous sibling in the tree, or <code>None</code> if there isn&#39;t such a node.</p>
+
+<p><a href="https://developer.mozilla.org/en/docs/Web/API/Node/previousSibling">(JavaScript docs)</a></p>
+</div><h3 id='method.text_content' class='method'><span id='text_content.v' class='invisible'><code>fn <a href='#method.text_content' class='fnname'>text_content</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</code></span></h3><div class='docblock'><p>A property which represents the text content of a node and its descendants.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent">(JavaScript docs)</a></p>
+</div><h3 id='method.set_text_content' class='method'><span id='set_text_content.v' class='invisible'><code>fn <a href='#method.set_text_content' class='fnname'>set_text_content</a>(&amp;self, text: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>)</code></span></h3><div class='docblock'><p>Sets the text content of this node; calling thil removes all
+of node&#39;s children and replaces them with a single text node
+with the given value.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent">(JavaScript docs)</a></p>
+</div><h3 id='method.child_nodes' class='method'><span id='child_nodes.v' class='invisible'><code>fn <a href='#method.child_nodes' class='fnname'>child_nodes</a>(&amp;self) -&gt; <a class="struct" href="../../stdweb/web/struct.NodeList.html" title="struct stdweb::web::NodeList">NodeList</a></code></span></h3><div class='docblock'><p>Returns a live collection of child nodes of this node.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/childNodes">(JavaScript docs)</a></p>
+</div><h3 id='method.base_uri' class='method'><span id='base_uri.v' class='invisible'><code>fn <a href='#method.base_uri' class='fnname'>base_uri</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span></h3><div class='docblock'><p>Gets the base URL.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/baseURI">(JavaScript docs)</a></p>
+</div><h3 id='method.has_child_nodes' class='method'><span id='has_child_nodes.v' class='invisible'><code>fn <a href='#method.has_child_nodes' class='fnname'>has_child_nodes</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Returns whether this node has children nodes.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/hasChildNodes">(JavaScript docs)</a></p>
+</div><h3 id='method.is_default_namespace' class='method'><span id='is_default_namespace.v' class='invisible'><code>fn <a href='#method.is_default_namespace' class='fnname'>is_default_namespace</a>(&amp;self, namespace: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Determines whether the given namespace is the default namespace of this node.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/isDefaultNamespace">(JavaScript docs)</a></p>
+</div><h3 id='method.is_equal_node' class='method'><span id='is_equal_node.v' class='invisible'><code>fn <a href='#method.is_equal_node' class='fnname'>is_equal_node</a>&lt;T:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>&gt;(&amp;self, node: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>T) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Tests whether this node is equal to another node. Two nodes are equal if
+they have the same type, defining characteristics, matching attributes,
+and so on.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/isEqualNode">(JavaScript docs)</a></p>
+</div><h3 id='method.is_same_node' class='method'><span id='is_same_node.v' class='invisible'><code>fn <a href='#method.is_same_node' class='fnname'>is_same_node</a>&lt;T:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>&gt;(&amp;self, node: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>T) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Test whether two <code>Node</code> references are the same.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/isSameNode">(JavaScript docs)</a></p>
+</div><h3 id='method.lookup_prefix' class='method'><span id='lookup_prefix.v' class='invisible'><code>fn <a href='#method.lookup_prefix' class='fnname'>lookup_prefix</a>(&amp;self, namespace: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</code></span></h3><div class='docblock'><p>Returns the prefix for the given namespace URI, if present.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/lookupPrefix">(JavaScript docs)</a></p>
+</div><h3 id='method.lookup_namespace_uri' class='method'><span id='lookup_namespace_uri.v' class='invisible'><code>fn <a href='#method.lookup_namespace_uri' class='fnname'>lookup_namespace_uri</a>(&amp;self, prefix: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</code></span></h3><div class='docblock'><p>Returns the namespace URI for the given prefix.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/lookupNamespaceURI">(JavaScript docs)</a></p>
+</div><h3 id='method.normalize' class='method'><span id='normalize.v' class='invisible'><code>fn <a href='#method.normalize' class='fnname'>normalize</a>(&amp;self)</code></span></h3><div class='docblock'><p>Merges any adjacent text nodes and removes empty text nodes under this node.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/normalize">(JavaScript docs)</a></p>
+</div></div>
+        <h2 id='implementors' class='small-section-header'>
+          Implementors<a href='#implementors' class='anchor'></a>
+        </h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/document.rs.html#23' title='goto source code'>[src]</a></div><code>impl INode for <a class="struct" href="../../stdweb/web/struct.Document.html" title="struct stdweb::web::Document">Document</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/node.rs.html#363' title='goto source code'>[src]</a></div><code>impl INode for <a class="struct" href="../../stdweb/web/struct.Node.html" title="struct stdweb::web::Node">Node</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/element.rs.html#38' title='goto source code'>[src]</a></div><code>impl INode for <a class="struct" href="../../stdweb/web/struct.Element.html" title="struct stdweb::web::Element">Element</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_element.rs.html#91' title='goto source code'>[src]</a></div><code>impl INode for <a class="struct" href="../../stdweb/web/struct.HtmlElement.html" title="struct stdweb::web::HtmlElement">HtmlElement</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/image.rs.html#20' title='goto source code'>[src]</a></div><code>impl INode for <a class="struct" href="../../stdweb/web/html_element/struct.ImageElement.html" title="struct stdweb::web::html_element::ImageElement">ImageElement</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/input.rs.html#19' title='goto source code'>[src]</a></div><code>impl INode for <a class="struct" href="../../stdweb/web/html_element/struct.InputElement.html" title="struct stdweb::web::html_element::InputElement">InputElement</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/textarea.rs.html#18' title='goto source code'>[src]</a></div><code>impl INode for <a class="struct" href="../../stdweb/web/html_element/struct.TextAreaElement.html" title="struct stdweb::web::html_element::TextAreaElement">TextAreaElement</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/canvas.rs.html#23' title='goto source code'>[src]</a></div><code>impl INode for <a class="struct" href="../../stdweb/web/html_element/struct.CanvasElement.html" title="struct stdweb::web::html_element::CanvasElement">CanvasElement</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/text_node.rs.html#20' title='goto source code'>[src]</a></div><code>impl INode for <a class="struct" href="../../stdweb/web/struct.TextNode.html" title="struct stdweb::web::TextNode">TextNode</a></code></li>
+</ul><script type="text/javascript" async
+                         src="../../implementors/stdweb/traits/trait.INode.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>↑</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>↓</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>↹</dt>
+                    <dd>Switch tab</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt style="width:31px;">+ / -</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "stdweb";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

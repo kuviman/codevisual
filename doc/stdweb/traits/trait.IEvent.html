@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `IEvent` trait in crate `stdweb`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, IEvent">
+
+    <title>stdweb::traits::IEvent - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc trait">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'>Trait IEvent</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#provided-methods">Provided Methods</a><div class="sidebar-links"><a href="#method.bubbles">bubbles</a><a href="#method.cancel_bubble">cancel_bubble</a><a href="#method.set_cancel_bubble">set_cancel_bubble</a><a href="#method.cancelable">cancelable</a><a href="#method.current_target">current_target</a><a href="#method.default_prevented">default_prevented</a><a href="#method.event_phase">event_phase</a><a href="#method.stop_immediate_propagation">stop_immediate_propagation</a><a href="#method.stop_propagation">stop_propagation</a><a href="#method.target">target</a><a href="#method.time_stamp">time_stamp</a><a href="#method.is_trusted">is_trusted</a><a href="#method.event_type">event_type</a><a href="#method.prevent_default">prevent_default</a></div><a class="sidebar-title" href="#implementors">Implementors</a></div><p class='location'><a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>traits</a></p><script>window.sidebarCurrent = {name: 'IEvent', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>traits</a>::<wbr><a class="trait" href=''>IEvent</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/stdweb/webapi/event.rs.html#16-178' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait IEvent: <a class="trait" href="../../stdweb/trait.ReferenceType.html" title="trait stdweb::ReferenceType">ReferenceType</a> {
+    fn <a href='#method.bubbles' class='fnname'>bubbles</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.cancel_bubble' class='fnname'>cancel_bubble</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.set_cancel_bubble' class='fnname'>set_cancel_bubble</a>(&amp;self, value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) { ... }
+<div class='item-spacer'></div>    fn <a href='#method.cancelable' class='fnname'>cancelable</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.current_target' class='fnname'>current_target</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.EventTarget.html" title="struct stdweb::web::EventTarget">EventTarget</a>&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.default_prevented' class='fnname'>default_prevented</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.event_phase' class='fnname'>event_phase</a>(&amp;self) -&gt; <a class="enum" href="../../stdweb/web/event/enum.EventPhase.html" title="enum stdweb::web::event::EventPhase">EventPhase</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.stop_immediate_propagation' class='fnname'>stop_immediate_propagation</a>(&amp;self) { ... }
+<div class='item-spacer'></div>    fn <a href='#method.stop_propagation' class='fnname'>stop_propagation</a>(&amp;self) { ... }
+<div class='item-spacer'></div>    fn <a href='#method.target' class='fnname'>target</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.EventTarget.html" title="struct stdweb::web::EventTarget">EventTarget</a>&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.time_stamp' class='fnname'>time_stamp</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.is_trusted' class='fnname'>is_trusted</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.event_type' class='fnname'>event_type</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.prevent_default' class='fnname'>prevent_default</a>(&amp;self) { ... }
+}</pre><div class='docblock'><p>The <code>IEvent</code> interface represents any event which takes place in the DOM; some
+are user-generated (such as mouse or keyboard events), while others are
+generated by APIs (such as events that indicate an animation has finished
+running, a video has been paused, and so forth). There are many types of event,
+some of which use other interfaces based on the main <code>IEvent</code> interface. <code>IEvent</code>
+itself contains the properties and methods which are common to all events.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Event">(JavaScript docs)</a></p>
+</div>
+            <h2 id='provided-methods' class='small-section-header'>
+              Provided Methods<a href='#provided-methods' class='anchor'></a>
+            </h2>
+            <div class='methods'>
+        <h3 id='method.bubbles' class='method'><span id='bubbles.v' class='invisible'><code>fn <a href='#method.bubbles' class='fnname'>bubbles</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Indicates whether this event bubbles upward through the DOM.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Event">(JavaScript docs)</a></p>
+</div><h3 id='method.cancel_bubble' class='method'><span id='cancel_bubble.v' class='invisible'><code>fn <a href='#method.cancel_bubble' class='fnname'>cancel_bubble</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>A historical alias to <code>Event.stopPropagation()</code>.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/cancelBubble">(JavaScript docs)</a></p>
+</div><h3 id='method.set_cancel_bubble' class='method'><span id='set_cancel_bubble.v' class='invisible'><code>fn <a href='#method.set_cancel_bubble' class='fnname'>set_cancel_bubble</a>(&amp;self, value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>)</code></span></h3><div class='docblock'><p>A historical alias to <code>Event.stopPropagation()</code>.
+Setting this to <code>true</code> before returning from an event handler will stop propagation
+of the event.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/cancelBubble">(JavaScript docs)</a></p>
+</div><h3 id='method.cancelable' class='method'><span id='cancelable.v' class='invisible'><code>fn <a href='#method.cancelable' class='fnname'>cancelable</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Indicates whether the event is cancelable.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/cancelable">(JavaScript docs)</a></p>
+</div><h3 id='method.current_target' class='method'><span id='current_target.v' class='invisible'><code>fn <a href='#method.current_target' class='fnname'>current_target</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.EventTarget.html" title="struct stdweb::web::EventTarget">EventTarget</a>&gt;</code></span></h3><div class='docblock'><p>A reference to the currently registered target of this event.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/currentTarget">(JavaScript docs)</a></p>
+</div><h3 id='method.default_prevented' class='method'><span id='default_prevented.v' class='invisible'><code>fn <a href='#method.default_prevented' class='fnname'>default_prevented</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Indicates whether <code>preventDefault</code> has been called on this event.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/defaultPrevented">(JavaScript docs)</a></p>
+</div><h3 id='method.event_phase' class='method'><span id='event_phase.v' class='invisible'><code>fn <a href='#method.event_phase' class='fnname'>event_phase</a>(&amp;self) -&gt; <a class="enum" href="../../stdweb/web/event/enum.EventPhase.html" title="enum stdweb::web::event::EventPhase">EventPhase</a></code></span></h3><div class='docblock'><p>Indicates which phase of event flow is currently being evaluated.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/eventPhase">(JavaScript docs)</a></p>
+</div><h3 id='method.stop_immediate_propagation' class='method'><span id='stop_immediate_propagation.v' class='invisible'><code>fn <a href='#method.stop_immediate_propagation' class='fnname'>stop_immediate_propagation</a>(&amp;self)</code></span></h3><div class='docblock'><p>Prevents any further listeners from being called for this event.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/stopImmediatePropagation">(JavaScript docs)</a></p>
+</div><h3 id='method.stop_propagation' class='method'><span id='stop_propagation.v' class='invisible'><code>fn <a href='#method.stop_propagation' class='fnname'>stop_propagation</a>(&amp;self)</code></span></h3><div class='docblock'><p>Stops the propagation of this event to descendants in the DOM.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/stopPropagation">(JavaScript docs)</a></p>
+</div><h3 id='method.target' class='method'><span id='target.v' class='invisible'><code>fn <a href='#method.target' class='fnname'>target</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.EventTarget.html" title="struct stdweb::web::EventTarget">EventTarget</a>&gt;</code></span></h3><div class='docblock'><p>Returns a reference to the target to which this event was originally registered.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/target">(JavaScript docs)</a></p>
+</div><h3 id='method.time_stamp' class='method'><span id='time_stamp.v' class='invisible'><code>fn <a href='#method.time_stamp' class='fnname'>time_stamp</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>&gt;</code></span></h3><div class='docblock'><p>Returns the time in milliseconds at which this event was created.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/timeStamp">(JavaScript docs)</a></p>
+</div><h3 id='method.is_trusted' class='method'><span id='is_trusted.v' class='invisible'><code>fn <a href='#method.is_trusted' class='fnname'>is_trusted</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Indicates whether the event was generated by a user action.</p>
+</div><h3 id='method.event_type' class='method'><span id='event_type.v' class='invisible'><code>fn <a href='#method.event_type' class='fnname'>event_type</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span></h3><div class='docblock'><p>Returns a string containing the type of event. It is set when
+the event is constructed and is the name commonly used to refer
+to the specific event.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/type">(JavaScript docs)</a></p>
+</div><h3 id='method.prevent_default' class='method'><span id='prevent_default.v' class='invisible'><code>fn <a href='#method.prevent_default' class='fnname'>prevent_default</a>(&amp;self)</code></span></h3><div class='docblock'><p>Cancels the event if it is cancelable, without
+stopping further propagation of the event.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault">(JavaScript docs)</a></p>
+</div></div>
+        <h2 id='implementors' class='small-section-header'>
+          Implementors<a href='#implementors' class='anchor'></a>
+        </h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/dom.rs.html#16' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.ChangeEvent.html" title="struct stdweb::web::event::ChangeEvent">ChangeEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/dom.rs.html#36' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.InputEvent.html" title="struct stdweb::web::event::InputEvent">InputEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/dom.rs.html#50' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.ResourceLoadEvent.html" title="struct stdweb::web::event::ResourceLoadEvent">ResourceLoadEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/dom.rs.html#65' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.ResourceAbortEvent.html" title="struct stdweb::web::event::ResourceAbortEvent">ResourceAbortEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/dom.rs.html#81' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.ResourceErrorEvent.html" title="struct stdweb::web::event::ResourceErrorEvent">ResourceErrorEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/dom.rs.html#98' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.ResizeEvent.html" title="struct stdweb::web::event::ResizeEvent">ResizeEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/dom.rs.html#112' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.ReadyStateChangeEvent.html" title="struct stdweb::web::event::ReadyStateChangeEvent">ReadyStateChangeEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/focus.rs.html#47' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.FocusEvent.html" title="struct stdweb::web::event::FocusEvent">FocusEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/focus.rs.html#63' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.BlurEvent.html" title="struct stdweb::web::event::BlurEvent">BlurEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/history.rs.html#17' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.HashChangeEvent.html" title="struct stdweb::web::event::HashChangeEvent">HashChangeEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/history.rs.html#75' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.PopStateEvent.html" title="struct stdweb::web::event::PopStateEvent">PopStateEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/keyboard.rs.html#215' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.KeyPressEvent.html" title="struct stdweb::web::event::KeyPressEvent">KeyPressEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/keyboard.rs.html#232' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.KeyDownEvent.html" title="struct stdweb::web::event::KeyDownEvent">KeyDownEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/keyboard.rs.html#247' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.KeyUpEvent.html" title="struct stdweb::web::event::KeyUpEvent">KeyUpEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/mouse.rs.html#240' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.ClickEvent.html" title="struct stdweb::web::event::ClickEvent">ClickEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/mouse.rs.html#258' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.DoubleClickEvent.html" title="struct stdweb::web::event::DoubleClickEvent">DoubleClickEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/mouse.rs.html#275' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.MouseDownEvent.html" title="struct stdweb::web::event::MouseDownEvent">MouseDownEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/mouse.rs.html#292' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.MouseUpEvent.html" title="struct stdweb::web::event::MouseUpEvent">MouseUpEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/mouse.rs.html#309' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.MouseMoveEvent.html" title="struct stdweb::web::event::MouseMoveEvent">MouseMoveEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#67' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.ProgressEvent.html" title="struct stdweb::web::event::ProgressEvent">ProgressEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#82' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.ProgressLoadEvent.html" title="struct stdweb::web::event::ProgressLoadEvent">ProgressLoadEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#97' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.LoadStartEvent.html" title="struct stdweb::web::event::LoadStartEvent">LoadStartEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#114' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.LoadEndEvent.html" title="struct stdweb::web::event::LoadEndEvent">LoadEndEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#129' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.ProgressAbortEvent.html" title="struct stdweb::web::event::ProgressAbortEvent">ProgressAbortEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#144' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.ProgressErrorEvent.html" title="struct stdweb::web::event::ProgressErrorEvent">ProgressErrorEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/socket.rs.html#54' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.SocketCloseEvent.html" title="struct stdweb::web::event::SocketCloseEvent">SocketCloseEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/socket.rs.html#70' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.SocketErrorEvent.html" title="struct stdweb::web::event::SocketErrorEvent">SocketErrorEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/socket.rs.html#85' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.SocketOpenEvent.html" title="struct stdweb::web::event::SocketOpenEvent">SocketOpenEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/socket.rs.html#221' title='goto source code'>[src]</a></div><code>impl IEvent for <a class="struct" href="../../stdweb/web/event/struct.SocketMessageEvent.html" title="struct stdweb::web::event::SocketMessageEvent">SocketMessageEvent</a></code></li>
+</ul><script type="text/javascript" async
+                         src="../../implementors/stdweb/traits/trait.IEvent.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>↑</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>↓</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>↹</dt>
+                    <dd>Switch tab</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt style="width:31px;">+ / -</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "stdweb";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

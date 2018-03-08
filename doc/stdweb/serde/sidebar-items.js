@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["ConversionError","A structure denoting a conversion error encountered during serialization or deserialization."],["Serde","A newtype which makes it possible to pass a value which implements Serde's `Serializable` into the js! macro."]]});

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `IMouseEvent` trait in crate `stdweb`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, IMouseEvent">
+
+    <title>stdweb::web::event::IMouseEvent - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc trait">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'>Trait IMouseEvent</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#provided-methods">Provided Methods</a><div class="sidebar-links"><a href="#method.alt_key">alt_key</a><a href="#method.button">button</a><a href="#method.buttons">buttons</a><a href="#method.client_x">client_x</a><a href="#method.client_y">client_y</a><a href="#method.ctrl_key">ctrl_key</a><a href="#method.get_modifier_state">get_modifier_state</a><a href="#method.meta_key">meta_key</a><a href="#method.movement_x">movement_x</a><a href="#method.movement_y">movement_y</a><a href="#method.region">region</a><a href="#method.related_target">related_target</a><a href="#method.screen_x">screen_x</a><a href="#method.screen_y">screen_y</a><a href="#method.shift_key">shift_key</a></div><a class="sidebar-title" href="#implementors">Implementors</a></div><p class='location'><a href='../../index.html'>stdweb</a>::<wbr><a href='../index.html'>web</a>::<wbr><a href='index.html'>event</a></p><script>window.sidebarCurrent = {name: 'IMouseEvent', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../../index.html'>stdweb</a>::<wbr><a href='../index.html'>web</a>::<wbr><a href='index.html'>event</a>::<wbr><a class="trait" href=''>IMouseEvent</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/stdweb/webapi/events/mouse.rs.html#12-183' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait IMouseEvent: <a class="trait" href="../../../stdweb/web/event/trait.IUiEvent.html" title="trait stdweb::web::event::IUiEvent">IUiEvent</a> {
+    fn <a href='#method.alt_key' class='fnname'>alt_key</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.button' class='fnname'>button</a>(&amp;self) -&gt; <a class="enum" href="../../../stdweb/web/event/enum.MouseButton.html" title="enum stdweb::web::event::MouseButton">MouseButton</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.buttons' class='fnname'>buttons</a>(&amp;self) -&gt; MouseButtonsState { ... }
+<div class='item-spacer'></div>    fn <a href='#method.client_x' class='fnname'>client_x</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.client_y' class='fnname'>client_y</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.ctrl_key' class='fnname'>ctrl_key</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.get_modifier_state' class='fnname'>get_modifier_state</a>(&amp;self, key: <a class="enum" href="../../../stdweb/web/event/enum.ModifierKey.html" title="enum stdweb::web::event::ModifierKey">ModifierKey</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.meta_key' class='fnname'>meta_key</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.movement_x' class='fnname'>movement_x</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.movement_y' class='fnname'>movement_y</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.region' class='fnname'>region</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.related_target' class='fnname'>related_target</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../../stdweb/web/struct.EventTarget.html" title="struct stdweb::web::EventTarget">EventTarget</a>&gt; { ... }
+<div class='item-spacer'></div>    fn <a href='#method.screen_x' class='fnname'>screen_x</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.screen_y' class='fnname'>screen_y</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.shift_key' class='fnname'>shift_key</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> { ... }
+}</pre><div class='docblock'><p>The <code>IMouseEvent</code> interface represents events that occur due to the user
+interacting with a pointing device (such as a mouse).</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent">(JavaScript docs)</a></p>
+</div>
+            <h2 id='provided-methods' class='small-section-header'>
+              Provided Methods<a href='#provided-methods' class='anchor'></a>
+            </h2>
+            <div class='methods'>
+        <h3 id='method.alt_key' class='method'><span id='alt_key.v' class='invisible'><code>fn <a href='#method.alt_key' class='fnname'>alt_key</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Returns whether the Alt key was down when this event was fired.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/altKey">(JavaScript docs)</a></p>
+</div><h3 id='method.button' class='method'><span id='button.v' class='invisible'><code>fn <a href='#method.button' class='fnname'>button</a>(&amp;self) -&gt; <a class="enum" href="../../../stdweb/web/event/enum.MouseButton.html" title="enum stdweb::web::event::MouseButton">MouseButton</a></code></span></h3><div class='docblock'><p>Indicates the mouse button that fired this event.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button">(JavaScript docs)</a></p>
+</div><h3 id='method.buttons' class='method'><span id='buttons.v' class='invisible'><code>fn <a href='#method.buttons' class='fnname'>buttons</a>(&amp;self) -&gt; MouseButtonsState</code></span></h3><div class='docblock'><p>Indicates which mouse buttons were down when this event was fired.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons">(JavaScript docs)</a></p>
+</div><h3 id='method.client_x' class='method'><span id='client_x.v' class='invisible'><code>fn <a href='#method.client_x' class='fnname'>client_x</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></span></h3><div class='docblock'><p>Returns the X position in the application&#39;s client area where this event occured.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientX">(JavaScript docs)</a></p>
+</div><h3 id='method.client_y' class='method'><span id='client_y.v' class='invisible'><code>fn <a href='#method.client_y' class='fnname'>client_y</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></span></h3><div class='docblock'><p>Returns the Y position in the application&#39;s client area where this event occured.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientY">(JavaScript docs)</a></p>
+</div><h3 id='method.ctrl_key' class='method'><span id='ctrl_key.v' class='invisible'><code>fn <a href='#method.ctrl_key' class='fnname'>ctrl_key</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Indicates whether the Ctrl key was down when this event fired.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/ctrlKey">(JavaScript docs)</a></p>
+</div><h3 id='method.get_modifier_state' class='method'><span id='get_modifier_state.v' class='invisible'><code>fn <a href='#method.get_modifier_state' class='fnname'>get_modifier_state</a>(&amp;self, key: <a class="enum" href="../../../stdweb/web/event/enum.ModifierKey.html" title="enum stdweb::web::event::ModifierKey">ModifierKey</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Returns the current state of the specified modifier key.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/getModifierState">(JavaScript docs)</a></p>
+</div><h3 id='method.meta_key' class='method'><span id='meta_key.v' class='invisible'><code>fn <a href='#method.meta_key' class='fnname'>meta_key</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Indicates whether the Meta key was down when this event fired.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/metaKey">(JavaScript docs)</a></p>
+</div><h3 id='method.movement_x' class='method'><span id='movement_x.v' class='invisible'><code>fn <a href='#method.movement_x' class='fnname'>movement_x</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></span></h3><div class='docblock'><p>Returns the change in X coordinate of the pointer between this event and the previous
+MouseMove event.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/movementX">(JavaScript docs)</a></p>
+</div><h3 id='method.movement_y' class='method'><span id='movement_y.v' class='invisible'><code>fn <a href='#method.movement_y' class='fnname'>movement_y</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></span></h3><div class='docblock'><p>Returns the change in Y coordinate of the pointer between this event and the previous
+MouseMove event.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/movementX">(JavaScript docs)</a></p>
+</div><h3 id='method.region' class='method'><span id='region.v' class='invisible'><code>fn <a href='#method.region' class='fnname'>region</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>&gt;</code></span></h3><div class='docblock'><p>Returns the ID of the hit region affected by the event.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/region">(JavaScript docs)</a></p>
+</div><h3 id='method.related_target' class='method'><span id='related_target.v' class='invisible'><code>fn <a href='#method.related_target' class='fnname'>related_target</a>(&amp;self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../../stdweb/web/struct.EventTarget.html" title="struct stdweb::web::EventTarget">EventTarget</a>&gt;</code></span></h3><div class='docblock'><p>Returns the secondary target of this event, if any.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/relatedTarget">(JavaScript docs)</a></p>
+</div><h3 id='method.screen_x' class='method'><span id='screen_x.v' class='invisible'><code>fn <a href='#method.screen_x' class='fnname'>screen_x</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></span></h3><div class='docblock'><p>Returns the X position of the pointer in screen coordinates.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/screenX">(JavaScript docs)</a></p>
+</div><h3 id='method.screen_y' class='method'><span id='screen_y.v' class='invisible'><code>fn <a href='#method.screen_y' class='fnname'>screen_y</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></span></h3><div class='docblock'><p>Returns the Y position of the pointer in screen coordinates.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/screenY">(JavaScript docs)</a></p>
+</div><h3 id='method.shift_key' class='method'><span id='shift_key.v' class='invisible'><code>fn <a href='#method.shift_key' class='fnname'>shift_key</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Indicates whether the Shift key was down when this event was fired.</p>
+
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/shiftKey">(JavaScript docs)</a></p>
+</div></div>
+        <h2 id='implementors' class='small-section-header'>
+          Implementors<a href='#implementors' class='anchor'></a>
+        </h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/mouse.rs.html#242' title='goto source code'>[src]</a></div><code>impl IMouseEvent for <a class="struct" href="../../../stdweb/web/event/struct.ClickEvent.html" title="struct stdweb::web::event::ClickEvent">ClickEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/mouse.rs.html#260' title='goto source code'>[src]</a></div><code>impl IMouseEvent for <a class="struct" href="../../../stdweb/web/event/struct.DoubleClickEvent.html" title="struct stdweb::web::event::DoubleClickEvent">DoubleClickEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/mouse.rs.html#277' title='goto source code'>[src]</a></div><code>impl IMouseEvent for <a class="struct" href="../../../stdweb/web/event/struct.MouseDownEvent.html" title="struct stdweb::web::event::MouseDownEvent">MouseDownEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/mouse.rs.html#294' title='goto source code'>[src]</a></div><code>impl IMouseEvent for <a class="struct" href="../../../stdweb/web/event/struct.MouseUpEvent.html" title="struct stdweb::web::event::MouseUpEvent">MouseUpEvent</a></code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../../src/stdweb/webapi/events/mouse.rs.html#311' title='goto source code'>[src]</a></div><code>impl IMouseEvent for <a class="struct" href="../../../stdweb/web/event/struct.MouseMoveEvent.html" title="struct stdweb::web::event::MouseMoveEvent">MouseMoveEvent</a></code></li>
+</ul><script type="text/javascript" async
+                         src="../../../implementors/stdweb/web/event/trait.IMouseEvent.js">
+                 </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>↑</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>↓</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>↹</dt>
+                    <dd>Switch tab</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt style="width:31px;">+ / -</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "stdweb";
+    </script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

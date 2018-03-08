@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Texture2d` type in crate `ugli`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Texture2d">
+
+    <title>ugli::Texture2d - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc type">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'>Type Definition Texture2d</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.gen_mipmaps">gen_mipmaps</a><a href="#method.new_with">new_with</a><a href="#method.sub_image">sub_image</a><a href="#method.from_image">from_image</a></div></div><p class='location'><a href='index.html'>ugli</a></p><script>window.sidebarCurrent = {name: 'Texture2d', ty: 'type', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Type Definition <a href='index.html'>ugli</a>::<wbr><a class="type" href=''>Texture2d</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/ugli/texture/mod.rs.html#30' title='goto source code'>[src]</a></span></h1>
+<pre class='rust typedef'>type Texture2d = <a class="struct" href="../ugli/struct.Texture.html" title="struct ugli::Texture">Texture</a>&lt;<a class="struct" href="../prelude/color/struct.Color.html" title="struct prelude::color::Color">Color</a>&gt;;</pre>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl <a class="type" href="../ugli/type.Texture2d.html" title="type ugli::Texture2d">Texture2d</a></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/ugli/texture/mod.rs.html#104-186' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.gen_mipmaps' class="method"><span id='gen_mipmaps.v' class='invisible'><code>pub fn <a href='#method.gen_mipmaps' class='fnname'>gen_mipmaps</a>(&amp;mut self)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/ugli/texture/mod.rs.html#105-116' title='goto source code'>[src]</a></span></h4>
+<h4 id='method.new_with' class="method"><span id='new_with.v' class='invisible'><code>pub fn <a href='#method.new_with' class='fnname'>new_with</a>&lt;F:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(<a class="struct" href="../prelude/algebra/vec/vec2/struct.Vec2.html" title="struct prelude::algebra::vec::vec2::Vec2">Vec2</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt;) -&gt; <a class="struct" href="../prelude/color/struct.Color.html" title="struct prelude::color::Color">Color</a>&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;context: &amp;<a class="struct" href="../ugli/struct.Context.html" title="struct ugli::Context">Context</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;size: <a class="struct" href="../prelude/algebra/vec/vec2/struct.Vec2.html" title="struct prelude::algebra::vec::vec2::Vec2">Vec2</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;f: F<br>) -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/ugli/texture/mod.rs.html#118-148' title='goto source code'>[src]</a></span></h4>
+<h4 id='method.sub_image' class="method"><span id='sub_image.v' class='invisible'><code>pub unsafe fn <a href='#method.sub_image' class='fnname'>sub_image</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;pos: <a class="struct" href="../prelude/algebra/vec/vec2/struct.Vec2.html" title="struct prelude::algebra::vec::vec2::Vec2">Vec2</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;size: <a class="struct" href="../prelude/algebra/vec/vec2/struct.Vec2.html" title="struct prelude::algebra::vec::vec2::Vec2">Vec2</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;data: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a><br>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/ugli/texture/mod.rs.html#151-164' title='goto source code'>[src]</a></span></h4>
+<h4 id='method.from_image' class="method"><span id='from_image.v' class='invisible'><code>pub fn <a href='#method.from_image' class='fnname'>from_image</a>(context: &amp;<a class="struct" href="../ugli/struct.Context.html" title="struct ugli::Context">Context</a>, image: <a class="type" href="../image/buffer/type.RgbaImage.html" title="type image::buffer::RgbaImage">RgbaImage</a>) -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/ugli/texture/mod.rs.html#167-185' title='goto source code'>[src]</a></span></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>↑</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>↓</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>↹</dt>
+                    <dd>Switch tab</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt style="width:31px;">+ / -</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "ugli";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>
