@@ -9,14 +9,17 @@ script:
   - cargo test --package codevisual-demo
   - (cd codevisual-demo && cargo web test)
 before_deploy:
+  - (cd codevisual-demo && cargo web deploy --release)
+  - mv codevisual-demo/target/deploy target/deploy
   - cargo doc --package codevisual
-  - echo '<meta http-equiv=refresh content=0;url=codevisual/index.html>' > target/doc/index.html
+  - mv target/doc target/deploy
+  - echo '<meta http-equiv=refresh content=0;url=codevisual/index.html>' > target/deploy/doc/index.html
 deploy:
   provider: pages
   skip-cleanup: true
   github-token: $TOKEN
   keep-history: true
-  local-dir: target/doc
+  local-dir: target/deploy
   fqdn: codevisual.kuviman.com
   on:
     branch: master
