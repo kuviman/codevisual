@@ -26,7 +26,7 @@ void main() {
     gl_Position = vec4(a_position, 0.0, 1.0);
 }
 "#;
-const FRAGMENT_SOURCE:&str = r#"
+const FRAGMENT_SOURCE: &str = r#"
 varying vec4 v_color;
 
 void main() {
@@ -39,7 +39,11 @@ impl codevisual::Game for Tutorial {
         let context = app.ugli_context();
 
         Tutorial {
-            program: codevisual::ShaderLib::process(context, VERTEX_SOURCE, FRAGMENT_SOURCE),
+            program: codevisual::ShaderLib::process_separate(
+                context,
+                VERTEX_SOURCE,
+                FRAGMENT_SOURCE,
+            ),
             vertices: ugli::VertexBuffer::new_static(
                 context,
                 vec![

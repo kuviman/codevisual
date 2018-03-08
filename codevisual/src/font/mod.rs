@@ -38,11 +38,7 @@ impl Font {
                 vec2(CACHE_SIZE, CACHE_SIZE),
             )),
             geometry: RefCell::new(ugli::VertexBuffer::new_dynamic(context, Vec::new())),
-            program: ShaderLib::process(
-                context,
-                include_str!("vertex.glsl"),
-                include_str!("fragment.glsl"),
-            ),
+            program: ShaderLib::process(context, include_str!("shader.glsl")),
         }
     }
     pub fn measure_at(&self, text: &str, pos: Vec2<f32>, size: f32) -> Option<Rect<f32>> {
