@@ -14,10 +14,8 @@ struct Demo {
 
 impl codevisual::Game for Demo {
     fn new(app: &Rc<codevisual::App>) -> Self {
-        let context = app.ugli_context();
-
         Demo {
-            font: codevisual::Font::default(context),
+            font: codevisual::Font::default(app),
             time: 0.0,
             frames: 0,
             fps: 0,

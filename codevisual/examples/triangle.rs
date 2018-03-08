@@ -16,22 +16,23 @@ struct Tutorial {
     vertices: ugli::VertexBuffer<Vertex>,
 }
 
-const VERTEX_SOURCE: &str = r#"
+const SHADER_SOURCE: &str = r#"
 varying vec4 v_color;
 
+#ifdef VERTEX_SHADER
 attribute vec2 a_position;
 attribute vec4 a_color;
 void main() {
     v_color = a_color;
     gl_Position = vec4(a_position, 0.0, 1.0);
 }
-"#;
-const FRAGMENT_SOURCE: &str = r#"
-varying vec4 v_color;
+#endif
 
+#ifdef FRAGMENT_SHADER
 void main() {
     gl_FragColor = v_color;
 }
+#endif
 "#;
 
 impl codevisual::Game for Tutorial {
@@ -39,11 +40,7 @@ impl codevisual::Game for Tutorial {
         let context = app.ugli_context();
 
         Tutorial {
-            program: codevisual::ShaderLib::process_separate(
-                context,
-                VERTEX_SOURCE,
-                FRAGMENT_SOURCE,
-            ),
+            program: app.shader_lib().compile(SHADER_SOURCE),
             vertices: ugli::VertexBuffer::new_static(
                 context,
                 vec![

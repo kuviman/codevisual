@@ -14,13 +14,14 @@ pub trait Game: 'static {
 
 pub struct App {
     window: Window,
+    shader_lib: ShaderLib,
 }
 
 impl App {
     fn new(title: &str) -> Self {
-        App {
-            window: Window::new(title),
-        }
+        let window = Window::new(title);
+        let shader_lib = ShaderLib::new(window.ugli_context());
+        App { window, shader_lib }
     }
 
     pub fn window(&self) -> &Window {
@@ -29,6 +30,10 @@ impl App {
 
     pub fn ugli_context(&self) -> &Rc<ugli::Context> {
         self.window.ugli_context()
+    }
+
+    pub fn shader_lib(&self) -> &ShaderLib {
+        &self.shader_lib
     }
 }
 
