@@ -17,7 +17,7 @@ impl ShaderLib {
         );
         lib
     }
-    fn preprocess<'a>(&'a self, source: &'a str) -> Vec<&'a str> {
+    fn preprocess<'a>(&'a self, source: &'a str) -> Result<Vec<&'a str>, TodoError> {
         let mut result = Vec::new();
         for line in source.lines() {
             if line.starts_with("#include") {
@@ -30,18 +30,23 @@ impl ShaderLib {
                     "include path should be enclosed in angular brackets"
                 );
                 let file = file.trim_left_matches('<').trim_right_matches('>');
-                let file = self.files
-                    .get(file)
-                    .expect(&format!("<{}> not found in shader library", file));
-                result.extend(self.preprocess(file));
+                if let Some(file) = self.files.get(file) {
+                    result.extend(self.preprocess(file)?);
+                } else {
+                    return Err(TodoError);
+                }
             } else {
                 result.push(line);
                 result.push("\n");
             }
         }
-        result
+        Ok(result)
     }
-    pub fn process<'a>(&'a self, shader_type: ugli::ShaderType, source: &'a str) -> Vec<&'a str> {
+    pub fn process<'a>(
+        &'a self,
+        shader_type: ugli::ShaderType,
+        source: &'a str,
+    ) -> Result<Vec<&'a str>, TodoError> {
         let mut result = vec![
             #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
             "#version 150\n",
@@ -52,25 +57,25 @@ impl ShaderLib {
                 ugli::ShaderType::Fragment => "#define FRAGMENT_SHADER\n",
             },
         ];
-        result.extend(self.preprocess("#include <prelude>"));
-        result.extend(self.preprocess(source));
-        result
+        result.extend(self.preprocess("#include <prelude>")?);
+        result.extend(self.preprocess(source)?);
+        Ok(result)
     }
-    pub fn compile(&self, source: &str) -> ugli::Program {
-        ugli::Program::new(
+    pub fn compile(&self, source: &str) -> Result<ugli::Program, TodoError> {
+        Ok(ugli::Program::new(
             &self.context,
             &[
                 &ugli::Shader::new(
                     &self.context,
                     ugli::ShaderType::Vertex,
-                    &self.process(ugli::ShaderType::Vertex, source),
-                ).unwrap(),
+                    &self.process(ugli::ShaderType::Vertex, source)?,
+                )?,
                 &ugli::Shader::new(
                     &self.context,
                     ugli::ShaderType::Fragment,
-                    &self.process(ugli::ShaderType::Fragment, source),
-                ).unwrap(),
+                    &self.process(ugli::ShaderType::Fragment, source)?,
+                )?,
             ],
-        ).unwrap()
+        )?)
     }
 }

@@ -12,7 +12,7 @@ impl App {
         let shader_lib = ShaderLib::new(window.ugli_context());
         let default_font = {
             let data = include_bytes!("font/default.ttf") as &[u8];
-            Font::new_with(window.ugli_context(), &shader_lib, data.to_owned())
+            Font::new_with(window.ugli_context(), &shader_lib, data.to_owned()).unwrap()
         };
         App {
             window,

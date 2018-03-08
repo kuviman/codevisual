@@ -37,3 +37,16 @@ pub use self::game::*;
 pub use self::window::*;
 pub use self::font::*;
 pub use self::shader_lib::*;
+
+mod private {
+    #[derive(Debug)]
+    pub struct TodoError;
+
+    impl From<String> for TodoError {
+        fn from(_: String) -> Self {
+            Self {}
+        }
+    }
+}
+
+pub(crate) use private::*;

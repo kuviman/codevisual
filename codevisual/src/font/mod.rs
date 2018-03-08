@@ -17,18 +17,19 @@ pub struct Font {
 const CACHE_SIZE: usize = 1024;
 
 impl Font {
-    pub fn new(app: &Rc<App>, data: Vec<u8>) -> Font {
+    pub fn new(app: &Rc<App>, data: Vec<u8>) -> Result<Font, TodoError> {
         Self::new_with(app.ugli_context(), app.shader_lib(), data)
     }
     pub(crate) fn new_with(
         context: &Rc<ugli::Context>,
         shader_lib: &ShaderLib,
         data: Vec<u8>,
-    ) -> Font {
-        Font {
-            font: rusttype::FontCollection::from_bytes(data)
-                .into_font()
-                .unwrap(),
+    ) -> Result<Font, TodoError> {
+        Ok(Font {
+            font: match rusttype::FontCollection::from_bytes(data).into_font() {
+                Some(font) => font,
+                None => return Err(TodoError),
+            },
             cache: RefCell::new(rusttype::gpu_cache::Cache::new(
                 CACHE_SIZE as u32,
                 CACHE_SIZE as u32,
@@ -40,8 +41,8 @@ impl Font {
                 vec2(CACHE_SIZE, CACHE_SIZE),
             )),
             geometry: RefCell::new(ugli::VertexBuffer::new_dynamic(context, Vec::new())),
-            program: shader_lib.compile(include_str!("shader.glsl")),
-        }
+            program: shader_lib.compile(include_str!("shader.glsl")).unwrap(),
+        })
     }
     pub fn measure_at(&self, text: &str, pos: Vec2<f32>, size: f32) -> Option<Rect<f32>> {
         let scale = rusttype::Scale { x: size, y: size };
