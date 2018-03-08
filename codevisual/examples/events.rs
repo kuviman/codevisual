@@ -3,9 +3,9 @@ extern crate ugli;
 
 use codevisual::prelude::*;
 
-struct Tutorial;
+struct EventsExample;
 
-impl codevisual::Game for Tutorial {
+impl codevisual::Game for EventsExample {
     fn new(_: &Rc<codevisual::App>) -> Self {
         Self {}
     }
@@ -21,5 +21,5 @@ impl codevisual::Game for Tutorial {
 }
 
 fn main() {
-    codevisual::run::<Tutorial>();
+    codevisual::run::<EventsExample>();
 }

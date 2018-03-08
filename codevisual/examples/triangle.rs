@@ -11,7 +11,7 @@ struct Vertex {
     a_color: Color,
 }
 
-struct Tutorial {
+struct TriangleExample {
     program: ugli::Program,
     vertices: ugli::VertexBuffer<Vertex>,
 }
@@ -35,11 +35,11 @@ void main() {
 #endif
 "#;
 
-impl codevisual::Game for Tutorial {
+impl codevisual::Game for TriangleExample {
     fn new(app: &Rc<codevisual::App>) -> Self {
         let context = app.ugli_context();
 
-        Tutorial {
+        Self {
             program: app.shader_lib().compile(SHADER_SOURCE),
             vertices: ugli::VertexBuffer::new_static(
                 context,
@@ -80,5 +80,5 @@ impl codevisual::Game for Tutorial {
 }
 
 fn main() {
-    codevisual::run::<Tutorial>();
+    codevisual::run::<TriangleExample>();
 }
