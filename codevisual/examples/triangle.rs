@@ -80,5 +80,5 @@ impl codevisual::Game for TriangleExample {
 }
 
 fn main() {
-    codevisual::run::<TriangleExample>();
+    codevisual::App::run::<TriangleExample>();
 }

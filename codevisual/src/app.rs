@@ -25,42 +25,44 @@ impl App {
     }
 }
 
-pub fn run<G: Game>() {
-    let app = Rc::new(App::new(&G::title()));
-    let mut game = G::new(&app);
+impl App {
+    pub fn run<G: Game>() {
+        let app = Rc::new(App::new(&G::title()));
+        let mut game = G::new(&app);
 
-    let mut timer = Timer::new();
-    let main_loop = {
-        let app = app.clone();
-        move || {
-            for event in app.window.get_events() {
-                game.handle_event(event);
+        let mut timer = Timer::new();
+        let main_loop = {
+            let app = app.clone();
+            move || {
+                for event in app.window.get_events() {
+                    game.handle_event(event);
+                }
+
+                let delta_time = timer.tick().min(0.1); // TODO: configure
+                game.update(delta_time);
+
+                game.draw(&mut app.ugli_context().default_framebuffer());
+
+                app.window.swap_buffers();
             }
+        };
 
-            let delta_time = timer.tick().min(0.1); // TODO: configure
-            game.update(delta_time);
-
-            game.draw(&mut app.ugli_context().default_framebuffer());
-
-            app.window.swap_buffers();
+        #[cfg(target_os = "emscripten")]
+        js! {
+            var main_loop = @{main_loop};
+            function main_loop_wrapper() {
+                main_loop();
+                window.requestAnimationFrame(main_loop_wrapper);
+            }
+            main_loop_wrapper();
         }
-    };
 
-    #[cfg(target_os = "emscripten")]
-    js! {
-        var main_loop = @{main_loop};
-        function main_loop_wrapper() {
-            main_loop();
-            window.requestAnimationFrame(main_loop_wrapper);
-        }
-        main_loop_wrapper();
-    }
-
-    #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
-    {
-        let mut main_loop = main_loop;
-        while !app.window.should_close() {
-            main_loop();
+        #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
+        {
+            let mut main_loop = main_loop;
+            while !app.window.should_close() {
+                main_loop();
+            }
         }
     }
 }

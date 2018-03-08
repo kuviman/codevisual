@@ -21,5 +21,5 @@ impl codevisual::Game for EventsExample {
 }
 
 fn main() {
-    codevisual::run::<EventsExample>();
+    codevisual::App::run::<EventsExample>();
 }

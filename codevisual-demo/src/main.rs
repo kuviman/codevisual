@@ -55,5 +55,5 @@ impl codevisual::Game for Demo {
 }
 
 fn main() {
-    codevisual::run::<Demo>();
+    codevisual::App::run::<Demo>();
 }
