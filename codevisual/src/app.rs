@@ -3,13 +3,22 @@ use ::*;
 pub struct App {
     window: Window,
     shader_lib: ShaderLib,
+    default_font: Font,
 }
 
 impl App {
     fn new(title: &str) -> Self {
         let window = Window::new(title);
         let shader_lib = ShaderLib::new(window.ugli_context());
-        App { window, shader_lib }
+        let default_font = {
+            let data = include_bytes!("font/default.ttf") as &[u8];
+            Font::new_with(window.ugli_context(), &shader_lib, data.to_owned())
+        };
+        App {
+            window,
+            shader_lib,
+            default_font,
+        }
     }
 
     pub fn window(&self) -> &Window {
@@ -22,6 +31,10 @@ impl App {
 
     pub fn shader_lib(&self) -> &ShaderLib {
         &self.shader_lib
+    }
+
+    pub fn default_font(&self) -> &Font {
+        &self.default_font
     }
 }
 

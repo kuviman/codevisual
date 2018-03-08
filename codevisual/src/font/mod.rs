@@ -17,13 +17,14 @@ pub struct Font {
 const CACHE_SIZE: usize = 1024;
 
 impl Font {
-    pub fn default(app: &Rc<App>) -> Rc<Font> {
-        // TODO: create only one
-        let data = include_bytes!("default-font.ttf") as &[u8];
-        Rc::new(Font::new(app, data.to_owned()))
-    }
     pub fn new(app: &Rc<App>, data: Vec<u8>) -> Font {
-        let context = app.ugli_context();
+        Self::new_with(app.ugli_context(), app.shader_lib(), data)
+    }
+    pub(crate) fn new_with(
+        context: &Rc<ugli::Context>,
+        shader_lib: &ShaderLib,
+        data: Vec<u8>,
+    ) -> Font {
         Font {
             font: rusttype::FontCollection::from_bytes(data)
                 .into_font()
@@ -39,7 +40,7 @@ impl Font {
                 vec2(CACHE_SIZE, CACHE_SIZE),
             )),
             geometry: RefCell::new(ugli::VertexBuffer::new_dynamic(context, Vec::new())),
-            program: app.shader_lib().compile(include_str!("shader.glsl")),
+            program: shader_lib.compile(include_str!("shader.glsl")),
         }
     }
     pub fn measure_at(&self, text: &str, pos: Vec2<f32>, size: f32) -> Option<Rect<f32>> {

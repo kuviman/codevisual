@@ -6,7 +6,7 @@ extern crate ugli;
 use codevisual::prelude::*;
 
 struct Demo {
-    font: Rc<codevisual::Font>,
+    app: Rc<codevisual::App>,
     time: f64,
     frames: usize,
     fps: usize,
@@ -15,7 +15,7 @@ struct Demo {
 impl codevisual::Game for Demo {
     fn new(app: &Rc<codevisual::App>) -> Self {
         Demo {
-            font: codevisual::Font::default(app),
+            app: app.clone(),
             time: 0.0,
             frames: 0,
             fps: 0,
@@ -27,7 +27,7 @@ impl codevisual::Game for Demo {
     fn draw(&mut self, framebuffer: &mut ugli::Framebuffer) {
         ugli::clear(framebuffer, Some(Color::BLACK), None);
         let center = vec2(framebuffer.get_size().x as _, framebuffer.get_size().y as _) / 2.0;
-        self.font.draw_aligned(
+        self.app.default_font().draw_aligned(
             framebuffer,
             "CodeVisual Demo",
             center,
@@ -35,7 +35,7 @@ impl codevisual::Game for Demo {
             32.0,
             Color::WHITE,
         );
-        self.font.draw(
+        self.app.default_font().draw(
             framebuffer,
             &format!("FPS: {}", self.fps),
             vec2(10.0, 10.0),
