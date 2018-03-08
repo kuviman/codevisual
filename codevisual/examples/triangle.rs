@@ -40,7 +40,7 @@ impl codevisual::Game for TriangleExample {
         let context = app.ugli_context();
 
         Self {
-            program: app.shader_lib().compile(SHADER_SOURCE),
+            program: app.shader_lib().compile(SHADER_SOURCE).unwrap(),
             vertices: ugli::VertexBuffer::new_static(
                 context,
                 vec![
