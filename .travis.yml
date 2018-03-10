@@ -1,12 +1,12 @@
 language: rust
 cache:
   cargo: true
-  directories:
-    - /home/travis/.local/share/cargo-web
 install:
   - sudo apt install libasound2-dev
-before_script:
-  - cargo install cargo-web
+  - rustup target add wasm32-unknown-emscripten
+  - cargo install cargo-update; true
+  - cargo install-update -i cargo-update
+  - cargo install-update -i cargo-web
 script:
   - cargo test --package codevisual
   - (cd codevisual && cargo web test)
