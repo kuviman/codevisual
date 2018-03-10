@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["CursorType",""],["Event",""],["Key",""],["MouseButton",""]],"fn":[["run",""]],"struct":[["App",""],["Font",""],["ShaderLib",""],["TouchPoint",""],["Window",""]],"trait":[["Game",""]]});
+initSidebarItems({"enum":[["CursorType",""],["Event",""],["Key",""],["MouseButton",""]],"struct":[["App",""],["Font",""],["ShaderLib",""],["TouchPoint",""],["Window",""]],"trait":[["Game",""]]});

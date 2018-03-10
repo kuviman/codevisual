@@ -117,29 +117,35 @@
 <span id="71">71</span>
 <span id="72">72</span>
 <span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> ::<span class="kw-2">*</span>;
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Game</span>: <span class="lifetime">&#39;static</span> {
-    <span class="kw">fn</span> <span class="ident">title</span>() <span class="op">-&gt;</span> <span class="ident">String</span> {
-        <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;CodeVisual application&quot;</span>)
-    }
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">app</span>: <span class="kw-2">&amp;</span><span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">App</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_variables</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">update</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">delta_time</span>: <span class="ident">f64</span>) {}
-    <span class="kw">fn</span> <span class="ident">draw</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">framebuffer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ugli</span>::<span class="ident">Framebuffer</span>);
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_variables</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">handle_event</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">event</span>: <span class="ident">Event</span>) {}
-}
-
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">App</span> {
     <span class="ident">window</span>: <span class="ident">Window</span>,
+    <span class="ident">shader_lib</span>: <span class="ident">ShaderLib</span>,
+    <span class="ident">default_font</span>: <span class="ident">Font</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">App</span> {
     <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">title</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">let</span> <span class="ident">window</span> <span class="op">=</span> <span class="ident">Window</span>::<span class="ident">new</span>(<span class="ident">title</span>);
+        <span class="kw">let</span> <span class="ident">shader_lib</span> <span class="op">=</span> <span class="ident">ShaderLib</span>::<span class="ident">new</span>(<span class="ident">window</span>.<span class="ident">ugli_context</span>());
+        <span class="kw">let</span> <span class="ident">default_font</span> <span class="op">=</span> {
+            <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="macro">include_bytes</span><span class="macro">!</span>(<span class="string">&quot;font/default.ttf&quot;</span>) <span class="kw">as</span> <span class="kw-2">&amp;</span>[<span class="ident">u8</span>];
+            <span class="ident">Font</span>::<span class="ident">new_with</span>(<span class="ident">window</span>.<span class="ident">ugli_context</span>(), <span class="kw-2">&amp;</span><span class="ident">shader_lib</span>, <span class="ident">data</span>.<span class="ident">to_owned</span>()).<span class="ident">unwrap</span>()
+        };
         <span class="ident">App</span> {
-            <span class="ident">window</span>: <span class="ident">Window</span>::<span class="ident">new</span>(<span class="ident">title</span>),
+            <span class="ident">window</span>,
+            <span class="ident">shader_lib</span>,
+            <span class="ident">default_font</span>,
         }
     }
 
@@ -150,44 +156,54 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ugli_context</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Rc</span><span class="op">&lt;</span><span class="ident">ugli</span>::<span class="ident">Context</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">window</span>.<span class="ident">ugli_context</span>()
     }
-}
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run</span><span class="op">&lt;</span><span class="ident">G</span>: <span class="ident">Game</span><span class="op">&gt;</span>() {
-    <span class="kw">let</span> <span class="ident">app</span> <span class="op">=</span> <span class="ident">Rc</span>::<span class="ident">new</span>(<span class="ident">App</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">G</span>::<span class="ident">title</span>()));
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">game</span> <span class="op">=</span> <span class="ident">G</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">app</span>);
-
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">timer</span> <span class="op">=</span> <span class="ident">Timer</span>::<span class="ident">new</span>();
-    <span class="kw">let</span> <span class="ident">main_loop</span> <span class="op">=</span> {
-        <span class="kw">let</span> <span class="ident">app</span> <span class="op">=</span> <span class="ident">app</span>.<span class="ident">clone</span>();
-        <span class="kw">move</span> <span class="op">||</span> {
-            <span class="kw">for</span> <span class="ident">event</span> <span class="kw">in</span> <span class="ident">app</span>.<span class="ident">window</span>.<span class="ident">get_events</span>() {
-                <span class="ident">game</span>.<span class="ident">handle_event</span>(<span class="ident">event</span>);
-            }
-
-            <span class="kw">let</span> <span class="ident">delta_time</span> <span class="op">=</span> <span class="ident">timer</span>.<span class="ident">tick</span>().<span class="ident">min</span>(<span class="number">0.1</span>); <span class="comment">// TODO: configure</span>
-            <span class="ident">game</span>.<span class="ident">update</span>(<span class="ident">delta_time</span>);
-
-            <span class="ident">game</span>.<span class="ident">draw</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">app</span>.<span class="ident">ugli_context</span>().<span class="ident">default_framebuffer</span>());
-
-            <span class="ident">app</span>.<span class="ident">window</span>.<span class="ident">swap_buffers</span>();
-        }
-    };
-
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;emscripten&quot;</span>)]</span>
-    <span class="macro">js</span><span class="macro">!</span> {
-        <span class="ident">var</span> <span class="ident">main_loop</span> <span class="op">=</span> @{<span class="ident">main_loop</span>};
-        <span class="ident">function</span> <span class="ident">main_loop_wrapper</span>() {
-            <span class="ident">main_loop</span>();
-            <span class="ident">window</span>.<span class="ident">requestAnimationFrame</span>(<span class="ident">main_loop_wrapper</span>);
-        }
-        <span class="ident">main_loop_wrapper</span>();
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shader_lib</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">ShaderLib</span> {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">shader_lib</span>
     }
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;asmjs&quot;</span>, <span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>)))]</span>
-    {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">main_loop</span> <span class="op">=</span> <span class="ident">main_loop</span>;
-        <span class="kw">while</span> <span class="op">!</span><span class="ident">app</span>.<span class="ident">window</span>.<span class="ident">should_close</span>() {
-            <span class="ident">main_loop</span>();
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default_font</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Font</span> {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">default_font</span>
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">App</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run</span><span class="op">&lt;</span><span class="ident">G</span>: <span class="ident">Game</span><span class="op">&gt;</span>() {
+        <span class="kw">let</span> <span class="ident">app</span> <span class="op">=</span> <span class="ident">Rc</span>::<span class="ident">new</span>(<span class="ident">App</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">G</span>::<span class="ident">title</span>()));
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">game</span> <span class="op">=</span> <span class="ident">G</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">app</span>);
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">timer</span> <span class="op">=</span> <span class="ident">Timer</span>::<span class="ident">new</span>();
+        <span class="kw">let</span> <span class="ident">main_loop</span> <span class="op">=</span> {
+            <span class="kw">let</span> <span class="ident">app</span> <span class="op">=</span> <span class="ident">app</span>.<span class="ident">clone</span>();
+            <span class="kw">move</span> <span class="op">||</span> {
+                <span class="kw">for</span> <span class="ident">event</span> <span class="kw">in</span> <span class="ident">app</span>.<span class="ident">window</span>.<span class="ident">get_events</span>() {
+                    <span class="ident">game</span>.<span class="ident">handle_event</span>(<span class="ident">event</span>);
+                }
+
+                <span class="kw">let</span> <span class="ident">delta_time</span> <span class="op">=</span> <span class="ident">timer</span>.<span class="ident">tick</span>().<span class="ident">min</span>(<span class="number">0.1</span>); <span class="comment">// TODO: configure</span>
+                <span class="ident">game</span>.<span class="ident">update</span>(<span class="ident">delta_time</span>);
+
+                <span class="ident">game</span>.<span class="ident">draw</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">app</span>.<span class="ident">ugli_context</span>().<span class="ident">default_framebuffer</span>());
+
+                <span class="ident">app</span>.<span class="ident">window</span>.<span class="ident">swap_buffers</span>();
+            }
+        };
+
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;emscripten&quot;</span>)]</span>
+        <span class="macro">js</span><span class="macro">!</span> {
+            <span class="ident">var</span> <span class="ident">main_loop</span> <span class="op">=</span> @{<span class="ident">main_loop</span>};
+            <span class="ident">function</span> <span class="ident">main_loop_wrapper</span>() {
+                <span class="ident">main_loop</span>();
+                <span class="ident">window</span>.<span class="ident">requestAnimationFrame</span>(<span class="ident">main_loop_wrapper</span>);
+            }
+            <span class="ident">main_loop_wrapper</span>();
+        }
+
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;asmjs&quot;</span>, <span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>)))]</span>
+        {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">main_loop</span> <span class="op">=</span> <span class="ident">main_loop</span>;
+            <span class="kw">while</span> <span class="op">!</span><span class="ident">app</span>.<span class="ident">window</span>.<span class="ident">should_close</span>() {
+                <span class="ident">main_loop</span>();
+            }
         }
     }
 }
