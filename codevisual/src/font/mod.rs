@@ -17,18 +17,18 @@ pub struct Font {
 const CACHE_SIZE: usize = 1024;
 
 impl Font {
-    pub fn new(app: &Rc<App>, data: Vec<u8>) -> Result<Font, TodoError> {
+    pub fn new(app: &Rc<App>, data: Vec<u8>) -> Result<Font, Error> {
         Self::new_with(app.ugli_context(), app.shader_lib(), data)
     }
     pub(crate) fn new_with(
         context: &Rc<ugli::Context>,
         shader_lib: &ShaderLib,
         data: Vec<u8>,
-    ) -> Result<Font, TodoError> {
+    ) -> Result<Font, Error> {
         Ok(Font {
             font: match rusttype::FontCollection::from_bytes(data).into_font() {
                 Some(font) => font,
-                None => return Err(TodoError),
+                None => bail!("Failed to load font"),
             },
             cache: RefCell::new(rusttype::gpu_cache::Cache::new(
                 CACHE_SIZE as u32,

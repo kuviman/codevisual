@@ -9,6 +9,8 @@ ugli = { git = "https://github.com/kuviman/ugli" }
 rusttype = "0.3.0"
 serde = "1.0"
 lazy_static = "1.0"
+failure = "0.1.1"
+
 # TODO: cfg this dependency https://github.com/koute/cargo-web/issues/72
 stdweb = "0.4.0"
 

@@ -17,7 +17,7 @@ impl ShaderLib {
         );
         lib
     }
-    fn preprocess<'a>(&'a self, source: &'a str) -> Result<Vec<&'a str>, TodoError> {
+    fn preprocess<'a>(&'a self, source: &'a str) -> Result<Vec<&'a str>, Error> {
         let mut result = Vec::new();
         for line in source.lines() {
             if line.starts_with("#include") {
@@ -33,7 +33,7 @@ impl ShaderLib {
                 if let Some(file) = self.files.get(file) {
                     result.extend(self.preprocess(file)?);
                 } else {
-                    return Err(TodoError);
+                    bail!("{:?} not found in shader library", file);
                 }
             } else {
                 result.push(line);
@@ -46,7 +46,7 @@ impl ShaderLib {
         &'a self,
         shader_type: ugli::ShaderType,
         source: &'a str,
-    ) -> Result<Vec<&'a str>, TodoError> {
+    ) -> Result<Vec<&'a str>, Error> {
         let mut result = vec![
             #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
             "#version 150\n",
@@ -61,7 +61,7 @@ impl ShaderLib {
         result.extend(self.preprocess(source)?);
         Ok(result)
     }
-    pub fn compile(&self, source: &str) -> Result<ugli::Program, TodoError> {
+    pub fn compile(&self, source: &str) -> Result<ugli::Program, Error> {
         Ok(ugli::Program::new(
             &self.context,
             &[
