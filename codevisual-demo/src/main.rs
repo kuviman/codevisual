@@ -44,11 +44,11 @@ impl codevisual::Game for Demo {
             16.0,
             Color::WHITE,
         );
+        let mut pos = vec2(
+            framebuffer.get_size().x as f32 - 10.0,
+            framebuffer.get_size().y as f32 - 26.0,
+        );
         if let Some(ref event) = self.last_event {
-            let pos = vec2(
-                framebuffer.get_size().x as f32 - 10.0,
-                framebuffer.get_size().y as f32 - 26.0,
-            );
             self.app.default_font().draw_aligned(
                 framebuffer,
                 &format!("last event: {:?}", event),
@@ -56,8 +56,26 @@ impl codevisual::Game for Demo {
                 1.0,
                 16.0,
                 Color::WHITE,
-            )
+            );
+            pos.y -= 16.0;
         }
+        self.app.default_font().draw_aligned(
+            framebuffer,
+            &format!("mouse pos: {:?}", self.app.window().mouse_pos()),
+            pos,
+            1.0,
+            16.0,
+            Color::WHITE,
+        );
+        pos.y -= 16.0;
+        self.app.default_font().draw_aligned(
+            framebuffer,
+            &format!("pressed keys: {:?}", self.app.window().pressed_keys()),
+            pos,
+            1.0,
+            16.0,
+            Color::WHITE,
+        );
     }
     fn update(&mut self, delta_time: f64) {
         self.time += delta_time;

@@ -129,4 +129,12 @@ impl Window {
     pub fn is_key_pressed(&self, key: Key) -> bool {
         self.pressed_keys.borrow().contains(&key)
     }
+
+    pub fn pressed_keys(&self) -> HashSet<Key> {
+        self.pressed_keys.borrow().clone()
+    }
+
+    pub fn mouse_pos(&self) -> Vec2 {
+        self.mouse_pos.get()
+    }
 }
