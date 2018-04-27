@@ -10,8 +10,11 @@
     <title>stdweb::web::error - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <script src="../../../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Module error</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li></ul></div><p class='location'><a href='../../index.html'>stdweb</a>::<wbr><a href='../index.html'>web</a></p><script>window.sidebarCurrent = {name: 'error', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -58,6 +68,7 @@
                                   title='struct stdweb::web::error::DomException'>DomException</a></td>
                            <td class='docblock-short'>
                                 <p>A reference to a JavaScript <code>DOMException</code> object.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -66,6 +77,7 @@
                            <td class='docblock-short'>
                                 <p>A reference to a JavaScript <code>Error</code> object. An <code>Error</code> is thrown whenever a run-time error
 occurs.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -73,6 +85,7 @@ occurs.</p>
                                   title='struct stdweb::web::error::HierarchyRequestError'>HierarchyRequestError</a></td>
                            <td class='docblock-short'>
                                 <p>Occurs when an operation would result in an incorrect node tree.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -80,6 +93,7 @@ occurs.</p>
                                   title='struct stdweb::web::error::IndexSizeError'>IndexSizeError</a></td>
                            <td class='docblock-short'>
                                 <p>Occurs when an argument is out of range.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -87,6 +101,7 @@ occurs.</p>
                                   title='struct stdweb::web::error::InvalidAccessError'>InvalidAccessError</a></td>
                            <td class='docblock-short'>
                                 <p>Occurs when an object does not support an operation or argument.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -94,6 +109,7 @@ occurs.</p>
                                   title='struct stdweb::web::error::NotFoundError'>NotFoundError</a></td>
                            <td class='docblock-short'>
                                 <p>Occurs when the specified object cannot be found.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -101,6 +117,7 @@ occurs.</p>
                                   title='struct stdweb::web::error::NotSupportedError'>NotSupportedError</a></td>
                            <td class='docblock-short'>
                                 <p>Used to indicate an unsuccessful operation when none of the other NativeError objects are an appropriate indication of the failure cause.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -108,6 +125,7 @@ occurs.</p>
                                   title='struct stdweb::web::error::SecurityError'>SecurityError</a></td>
                            <td class='docblock-short'>
                                 <p>Occurs when the requested operation is insecure.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -115,6 +133,7 @@ occurs.</p>
                                   title='struct stdweb::web::error::SyntaxError'>SyntaxError</a></td>
                            <td class='docblock-short'>
                                 <p>Occurs when an argument does not match the expected pattern.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -122,6 +141,7 @@ occurs.</p>
                                   title='struct stdweb::web::error::TypeError'>TypeError</a></td>
                            <td class='docblock-short'>
                                 <p>Used to indicate an unsuccessful operation when none of the other NativeError objects are an appropriate indication of the failure cause.</p>
+
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
@@ -131,6 +151,7 @@ occurs.</p>
                            <td class='docblock-short'>
                                 <p>The <code>IDomException</code> interface represents an abnormal event which occurs as the result of
 calling a web API.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -139,6 +160,7 @@ calling a web API.</p>
                            <td class='docblock-short'>
                                 <p>Represents the JavaScript <code>Error</code> interface. An <code>Error</code> is thrown whenever a run-time error
 occurs.</p>
+
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
@@ -153,20 +175,22 @@ occurs.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

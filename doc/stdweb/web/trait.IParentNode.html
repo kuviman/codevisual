@@ -10,8 +10,11 @@
     <title>stdweb::web::IParentNode - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Trait IParentNode</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#provided-methods">Provided Methods</a><div class="sidebar-links"><a href="#method.query_selector">query_selector</a><a href="#method.query_selector_all">query_selector_all</a></div><a class="sidebar-title" href="#implementors">Implementors</a></div><p class='location'><a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>web</a></p><script>window.sidebarCurrent = {name: 'IParentNode', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -56,10 +66,8 @@
 }</pre><div class='docblock'><p>The <code>ParentNode</code> mixin contains methods and properties
 that are common to all types of <code>Node</code> objects that can
 have children.</p>
-
-<p>You most likely don&#39;t want to <code>use</code> this directly; instead
+<p>You most likely don't want to <code>use</code> this directly; instead
 you should <code>use stdweb::traits::*;</code>.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ParentNode">(JavaScript docs)</a></p>
 </div>
             <h2 id='provided-methods' class='small-section-header'>
@@ -68,11 +76,9 @@ you should <code>use stdweb::traits::*;</code>.</p>
             <div class='methods'>
         <h3 id='method.query_selector' class='method'><span id='query_selector.v' class='invisible'><code>fn <a href='#method.query_selector' class='fnname'>query_selector</a>(&amp;self, selector: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../../stdweb/web/struct.Element.html" title="struct stdweb::web::Element">Element</a>&gt;, TODO&gt;</code></span></h3><div class='docblock'><p>Returns the first element that is a descendant of the element on which it is
 invoked that matches the specified group of selectors.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/querySelector">(JavaScript docs)</a></p>
 </div><h3 id='method.query_selector_all' class='method'><span id='query_selector_all.v' class='invisible'><code>fn <a href='#method.query_selector_all' class='fnname'>query_selector_all</a>(&amp;self, selector: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="../../stdweb/web/struct.NodeList.html" title="struct stdweb::web::NodeList">NodeList</a>, TODO&gt;</code></span></h3><div class='docblock'><p>Returns a non-live <a href="struct.NodeList.html">NodeList</a> of all elements descended
 from the element on which it is invoked that matches the specified group of CSS selectors.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/querySelectorAll">(JavaScript docs)</a></p>
 </div></div>
         <h2 id='implementors' class='small-section-header'>
@@ -80,7 +86,7 @@ from the element on which it is invoked that matches the specified group of CSS 
         </h2>
         <ul class='item-list' id='implementors-list'>
     <li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/document.rs.html#22' title='goto source code'>[src]</a></div><code>impl IParentNode for <a class="struct" href="../../stdweb/web/struct.Document.html" title="struct stdweb::web::Document">Document</a></code></li>
-<li><code>impl&lt;T:&nbsp;<a class="trait" href="../../stdweb/web/trait.IElement.html" title="trait stdweb::web::IElement">IElement</a>&gt; IParentNode for T</code></li>
+<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/element.rs.html#41' title='goto source code'>[src]</a></div><code>impl&lt;T:&nbsp;<a class="trait" href="../../stdweb/web/trait.IElement.html" title="trait stdweb::web::IElement">IElement</a>&gt; IParentNode for T</code></li>
 </ul><script type="text/javascript" async
                          src="../../implementors/stdweb/web/trait.IParentNode.js">
                  </script></section>
@@ -96,20 +102,22 @@ from the element on which it is invoked that matches the specified group of CSS 
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

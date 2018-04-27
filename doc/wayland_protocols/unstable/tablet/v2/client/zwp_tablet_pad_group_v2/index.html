@@ -10,8 +10,11 @@
     <title>wayland_protocols::unstable::tablet::v2::client::zwp_tablet_pad_group_v2 - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../../../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../../../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../../../../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../../../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../../../../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../../../../../main.css" id="themeStyle">
+    <script src="../../../../../../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Module zwp_tablet_pad_group_v2</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li></ul></div><p class='location'><a href='../../../../../index.html'>wayland_protocols</a>::<wbr><a href='../../../../index.html'>unstable</a>::<wbr><a href='../../../index.html'>tablet</a>::<wbr><a href='../../index.html'>v2</a>::<wbr><a href='../index.html'>client</a></p><script>window.sidebarCurrent = {name: 'zwp_tablet_pad_group_v2', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../../../../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../../../../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -49,28 +59,24 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../../../../../src/wayland_protocols/home/travis/build/kuviman/codevisual/target/debug/build/wayland-protocols-caf2c2146daa109a/out/tablet-v2_client_api.rs.html#1865-2166' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../../../../../src/wayland_protocols/home/travis/build/kuviman/codevisual/target/debug/build/wayland-protocols-bcb3b6e9b63959ab/out/tablet-v2_client_api.rs.html#1865-2166' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>a set of buttons, rings and strips</p>
-
 <p>A pad group describes a distinct (sub)set of buttons, rings and strips
 present in the tablet. The criteria of this grouping is usually positional,
 eg. if a tablet has buttons on the left and right side, 2 groups will be
 presented. The physical arrangement of groups is undisclosed and may
 change on the fly.</p>
-
 <p>Pad groups will announce their features during pad initialization. Between
 the corresponding wp_tablet_pad.group event and wp_tablet_pad_group.done, the
 pad group will announce the buttons, rings and strips contained in it,
 plus the number of supported modes.</p>
-
 <p>Modes are a mechanism to allow multiple groups of actions for every element
 in the pad group. The number of groups and available modes in each is
 persistent across device plugs. The current mode is user-switchable, it
 will be announced through the wp_tablet_pad_group.mode_switch event both
 whenever it is switched, and after wp_tablet_pad.enter.</p>
-
 <p>The current mode logically applies to all elements in the pad group,
-although it is at clients&#39; discretion whether to actually perform different
+although it is at clients' discretion whether to actually perform different
 actions, and/or issue the respective .set_feedback requests to notify the
 compositor. See the wp_tablet_pad_group.mode_switch event for more details.</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
@@ -101,20 +107,22 @@ compositor. See the wp_tablet_pad_group.mode_switch event for more details.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

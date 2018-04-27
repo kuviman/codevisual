@@ -10,8 +10,11 @@
     <title>stdweb::web::html_element - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <script src="../../../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Module html_element</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li></ul></div><p class='location'><a href='../../index.html'>stdweb</a>::<wbr><a href='../index.html'>web</a></p><script>window.sidebarCurrent = {name: 'html_element', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -59,6 +69,7 @@
                            <td class='docblock-short'>
                                 <p>The HTML <code>&lt;canvas&gt;</code> element provides an empty graphic zone on which specific JavaScript APIs
 can draw (such as Canvas 2D or WebGL).</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -67,6 +78,7 @@ can draw (such as Canvas 2D or WebGL).</p>
                            <td class='docblock-short'>
                                 <p>The HTML image element is used to manipulate the layout and presentation of
 <code>&lt;img&gt;</code> elements.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -75,6 +87,7 @@ can draw (such as Canvas 2D or WebGL).</p>
                            <td class='docblock-short'>
                                 <p>The HTML input element is used to create interactive controls
 for web-based forms in order to accept data from the user.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -82,6 +95,7 @@ for web-based forms in order to accept data from the user.</p>
                                   title='struct stdweb::web::html_element::TextAreaElement'>TextAreaElement</a></td>
                            <td class='docblock-short'>
                                 <p>The HTML <code>&lt;textarea&gt;</code> element represents a multi-line plain-text editing control.</p>
+
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
@@ -96,20 +110,22 @@ for web-based forms in order to accept data from the user.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

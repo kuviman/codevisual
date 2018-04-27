@@ -10,8 +10,11 @@
     <title>stdweb::js_serializable - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'><a href='index.html'>stdweb</a></p><script>window.sidebarCurrent = {name: 'js_serializable', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -57,12 +67,10 @@
     (<span class="kw">impl</span><span class="op">&lt;</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">impl_arg</span>:<span class="ident">tt</span>),<span class="op">*</span> <span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>:<span class="ident">ty</span>) <span class="op">=&gt;</span> { ... };
 }</pre>
 <div class='docblock'><p>A macro which makes it possible to pass an instance of a given type
-implementing Serde&#39;s <code>Serialize</code> into the <a href="macro.js.html">js!</a> macro.</p>
-
+implementing Serde's <code>Serialize</code> into the <a href="macro.js.html">js!</a> macro.</p>
 <p>For types defined outside of your crate you can also use the <a href="serde/struct.Serde.html">Serde</a>
 newtype to make them serializable indirectly.</p>
-
-<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1>
 <pre class="rust rust-example-rendered">
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Serialize</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">struct</span> <span class="ident">Person</span> {
@@ -81,7 +89,6 @@ newtype to make them serializable indirectly.</p>
     <span class="ident">var</span> <span class="ident">person</span> <span class="op">=</span> @{<span class="ident">person</span>};
     <span class="ident">console</span>.<span class="ident">log</span>( <span class="ident">person</span>.<span class="ident">name</span> <span class="op">+</span> <span class="string">&quot; is &quot;</span> <span class="op">+</span> <span class="ident">person</span>.<span class="ident">age</span> <span class="op">+</span> <span class="string">&quot; years old.&quot;</span> );
 };</pre>
-
 <p>This macro also accepts generics:</p>
 
 <pre class="rust rust-example-rendered">
@@ -104,20 +111,22 @@ newtype to make them serializable indirectly.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

@@ -10,8 +10,11 @@
     <title>stdweb::web::MutationObserverHandle - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Struct MutationObserverHandle</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#deref-methods">Methods from Deref&lt;Target=MutationObserver&gt;</a><div class="sidebar-links"><a href="#method.observe">observe</a><a href="#method.disconnect">disconnect</a><a href="#method.take_records">take_records</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Debug">Debug</a><a href="#impl-Deref">Deref</a><a href="#impl-Drop">Drop</a></div></div><p class='location'><a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>web</a></p><script>window.sidebarCurrent = {name: 'MutationObserverHandle', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -50,11 +60,9 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../../src/stdweb/webapi/mutation_observer.rs.html#165-168' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct MutationObserverHandle { /* fields omitted */ }</pre><div class='docblock'><p>A wrapper which ensures that memory is properly cleaned up when it&#39;s no longer needed.</p>
-
+<pre class='rust struct'>pub struct MutationObserverHandle { /* fields omitted */ }</pre><div class='docblock'><p>A wrapper which ensures that memory is properly cleaned up when it's no longer needed.</p>
 <p>This is created by the <a href="struct.MutationObserver.html#method.new"><code>MutationObserver::new</code></a> method, and
 it can use the same methods as <a href="struct.MutationObserver.html"><code>MutationObserver</code></a>.</p>
-
 <p>When the <code>MutationObserverHandle</code> is dropped, the <a href="#method.disconnect"><code>disconnect</code></a>
 method will automatically be called.</p>
 </div>
@@ -63,45 +71,43 @@ method will automatically be called.</p>
                     </h2>
                 <div class='impl-items'><h4 id='method.observe' class="method"><span id='observe.v' class='invisible'><code>pub fn <a href='#method.observe' class='fnname'>observe</a>&lt;T:&nbsp;<a class="trait" href="../../stdweb/web/trait.INode.html" title="trait stdweb::web::INode">INode</a>&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;target: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>T, <br>&nbsp;&nbsp;&nbsp;&nbsp;options: <a class="struct" href="../../stdweb/web/struct.MutationObserverInit.html" title="struct stdweb::web::MutationObserverInit">MutationObserverInit</a><br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.unit.html">()</a>, TODO&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/mutation_observer.rs.html#108-127' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Starts observing changes to the <code>target</code>.</p>
-
 <p>When the <code>target</code> is changed, the <code>MutationObserver</code> is notified with a vector of <a href="enum.MutationRecord.html"><code>MutationRecord</code></a>.</p>
-
 <p>The <code>options</code> specifies which changes should be observed.</p>
-
 <p>Multiple different targets can be observed simultaneously (with the same or different <code>options</code>).</p>
-
 <p>If you call <code>observe</code> on the same <code>target</code> multiple times, it will replace the old <code>options</code>
 with the new <code>options</code>. It will <strong>not</strong> notify multiple times for the same change to the same
 <code>target</code>.</p>
-
-<h1 id='panics' class='section-header'><a href='#panics'>Panics</a></h1>
+<h1 id="panics" class="section-header"><a href="#panics">Panics</a></h1>
 <ul>
-<li><p>At least one of
+<li>
+<p>At least one of
 <a href="struct.MutationObserverInit.html#structfield.child_list"><code>child_list</code></a>,
 <a href="struct.MutationObserverInit.html#structfield.attributes"><code>attributes</code></a>, or
-<a href="struct.MutationObserverInit.html#structfield.character_data"><code>character_data</code></a> must be <code>true</code>.</p></li>
-<li><p>If <a href="struct.MutationObserverInit.html#structfield.attribute_old_value"><code>attribute_old_value</code></a> is <code>true</code>, then
-<a href="struct.MutationObserverInit.html#structfield.attributes"><code>attributes</code></a> must be <code>true</code>.</p></li>
-<li><p>If <a href="struct.MutationObserverInit.html#structfield.character_data_old_value"><code>character_data_old_value</code></a> is <code>true</code>, then
-<a href="struct.MutationObserverInit.html#structfield.character_data"><code>character_data</code></a> must be <code>true</code>.</p></li>
-<li><p>If <a href="struct.MutationObserverInit.html#structfield.attribute_filter"><code>attribute_filter</code></a> is <code>Some</code>, then
-<a href="struct.MutationObserverInit.html#structfield.attributes"><code>attributes</code></a> must be <code>true</code>.</p></li>
+<a href="struct.MutationObserverInit.html#structfield.character_data"><code>character_data</code></a> must be <code>true</code>.</p>
+</li>
+<li>
+<p>If <a href="struct.MutationObserverInit.html#structfield.attribute_old_value"><code>attribute_old_value</code></a> is <code>true</code>, then
+<a href="struct.MutationObserverInit.html#structfield.attributes"><code>attributes</code></a> must be <code>true</code>.</p>
+</li>
+<li>
+<p>If <a href="struct.MutationObserverInit.html#structfield.character_data_old_value"><code>character_data_old_value</code></a> is <code>true</code>, then
+<a href="struct.MutationObserverInit.html#structfield.character_data"><code>character_data</code></a> must be <code>true</code>.</p>
+</li>
+<li>
+<p>If <a href="struct.MutationObserverInit.html#structfield.attribute_filter"><code>attribute_filter</code></a> is <code>Some</code>, then
+<a href="struct.MutationObserverInit.html#structfield.attributes"><code>attributes</code></a> must be <code>true</code>.</p>
+</li>
 </ul>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver#observe()">(JavaScript docs)</a></p>
 </div><h4 id='method.disconnect' class="method"><span id='disconnect.v' class='invisible'><code>pub fn <a href='#method.disconnect' class='fnname'>disconnect</a>(&amp;self)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/mutation_observer.rs.html#136-140' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Stops observing all targets.</p>
-
 <p>Until the <a href="#method.observe"><code>observe</code></a> method is called again,
 the <code>MutationObserver</code> will not be notified of any changes.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver#disconnect()">(JavaScript docs)</a></p>
 </div><h4 id='method.take_records' class="method"><span id='take_records.v' class='invisible'><code>pub fn <a href='#method.take_records' class='fnname'>take_records</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="enum" href="../../stdweb/web/enum.MutationRecord.html" title="enum stdweb::web::MutationRecord">MutationRecord</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/stdweb/webapi/mutation_observer.rs.html#149-153' title='goto source code'>[src]</a></span></h4>
-<div class='docblock'><p>Empties the <code>MutationObserver</code>&#39;s record queue and returns what was in there.</p>
-
+<div class='docblock'><p>Empties the <code>MutationObserver</code>'s record queue and returns what was in there.</p>
 <p>This method is generally not needed, instead use the <a href="struct.MutationObserver.html#method.new"><code>MutationObserver</code></a>
 callback to respond to changes.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver#takeRecords()">(JavaScript docs)</a></p>
 </div></div>
             <h2 id='implementations' class='small-section-header'>
@@ -131,20 +137,22 @@ callback to respond to changes.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

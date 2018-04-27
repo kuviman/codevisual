@@ -10,8 +10,11 @@
     <title>wayland_client::protocol::wl_data_device::Handler - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <script src="../../../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Trait Handler</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#provided-methods">Provided Methods</a><div class="sidebar-links"><a href="#method.data_offer">data_offer</a><a href="#method.enter">enter</a><a href="#method.leave">leave</a><a href="#method.motion">motion</a><a href="#method.drop">drop</a><a href="#method.selection">selection</a></div><a class="sidebar-title" href="#implementors">Implementors</a></div><p class='location'><a href='../../index.html'>wayland_client</a>::<wbr><a href='../index.html'>protocol</a>::<wbr><a href='index.html'>wl_data_device</a></p><script>window.sidebarCurrent = {name: 'Handler', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -49,7 +59,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../../src/wayland_client/home/travis/build/kuviman/codevisual/target/debug/build/wayland-client-62f35a2fac84c03a/out/wayland_api.rs.html#1843-1939' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../../src/wayland_client/home/travis/build/kuviman/codevisual/target/debug/build/wayland-client-ac5be00eeb271626/out/wayland_api.rs.html#1843-1939' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait Handler {
     fn <a href='#method.data_offer' class='fnname'>data_offer</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;evqh: &amp;mut <a class="struct" href="../../../wayland_client/struct.EventQueueHandle.html" title="struct wayland_client::EventQueueHandle">EventQueueHandle</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxy: &amp;<a class="struct" href="../../../wayland_client/protocol/wl_data_device/struct.WlDataDevice.html" title="struct wayland_client::protocol::wl_data_device::WlDataDevice">WlDataDevice</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id: <a class="struct" href="../../../wayland_client/protocol/wl_data_offer/struct.WlDataOffer.html" title="struct wayland_client::protocol::wl_data_offer::WlDataOffer">WlDataOffer</a><br>&nbsp;&nbsp;&nbsp;&nbsp;) { ... }
 <div class='item-spacer'></div>    fn <a href='#method.enter' class='fnname'>enter</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;evqh: &amp;mut <a class="struct" href="../../../wayland_client/struct.EventQueueHandle.html" title="struct wayland_client::EventQueueHandle">EventQueueHandle</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proxy: &amp;<a class="struct" href="../../../wayland_client/protocol/wl_data_device/struct.WlDataDevice.html" title="struct wayland_client::protocol::wl_data_device::WlDataDevice">WlDataDevice</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;serial: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;surface: &amp;<a class="struct" href="../../../wayland_client/protocol/wl_surface/struct.WlSurface.html" title="struct wayland_client::protocol::wl_surface::WlSurface">WlSurface</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;<a class="struct" href="../../../wayland_client/protocol/wl_data_offer/struct.WlDataOffer.html" title="struct wayland_client::protocol::wl_data_offer::WlDataOffer">WlDataOffer</a>&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;) { ... }
@@ -63,7 +73,6 @@
             </h2>
             <div class='methods'>
         <h3 id='method.data_offer' class='method'><span id='data_offer.v' class='invisible'><code>fn <a href='#method.data_offer' class='fnname'>data_offer</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;evqh: &amp;mut <a class="struct" href="../../../wayland_client/struct.EventQueueHandle.html" title="struct wayland_client::EventQueueHandle">EventQueueHandle</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;proxy: &amp;<a class="struct" href="../../../wayland_client/protocol/wl_data_device/struct.WlDataDevice.html" title="struct wayland_client::protocol::wl_data_device::WlDataDevice">WlDataDevice</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;id: <a class="struct" href="../../../wayland_client/protocol/wl_data_offer/struct.WlDataOffer.html" title="struct wayland_client::protocol::wl_data_offer::WlDataOffer">WlDataOffer</a><br>)</code></span></h3><div class='docblock'><p>introduce a new wl_data_offer</p>
-
 <p>The data_offer event introduces a new wl_data_offer object,
 which will subsequently be used in either the
 data_device.enter event (for drag-and-drop) or the
@@ -72,39 +81,32 @@ following the data_device_data_offer event, the new data_offer
 object will send out data_offer.offer events to describe the
 mime types it offers.</p>
 </div><h3 id='method.enter' class='method'><span id='enter.v' class='invisible'><code>fn <a href='#method.enter' class='fnname'>enter</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;evqh: &amp;mut <a class="struct" href="../../../wayland_client/struct.EventQueueHandle.html" title="struct wayland_client::EventQueueHandle">EventQueueHandle</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;proxy: &amp;<a class="struct" href="../../../wayland_client/protocol/wl_data_device/struct.WlDataDevice.html" title="struct wayland_client::protocol::wl_data_device::WlDataDevice">WlDataDevice</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;serial: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;surface: &amp;<a class="struct" href="../../../wayland_client/protocol/wl_surface/struct.WlSurface.html" title="struct wayland_client::protocol::wl_surface::WlSurface">WlSurface</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;x: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;y: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;id: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;<a class="struct" href="../../../wayland_client/protocol/wl_data_offer/struct.WlDataOffer.html" title="struct wayland_client::protocol::wl_data_offer::WlDataOffer">WlDataOffer</a>&gt;<br>)</code></span></h3><div class='docblock'><p>initiate drag-and-drop session</p>
-
 <p>This event is sent when an active drag-and-drop pointer enters
 a surface owned by the client.  The position of the pointer at
 enter time is provided by the x and y arguments, in surface-local
 coordinates.</p>
 </div><h3 id='method.leave' class='method'><span id='leave.v' class='invisible'><code>fn <a href='#method.leave' class='fnname'>leave</a>(&amp;mut self, evqh: &amp;mut <a class="struct" href="../../../wayland_client/struct.EventQueueHandle.html" title="struct wayland_client::EventQueueHandle">EventQueueHandle</a>, proxy: &amp;<a class="struct" href="../../../wayland_client/protocol/wl_data_device/struct.WlDataDevice.html" title="struct wayland_client::protocol::wl_data_device::WlDataDevice">WlDataDevice</a>)</code></span></h3><div class='docblock'><p>end drag-and-drop session</p>
-
 <p>This event is sent when the drag-and-drop pointer leaves the
 surface and the session ends.  The client must destroy the
 wl_data_offer introduced at enter time at this point.</p>
 </div><h3 id='method.motion' class='method'><span id='motion.v' class='invisible'><code>fn <a href='#method.motion' class='fnname'>motion</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;evqh: &amp;mut <a class="struct" href="../../../wayland_client/struct.EventQueueHandle.html" title="struct wayland_client::EventQueueHandle">EventQueueHandle</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;proxy: &amp;<a class="struct" href="../../../wayland_client/protocol/wl_data_device/struct.WlDataDevice.html" title="struct wayland_client::protocol::wl_data_device::WlDataDevice">WlDataDevice</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;time: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;x: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;y: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a><br>)</code></span></h3><div class='docblock'><p>drag-and-drop session motion</p>
-
 <p>This event is sent when the drag-and-drop pointer moves within
 the currently focused surface. The new position of the pointer
 is provided by the x and y arguments, in surface-local
 coordinates.</p>
 </div><h3 id='method.drop' class='method'><span id='drop.v' class='invisible'><code>fn <a href='#method.drop' class='fnname'>drop</a>(&amp;mut self, evqh: &amp;mut <a class="struct" href="../../../wayland_client/struct.EventQueueHandle.html" title="struct wayland_client::EventQueueHandle">EventQueueHandle</a>, proxy: &amp;<a class="struct" href="../../../wayland_client/protocol/wl_data_device/struct.WlDataDevice.html" title="struct wayland_client::protocol::wl_data_device::WlDataDevice">WlDataDevice</a>)</code></span></h3><div class='docblock'><p>end drag-and-drop session successfully</p>
-
 <p>The event is sent when a drag-and-drop operation is ended
 because the implicit grab is removed.</p>
-
 <p>The drag-and-drop destination is expected to honor the last action
 received through wl_data_offer.action, if the resulting action is
 &quot;copy&quot; or &quot;move&quot;, the destination can still perform
 wl_data_offer.receive requests, and is expected to end all
 transfers with a wl_data_offer.finish request.</p>
-
 <p>If the resulting action is &quot;ask&quot;, the action will not be considered
 final. The drag-and-drop destination is expected to perform one last
 wl_data_offer.set_actions request, or wl_data_offer.destroy in order
 to cancel the operation.</p>
 </div><h3 id='method.selection' class='method'><span id='selection.v' class='invisible'><code>fn <a href='#method.selection' class='fnname'>selection</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;evqh: &amp;mut <a class="struct" href="../../../wayland_client/struct.EventQueueHandle.html" title="struct wayland_client::EventQueueHandle">EventQueueHandle</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;proxy: &amp;<a class="struct" href="../../../wayland_client/protocol/wl_data_device/struct.WlDataDevice.html" title="struct wayland_client::protocol::wl_data_device::WlDataDevice">WlDataDevice</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;id: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;&amp;<a class="struct" href="../../../wayland_client/protocol/wl_data_offer/struct.WlDataOffer.html" title="struct wayland_client::protocol::wl_data_offer::WlDataOffer">WlDataOffer</a>&gt;<br>)</code></span></h3><div class='docblock'><p>advertise new selection</p>
-
 <p>The selection event is sent out to notify the client of a new
 wl_data_offer for the selection for this device.  The
 data_device.data_offer and the data_offer.offer events are
@@ -136,20 +138,22 @@ this event.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

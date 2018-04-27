@@ -10,8 +10,11 @@
     <title>wayland_client - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Crate wayland_client</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'wayland_client', ty: 'mod', relpath: '../'};</script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -51,37 +61,31 @@
                    </a>
                </span><a class='srclink' href='../src/wayland_client/lib.rs.html#1-330' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Client-side Wayland connector</p>
-
-<h1 id='overview' class='section-header'><a href='#overview'>Overview</a></h1>
+<h1 id="overview" class="section-header"><a href="#overview">Overview</a></h1>
 <p>Connection to the Wayland compositor is achieved by
 the <code>default_connect()</code> function, which provides you
 with a <code>WlDisplay</code> and an <code>EventQueue</code>.</p>
-
-<p>From the display, you&#39;ll retrieve the registry, from
+<p>From the display, you'll retrieve the registry, from
 which you can instantiate the globals you need. This
 step being really similar in most cases, this crate
 contains an utility struct <code>EnvHandler</code> which can do
 this job for you. See its documentation for details.</p>
-
 <p>You then register your handlers for events to the
 event queue, and integrate it in your main event loop.</p>
-
-<h1 id='handlers-and-event-queues' class='section-header'><a href='#handlers-and-event-queues'>Handlers and event queues</a></h1>
+<h1 id="handlers-and-event-queues" class="section-header"><a href="#handlers-and-event-queues">Handlers and event queues</a></h1>
 <p>This crate mirrors the callback-oriented design of the
 Wayland C library by using handler structs: each wayland
 type defines a <code>Handler</code> trait in its module, which one
 method for each possible event this object can receive.</p>
-
 <p>To use it, you need to build a struct (or enum) that will
 implement all the traits for all the events you are interested
 in. All methods of handler traits provide a default
-implementation foing nothing, so you don&#39;t need to write
+implementation foing nothing, so you don't need to write
 empty methods for events you want to ignore. You also need
 to declare the handler capability for your struct using
 the <code>declare_handler!(..)</code> macro. A single struct can be
 handler for several wayland interfaces at once.</p>
-
-<h2 id='example-of-handler' class='section-header'><a href='#example-of-handler'>Example of handler</a></h2>
+<h2 id="example-of-handler" class="section-header"><a href="#example-of-handler">Example of handler</a></h2>
 <div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><pre class="rust rust-example-rendered ignore">
 <span class="comment">/*  writing a handler for an wl_foo interface */</span>
 <span class="comment">// import the module of this interface</span>
@@ -104,14 +108,12 @@ handler for several wayland interfaces at once.</p>
 <span class="comment">// this boring step is necessary because Rust&#39;s type system is</span>
 <span class="comment">// not yet magical enough</span>
 <span class="macro">declare_handler</span><span class="macro">!</span>(<span class="ident">MyHandler</span>, <span class="ident">wl_foo</span>::<span class="ident">Handler</span>, <span class="ident">wl_foo</span>::<span class="ident">WlFoo</span>);</pre>
-
-<h2 id='event-queues-and-handlers' class='section-header'><a href='#event-queues-and-handlers'>Event Queues and handlers</a></h2>
-<p>In your initialization code, you&#39;ll need to instantiate
+<h2 id="event-queues-and-handlers" class="section-header"><a href="#event-queues-and-handlers">Event Queues and handlers</a></h2>
+<p>In your initialization code, you'll need to instantiate
 your handler and give it to the event queue:</p>
 
 <div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><pre class="rust rust-example-rendered ignore">
 <span class="kw">let</span> <span class="ident">handler_id</span> <span class="op">=</span> <span class="ident">event_queue</span>.<span class="ident">add_handler</span>(<span class="ident">MyHandler</span>::<span class="ident">new</span>());</pre>
-
 <p>Then, you can register your wayland objects to this handler:</p>
 
 <div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><pre class="rust rust-example-rendered ignore">
@@ -121,22 +123,18 @@ your handler and give it to the event queue:</p>
 <span class="comment">// as argument, and that this type implements the appropriate</span>
 <span class="comment">// handler trait.</span>
 <span class="ident">event_queue</span>.<span class="ident">register</span>::<span class="op">&lt;</span>_, <span class="ident">MyHandler</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="ident">my_object</span>, <span class="ident">handler_id</span>);</pre>
-
 <p>You can have several handlers in the same event queue,
 but they cannot share their state without synchronisation
 primitives like <code>Arc</code>, <code>Mutex</code> and friends, so if two handlers
 need to share some state, you should consider building them
 as a single struct.</p>
-
 <p>A given wayland object can only be registered to a single
 handler at a given time, re-registering it to a new handler
 will overwrite the previous configuration.</p>
-
 <p>Handlers can be created, and objects registered to them
 from within a handler method, using the <code>&amp;EventQueueHandle</code>
 argument.</p>
-
-<h2 id='event-loop-integration' class='section-header'><a href='#event-loop-integration'>Event loop integration</a></h2>
+<h2 id="event-loop-integration" class="section-header"><a href="#event-loop-integration">Event loop integration</a></h2>
 <p>Once this setup is done, you can integrate the event queue
 to the main event loop of your program:</p>
 
@@ -148,16 +146,13 @@ to the main event loop of your program:</p>
     <span class="comment">// to handlers (might block)</span>
     <span class="ident">event_queue</span>.<span class="ident">dispatch</span>().<span class="ident">unwrap</span>();
 }</pre>
-
 <p>For more precise control of the flow of the event queue
 (and importantly non-blocking options), see <code>EventQueue</code>
 documentation.</p>
-
-<h1 id='protocols-integration' class='section-header'><a href='#protocols-integration'>Protocols integration</a></h1>
+<h1 id="protocols-integration" class="section-header"><a href="#protocols-integration">Protocols integration</a></h1>
 <p>This crate provides the basic primitives as well as the
 core wayland protocol (in the <code>protocol</code> module), but
 other protocols can be integrated from XML descriptions.</p>
-
 <p>The the crate <code>wayland_scanner</code> and its documentation for
 details about how to do so.</p>
 </div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
@@ -167,6 +162,7 @@ details about how to do so.</p>
                                   title='mod wayland_client::cursor'>cursor</a></td>
                            <td class='docblock-short'>
                                 <p>Cursor utilities</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -174,6 +170,7 @@ details about how to do so.</p>
                                   title='mod wayland_client::egl'>egl</a></td>
                            <td class='docblock-short'>
                                 <p>EGL utilities</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -181,6 +178,7 @@ details about how to do so.</p>
                                   title='mod wayland_client::protocol'>protocol</a></td>
                            <td class='docblock-short'>
                                 <p>The wayland core protocol</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -188,6 +186,7 @@ details about how to do so.</p>
                                   title='mod wayland_client::protocol_interfaces'>protocol_interfaces</a></td>
                            <td class='docblock-short'>
                                 <p>Interfaces for the core protocol</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -195,6 +194,7 @@ details about how to do so.</p>
                                   title='mod wayland_client::sys'>sys</a></td>
                            <td class='docblock-short'>
                                 <p>Reexports of types and objects from wayland-sys</p>
+
                            </td>
                        </tr></table><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
 <table>
@@ -203,6 +203,7 @@ details about how to do so.</p>
                                   title='macro wayland_client::client_declare_delegating_handler'>client_declare_delegating_handler</a></td>
                            <td class='docblock-short'>
                                 <p>Synonym of the declare_delegating_handler! macro</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -210,6 +211,7 @@ details about how to do so.</p>
                                   title='macro wayland_client::client_declare_handler'>client_declare_handler</a></td>
                            <td class='docblock-short'>
                                 <p>Synonym of the declare_handler! macro</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -217,6 +219,7 @@ details about how to do so.</p>
                                   title='macro wayland_client::declare_delegating_handler'>declare_delegating_handler</a></td>
                            <td class='docblock-short'>
                                 <p>Registers a handler type so it as delegating to one of its fields</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -224,6 +227,7 @@ details about how to do so.</p>
                                   title='macro wayland_client::declare_handler'>declare_handler</a></td>
                            <td class='docblock-short'>
                                 <p>Registers a handler type so it can be used in event queue</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -231,6 +235,7 @@ details about how to do so.</p>
                                   title='macro wayland_client::wayland_env'>wayland_env</a></td>
                            <td class='docblock-short'>
                                 <p>Create an environment handling struct</p>
+
                            </td>
                        </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
@@ -239,6 +244,7 @@ details about how to do so.</p>
                                   title='struct wayland_client::EnvHandler'>EnvHandler</a></td>
                            <td class='docblock-short'>
                                 <p>Utility type to handle the registry and global objects</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -246,6 +252,7 @@ details about how to do so.</p>
                                   title='struct wayland_client::EventQueue'>EventQueue</a></td>
                            <td class='docblock-short'>
                                 <p>An event queue managing wayland events</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -253,6 +260,7 @@ details about how to do so.</p>
                                   title='struct wayland_client::EventQueueHandle'>EventQueueHandle</a></td>
                            <td class='docblock-short'>
                                 <p>Handle to an event queue</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -260,6 +268,7 @@ details about how to do so.</p>
                                   title='struct wayland_client::ReadEventsGuard'>ReadEventsGuard</a></td>
                            <td class='docblock-short'>
                                 <p>A guard over a read intention.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -267,6 +276,7 @@ details about how to do so.</p>
                                   title='struct wayland_client::StateGuard'>StateGuard</a></td>
                            <td class='docblock-short'>
                                 <p>Guard to access internal state of an event queue</p>
+
                            </td>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
@@ -275,6 +285,7 @@ details about how to do so.</p>
                                   title='enum wayland_client::ConnectError'>ConnectError</a></td>
                            <td class='docblock-short'>
                                 <p>Enum representing the possible reasons why connecting to the wayland server failed</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -282,6 +293,7 @@ details about how to do so.</p>
                                   title='enum wayland_client::FatalError'>FatalError</a></td>
                            <td class='docblock-short'>
                                 <p>Enum representing possible errors fatal to a wayland session</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -289,6 +301,7 @@ details about how to do so.</p>
                                   title='enum wayland_client::Liveness'>Liveness</a></td>
                            <td class='docblock-short'>
                                 <p>Represents the state of liveness of a wayland object</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -296,6 +309,7 @@ details about how to do so.</p>
                                   title='enum wayland_client::RegisterStatus'>RegisterStatus</a></td>
                            <td class='docblock-short'>
                                 <p>Status of a registration attempt of a proxy.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -303,6 +317,7 @@ details about how to do so.</p>
                                   title='enum wayland_client::RequestResult'>RequestResult</a></td>
                            <td class='docblock-short'>
                                 <p>Possible outcome of the call of a request on a proxy</p>
+
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
@@ -311,13 +326,15 @@ details about how to do so.</p>
                                   title='trait wayland_client::Handler'>Handler</a></td>
                            <td class='docblock-short'>
                                 <p>Generic handler trait</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="trait" href="trait.Init.html"
                                   title='trait wayland_client::Init'>Init</a></td>
                            <td class='docblock-short'>
-                                <p>A trait to initialize handlers after they&#39;ve been inserted in an event queue</p>
+                                <p>A trait to initialize handlers after they've been inserted in an event queue</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -325,6 +342,7 @@ details about how to do so.</p>
                                   title='trait wayland_client::Proxy'>Proxy</a></td>
                            <td class='docblock-short'>
                                 <p>Common routines for wayland proxy objects.</p>
+
                            </td>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
@@ -333,6 +351,7 @@ details about how to do so.</p>
                                   title='fn wayland_client::connect_to'>connect_to</a></td>
                            <td class='docblock-short'>
                                 <p>Connect to the compositor socket</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -340,6 +359,7 @@ details about how to do so.</p>
                                   title='fn wayland_client::default_connect'>default_connect</a></td>
                            <td class='docblock-short'>
                                 <p>Connect to the compositor socket</p>
+
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
@@ -354,20 +374,22 @@ details about how to do so.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

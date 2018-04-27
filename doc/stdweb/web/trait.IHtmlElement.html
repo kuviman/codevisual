@@ -10,8 +10,11 @@
     <title>stdweb::web::IHtmlElement - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Trait IHtmlElement</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#provided-methods">Provided Methods</a><div class="sidebar-links"><a href="#method.focus">focus</a><a href="#method.blur">blur</a><a href="#method.dataset">dataset</a><a href="#method.offset_width">offset_width</a><a href="#method.offset_height">offset_height</a><a href="#method.inner_text">inner_text</a></div><a class="sidebar-title" href="#implementors">Implementors</a></div><p class='location'><a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>web</a></p><script>window.sidebarCurrent = {name: 'IHtmlElement', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -58,7 +68,6 @@
 <div class='item-spacer'></div>    fn <a href='#method.offset_height' class='fnname'>offset_height</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a> { ... }
 <div class='item-spacer'></div>    fn <a href='#method.inner_text' class='fnname'>inner_text</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a> { ... }
 }</pre><div class='docblock'><p>The <code>IHtmlElement</code> interface represents any HTML element.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement">(JavaScript docs)</a></p>
 </div>
             <h2 id='provided-methods' class='small-section-header'>
@@ -66,16 +75,13 @@
             </h2>
             <div class='methods'>
         <h3 id='method.focus' class='method'><span id='focus.v' class='invisible'><code>fn <a href='#method.focus' class='fnname'>focus</a>(&amp;self)</code></span></h3><div class='docblock'><p>Sets focus on the specified element, if it can be focused.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus">(JavaScript docs)</a></p>
 </div><h3 id='method.blur' class='method'><span id='blur.v' class='invisible'><code>fn <a href='#method.blur' class='fnname'>blur</a>(&amp;self)</code></span></h3><div class='docblock'><p>Removes keyboard focus from the current element.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/blur">(JavaScript docs)</a></p>
 </div><h3 id='method.dataset' class='method'><span id='dataset.v' class='invisible'><code>fn <a href='#method.dataset' class='fnname'>dataset</a>(&amp;self) -&gt; <a class="struct" href="../../stdweb/web/struct.StringMap.html" title="struct stdweb::web::StringMap">StringMap</a></code></span></h3><div class='docblock'><p>Allows access, both in reading and writing, to all of the custom data attributes (data-*)
 set on the element, either in HTML or in the DOM.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset">(JavaScript docs)</a></p>
-</div><h3 id='method.offset_width' class='method'><span id='offset_width.v' class='invisible'><code>fn <a href='#method.offset_width' class='fnname'>offset_width</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></span></h3><div class='docblock'><p>Returns the layout width of an element. Typically, an element&#39;s offsetWidth is a
+</div><h3 id='method.offset_width' class='method'><span id='offset_width.v' class='invisible'><code>fn <a href='#method.offset_width' class='fnname'>offset_width</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></span></h3><div class='docblock'><p>Returns the layout width of an element. Typically, an element's offsetWidth is a
 measurement which includes the element borders, the element horizontal padding, the
 element vertical scrollbar (if present, if rendered) and the element CSS width.</p>
 </div><h3 id='method.offset_height' class='method'><span id='offset_height.v' class='invisible'><code>fn <a href='#method.offset_height' class='fnname'>offset_height</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></span></h3><div class='docblock'><p>Returns the height of the element including vertical padding and borders, as an
@@ -83,10 +89,8 @@ integer.</p>
 </div><h3 id='method.inner_text' class='method'><span id='inner_text.v' class='invisible'><code>fn <a href='#method.inner_text' class='fnname'>inner_text</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span></h3><div class='docblock'><p>A property which represents the &quot;rendered&quot; text content of a node and its descendants.
 It approximates the text the user would get if they highlighted the contents of the element
 with the cursor and then copied to the clipboard.</p>
-
 <p>This feature was originally introduced by Internet Explorer, and was formally specified in the HTML
 standard in 2016 after being adopted by all major browser vendors.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/innerText">(JavaScript docs)</a></p>
 </div></div>
         <h2 id='implementors' class='small-section-header'>
@@ -113,20 +117,22 @@ standard in 2016 after being adopted by all major browser vendors.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

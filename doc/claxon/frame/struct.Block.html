@@ -10,8 +10,11 @@
     <title>claxon::frame::Block - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Struct Block</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.empty">empty</a><a href="#method.time">time</a><a href="#method.len">len</a><a href="#method.duration">duration</a><a href="#method.channels">channels</a><a href="#method.channel">channel</a><a href="#method.sample">sample</a><a href="#method.into_buffer">into_buffer</a><a href="#method.stereo_samples">stereo_samples</a></div></div><p class='location'><a href='../index.html'>claxon</a>::<wbr><a href='index.html'>frame</a></p><script>window.sidebarCurrent = {name: 'Block', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -62,11 +72,9 @@
 <div class='docblock'><p>Returns the sample number of the first sample in the block.</p>
 </div><h4 id='method.len' class="method"><span id='len.v' class='invisible'><code>pub fn <a href='#method.len' class='fnname'>len</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/claxon/frame.rs.html#433-437' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Returns the total number of samples in this block.</p>
-
 <p>Samples in different channels are counted as distinct samples.</p>
 </div><h4 id='method.duration' class="method"><span id='duration.v' class='invisible'><code>pub fn <a href='#method.duration' class='fnname'>duration</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/claxon/frame.rs.html#446-448' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Returns the number of inter-channel samples in the block.</p>
-
 <p>The duration is independent of the number of channels. The returned
 value is also referred to as the <em>block size</em>. To get the duration of
 the block in seconds, divide this number by the sample rate in the
@@ -75,31 +83,25 @@ streaminfo.</p>
 <div class='docblock'><p>Returns the number of channels in the block.</p>
 </div><h4 id='method.channel' class="method"><span id='channel.v' class='invisible'><code>pub fn <a href='#method.channel' class='fnname'>channel</a>(&amp;self, ch: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/claxon/frame.rs.html#464-468' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Returns the (zero-based) <code>ch</code>-th channel as a slice.</p>
-
-<h1 id='panics' class='section-header'><a href='#panics'>Panics</a></h1>
+<h1 id="panics" class="section-header"><a href="#panics">Panics</a></h1>
 <p>Panics if <code>ch &gt;= channels()</code>.</p>
 </div><h4 id='method.sample' class="method"><span id='sample.v' class='invisible'><code>pub fn <a href='#method.sample' class='fnname'>sample</a>(&amp;self, ch: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>, sample: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/claxon/frame.rs.html#481-484' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Returns a sample in this block.</p>
-
 <p>The value returned is for the zero-based <code>ch</code>-th channel of the
 inter-channel sample with index <code>sample</code> in this block (so this is not
 the global sample number).</p>
-
-<h1 id='panics-1' class='section-header'><a href='#panics-1'>Panics</a></h1>
+<h1 id="panics-1" class="section-header"><a href="#panics-1">Panics</a></h1>
 <p>Panics if <code>ch &gt;= channels()</code> or if <code>sample &gt;= len()</code> for the last
 channel.</p>
 </div><h4 id='method.into_buffer' class="method"><span id='into_buffer.v' class='invisible'><code>pub fn <a href='#method.into_buffer' class='fnname'>into_buffer</a>(self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/claxon/frame.rs.html#490-492' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Returns the underlying buffer that stores the samples in this block.</p>
-
 <p>This allows the buffer to be reused to decode the next frame. The
 capacity of the buffer may be bigger than <code>len()</code> times <code>channels()</code>.</p>
 </div><h4 id='method.stereo_samples' class="method"><div class="important-traits"><div class='tooltip'>ⓘ<span class='tooltiptext'>Important traits for <a class="struct" href="../../claxon/frame/struct.StereoSamples.html" title="struct claxon::frame::StereoSamples">StereoSamples</a>&lt;'a&gt;</span></div><div class="content hidden"><h3 class="important">Important traits for <a class="struct" href="../../claxon/frame/struct.StereoSamples.html" title="struct claxon::frame::StereoSamples">StereoSamples</a>&lt;'a&gt;</h3><code class="content"><span class="where fmt-newline">impl&lt;'a&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/iter/iterator/trait.Iterator.html" title="trait core::iter::iterator::Iterator">Iterator</a> for <a class="struct" href="../../claxon/frame/struct.StereoSamples.html" title="struct claxon::frame::StereoSamples">StereoSamples</a>&lt;'a&gt;</span><span class="where fmt-newline">    type <a href='https://doc.rust-lang.org/nightly/core/iter/iterator/trait.Iterator.html#associatedtype.Item' class="type">Item</a> = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>;</span></code></div></div><span id='stereo_samples.v' class='invisible'><code>pub fn <a href='#method.stereo_samples' class='fnname'>stereo_samples</a>&lt;'a&gt;(&amp;'a self) -&gt; <a class="struct" href="../../claxon/frame/struct.StereoSamples.html" title="struct claxon::frame::StereoSamples">StereoSamples</a>&lt;'a&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/claxon/frame.rs.html#503-515' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Returns an iterator that produces left and right channel samples.</p>
-
 <p>This iterator can be more efficient than requesting a sample directly,
 because it avoids a bounds check.</p>
-
-<h1 id='panics-2' class='section-header'><a href='#panics-2'>Panics</a></h1>
+<h1 id="panics-2" class="section-header"><a href="#panics-2">Panics</a></h1>
 <p>Panics if the number of channels in the block is not 2.</p>
 </div></div></section>
     <section id='search' class="content hidden"></section>
@@ -114,20 +116,22 @@ because it avoids a bounds check.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

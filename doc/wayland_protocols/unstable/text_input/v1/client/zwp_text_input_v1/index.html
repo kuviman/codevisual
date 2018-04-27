@@ -10,8 +10,11 @@
     <title>wayland_protocols::unstable::text_input::v1::client::zwp_text_input_v1 - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../../../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../../../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../../../../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../../../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../../../../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../../../../../main.css" id="themeStyle">
+    <script src="../../../../../../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Module zwp_text_input_v1</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li></ul></div><p class='location'><a href='../../../../../index.html'>wayland_protocols</a>::<wbr><a href='../../../../index.html'>unstable</a>::<wbr><a href='../../../index.html'>text_input</a>::<wbr><a href='../../index.html'>v1</a>::<wbr><a href='../index.html'>client</a></p><script>window.sidebarCurrent = {name: 'zwp_text_input_v1', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../../../../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../../../../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -49,36 +59,31 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../../../../../src/wayland_protocols/home/travis/build/kuviman/codevisual/target/debug/build/wayland-protocols-caf2c2146daa109a/out/text-input-v1_client_api.rs.html#28-663' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../../../../../src/wayland_protocols/home/travis/build/kuviman/codevisual/target/debug/build/wayland-protocols-bcb3b6e9b63959ab/out/text-input-v1_client_api.rs.html#28-663' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>text input</p>
-
 <p>An object used for text input. Adds support for text input and input
 methods to applications. A text_input object is created from a
 wl_text_input_manager and corresponds typically to a text entry in an
 application.</p>
-
 <p>Requests are used to activate/deactivate the text_input object and set
 state information like surrounding and selected text or the content type.
 The information about entered text is sent to the text_input object via
 the pre-edit and commit events. Using this interface removes the need
 for applications to directly process hardware key events and compose text
 out of them.</p>
-
 <p>Text is generally UTF-8 encoded, indices and lengths are in bytes.</p>
-
 <p>Serials are used to synchronize the state between the text input and
 an input method. New serials are sent by the text input in the
 commit_state request and are used by the input method to indicate
 the known text input state in events like preedit_string, commit_string,
 and keysym. The text input can then ignore events from the input method
 which are based on an outdated state (for example after a reset).</p>
-
 <p>Warning! The protocol described in this file is experimental and
 backward incompatible changes may be made. Backward compatible changes
 may be added together with the corresponding interface version bump.
 Backward incompatible changes are done by bumping the version number in
 the protocol and interface names and resetting the interface version.
-Once the protocol is to be declared stable, the &#39;z&#39; prefix and the
+Once the protocol is to be declared stable, the 'z' prefix and the
 version number in the protocol and interface names are removed and the
 interface version number is reset.</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
@@ -103,6 +108,7 @@ interface version number is reset.</p>
                                   title='enum wayland_protocols::unstable::text_input::v1::client::zwp_text_input_v1::ContentHint'>ContentHint</a></td>
                            <td class='docblock-short'>
                                 <p>content hint</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -110,6 +116,7 @@ interface version number is reset.</p>
                                   title='enum wayland_protocols::unstable::text_input::v1::client::zwp_text_input_v1::ContentPurpose'>ContentPurpose</a></td>
                            <td class='docblock-short'>
                                 <p>content purpose</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -138,20 +145,22 @@ interface version number is reset.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

@@ -10,8 +10,11 @@
     <title>stdweb::event_loop - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'><a href='index.html'>stdweb</a></p><script>window.sidebarCurrent = {name: 'event_loop', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -50,14 +60,12 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../src/stdweb/webcore/initialization.rs.html#47-49' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn event_loop()</pre><div class='docblock'><p>Runs Emscripten&#39;s event loop.</p>
-
-<p>If you&#39;re compiling your project <strong>without</strong> using <code>cargo-web</code>
-<strong>and</strong> you&#39;re using an Emscripten-based target (<code>asmjs-unknown-emscripten</code>,
+<pre class='rust fn'>pub fn event_loop()</pre><div class='docblock'><p>Runs Emscripten's event loop.</p>
+<p>If you're compiling your project <strong>without</strong> using <code>cargo-web</code>
+<strong>and</strong> you're using an Emscripten-based target (<code>asmjs-unknown-emscripten</code>,
 or <code>wasm32-unknown-emscripten</code>) then calling this before returning
 from <code>main()</code> is <strong>mandatory</strong> and will <strong>not</strong> return. (It is, effectively, an infinite loop.)</p>
-
-<p>If you&#39;re using <code>cargo-web</code> to build your project then you never need to call this.</p>
+<p>If you're using <code>cargo-web</code> to build your project then you never need to call this.</p>
 </div></section>
     <section id='search' class="content hidden"></section>
 
@@ -71,20 +79,22 @@ from <code>main()</code> is <strong>mandatory</strong> and will <strong>not</str
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

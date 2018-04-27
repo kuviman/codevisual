@@ -10,8 +10,11 @@
     <title>synstructure::Structure - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Struct Structure</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.new">new</a><a href="#method.variants">variants</a><a href="#method.variants_mut">variants_mut</a><a href="#method.ast">ast</a><a href="#method.omitted_variants">omitted_variants</a><a href="#method.each">each</a><a href="#method.fold">fold</a><a href="#method.each_variant">each_variant</a><a href="#method.filter">filter</a><a href="#method.filter_variants">filter_variants</a><a href="#method.remove_variant">remove_variant</a><a href="#method.bind_with">bind_with</a><a href="#method.binding_name">binding_name</a><a href="#method.referenced_ty_params">referenced_ty_params</a><a href="#method.add_trait_bounds">add_trait_bounds</a><a href="#method.bound_impl">bound_impl</a><a href="#method.unsafe_bound_impl">unsafe_bound_impl</a><a href="#method.unbound_impl">unbound_impl</a><a href="#method.unsafe_unbound_impl">unsafe_unbound_impl</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Debug">Debug</a><a href="#impl-Clone">Clone</a><a href="#impl-PartialEq">PartialEq</a><a href="#impl-Eq">Eq</a><a href="#impl-Hash">Hash</a></div></div><p class='location'><a href='index.html'>synstructure</a></p><script>window.sidebarCurrent = {name: 'Structure', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -72,11 +82,9 @@ custom derive trait implementations.</p>
 </div><h4 id='method.each' class="method"><span id='each.v' class='invisible'><code>pub fn <a href='#method.each' class='fnname'>each</a>&lt;F, R&gt;(&amp;self, f: F) -&gt; <a class="struct" href="../quote/tokens/struct.Tokens.html" title="struct quote::tokens::Tokens">Tokens</a> <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(&amp;<a class="struct" href="../synstructure/struct.BindingInfo.html" title="struct synstructure::BindingInfo">BindingInfo</a>) -&gt; R,<br>&nbsp;&nbsp;&nbsp;&nbsp;R: <a class="trait" href="../quote/to_tokens/trait.ToTokens.html" title="trait quote::to_tokens::ToTokens">ToTokens</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/synstructure/lib.rs.html#966-979' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Runs the passed-in function once for each bound field, passing in a <code>BindingInfo</code>.
 and generating <code>match</code> arms which evaluate the returned tokens.</p>
-
 <p>This method will ignore variants or fields which are ignored through the
 <code>filter</code> and <code>filter_variant</code> methods.</p>
-
-<h1 id='example' class='section-header'><a href='#example'>Example</a></h1>
+<h1 id="example" class="section-header"><a href="#example">Example</a></h1>
 <pre class="rust rust-example-rendered">
 <span class="kw">let</span> <span class="ident">di</span> <span class="op">=</span> <span class="ident">syn</span>::<span class="ident">parse_derive_input</span>(<span class="string">r#&quot;
     enum A {
@@ -103,13 +111,10 @@ and generating <code>match</code> arms which evaluate the returned tokens.</p>
 <div class='docblock'><p>Runs the passed-in function once for each bound field, passing in the
 result of the previous call, and a <code>BindingInfo</code>. generating <code>match</code>
 arms which evaluate to the resulting tokens.</p>
-
 <p>This method will ignore variants or fields which are ignored through the
 <code>filter</code> and <code>filter_variant</code> methods.</p>
-
 <p>If a variant has been ignored, it will return the <code>init</code> value.</p>
-
-<h1 id='example-1' class='section-header'><a href='#example-1'>Example</a></h1>
+<h1 id="example-1" class="section-header"><a href="#example-1">Example</a></h1>
 <pre class="rust rust-example-rendered">
 <span class="kw">let</span> <span class="ident">di</span> <span class="op">=</span> <span class="ident">syn</span>::<span class="ident">parse_derive_input</span>(<span class="string">r#&quot;
     enum A {
@@ -135,11 +140,9 @@ arms which evaluate to the resulting tokens.</p>
 <div class='docblock'><p>Runs the passed-in function once for each variant, passing in a
 <code>VariantInfo</code>. and generating <code>match</code> arms which evaluate the returned
 tokens.</p>
-
 <p>This method will ignore variants and not bind fields which are ignored
 through the <code>filter</code> and <code>filter_variant</code> methods.</p>
-
-<h1 id='example-2' class='section-header'><a href='#example-2'>Example</a></h1>
+<h1 id="example-2" class="section-header"><a href="#example-2">Example</a></h1>
 <pre class="rust rust-example-rendered">
 <span class="kw">let</span> <span class="ident">di</span> <span class="op">=</span> <span class="ident">syn</span>::<span class="ident">parse_derive_input</span>(<span class="string">r#&quot;
     enum A {
@@ -166,16 +169,18 @@ through the <code>filter</code> and <code>filter_variant</code> methods.</p>
 );</pre>
 </div><h4 id='method.filter' class="method"><span id='filter.v' class='invisible'><code>pub fn <a href='#method.filter' class='fnname'>filter</a>&lt;F&gt;(&amp;mut self, f: F) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;mut </a>Self <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(&amp;<a class="struct" href="../synstructure/struct.BindingInfo.html" title="struct synstructure::BindingInfo">BindingInfo</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/synstructure/lib.rs.html#1131-1139' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Filter the bindings created by this <code>Structure</code> object. This has 2 effects:</p>
-
 <ul>
-<li><p>The bindings will no longer appear in match arms generated by methods
-on this <code>Structure</code> or its subobjects.</p></li>
-<li><p>Impl blocks created with the <code>bound_impl</code> or <code>unsafe_bound_impl</code>
+<li>
+<p>The bindings will no longer appear in match arms generated by methods
+on this <code>Structure</code> or its subobjects.</p>
+</li>
+<li>
+<p>Impl blocks created with the <code>bound_impl</code> or <code>unsafe_bound_impl</code>
 method only consider type parameters referenced in the types of
-non-filtered fields.</p></li>
+non-filtered fields.</p>
+</li>
 </ul>
-
-<h1 id='example-3' class='section-header'><a href='#example-3'>Example</a></h1>
+<h1 id="example-3" class="section-header"><a href="#example-3">Example</a></h1>
 <pre class="rust rust-example-rendered">
 <span class="kw">let</span> <span class="ident">di</span> <span class="op">=</span> <span class="ident">syn</span>::<span class="ident">parse_derive_input</span>(<span class="string">r#&quot;
     enum A {
@@ -201,16 +206,18 @@ non-filtered fields.</p></li>
 );</pre>
 </div><h4 id='method.filter_variants' class="method"><span id='filter_variants.v' class='invisible'><code>pub fn <a href='#method.filter_variants' class='fnname'>filter_variants</a>&lt;F&gt;(&amp;mut self, f: F) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;mut </a>Self <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(&amp;<a class="struct" href="../synstructure/struct.VariantInfo.html" title="struct synstructure::VariantInfo">VariantInfo</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/synstructure/lib.rs.html#1179-1189' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Filter the variants matched by this <code>Structure</code> object. This has 2 effects:</p>
-
 <ul>
-<li><p>Match arms destructuring these variants will no longer be generated by
-methods on this <code>Structure</code></p></li>
-<li><p>Impl blocks created with the <code>bound_impl</code> or <code>unsafe_bound_impl</code>
+<li>
+<p>Match arms destructuring these variants will no longer be generated by
+methods on this <code>Structure</code></p>
+</li>
+<li>
+<p>Impl blocks created with the <code>bound_impl</code> or <code>unsafe_bound_impl</code>
 method only consider type parameters referenced in the types of
-fields in non-fitered variants.</p></li>
+fields in non-fitered variants.</p>
+</li>
 </ul>
-
-<h1 id='example-4' class='section-header'><a href='#example-4'>Example</a></h1>
+<h1 id="example-4" class="section-header"><a href="#example-4">Example</a></h1>
 <pre class="rust rust-example-rendered">
 <span class="kw">let</span> <span class="ident">di</span> <span class="op">=</span> <span class="ident">syn</span>::<span class="ident">parse_derive_input</span>(<span class="string">r#&quot;
     enum A {
@@ -234,14 +241,12 @@ fields in non-fitered variants.</p></li>
 );</pre>
 </div><h4 id='method.remove_variant' class="method"><span id='remove_variant.v' class='invisible'><code>pub fn <a href='#method.remove_variant' class='fnname'>remove_variant</a>(&amp;mut self, idx: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;mut </a>Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/synstructure/lib.rs.html#1196-1200' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Remove the variant at the given index.</p>
-
-<h1 id='panics' class='section-header'><a href='#panics'>Panics</a></h1>
+<h1 id="panics" class="section-header"><a href="#panics">Panics</a></h1>
 <p>Panics if the index is out of range.</p>
 </div><h4 id='method.bind_with' class="method"><span id='bind_with.v' class='invisible'><code>pub fn <a href='#method.bind_with' class='fnname'>bind_with</a>&lt;F&gt;(&amp;mut self, f: F) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;mut </a>Self <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(&amp;<a class="struct" href="../synstructure/struct.BindingInfo.html" title="struct synstructure::BindingInfo">BindingInfo</a>) -&gt; <a class="enum" href="../synstructure/enum.BindStyle.html" title="enum synstructure::BindStyle">BindStyle</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/synstructure/lib.rs.html#1237-1245' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Updates the <code>BindStyle</code> for each of the passed-in fields by calling the
 passed-in function for each <code>BindingInfo</code>.</p>
-
-<h1 id='example-5' class='section-header'><a href='#example-5'>Example</a></h1>
+<h1 id="example-5" class="section-header"><a href="#example-5">Example</a></h1>
 <pre class="rust rust-example-rendered">
 <span class="kw">let</span> <span class="ident">di</span> <span class="op">=</span> <span class="ident">syn</span>::<span class="ident">parse_derive_input</span>(<span class="string">r#&quot;
     enum A {
@@ -269,14 +274,11 @@ passed-in function for each <code>BindingInfo</code>.</p>
 </div><h4 id='method.binding_name' class="method"><span id='binding_name.v' class='invisible'><code>pub fn <a href='#method.binding_name' class='fnname'>binding_name</a>&lt;F&gt;(&amp;mut self, f: F) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;mut </a>Self <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(&amp;<a class="struct" href="../syn/data/struct.Field.html" title="struct syn::data::Field">Field</a>, <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="struct" href="../syn/ident/struct.Ident.html" title="struct syn::ident::Ident">Ident</a>,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/synstructure/lib.rs.html#1288-1296' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Updates the binding name for each fo the passed-in fields by calling the
 passed-in function for each <code>BindingInfo</code>.</p>
-
 <p>The function will be called with the <code>BindingInfo</code> and its index in the
 enclosing variant.</p>
-
 <p>The default name is <code>__binding_{}</code> where <code>{}</code> is replaced with an
 increasing number.</p>
-
-<h1 id='example-6' class='section-header'><a href='#example-6'>Example</a></h1>
+<h1 id="example-6" class="section-header"><a href="#example-6">Example</a></h1>
 <pre class="rust rust-example-rendered">
 <span class="kw">let</span> <span class="ident">di</span> <span class="op">=</span> <span class="ident">syn</span>::<span class="ident">parse_derive_input</span>(<span class="string">r#&quot;
     enum A {
@@ -304,13 +306,11 @@ increasing number.</p>
 </div><h4 id='method.referenced_ty_params' class="method"><span id='referenced_ty_params.v' class='invisible'><code>pub fn <a href='#method.referenced_ty_params' class='fnname'>referenced_ty_params</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;&amp;'a <a class="struct" href="../syn/ident/struct.Ident.html" title="struct syn::ident::Ident">Ident</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/synstructure/lib.rs.html#1330-1338' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Returns a list of the type parameters which are refrenced in the types
 of non-filtered fields / variants.</p>
-
-<h1 id='caveat' class='section-header'><a href='#caveat'>Caveat</a></h1>
+<h1 id="caveat" class="section-header"><a href="#caveat">Caveat</a></h1>
 <p>If the struct contains any macros in type position, all parameters will
 be considered bound. This is because we cannot determine which type
 parameters are bound by type macros.</p>
-
-<h1 id='example-7' class='section-header'><a href='#example-7'>Example</a></h1>
+<h1 id="example-7" class="section-header"><a href="#example-7">Example</a></h1>
 <pre class="rust rust-example-rendered">
 <span class="kw">let</span> <span class="ident">di</span> <span class="op">=</span> <span class="ident">syn</span>::<span class="ident">parse_derive_input</span>(<span class="string">r#&quot;
     enum A&lt;T, U&gt; {
@@ -329,27 +329,22 @@ parameters are bound by type macros.</p>
 </div><h4 id='method.add_trait_bounds' class="method"><span id='add_trait_bounds.v' class='invisible'><code>pub fn <a href='#method.add_trait_bounds' class='fnname'>add_trait_bounds</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;bound: &amp;<a class="enum" href="../syn/generics/enum.TyParamBound.html" title="enum syn::generics::TyParamBound">TyParamBound</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;preds: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="enum" href="../syn/generics/enum.WherePredicate.html" title="enum syn::generics::WherePredicate">WherePredicate</a>&gt;<br>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/synstructure/lib.rs.html#1348-1373' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Add trait bounds for a trait with the given path for each type parmaeter
 referenced in the types of non-filtered fields.</p>
-
-<h1 id='caveat-1' class='section-header'><a href='#caveat-1'>Caveat</a></h1>
+<h1 id="caveat-1" class="section-header"><a href="#caveat-1">Caveat</a></h1>
 <p>If the method contains any macros in type position, all parameters will
 be considered bound. This is because we cannot determine which type
 parameters are bound by type macros.</p>
 </div><h4 id='method.bound_impl' class="method"><span id='bound_impl.v' class='invisible'><code>pub fn <a href='#method.bound_impl' class='fnname'>bound_impl</a>&lt;P:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt;, B:&nbsp;<a class="trait" href="../quote/to_tokens/trait.ToTokens.html" title="trait quote::to_tokens::ToTokens">ToTokens</a>&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;bound: P, <br>&nbsp;&nbsp;&nbsp;&nbsp;body: B<br>) -&gt; <a class="struct" href="../quote/tokens/struct.Tokens.html" title="struct quote::tokens::Tokens">Tokens</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/synstructure/lib.rs.html#1423-1438' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Creates an <code>impl</code> block with the required generic type fields filled in
 to implement the trait <code>path</code>.</p>
-
 <p>This method also adds where clauses to the impl requiring that all
 referenced type parmaeters implement the trait <code>path</code>.</p>
-
-<h1 id='caveat-2' class='section-header'><a href='#caveat-2'>Caveat</a></h1>
+<h1 id="caveat-2" class="section-header"><a href="#caveat-2">Caveat</a></h1>
 <p>If the method contains any macros in type position, all parameters will
 be considered bound. This is because we cannot determine which type
 parameters are bound by type macros.</p>
-
-<h1 id='panics-1' class='section-header'><a href='#panics-1'>Panics</a></h1>
+<h1 id="panics-1" class="section-header"><a href="#panics-1">Panics</a></h1>
 <p>Panics if the path string parameter is not a valid TyParamBound.</p>
-
-<h1 id='example-8' class='section-header'><a href='#example-8'>Example</a></h1>
+<h1 id="example-8" class="section-header"><a href="#example-8">Example</a></h1>
 <pre class="rust rust-example-rendered">
 <span class="kw">let</span> <span class="ident">di</span> <span class="op">=</span> <span class="ident">syn</span>::<span class="ident">parse_derive_input</span>(<span class="string">r#&quot;
     enum A&lt;T, U&gt; {
@@ -378,7 +373,7 @@ parameters are bound by type macros.</p>
 <div class='docblock'><p>This method is the same as <code>bound_impl</code>, except also includes the
 <code>unsafe</code> keyword for implementing unsafe traits.</p>
 </div><h4 id='method.unbound_impl' class="method"><span id='unbound_impl.v' class='invisible'><code>pub fn <a href='#method.unbound_impl' class='fnname'>unbound_impl</a>&lt;P:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt;, B:&nbsp;<a class="trait" href="../quote/to_tokens/trait.ToTokens.html" title="trait quote::to_tokens::ToTokens">ToTokens</a>&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;bound: P, <br>&nbsp;&nbsp;&nbsp;&nbsp;body: B<br>) -&gt; <a class="struct" href="../quote/tokens/struct.Tokens.html" title="struct quote::tokens::Tokens">Tokens</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/synstructure/lib.rs.html#1449-1461' title='goto source code'>[src]</a></span></h4>
-<div class='docblock'><p>This method is like <code>bound_impl</code> but doesn&#39;t add the additional bounds
+<div class='docblock'><p>This method is like <code>bound_impl</code> but doesn't add the additional bounds
 to the where clause.</p>
 </div><h4 id='method.unsafe_unbound_impl' class="method"><span id='unsafe_unbound_impl.v' class='invisible'><code>pub fn <a href='#method.unsafe_unbound_impl' class='fnname'>unsafe_unbound_impl</a>&lt;P:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt;, B:&nbsp;<a class="trait" href="../quote/to_tokens/trait.ToTokens.html" title="trait quote::to_tokens::ToTokens">ToTokens</a>&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;path: P, <br>&nbsp;&nbsp;&nbsp;&nbsp;body: B<br>) -&gt; <a class="struct" href="../quote/tokens/struct.Tokens.html" title="struct quote::tokens::Tokens">Tokens</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/synstructure/lib.rs.html#1465-1468' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>This method is the same as <code>unbound_impl</code>, except also includes the
@@ -419,20 +414,22 @@ to the where clause.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

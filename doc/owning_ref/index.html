@@ -10,8 +10,11 @@
     <title>owning_ref - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Crate owning_ref</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li><li><a href="#types">Type Definitions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'owning_ref', ty: 'mod', relpath: '../'};</script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -50,12 +60,10 @@
                        [<span class='inner'>&#x2212;</span>]
                    </a>
                </span><a class='srclink' href='../src/owning_ref/lib.rs.html#1-1891' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'>
-<h1 id='an-owning-reference' class='section-header'><a href='#an-owning-reference'>An owning reference.</a></h1>
+<div class='docblock'><h1 id="an-owning-reference" class="section-header"><a href="#an-owning-reference">An owning reference.</a></h1>
 <p>This crate provides the <em>owning reference</em> types <code>OwningRef</code> and <code>OwningRefMut</code>
 that enables it to bundle a reference together with the owner of the data it points to.
 This allows moving and dropping of a <code>OwningRef</code> without needing to recreate the reference.</p>
-
 <p>This can sometimes be useful because Rust borrowing rules normally prevent
 moving a type that has been moved from. For example, this kind of code gets rejected:</p>
 
@@ -65,11 +73,9 @@ moving a type that has been moved from. For example, this kind of code gets reje
     <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">v</span>[<span class="number">1</span>..<span class="number">3</span>];
     (<span class="ident">v</span>, <span class="ident">s</span>)
 }</pre>
-
 <p>Even though, from a memory-layout point of view, this can be entirely safe
-if the new location of the vector still lives longer than the lifetime <code>&#39;a</code>
+if the new location of the vector still lives longer than the lifetime <code>'a</code>
 of the reference because the backing allocation of the vector does not change.</p>
-
 <p>This library enables this safe usage by keeping the owner and the reference
 bundled together in a wrapper type that ensure that lifetime constraint:</p>
 
@@ -80,21 +86,16 @@ bundled together in a wrapper type that ensure that lifetime constraint:</p>
     <span class="kw">let</span> <span class="ident">or</span> <span class="op">=</span> <span class="ident">or</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="ident">v</span>[<span class="number">1</span>..<span class="number">3</span>]);
     <span class="ident">or</span>
 }</pre>
-
 <p>It works by requiring owner types to dereference to stable memory locations
 and preventing mutable access to root containers, which in practice requires heap allocation
 as provided by <code>Box&lt;T&gt;</code>, <code>Rc&lt;T&gt;</code>, etc.</p>
-
 <p>Also provided are typedefs for common owner type combinations,
 which allow for less verbose type signatures. For example, <code>BoxRef&lt;T&gt;</code> instead of <code>OwningRef&lt;Box&lt;T&gt;, T&gt;</code>.</p>
-
 <p>The crate also provides the more advanced <code>OwningHandle</code> type,
 which allows more freedom in bundling a dependent handle object
 along with the data it depends on, at the cost of some unsafe needed in the API.
 See the documentation around <code>OwningHandle</code> for more details.</p>
-
-<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
-<h2 id='basics' class='section-header'><a href='#basics'>Basics</a></h2>
+<h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1><h2 id="basics" class="section-header"><a href="#basics">Basics</a></h2>
 <pre class="rust rust-example-rendered">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">owning_ref</span>;
 <span class="kw">use</span> <span class="ident">owning_ref</span>::<span class="ident">BoxRef</span>;
@@ -113,8 +114,7 @@ See the documentation around <code>OwningHandle</code> for more details.</p>
 
     <span class="comment">// Also works for Arc, Rc, String and Vec!</span>
 }</pre>
-
-<h2 id='caching-a-reference-to-a-struct-field' class='section-header'><a href='#caching-a-reference-to-a-struct-field'>Caching a reference to a struct field</a></h2>
+<h2 id="caching-a-reference-to-a-struct-field" class="section-header"><a href="#caching-a-reference-to-a-struct-field">Caching a reference to a struct field</a></h2>
 <pre class="rust rust-example-rendered">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">owning_ref</span>;
 <span class="kw">use</span> <span class="ident">owning_ref</span>::<span class="ident">BoxRef</span>;
@@ -139,8 +139,7 @@ See the documentation around <code>OwningHandle</code> for more details.</p>
 
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">or</span>, <span class="number">200</span>);
 }</pre>
-
-<h2 id='caching-a-reference-to-an-entry-in-a-vector' class='section-header'><a href='#caching-a-reference-to-an-entry-in-a-vector'>Caching a reference to an entry in a vector</a></h2>
+<h2 id="caching-a-reference-to-an-entry-in-a-vector" class="section-header"><a href="#caching-a-reference-to-an-entry-in-a-vector">Caching a reference to an entry in a vector</a></h2>
 <pre class="rust rust-example-rendered">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">owning_ref</span>;
 <span class="kw">use</span> <span class="ident">owning_ref</span>::<span class="ident">VecRef</span>;
@@ -149,8 +148,7 @@ See the documentation around <code>OwningHandle</code> for more details.</p>
     <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">VecRef</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]).<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="ident">v</span>[<span class="number">3</span>]);
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">v</span>, <span class="number">4</span>);
 }</pre>
-
-<h2 id='caching-a-subslice-of-a-string' class='section-header'><a href='#caching-a-subslice-of-a-string'>Caching a subslice of a String</a></h2>
+<h2 id="caching-a-subslice-of-a-string" class="section-header"><a href="#caching-a-subslice-of-a-string">Caching a subslice of a String</a></h2>
 <pre class="rust rust-example-rendered">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">owning_ref</span>;
 <span class="kw">use</span> <span class="ident">owning_ref</span>::<span class="ident">StringRef</span>;
@@ -161,8 +159,7 @@ See the documentation around <code>OwningHandle</code> for more details.</p>
 
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">s</span>, <span class="string">&quot;world&quot;</span>);
 }</pre>
-
-<h2 id='reference-counted-slices-that-share-ownership-of-the-backing-storage' class='section-header'><a href='#reference-counted-slices-that-share-ownership-of-the-backing-storage'>Reference counted slices that share ownership of the backing storage</a></h2>
+<h2 id="reference-counted-slices-that-share-ownership-of-the-backing-storage" class="section-header"><a href="#reference-counted-slices-that-share-ownership-of-the-backing-storage">Reference counted slices that share ownership of the backing storage</a></h2>
 <pre class="rust rust-example-rendered">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">owning_ref</span>;
 <span class="kw">use</span> <span class="ident">owning_ref</span>::<span class="ident">RcRef</span>;
@@ -182,8 +179,7 @@ See the documentation around <code>OwningHandle</code> for more details.</p>
     <span class="kw">let</span> <span class="ident">rc_c_a</span> <span class="op">=</span> <span class="ident">rc_c</span>.<span class="ident">clone</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="ident">s</span>[<span class="number">1</span>]);
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">rc_c_a</span>, <span class="kw-2">&amp;</span><span class="number">4</span>);
 }</pre>
-
-<h2 id='atomic-reference-counted-slices-that-share-ownership-of-the-backing-storage' class='section-header'><a href='#atomic-reference-counted-slices-that-share-ownership-of-the-backing-storage'>Atomic reference counted slices that share ownership of the backing storage</a></h2>
+<h2 id="atomic-reference-counted-slices-that-share-ownership-of-the-backing-storage" class="section-header"><a href="#atomic-reference-counted-slices-that-share-ownership-of-the-backing-storage">Atomic reference counted slices that share ownership of the backing storage</a></h2>
 <pre class="rust rust-example-rendered">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">owning_ref</span>;
 <span class="kw">use</span> <span class="ident">owning_ref</span>::<span class="ident">ArcRef</span>;
@@ -213,8 +209,7 @@ See the documentation around <code>OwningHandle</code> for more details.</p>
 
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">par_sum</span>(<span class="ident">rc</span>), <span class="number">10</span>);
 }</pre>
-
-<h2 id='references-into-raii-locks' class='section-header'><a href='#references-into-raii-locks'>References into RAII locks</a></h2>
+<h2 id="references-into-raii-locks" class="section-header"><a href="#references-into-raii-locks">References into RAII locks</a></h2>
 <pre class="rust rust-example-rendered">
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">owning_ref</span>;
 <span class="kw">use</span> <span class="ident">owning_ref</span>::<span class="ident">RefRef</span>;
@@ -239,8 +234,7 @@ See the documentation around <code>OwningHandle</code> for more details.</p>
 
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">refcell</span>.<span class="ident">borrow</span>(), (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>));
 }</pre>
-
-<h2 id='mutable-reference' class='section-header'><a href='#mutable-reference'>Mutable reference</a></h2>
+<h2 id="mutable-reference" class="section-header"><a href="#mutable-reference">Mutable reference</a></h2>
 <p>When the owned container implements <code>DerefMut</code>, it is also possible to make
 a <em>mutable owning reference</em>. (E.g. with <code>Box</code>, <code>RefMut</code>, <code>MutexGuard</code>)</p>
 
@@ -276,6 +270,7 @@ a <em>mutable owning reference</em>. (E.g. with <code>Box</code>, <code>RefMut</
                                 <p><code>OwningHandle</code> is a complement to <code>OwningRef</code>. Where <code>OwningRef</code> allows
 consumers to pass around an owned object and a dependent reference,
 <code>OwningHandle</code> contains an owned object and a dependent <em>object</em>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -283,6 +278,7 @@ consumers to pass around an owned object and a dependent reference,
                                   title='struct owning_ref::OwningRef'>OwningRef</a></td>
                            <td class='docblock-short'>
                                 <p>An owning reference.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -290,6 +286,7 @@ consumers to pass around an owned object and a dependent reference,
                                   title='struct owning_ref::OwningRefMut'>OwningRefMut</a></td>
                            <td class='docblock-short'>
                                 <p>An mutable owning reference.</p>
+
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
@@ -298,6 +295,7 @@ consumers to pass around an owned object and a dependent reference,
                                   title='trait owning_ref::CloneStableAddress'>CloneStableAddress</a></td>
                            <td class='docblock-short'>
                                 <p>An unsafe marker trait for types where clones deref to the same address. This has all the requirements of StableDeref, and additionally requires that after calling clone(), both the old and new value deref to the same address. For example, Rc and Arc implement CloneStableDeref, but Box and Vec do not.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -307,6 +305,7 @@ consumers to pass around an owned object and a dependent reference,
                                 <p>Helper trait for an erased concrete type an owner dereferences to.
 This is used in form of a trait object for keeping
 something around to (virtually) call the destructor.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -316,6 +315,7 @@ something around to (virtually) call the destructor.</p>
                                 <p>Helper trait for erasing the concrete type of what an owner derferences to,
 for example <code>Box&lt;T&gt; -&gt; Box&lt;Erased&gt;</code>. This would be unneeded with
 higher kinded types support in the language.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -323,6 +323,7 @@ higher kinded types support in the language.</p>
                                   title='trait owning_ref::StableAddress'>StableAddress</a></td>
                            <td class='docblock-short'>
                                 <p>An unsafe marker trait for types that deref to a stable address, even when moved. For example, this is implemented by Box, Vec, Rc, Arc and String, among others. Even when a Box is moved, the underlying storage remains at a fixed location.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -330,6 +331,7 @@ higher kinded types support in the language.</p>
                                   title='trait owning_ref::ToHandle'>ToHandle</a></td>
                            <td class='docblock-short'>
                                 <p>Trait to implement the conversion of owner to handle for common types.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -337,6 +339,7 @@ higher kinded types support in the language.</p>
                                   title='trait owning_ref::ToHandleMut'>ToHandleMut</a></td>
                            <td class='docblock-short'>
                                 <p>Trait to implement the conversion of owner to mutable handle for common types.</p>
+
                            </td>
                        </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
 <table>
@@ -345,6 +348,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::ArcRef'>ArcRef</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a owning reference that uses a <code>Arc</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -352,6 +356,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::BoxRef'>BoxRef</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a owning reference that uses a <code>Box</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -359,6 +364,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::BoxRefMut'>BoxRefMut</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a mutable owning reference that uses a <code>Box</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -366,6 +372,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::ErasedArcRef'>ErasedArcRef</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a owning reference that uses an erased <code>Arc</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -373,6 +380,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::ErasedBoxRef'>ErasedBoxRef</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a owning reference that uses an erased <code>Box</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -380,6 +388,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::ErasedBoxRefMut'>ErasedBoxRefMut</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a mutable owning reference that uses an erased <code>Box</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -387,6 +396,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::ErasedRcRef'>ErasedRcRef</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a owning reference that uses an erased <code>Rc</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -394,6 +404,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::MutexGuardRef'>MutexGuardRef</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a owning reference that uses a <code>MutexGuard</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -401,6 +412,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::MutexGuardRefMut'>MutexGuardRefMut</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a mutable owning reference that uses a <code>MutexGuard</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -408,6 +420,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::RcRef'>RcRef</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a owning reference that uses a <code>Rc</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -415,6 +428,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::RefMutRef'>RefMutRef</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a owning reference that uses a <code>RefMut</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -422,6 +436,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::RefMutRefMut'>RefMutRefMut</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a mutable owning reference that uses a <code>RefMut</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -429,6 +444,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::RefRef'>RefRef</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a owning reference that uses a <code>Ref</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -436,6 +452,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::RwLockReadGuardRef'>RwLockReadGuardRef</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a owning reference that uses a <code>RwLockReadGuard</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -443,6 +460,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::RwLockWriteGuardRef'>RwLockWriteGuardRef</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a owning reference that uses a <code>RwLockWriteGuard</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -450,6 +468,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::RwLockWriteGuardRefMut'>RwLockWriteGuardRefMut</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a mutable owning reference that uses a <code>RwLockWriteGuard</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -457,6 +476,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::StringRef'>StringRef</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a owning reference that uses a <code>String</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -464,6 +484,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::StringRefMut'>StringRefMut</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a mutable owning reference that uses a <code>String</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -471,6 +492,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::VecRef'>VecRef</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a owning reference that uses a <code>Vec</code> as the owner.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -478,6 +500,7 @@ higher kinded types support in the language.</p>
                                   title='type owning_ref::VecRefMut'>VecRefMut</a></td>
                            <td class='docblock-short'>
                                 <p>Typedef of a mutable owning reference that uses a <code>Vec</code> as the owner.</p>
+
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
@@ -492,20 +515,22 @@ higher kinded types support in the language.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

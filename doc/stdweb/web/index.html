@@ -10,8 +10,11 @@
     <title>stdweb::web - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Module web</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../index.html'>stdweb</a></p><script>window.sidebarCurrent = {name: 'web', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -58,6 +68,7 @@
                                   title='mod stdweb::web::error'>error</a></td>
                            <td class='docblock-short'>
                                 <p>A module containing error types.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -65,6 +76,7 @@
                                   title='mod stdweb::web::event'>event</a></td>
                            <td class='docblock-short'>
                                 <p>A module containing JavaScript DOM events.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -72,6 +84,7 @@
                                   title='mod stdweb::web::html_element'>html_element</a></td>
                            <td class='docblock-short'>
                                 <p>A module containing HTML DOM elements.</p>
+
                            </td>
                        </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
@@ -82,6 +95,7 @@
                                 <p>The <code>ArrayBuffer</code> object is used to represent a generic, fixed-length raw binary data buffer.
 You cannot directly manipulate the contents of an ArrayBuffer; instead, you create an <a href="struct.TypedArray.html">TypedArray</a>
 to do it.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -90,24 +104,27 @@ to do it.</p>
                            <td class='docblock-short'>
                                 <p>A reference to a JavaScript object which implements the <a href="trait.IBlob.html">IBlob</a>
 interface.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="struct" href="struct.CanvasGradient.html"
                                   title='struct stdweb::web::CanvasGradient'>CanvasGradient</a></td>
                            <td class='docblock-short'>
-                                <p>The CanvasGradient struct represents an opaque object describing a gradient. 
-It is returned by the methods CanvasRenderingContext2D.createLinearGradient() or 
+                                <p>The CanvasGradient struct represents an opaque object describing a gradient.
+It is returned by the methods CanvasRenderingContext2D.createLinearGradient() or
 CanvasRenderingContext2D.createRadialGradient().</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="struct" href="struct.CanvasPattern.html"
                                   title='struct stdweb::web::CanvasPattern'>CanvasPattern</a></td>
                            <td class='docblock-short'>
-                                <p>The CanvasPattern struct represents an opaque object describing a pattern, based on an image, 
+                                <p>The CanvasPattern struct represents an opaque object describing a pattern, based on an image,
 a canvas or a video, created by the CanvasRenderingContext2D.createPattern() method.
 Intentionally blank, no non-experimental properties or methods.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -115,6 +132,7 @@ Intentionally blank, no non-experimental properties or methods.</p>
                                   title='struct stdweb::web::CanvasRenderingContext2d'>CanvasRenderingContext2d</a></td>
                            <td class='docblock-short'>
                                 <p>Used for drawing rectangles, text, images and other objects onto the canvas element.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -122,6 +140,7 @@ Intentionally blank, no non-experimental properties or methods.</p>
                                   title='struct stdweb::web::Date'>Date</a></td>
                            <td class='docblock-short'>
                                 <p><a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Date">(JavaScript docs)</a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -129,7 +148,8 @@ Intentionally blank, no non-experimental properties or methods.</p>
                                   title='struct stdweb::web::Document'>Document</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>Document</code> interface represents any web page loaded in the browser and
-serves as an entry point into the web page&#39;s content, which is the DOM tree.</p>
+serves as an entry point into the web page's content, which is the DOM tree.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -138,6 +158,7 @@ serves as an entry point into the web page&#39;s content, which is the DOM tree.
                            <td class='docblock-short'>
                                 <p>A reference to a JavaScript object which implements the <a href="trait.IElement.html">IElement</a>
 interface.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -145,6 +166,7 @@ interface.</p>
                                   title='struct stdweb::web::EventListenerHandle'>EventListenerHandle</a></td>
                            <td class='docblock-short'>
                                 <p>A handle to a particular event listener.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -153,6 +175,7 @@ interface.</p>
                            <td class='docblock-short'>
                                 <p>A reference to a JavaScript object which implements the <a href="trait.IEventTarget.html">IEventTarget</a>
 interface.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -160,8 +183,9 @@ interface.</p>
                                   title='struct stdweb::web::FileReader'>FileReader</a></td>
                            <td class='docblock-short'>
                                 <p>The FileReader object lets web applications asynchronously read the contents of files
-(or raw data buffers) stored on the user&#39;s computer, using <a href="struct.File.html">File</a>
+(or raw data buffers) stored on the user's computer, using <a href="struct.File.html">File</a>
 or <a href="struct.Blob.html">Blob</a> objects to specify the file or data to read.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -169,6 +193,7 @@ or <a href="struct.Blob.html">Blob</a> objects to specify the file or data to re
                                   title='struct stdweb::web::History'>History</a></td>
                            <td class='docblock-short'>
                                 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/History">(JavaScript docs)</a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -177,16 +202,18 @@ or <a href="struct.Blob.html">Blob</a> objects to specify the file or data to re
                            <td class='docblock-short'>
                                 <p>A reference to a JavaScript object which implements the <a href="trait.IHtmlElement.html">IHtmlElement</a>
 interface.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="struct" href="struct.ImageData.html"
                                   title='struct stdweb::web::ImageData'>ImageData</a></td>
                            <td class='docblock-short'>
-                                <p>The ImageData struct represents the underlying pixel data of an area of a <canvas> element. 
+                                <p>The ImageData struct represents the underlying pixel data of an area of a <canvas> element.
 It is created using the ImageData() constructor or creator methods on the CanvasRenderingContext2D
- object associated with a canvas: createImageData() and getImageData(). It can also be used to set 
+object associated with a canvas: createImageData() and getImageData(). It can also be used to set
 a part of the canvas by using putImageData().</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -198,6 +225,7 @@ is linked to. Changes done on it are reflected on the object it relates
 to. Both the <a href="struct.Document.html">Document</a> and <a href="struct.Window.html">Window</a>
 interface have such a linked <code>Location</code>, accessible via <a href="struct.Document.html#method.location">Document::location</a>
 and <a href="struct.Window.html#method.location">Window::location</a> respectively.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -205,13 +233,15 @@ and <a href="struct.Window.html#method.location">Window::location</a> respective
                                   title='struct stdweb::web::MutationObserver'>MutationObserver</a></td>
                            <td class='docblock-short'>
                                 <p>Provides a way to receive notifications about changes to the DOM.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="struct" href="struct.MutationObserverHandle.html"
                                   title='struct stdweb::web::MutationObserverHandle'>MutationObserverHandle</a></td>
                            <td class='docblock-short'>
-                                <p>A wrapper which ensures that memory is properly cleaned up when it&#39;s no longer needed.</p>
+                                <p>A wrapper which ensures that memory is properly cleaned up when it's no longer needed.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -219,6 +249,7 @@ and <a href="struct.Window.html#method.location">Window::location</a> respective
                                   title='struct stdweb::web::MutationObserverInit'>MutationObserverInit</a></td>
                            <td class='docblock-short'>
                                 <p>Specifies which changes should be observed for the target.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -227,6 +258,7 @@ and <a href="struct.Window.html#method.location">Window::location</a> respective
                            <td class='docblock-short'>
                                 <p>A reference to a JavaScript object which implements the <a href="trait.INode.html">INode</a>
 interface.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -236,6 +268,7 @@ interface.</p>
                                 <p><code>NodeList</code> objects are collections of nodes such as those returned by properties
 such as <a href="trait.INode.html#method.child_nodes">INode::child_nodes</a> and the
 <a href="struct.Document.html#method.query_selector_all">Document::query_selector_all</a> method.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -243,6 +276,7 @@ such as <a href="trait.INode.html#method.child_nodes">INode::child_nodes</a> and
                                   title='struct stdweb::web::RequestAnimationFrameHandle'>RequestAnimationFrameHandle</a></td>
                            <td class='docblock-short'>
                                 <p>A handle to a pending animation frame request.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -250,6 +284,7 @@ such as <a href="trait.INode.html#method.child_nodes">INode::child_nodes</a> and
                                   title='struct stdweb::web::SocketCloseCode'>SocketCloseCode</a></td>
                            <td class='docblock-short'>
                                 <p>Wrapper type around a CloseEvent code, indicating why the WebSocket was closed</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -258,6 +293,7 @@ such as <a href="trait.INode.html#method.child_nodes">INode::child_nodes</a> and
                            <td class='docblock-short'>
                                 <p>The <code>Storage</code> interface of the Web Storage API provides access to
 the session storage or local storage for a particular domain.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -265,6 +301,7 @@ the session storage or local storage for a particular domain.</p>
                                   title='struct stdweb::web::StringMap'>StringMap</a></td>
                            <td class='docblock-short'>
                                 <p>Used by the <code>dataset</code> HTML attribute to represent data for custom attributes added to elements.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -272,6 +309,7 @@ the session storage or local storage for a particular domain.</p>
                                   title='struct stdweb::web::TextMetrics'>TextMetrics</a></td>
                            <td class='docblock-short'>
                                 <p>The TextMetrics struct represents the dimension of a text in the canvas, as created by the CanvasRenderingContext2D.measureText() method.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -279,6 +317,7 @@ the session storage or local storage for a particular domain.</p>
                                   title='struct stdweb::web::TextNode'>TextNode</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>TextNode</code> represents the textual content of an <a href="trait.IElement.html">IElement</a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -286,6 +325,7 @@ the session storage or local storage for a particular domain.</p>
                                   title='struct stdweb::web::TokenList'>TokenList</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>TokenList</code> represents a set of space-separated tokens.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -293,6 +333,7 @@ the session storage or local storage for a particular domain.</p>
                                   title='struct stdweb::web::TypedArray'>TypedArray</a></td>
                            <td class='docblock-short'>
                                 <p>JavaScript typed arrays are array-like objects and provide a mechanism for accessing raw binary data.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -301,6 +342,7 @@ the session storage or local storage for a particular domain.</p>
                            <td class='docblock-short'>
                                 <p>The WebSocket object provides the API for creating and managing a WebSocket connection to a
 server, as well as for sending and receiving data on the connection.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -308,6 +350,7 @@ server, as well as for sending and receiving data on the connection.</p>
                                   title='struct stdweb::web::Window'>Window</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>Window</code> object represents a window containing a DOM document.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -318,6 +361,7 @@ server, as well as for sending and receiving data on the connection.</p>
 You can retrieve data from a URL without having to do a full page refresh.
 This enables a Web page to update just part of a page without disrupting
 what the user is doing. XmlHttpRequest is used heavily in Ajax programming.</p>
+
                            </td>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
@@ -326,13 +370,15 @@ what the user is doing. XmlHttpRequest is used heavily in Ajax programming.</p>
                                   title='enum stdweb::web::CanvasStyle'>CanvasStyle</a></td>
                            <td class='docblock-short'>
                                 <p>Certain style functions can return multiple types</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="enum" href="enum.CloneKind.html"
                                   title='enum stdweb::web::CloneKind'>CloneKind</a></td>
                            <td class='docblock-short'>
-                                <p>An enum which determines whenever the DOM <a href="trait.INode.html">Node</a>&#39;s children will also be cloned or not.</p>
+                                <p>An enum which determines whenever the DOM <a href="trait.INode.html">Node</a>'s children will also be cloned or not.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -340,6 +386,7 @@ what the user is doing. XmlHttpRequest is used heavily in Ajax programming.</p>
                                   title='enum stdweb::web::CrossOriginSetting'>CrossOriginSetting</a></td>
                            <td class='docblock-short'>
                                 <p>Represents CORS (Cross Origin Resource Sharing) setting for an HTML element.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -347,6 +394,7 @@ what the user is doing. XmlHttpRequest is used heavily in Ajax programming.</p>
                                   title='enum stdweb::web::FileReaderResult'>FileReaderResult</a></td>
                            <td class='docblock-short'>
                                 <p>The <a href="struct.FileReader.html#method.result">result</a> of a read operation performed with a <a href="struct.File.html">FileReader</a>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -354,6 +402,7 @@ what the user is doing. XmlHttpRequest is used heavily in Ajax programming.</p>
                                   title='enum stdweb::web::MutationRecord'>MutationRecord</a></td>
                            <td class='docblock-short'>
                                 <p>Contains information about an individual change to the DOM.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -361,6 +410,7 @@ what the user is doing. XmlHttpRequest is used heavily in Ajax programming.</p>
                                   title='enum stdweb::web::SocketBinaryType'>SocketBinaryType</a></td>
                            <td class='docblock-short'>
                                 <p>The type of binary data being transmitted by the WebSocket connection.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -368,6 +418,7 @@ what the user is doing. XmlHttpRequest is used heavily in Ajax programming.</p>
                                   title='enum stdweb::web::XhrReadyState'>XhrReadyState</a></td>
                            <td class='docblock-short'>
                                 <p>An enum indicating the state of the <code>XmlHttpRequest</code>.</p>
+
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
@@ -376,7 +427,8 @@ what the user is doing. XmlHttpRequest is used heavily in Ajax programming.</p>
                                   title='trait stdweb::web::IBlob'>IBlob</a></td>
                            <td class='docblock-short'>
                                 <p>A blob object represents a file-like object of immutable, raw data.
-Blobs represent data that isn&#39;t necessarily in a JavaScript-native format.</p>
+Blobs represent data that isn't necessarily in a JavaScript-native format.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -386,6 +438,7 @@ Blobs represent data that isn&#39;t necessarily in a JavaScript-native format.</
                                 <p>The <code>IElement</code> interface represents an object of a <a href="struct.Document.html">Document</a>.
 This interface describes methods and properties common to all
 kinds of elements.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -394,6 +447,7 @@ kinds of elements.</p>
                            <td class='docblock-short'>
                                 <p><code>IEventTarget</code> is an interface implemented by objects that
 can receive events and may have listeners for them.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -401,6 +455,7 @@ can receive events and may have listeners for them.</p>
                                   title='trait stdweb::web::IHtmlElement'>IHtmlElement</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>IHtmlElement</code> interface represents any HTML element.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -408,6 +463,7 @@ can receive events and may have listeners for them.</p>
                                   title='trait stdweb::web::INode'>INode</a></td>
                            <td class='docblock-short'>
                                 <p><code>INode</code> is an interface from which a number of DOM API object types inherit.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -416,6 +472,7 @@ can receive events and may have listeners for them.</p>
                            <td class='docblock-short'>
                                 <p>The <code>INonElementParentNode</code> mixin contains methods and properties
 that are common to <code>Document</code> and <code>DocumentFragment</code>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -425,6 +482,7 @@ that are common to <code>Document</code> and <code>DocumentFragment</code>.</p>
                                 <p>The <code>ParentNode</code> mixin contains methods and properties
 that are common to all types of <code>Node</code> objects that can
 have children.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -433,6 +491,7 @@ have children.</p>
                            <td class='docblock-short'>
                                 <p>The <code>IWindowOrWorker</code> mixin describes several features common to
 the <code>Window</code> and the global scope of web workers.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -440,6 +499,7 @@ the <code>Window</code> and the global scope of web workers.</p>
                                   title='trait stdweb::web::RenderingContext'>RenderingContext</a></td>
                            <td class='docblock-short'>
                                 <p>Trait implemented by rendering contexts which can be obtained from a canvas.</p>
+
                            </td>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
@@ -448,6 +508,7 @@ the <code>Window</code> and the global scope of web workers.</p>
                                   title='fn stdweb::web::alert'>alert</a></td>
                            <td class='docblock-short'>
                                 <p>An alias for <a href="struct.Window.html#method.alert">window.alert</a>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -455,6 +516,7 @@ the <code>Window</code> and the global scope of web workers.</p>
                                   title='fn stdweb::web::document'>document</a></td>
                            <td class='docblock-short'>
                                 <p>A global instance of <a href="struct.Document.html">Document</a>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -462,6 +524,7 @@ the <code>Window</code> and the global scope of web workers.</p>
                                   title='fn stdweb::web::set_timeout'>set_timeout</a></td>
                            <td class='docblock-short'>
                                 <p>An alias for <a href="struct.Window.html#method.set_timeout">window.set_timeout</a>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -469,6 +532,7 @@ the <code>Window</code> and the global scope of web workers.</p>
                                   title='fn stdweb::web::window'>window</a></td>
                            <td class='docblock-short'>
                                 <p>A global instance of <a href="struct.Window.html">Window</a>.</p>
+
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
@@ -483,20 +547,22 @@ the <code>Window</code> and the global scope of web workers.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

@@ -10,8 +10,11 @@
     <title>rayon::iter - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Module iter</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../index.html'>rayon</a></p><script>window.sidebarCurrent = {name: 'iter', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -51,10 +61,8 @@
                    </a>
                </span><a class='srclink' href='../../src/rayon/iter/mod.rs.html#1-2113' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Traits for writing parallel programs using an iterator-style interface</p>
-
 <p>You will rarely need to interact with this module directly unless you have
 need to name one of the iterator types.</p>
-
 <p>Parallel iterators make it easy to write iterator-like chains that
 execute in parallel: typically all you have to do is convert the
 first <code>.iter()</code> (or <code>iter_mut()</code>, <code>into_iter()</code>, etc) method into
@@ -69,7 +77,6 @@ integers, one might write:</p>
          .<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="ident">i</span> <span class="op">*</span> <span class="ident">i</span>)
          .<span class="ident">sum</span>()
 }</pre>
-
 <p>Or, to increment all the integers in a slice, you could write:</p>
 
 <pre class="rust rust-example-rendered">
@@ -78,17 +85,14 @@ integers, one might write:</p>
     <span class="ident">input</span>.<span class="ident">par_iter_mut</span>()
          .<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">p</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">p</span> <span class="op">+=</span> <span class="number">1</span>);
 }</pre>
-
 <p>To use parallel iterators, first import the traits by adding
 something like <code>use rayon::prelude::*</code> to your module. You can
 then call <code>par_iter</code>, <code>par_iter_mut</code>, or <code>into_par_iter</code> to get a
 parallel iterator. Like a <a href="http://doc.rust-lang.org/std/iter/trait.Iterator.html">regular iterator</a>, parallel
 iterators work by first constructing a computation and then
 executing it.</p>
-
 <p>In addition to <code>par_iter()</code> and friends, some types offer other
 ways to create (or consume) parallel iterators:</p>
-
 <ul>
 <li>Slices (<code>&amp;[T]</code>, <code>&amp;mut [T]</code>) offer methods like <code>par_split</code> and
 <code>par_windows</code>, as well as various parallel sorting
@@ -96,16 +100,14 @@ operations. See <a href="../slice/trait.ParallelSlice.html">the <code>ParallelSl
 <li>Strings (<code>&amp;str</code>) offer methods like <code>par_split</code> and <code>par_lines</code>.
 See <a href="../str/trait.ParallelString.html">the <code>ParallelString</code> trait</a> for the full list.</li>
 <li>Various collections offer <a href="trait.ParallelExtend.html"><code>par_extend</code></a>, which grows a
-collection given a parallel iterator. (If you don&#39;t have a
+collection given a parallel iterator. (If you don't have a
 collection to extend, you can use <a href="trait.ParallelIterator.html#method.collect"><code>collect()</code></a> to create a new
 one from scratch.)</li>
 </ul>
-
 <p>To see the full range of methods available on parallel iterators,
 check out the <a href="trait.ParallelIterator.html"><code>ParallelIterator</code></a> and <a href="trait.IndexedParallelIterator.html"><code>IndexedParallelIterator</code></a>
 traits.</p>
-
-<p>If you&#39;d like to offer parallel iterators for your own collector,
+<p>If you'd like to offer parallel iterators for your own collector,
 or write your own combinator, then check out the <a href="plumbing">plumbing</a>
 module.</p>
 </div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
@@ -117,6 +119,7 @@ module.</p>
                                 <p>Traits and functions used to implement parallel iteration.  These are
 low-level details -- users of parallel iterators should not need to
 interact with them directly.  See <a href="https://github.com/rayon-rs/rayon/blob/master/src/iter/plumbing/README.md">the <code>plumbing</code> README</a> for a high-level overview.</p>
+
                            </td>
                        </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
@@ -126,6 +129,7 @@ interact with them directly.  See <a href="https://github.com/rayon-rs/rayon/blo
                            <td class='docblock-short'>
                                 <p><code>Chain</code> is an iterator that joins <code>b</code> after <code>a</code> in one continuous iterator.
 This struct is created by the <a href="trait.ParallelIterator.html#method.chain"><code>chain()</code></a> method on <a href="trait.ParallelIterator.html"><code>ParallelIterator</code></a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -133,6 +137,7 @@ This struct is created by the <a href="trait.ParallelIterator.html#method.chain"
                                   title='struct rayon::iter::Chunks'>Chunks</a></td>
                            <td class='docblock-short'>
                                 <p><code>Chunks</code> is an iterator that groups elements of an underlying iterator.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -140,6 +145,7 @@ This struct is created by the <a href="trait.ParallelIterator.html#method.chain"
                                   title='struct rayon::iter::Cloned'>Cloned</a></td>
                            <td class='docblock-short'>
                                 <p><code>Cloned</code> is an iterator that clones the elements of an underlying iterator.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -147,6 +153,7 @@ This struct is created by the <a href="trait.ParallelIterator.html#method.chain"
                                   title='struct rayon::iter::Empty'>Empty</a></td>
                            <td class='docblock-short'>
                                 <p>Iterator adaptor for <a href="fn.empty.html">the <code>empty()</code> function</a>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -155,6 +162,7 @@ This struct is created by the <a href="trait.ParallelIterator.html#method.chain"
                            <td class='docblock-short'>
                                 <p><code>Enumerate</code> is an iterator that returns the current count along with the element.
 This struct is created by the <a href="trait.IndexedParallelIterator.html#method.enumerate"><code>enumerate()</code></a> method on <a href="trait.IndexedParallelIterator.html"><code>IndexedParallelIterator</code></a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -163,6 +171,7 @@ This struct is created by the <a href="trait.IndexedParallelIterator.html#method
                            <td class='docblock-short'>
                                 <p><code>Filter</code> takes a predicate <code>filter_op</code> and filters out elements that match.
 This struct is created by the <a href="trait.ParallelIterator.html#method.filter"><code>filter()</code></a> method on <a href="trait.ParallelIterator.html"><code>ParallelIterator</code></a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -171,6 +180,7 @@ This struct is created by the <a href="trait.ParallelIterator.html#method.filter
                            <td class='docblock-short'>
                                 <p><code>FilterMap</code> creates an iterator that uses <code>filter_op</code> to both filter and map elements.
 This struct is created by the <a href="trait.ParallelIterator.html#method.filter_map"><code>filter_map()</code></a> method on <a href="trait.ParallelIterator.html"><code>ParallelIterator</code></a>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -179,6 +189,7 @@ This struct is created by the <a href="trait.ParallelIterator.html#method.filter
                            <td class='docblock-short'>
                                 <p><code>FlatMap</code> maps each element to an iterator, then flattens these iterators together.
 This struct is created by the <a href="trait.ParallelIterator.html#method.flat_map"><code>flat_map()</code></a> method on <a href="trait.ParallelIterator.html"><code>ParallelIterator</code></a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -188,6 +199,7 @@ This struct is created by the <a href="trait.ParallelIterator.html#method.flat_m
                                 <p><code>Flatten</code> turns each element to an iterator, then flattens these iterators
 together. This struct is created by the <a href="trait.ParallelIterator.html#method.flatten"><code>flatten()</code></a> method on
 <a href="trait.ParallelIterator.html"><code>ParallelIterator</code></a>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -196,6 +208,7 @@ together. This struct is created by the <a href="trait.ParallelIterator.html#met
                            <td class='docblock-short'>
                                 <p><code>Fold</code> is an iterator that applies a function over an iterator producing a single value.
 This struct is created by the <a href="trait.ParallelIterator.html#method.fold"><code>fold()</code></a> method on <a href="trait.ParallelIterator.html"><code>ParallelIterator</code></a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -204,6 +217,7 @@ This struct is created by the <a href="trait.ParallelIterator.html#method.fold">
                            <td class='docblock-short'>
                                 <p><code>FoldWith</code> is an iterator that applies a function over an iterator producing a single value.
 This struct is created by the <a href="trait.ParallelIterator.html#method.fold_with"><code>fold_with()</code></a> method on <a href="trait.ParallelIterator.html"><code>ParallelIterator</code></a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -212,6 +226,7 @@ This struct is created by the <a href="trait.ParallelIterator.html#method.fold_w
                            <td class='docblock-short'>
                                 <p><code>Inspect</code> is an iterator that calls a function with a reference to each
 element before yielding it.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -221,6 +236,7 @@ element before yielding it.</p>
                                 <p><code>Interleave</code> is an iterator that interleaves elements of iterators
 <code>i</code> and <code>j</code> in one continuous iterator. This struct is created by
 the <a href="trait.IndexedParallelIterator.html#method.interleave"><code>interleave()</code></a> method on <a href="trait.IndexedParallelIterator.html"><code>IndexedParallelIterator</code></a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -230,6 +246,7 @@ the <a href="trait.IndexedParallelIterator.html#method.interleave"><code>interle
                                 <p><code>InterleaveShortest</code> is an iterator that works similarly to
 <code>Interleave</code>, but this version stops returning elements once one
 of the iterators run out.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -239,6 +256,7 @@ of the iterators run out.</p>
                                 <p><code>Intersperse</code> is an iterator that inserts a particular item between each
 item of the adapted iterator.  This struct is created by the
 <a href="trait.ParallelIterator.html#method.intersperse"><code>intersperse()</code></a> method on <a href="trait.ParallelIterator.html"><code>ParallelIterator</code></a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -246,6 +264,7 @@ item of the adapted iterator.  This struct is created by the
                                   title='struct rayon::iter::Map'>Map</a></td>
                            <td class='docblock-short'>
                                 <p><code>Map</code> is an iterator that transforms the elements of an underlying iterator.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -253,6 +272,7 @@ item of the adapted iterator.  This struct is created by the
                                   title='struct rayon::iter::MapWith'>MapWith</a></td>
                            <td class='docblock-short'>
                                 <p><code>MapWith</code> is an iterator that transforms the elements of an underlying iterator.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -261,6 +281,7 @@ item of the adapted iterator.  This struct is created by the
                            <td class='docblock-short'>
                                 <p><code>MaxLen</code> is an iterator that imposes a maximum length on iterator splits.
 This struct is created by the <a href="trait.IndexedParallelIterator.html#method.max_len"><code>max_len()</code></a> method on <a href="trait.IndexedParallelIterator.html"><code>IndexedParallelIterator</code></a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -269,6 +290,7 @@ This struct is created by the <a href="trait.IndexedParallelIterator.html#method
                            <td class='docblock-short'>
                                 <p><code>MinLen</code> is an iterator that imposes a minimum length on iterator splits.
 This struct is created by the <a href="trait.IndexedParallelIterator.html#method.min_len"><code>min_len()</code></a> method on <a href="trait.IndexedParallelIterator.html"><code>IndexedParallelIterator</code></a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -276,6 +298,7 @@ This struct is created by the <a href="trait.IndexedParallelIterator.html#method
                                   title='struct rayon::iter::Once'>Once</a></td>
                            <td class='docblock-short'>
                                 <p>Iterator adaptor for <a href="fn.once.html">the <code>once()</code> function</a>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -283,6 +306,7 @@ This struct is created by the <a href="trait.IndexedParallelIterator.html#method
                                   title='struct rayon::iter::Repeat'>Repeat</a></td>
                            <td class='docblock-short'>
                                 <p>Iterator adaptor for <a href="fn.repeat.html">the <code>repeat()</code> function</a>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -290,6 +314,7 @@ This struct is created by the <a href="trait.IndexedParallelIterator.html#method
                                   title='struct rayon::iter::RepeatN'>RepeatN</a></td>
                            <td class='docblock-short'>
                                 <p>Iterator adaptor for <a href="fn.repeatn.html">the <code>repeatn()</code> function</a>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -298,6 +323,7 @@ This struct is created by the <a href="trait.IndexedParallelIterator.html#method
                            <td class='docblock-short'>
                                 <p><code>Rev</code> is an iterator that produces elements in reverse order. This struct
 is created by the <a href="trait.IndexedParallelIterator.html#method.rev"><code>rev()</code></a> method on <a href="trait.IndexedParallelIterator.html"><code>IndexedParallelIterator</code></a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -306,6 +332,7 @@ is created by the <a href="trait.IndexedParallelIterator.html#method.rev"><code>
                            <td class='docblock-short'>
                                 <p><code>Skip</code> is an iterator that skips over the first <code>n</code> elements.
 This struct is created by the <a href="trait.IndexedParallelIterator.html#method.skip"><code>skip()</code></a> method on <a href="trait.IndexedParallelIterator.html"><code>IndexedParallelIterator</code></a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -314,6 +341,7 @@ This struct is created by the <a href="trait.IndexedParallelIterator.html#method
                            <td class='docblock-short'>
                                 <p><code>Split</code> is a parallel iterator using arbitrary data and a splitting function.
 This struct is created by the <a href="fn.split.html"><code>split()</code></a> function.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -322,6 +350,7 @@ This struct is created by the <a href="fn.split.html"><code>split()</code></a> f
                            <td class='docblock-short'>
                                 <p><code>Take</code> is an iterator that iterates over the first <code>n</code> elements.
 This struct is created by the <a href="trait.IndexedParallelIterator.html#method.take"><code>take()</code></a> method on <a href="trait.IndexedParallelIterator.html"><code>IndexedParallelIterator</code></a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -330,6 +359,7 @@ This struct is created by the <a href="trait.IndexedParallelIterator.html#method
                            <td class='docblock-short'>
                                 <p><code>Update</code> is an iterator that mutates the elements of an
 underlying iterator before they are yielded.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -338,6 +368,7 @@ underlying iterator before they are yielded.</p>
                            <td class='docblock-short'>
                                 <p><code>WhileSome</code> is an iterator that yields the <code>Some</code> elements of an iterator,
 halting as soon as any <code>None</code> is produced.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -347,6 +378,7 @@ halting as soon as any <code>None</code> is produced.</p>
                                 <p><code>Zip</code> is an iterator that zips up <code>a</code> and <code>b</code> into a single iterator
 of pairs. This struct is created by the <a href="trait.IndexedParallelIterator.html#method.zip"><code>zip()</code></a> method on
 <a href="trait.IndexedParallelIterator.html"><code>IndexedParallelIterator</code></a></p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -355,6 +387,7 @@ of pairs. This struct is created by the <a href="trait.IndexedParallelIterator.h
                            <td class='docblock-short'>
                                 <p>An <a href="trait.IndexedParallelIterator.html"><code>IndexedParallelIterator</code></a> that iterates over two parallel iterators of equal
 length simultaneously.</p>
+
                            </td>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
@@ -364,6 +397,7 @@ length simultaneously.</p>
                            <td class='docblock-short'>
                                 <p>The enum <code>Either</code> with variants <code>Left</code> and <code>Right</code> is a general purpose
 sum type with two cases.</p>
+
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
@@ -375,6 +409,7 @@ sum type with two cases.</p>
 from a <a href="trait.ParallelIterator.html"><code>ParallelIterator</code></a>. By implementing
 <code>FromParallelIterator</code> for a given type, you define how it will be
 created from an iterator.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -384,6 +419,7 @@ created from an iterator.</p>
                                 <p>An iterator that supports &quot;random access&quot; to its data, meaning
 that you can split it at arbitrary indices and draw data from
 those points.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -391,6 +427,7 @@ those points.</p>
                                   title='trait rayon::iter::IntoParallelIterator'>IntoParallelIterator</a></td>
                            <td class='docblock-short'>
                                 <p><code>IntoParallelIterator</code> implements the conversion to a <a href="trait.ParallelIterator.html"><code>ParallelIterator</code></a>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -399,6 +436,7 @@ those points.</p>
                            <td class='docblock-short'>
                                 <p><code>IntoParallelRefIterator</code> implements the conversion to a
 <a href="trait.ParallelIterator.html"><code>ParallelIterator</code></a>, providing shared references to the data.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -407,6 +445,7 @@ those points.</p>
                            <td class='docblock-short'>
                                 <p><code>IntoParallelRefMutIterator</code> implements the conversion to a
 <a href="trait.ParallelIterator.html"><code>ParallelIterator</code></a>, providing mutable references to the data.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -414,6 +453,7 @@ those points.</p>
                                   title='trait rayon::iter::ParallelExtend'>ParallelExtend</a></td>
                            <td class='docblock-short'>
                                 <p><code>ParallelExtend</code> extends an existing collection with items from a <a href="trait.ParallelIterator.html"><code>ParallelIterator</code></a>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -421,6 +461,7 @@ those points.</p>
                                   title='trait rayon::iter::ParallelIterator'>ParallelIterator</a></td>
                            <td class='docblock-short'>
                                 <p>Parallel version of the standard iterator trait.</p>
+
                            </td>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
@@ -429,6 +470,7 @@ those points.</p>
                                   title='fn rayon::iter::empty'>empty</a></td>
                            <td class='docblock-short'>
                                 <p>Creates a parallel iterator that produces nothing.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -436,6 +478,7 @@ those points.</p>
                                   title='fn rayon::iter::once'>once</a></td>
                            <td class='docblock-short'>
                                 <p>Creates a parallel iterator that produces an element exactly once.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -447,6 +490,7 @@ cloning it). Note that this iterator has &quot;infinite&quot; length, so
 typically you would want to use <code>zip</code> or <code>take</code> or some other
 means to shorten it, or consider using
 <a href="fn.repeatn.html">the <code>repeatn()</code> function</a> instead.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -455,6 +499,7 @@ means to shorten it, or consider using
                            <td class='docblock-short'>
                                 <p>Creates a parallel iterator that produces <code>n</code> repeats of <code>elt</code>
 (by cloning it).</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -463,6 +508,7 @@ means to shorten it, or consider using
                            <td class='docblock-short'>
                                 <p>The <code>split</code> function takes arbitrary data and a closure that knows how to
 split it, and turns this into a <code>ParallelIterator</code>.</p>
+
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
@@ -477,20 +523,22 @@ split it, and turns this into a <code>ParallelIterator</code>.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

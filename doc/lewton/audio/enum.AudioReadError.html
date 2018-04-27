@@ -10,8 +10,11 @@
     <title>lewton::audio::AudioReadError - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Enum AudioReadError</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#variants">Variants</a><div class="sidebar-links"><a href="#variant.EndOfPacket">EndOfPacket</a><a href="#variant.AudioBadFormat">AudioBadFormat</a><a href="#variant.AudioIsHeader">AudioIsHeader</a><a href="#variant.BufferNotAddressable">BufferNotAddressable</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Debug">Debug</a><a href="#impl-PartialEq">PartialEq</a><a href="#impl-From%3C()%3E">From&lt;()&gt;</a><a href="#impl-Error">Error</a><a href="#impl-Display">Display</a><a href="#impl-From%3CAudioReadError%3E">From&lt;AudioReadError&gt;</a></div></div><p class='location'><a href='../index.html'>lewton</a>::<wbr><a href='index.html'>audio</a></p><script>window.sidebarCurrent = {name: 'AudioReadError', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -57,13 +67,11 @@
     BufferNotAddressable,
 }</pre><h2 id='variants' class='variants small-section-header'>
                    Variants<a href='#variants' class='anchor'></a></h2>
-<span id="variant.EndOfPacket" class="variant small-section-header"><a href="#variant.EndOfPacket" class="anchor field"></a><span id='EndOfPacket.v' class='invisible'><code>EndOfPacket</code></span></span><span id="variant.AudioBadFormat" class="variant small-section-header"><a href="#variant.AudioBadFormat" class="anchor field"></a><span id='AudioBadFormat.v' class='invisible'><code>AudioBadFormat</code></span></span><span id="variant.AudioIsHeader" class="variant small-section-header"><a href="#variant.AudioIsHeader" class="anchor field"></a><span id='AudioIsHeader.v' class='invisible'><code>AudioIsHeader</code></span></span><span id="variant.BufferNotAddressable" class="variant small-section-header"><a href="#variant.BufferNotAddressable" class="anchor field"></a><span id='BufferNotAddressable.v' class='invisible'><code>BufferNotAddressable</code></span></span><div class='docblock'><p>If the needed memory isn&#39;t addressable by us</p>
-
+<span id="variant.EndOfPacket" class="variant small-section-header"><a href="#variant.EndOfPacket" class="anchor field"></a><span id='EndOfPacket.v' class='invisible'><code>EndOfPacket</code></span></span><span id="variant.AudioBadFormat" class="variant small-section-header"><a href="#variant.AudioBadFormat" class="anchor field"></a><span id='AudioBadFormat.v' class='invisible'><code>AudioBadFormat</code></span></span><span id="variant.AudioIsHeader" class="variant small-section-header"><a href="#variant.AudioIsHeader" class="anchor field"></a><span id='AudioIsHeader.v' class='invisible'><code>AudioIsHeader</code></span></span><span id="variant.BufferNotAddressable" class="variant small-section-header"><a href="#variant.BufferNotAddressable" class="anchor field"></a><span id='BufferNotAddressable.v' class='invisible'><code>BufferNotAddressable</code></span></span><div class='docblock'><p>If the needed memory isn't addressable by us</p>
 <p>This error is returned if a calculation yielded a higher value for
-an internal buffer size that doesn&#39;t fit into the platform&#39;s address range.
+an internal buffer size that doesn't fit into the platform's address range.
 Note that if we &quot;simply&quot; encounter an allocation failure (OOM, etc),
 we do what libstd does in these cases: crash.</p>
-
 <p>This error is not automatically an error of the format,
 but rather is due to insufficient decoder hardware.</p>
 </div>
@@ -105,20 +113,22 @@ but rather is due to insufficient decoder hardware.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

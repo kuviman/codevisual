@@ -10,8 +10,11 @@
     <title>rayon::iter::plumbing - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <script src="../../../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Module plumbing</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../../index.html'>rayon</a>::<wbr><a href='../index.html'>iter</a></p><script>window.sidebarCurrent = {name: 'plumbing', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -68,6 +78,7 @@ consumers, as well as a <strong>reducer</strong>. The two consumers can be fed
 items independently, and when they are done the reducer is used to
 combine their two results into one. See <a href="https://github.com/rayon-rs/rayon/blob/master/src/iter/plumbing/README.md">the <code>plumbing</code>
 README</a> for further details.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -78,6 +89,7 @@ README</a> for further details.</p>
 operation</a>.  It can be fed many items using the <code>consume</code>
 method. At the end, once all items have been consumed, it can then
 be converted (using <code>complete</code>) into a final value.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -95,6 +107,7 @@ producing the items after that point (these two producers can then
 independently be split further, or be converted into iterators).
 In Rayon, this splitting is used to divide between threads.
 See <a href="https://github.com/rayon-rs/rayon/blob/master/src/iter/plumbing/README.md">the <code>plumbing</code> README</a> for further details.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -104,6 +117,7 @@ See <a href="https://github.com/rayon-rs/rayon/blob/master/src/iter/plumbing/REA
                                 <p>The <code>ProducerCallback</code> trait is a kind of generic closure,
 <a href="https://doc.rust-lang.org/std/ops/trait.FnOnce.html">analogous to <code>FnOnce</code></a>. See <a href="https://github.com/rayon-rs/rayon/blob/master/src/iter/plumbing/README.md#producer-callback">the corresponding section in
 the plumbing README</a> for more details.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -115,6 +129,7 @@ has been split into two parts, and each of those parts has been
 fully processed, we are left with two results. The reducer is then
 used to combine those two results into one. See <a href="https://github.com/rayon-rs/rayon/blob/master/src/iter/plumbing/README.md">the <code>plumbing</code>
 README</a> for further details.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -126,6 +141,7 @@ used like regular consumers, but they also support a
 <code>split_off_left</code> method that does not take an index to split, but
 simply splits at some arbitrary point (<code>for_each</code>, for example,
 produces an unindexed consumer).</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -135,7 +151,8 @@ produces an unindexed consumer).</p>
                                 <p>A variant on <code>Producer</code> which does not know its exact length or
 cannot represent it in a <code>usize</code>. These producers act like
 ordinary producers except that they cannot be told to split at a
-particular point. Instead, you just ask them to split &#39;somewhere&#39;.</p>
+particular point. Instead, you just ask them to split 'somewhere'.</p>
+
                            </td>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
@@ -147,6 +164,7 @@ particular point. Instead, you just ask them to split &#39;somewhere&#39;.</p>
 consumer. It will convert the <code>par_iter</code> into a producer P and
 then pull items from P and feed them to <code>consumer</code>, splitting and
 creating parallel threads as needed.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -158,6 +176,7 @@ consumer. You may prefer to call <a href="fn.bridge.html"><code>bridge</code></a
 function. This function will draw items from <code>producer</code> and feed
 them to <code>consumer</code>, splitting and creating parallel tasks when
 needed.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -165,6 +184,7 @@ needed.</p>
                                   title='fn rayon::iter::plumbing::bridge_unindexed'>bridge_unindexed</a></td>
                            <td class='docblock-short'>
                                 <p>A variant of <a href="fn.bridge_producer_consumer.html"><code>bridge_producer_consumer</code></a> where the producer is an unindexed producer.</p>
+
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
@@ -179,20 +199,22 @@ needed.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

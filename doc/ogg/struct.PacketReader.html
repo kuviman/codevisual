@@ -10,8 +10,11 @@
     <title>ogg::PacketReader - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Struct PacketReader</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.new">new</a><a href="#method.into_inner">into_inner</a><a href="#method.read_packet">read_packet</a><a href="#method.seek_bytes">seek_bytes</a></div></div><p class='location'><a href='index.html'>ogg</a></p><script>window.sidebarCurrent = {name: 'PacketReader', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -51,12 +61,10 @@
                    </a>
                </span><a class='srclink' href='../src/ogg/lib.rs.html#286-304' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct PacketReader&lt;T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/std/io/trait.Read.html" title="trait std::io::Read">Read</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/std/io/trait.Seek.html" title="trait std::io::Seek">Seek</a>&gt; { /* fields omitted */ }</pre><div class='docblock'><p>Reader for packets from an Ogg stream.</p>
-
 <p>This reads codec packets belonging to several different logical streams from one physical Ogg container stream.</p>
-
 <p>If the <code>async</code> feature is activated, and you pass as internal reader a valid implementation of the
 <code>AdvanceAndSeekBack</code> trait, like the <code>BufReader</code> wrapper, the PacketReader will support async operation,
-meaning that its internal state doesn&#39;t get corrupted if from multiple consecutive reads which it performs,
+meaning that its internal state doesn't get corrupted if from multiple consecutive reads which it performs,
 some fail with e.g. the <code>WouldBlock</code> error kind.</p>
 </div>
                     <h2 id='methods' class='small-section-header'>
@@ -70,10 +78,8 @@ some fail with e.g. the <code>WouldBlock</code> error kind.</p>
 <div class='docblock'><p>Reads a packet, and returns it on success.</p>
 </div><h4 id='method.seek_bytes' class="method"><span id='seek_bytes.v' class='invisible'><code>pub fn <a href='#method.seek_bytes' class='fnname'>seek_bytes</a>(&amp;mut self, pos: <a class="enum" href="https://doc.rust-lang.org/nightly/std/io/enum.SeekFrom.html" title="enum std::io::SeekFrom">SeekFrom</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a>, <a class="struct" href="https://doc.rust-lang.org/nightly/std/io/error/struct.Error.html" title="struct std::io::error::Error">Error</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/ogg/lib.rs.html#716-723' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Seeks the underlying reader</p>
-
 <p>Seeks the reader that this PacketReader bases on by the specified
 number of bytes. All new pages will be read from the new position.</p>
-
 <p>This also flushes all the unread packets in the queue.</p>
 </div></div></section>
     <section id='search' class="content hidden"></section>
@@ -88,20 +94,22 @@ number of bytes. All new pages will be read from the new position.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

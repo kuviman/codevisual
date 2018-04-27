@@ -10,8 +10,11 @@
     <title>claxon - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
     
 
     
@@ -30,9 +33,16 @@
     <nav class="sidebar">
         <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Crate claxon</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#reexports">Reexports</a></li><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#types">Type Definitions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'claxon', ty: 'mod', relpath: '../'};</script></div>
+        <p class='location'>Crate claxon</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#reexports">Re-exports</a></li><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#types">Type Definitions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'claxon', ty: 'mod', relpath: '../'};</script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -51,8 +61,7 @@
                    </a>
                </span><a class='srclink' href='../src/claxon/lib.rs.html#8-286' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Claxon, a FLAC decoding library.</p>
-
-<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1>
 <p>The following example computes the root mean square (RMS) of a FLAC file.</p>
 
 <pre class="rust rust-example-rendered">
@@ -65,7 +74,6 @@
     <span class="ident">count</span> <span class="op">+=</span> <span class="number">1</span>;
 }
 <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;RMS is {}&quot;</span>, (<span class="ident">sqr_sum</span> <span class="op">/</span> <span class="ident">count</span> <span class="kw">as</span> <span class="ident">f64</span>).<span class="ident">sqrt</span>());</pre>
-
 <p>A simple way to decode a file to wav with Claxon and
 <a href="https://github.com/ruuda/hound">Hound</a>:</p>
 
@@ -87,10 +95,9 @@
     <span class="kw">let</span> <span class="ident">sample</span> <span class="op">=</span> <span class="ident">opt_sample</span>.<span class="ident">expect</span>(<span class="string">&quot;failed to decode FLAC stream&quot;</span>);
     <span class="ident">wav_writer</span>.<span class="ident">write_sample</span>(<span class="ident">sample</span>).<span class="ident">expect</span>(<span class="string">&quot;failed to write wav file&quot;</span>);
 }</pre>
-
 <p>For more examples, see the <a href="https://github.com/ruuda/claxon/tree/master/examples">examples</a>
 directory in the crate.</p>
-</div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
+</div><h2 id='reexports' class='section-header'><a href="#reexports">Re-exports</a></h2>
 <table><tr><td><code>pub use frame::<a class="struct" href="../claxon/frame/struct.Block.html" title="struct claxon::frame::Block">Block</a>;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
                        <tr class=' module-item'>
@@ -98,6 +105,7 @@ directory in the crate.</p>
                                   title='mod claxon::frame'>frame</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>frame</code> module deals with the frames that make up a FLAC stream.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -105,6 +113,7 @@ directory in the crate.</p>
                                   title='mod claxon::metadata'>metadata</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>metadata</code> module deals with metadata at the beginning of a FLAC stream.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -112,6 +121,7 @@ directory in the crate.</p>
                                   title='mod claxon::subframe'>subframe</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>subframe</code> module deals with subframes that make up a frame of the FLAC stream.</p>
+
                            </td>
                        </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
@@ -120,6 +130,7 @@ directory in the crate.</p>
                                   title='struct claxon::FlacReader'>FlacReader</a></td>
                            <td class='docblock-short'>
                                 <p>A FLAC decoder that can decode the stream from the underlying reader.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -127,6 +138,7 @@ directory in the crate.</p>
                                   title='struct claxon::FlacSamples'>FlacSamples</a></td>
                            <td class='docblock-short'>
                                 <p>An iterator that yields samples read from a <code>FlacReader</code>.</p>
+
                            </td>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
@@ -135,6 +147,7 @@ directory in the crate.</p>
                                   title='enum claxon::Error'>Error</a></td>
                            <td class='docblock-short'>
                                 <p>An error that prevents succesful decoding of the FLAC stream.</p>
+
                            </td>
                        </tr></table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
 <table>
@@ -143,6 +156,7 @@ directory in the crate.</p>
                                   title='type claxon::Result'>Result</a></td>
                            <td class='docblock-short'>
                                 <p>A type for results generated by Claxon where the error type is hard-wired.</p>
+
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
@@ -157,20 +171,22 @@ directory in the crate.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

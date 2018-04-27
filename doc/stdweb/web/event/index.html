@@ -10,8 +10,11 @@
     <title>stdweb::web::event - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <script src="../../../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Module event</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li></ul></div><p class='location'><a href='../../index.html'>stdweb</a>::<wbr><a href='../index.html'>web</a></p><script>window.sidebarCurrent = {name: 'event', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -59,6 +69,7 @@
                            <td class='docblock-short'>
                                 <p>The <code>BlurEvent</code> is fired when an element has lost focus. The main difference
 between this event and focusout is that only the latter bubbles.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -66,9 +77,10 @@ between this event and focusout is that only the latter bubbles.</p>
                                   title='struct stdweb::web::event::ChangeEvent'>ChangeEvent</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>ChangeEvent</code> is fired for input, select, and textarea
-elements when a change to the element&#39;s value is committed
+elements when a change to the element's value is committed
 by the user. Unlike the input event, the change event is not
-necessarily fired for each change to an element&#39;s value.</p>
+necessarily fired for each change to an element's value.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -76,7 +88,8 @@ necessarily fired for each change to an element&#39;s value.</p>
                                   title='struct stdweb::web::event::ClickEvent'>ClickEvent</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>ClickEvent</code> is fired when a pointing device button (usually a
-mouse&#39;s primary button) is pressed and released on a single element.</p>
+mouse's primary button) is pressed and released on a single element.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -84,8 +97,9 @@ mouse&#39;s primary button) is pressed and released on a single element.</p>
                                   title='struct stdweb::web::event::DoubleClickEvent'>DoubleClickEvent</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>DoubleClickEvent</code> is fired when a pointing device button
-(usually a mouse&#39;s primary button) is clicked twice on a single
+(usually a mouse's primary button) is clicked twice on a single
 element.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -94,6 +108,7 @@ element.</p>
                            <td class='docblock-short'>
                                 <p>The <code>FocusEvent</code> is fired when an element has received focus. The main
 difference between this event and focusin is that only the latter bubbles.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -103,6 +118,7 @@ difference between this event and focusin is that only the latter bubbles.</p>
                                 <p>The <code>HashChangeEvent</code> is fired when the fragment
 identifier of the URL has changed (the part of the URL
 that follows the # symbol, including the # symbol).</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -116,6 +132,7 @@ a user toggles the control (via touch, mouse or keyboard) per the
 HTML5 specification, but historically, this has not been the case.
 Check compatibility, or attach to the change event instead for
 elements of these types.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -123,16 +140,18 @@ elements of these types.</p>
                                   title='struct stdweb::web::event::KeyDownEvent'>KeyDownEvent</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>KeyDownEvent</code> is fired when a key is pressed down.
-Unlike the <code>KeyPressEvent</code> event it&#39;s also fired for keys which
+Unlike the <code>KeyPressEvent</code> event it's also fired for keys which
 do not produce a character value.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="struct" href="struct.KeyPressEvent.html"
                                   title='struct stdweb::web::event::KeyPressEvent'>KeyPressEvent</a></td>
                            <td class='docblock-short'>
-                                <p>The <code>KeyPressEvent</code> is fired when a key is pressed down. It&#39;s only
+                                <p>The <code>KeyPressEvent</code> is fired when a key is pressed down. It's only
 fired for keys which produce a character value.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -140,6 +159,7 @@ fired for keys which produce a character value.</p>
                                   title='struct stdweb::web::event::KeyUpEvent'>KeyUpEvent</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>KeyUpEvent</code> is fired when a key is released.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -149,6 +169,7 @@ fired for keys which produce a character value.</p>
                                 <p>The <code>LoadEndEvent</code> is fired when progress has stopped,
 e.g. after <code>ProgressErrorEvent</code>, <code>ProgressAbortEvent</code>
 or <code>ProgressLoadEvent</code> have been dispatched.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -156,6 +177,7 @@ or <code>ProgressLoadEvent</code> have been dispatched.</p>
                                   title='struct stdweb::web::event::LoadStartEvent'>LoadStartEvent</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>LoadStartEvent</code> is fired when progress has begun.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -164,6 +186,7 @@ or <code>ProgressLoadEvent</code> have been dispatched.</p>
                            <td class='docblock-short'>
                                 <p>The <code>MouseDownEvent</code> is fired when a pointing device button is pressed on
 an element.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -172,6 +195,7 @@ an element.</p>
                            <td class='docblock-short'>
                                 <p>The <code>MouseMoveEvent</code> is fired when a pointing device (usually a mouse)
 is moved while over an element.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -180,6 +204,7 @@ is moved while over an element.</p>
                            <td class='docblock-short'>
                                 <p>The <code>MouseUpEvent</code> is fired when a pointing device button is released
 over an element.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -189,7 +214,8 @@ over an element.</p>
                                 <p>A popstate event is dispatched to the window every time the active history entry changes
 between two history entries for the same document. If the history entry being activated was
 created by a call to history.push_state() or was affected by a call to history.replace_state(),
-the popstate event&#39;s state property contains a copy of the history entry&#39;s state object.</p>
+the popstate event's state property contains a copy of the history entry's state object.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -197,6 +223,7 @@ the popstate event&#39;s state property contains a copy of the history entry&#39
                                   title='struct stdweb::web::event::ProgressAbortEvent'>ProgressAbortEvent</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>ProgressAbortEvent</code> is fired when the progress has been aborted.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -204,6 +231,7 @@ the popstate event&#39;s state property contains a copy of the history entry&#39
                                   title='struct stdweb::web::event::ProgressErrorEvent'>ProgressErrorEvent</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>ProgressErrorEvent</code> is fired when the progress has failed.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -211,6 +239,7 @@ the popstate event&#39;s state property contains a copy of the history entry&#39
                                   title='struct stdweb::web::event::ProgressEvent'>ProgressEvent</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>ProgressEvent</code> is fired to indicate that an operation is in progress.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -218,6 +247,7 @@ the popstate event&#39;s state property contains a copy of the history entry&#39
                                   title='struct stdweb::web::event::ProgressLoadEvent'>ProgressLoadEvent</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>ProgressLoadEvent</code> is fired when progress has successful finished.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -225,6 +255,7 @@ the popstate event&#39;s state property contains a copy of the history entry&#39
                                   title='struct stdweb::web::event::ReadyStateChangeEvent'>ReadyStateChangeEvent</a></td>
                            <td class='docblock-short'>
                                 <p>The readystatechange event is fired when the readyState attribute of a document has changed.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -232,6 +263,7 @@ the popstate event&#39;s state property contains a copy of the history entry&#39
                                   title='struct stdweb::web::event::ResizeEvent'>ResizeEvent</a></td>
                            <td class='docblock-short'>
                                 <p>The resize event is fired when the document view has been resized.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -239,6 +271,7 @@ the popstate event&#39;s state property contains a copy of the history entry&#39
                                   title='struct stdweb::web::event::ResourceAbortEvent'>ResourceAbortEvent</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>ResourceAbortEvent</code> is fired when the loading of a resource has been aborted.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -247,6 +280,7 @@ the popstate event&#39;s state property contains a copy of the history entry&#39
                            <td class='docblock-short'>
                                 <p>The <code>ResourceErrorEvent</code> is fired when an error occurred; the exact circumstances vary,
 since this event is used from a variety of APIs.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -254,6 +288,7 @@ since this event is used from a variety of APIs.</p>
                                   title='struct stdweb::web::event::ResourceLoadEvent'>ResourceLoadEvent</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>ResourceLoadEvent</code> is fired when a resource and its dependent resources have finished loading.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -261,6 +296,7 @@ since this event is used from a variety of APIs.</p>
                                   title='struct stdweb::web::event::SocketCloseEvent'>SocketCloseEvent</a></td>
                            <td class='docblock-short'>
                                 <p>A SocketCloseEvent is sent to clients using WebSockets when the connection is closed.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -269,6 +305,7 @@ since this event is used from a variety of APIs.</p>
                            <td class='docblock-short'>
                                 <p>The error event is fired when an error occurred; the exact circumstances vary,
 events by this name are used from a variety of APIs.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -276,6 +313,7 @@ events by this name are used from a variety of APIs.</p>
                                   title='struct stdweb::web::event::SocketMessageEvent'>SocketMessageEvent</a></td>
                            <td class='docblock-short'>
                                 <p>A message event informs a WebSocket object that a message has been received.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -283,6 +321,7 @@ events by this name are used from a variety of APIs.</p>
                                   title='struct stdweb::web::event::SocketOpenEvent'>SocketOpenEvent</a></td>
                            <td class='docblock-short'>
                                 <p>An open event informs the target that a data connection, has been established.</p>
+
                            </td>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
@@ -291,6 +330,7 @@ events by this name are used from a variety of APIs.</p>
                                   title='enum stdweb::web::event::EventPhase'>EventPhase</a></td>
                            <td class='docblock-short'>
                                 <p>Indicates the phase of event flow during event proessing.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -298,6 +338,7 @@ events by this name are used from a variety of APIs.</p>
                                   title='enum stdweb::web::event::KeyboardLocation'>KeyboardLocation</a></td>
                            <td class='docblock-short'>
                                 <p>The location on the keyboard of a key.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -305,6 +346,7 @@ events by this name are used from a variety of APIs.</p>
                                   title='enum stdweb::web::event::ModifierKey'>ModifierKey</a></td>
                            <td class='docblock-short'>
                                 <p>A modifier key on the keyboard.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -312,6 +354,7 @@ events by this name are used from a variety of APIs.</p>
                                   title='enum stdweb::web::event::MouseButton'>MouseButton</a></td>
                            <td class='docblock-short'>
                                 <p>Represents buttons on a mouse during mouse events.</p>
+
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
@@ -320,6 +363,7 @@ events by this name are used from a variety of APIs.</p>
                                   title='trait stdweb::web::event::ConcreteEvent'>ConcreteEvent</a></td>
                            <td class='docblock-short'>
                                 <p>A trait representing a concrete event type.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -332,6 +376,7 @@ generated by APIs (such as events that indicate an animation has finished
 running, a video has been paused, and so forth). There are many types of event,
 some of which use other interfaces based on the main <code>IEvent</code> interface. <code>IEvent</code>
 itself contains the properties and methods which are common to all events.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -340,6 +385,7 @@ itself contains the properties and methods which are common to all events.</p>
                            <td class='docblock-short'>
                                 <p>The <code>IFocusEvent</code> interface represents focus-related
 events.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -349,6 +395,7 @@ events.</p>
                                 <p><code>IKeyboardEvent</code> objects describe a user interaction with the
 keyboard. Each event describes a key; the event type identifies
 what kind of activity was performed.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -356,6 +403,7 @@ what kind of activity was performed.</p>
                                   title='trait stdweb::web::event::IMessageEvent'>IMessageEvent</a></td>
                            <td class='docblock-short'>
                                 <p>The MessageEvent interface represents a message received by a target object.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -364,6 +412,7 @@ what kind of activity was performed.</p>
                            <td class='docblock-short'>
                                 <p>The <code>IMouseEvent</code> interface represents events that occur due to the user
 interacting with a pointing device (such as a mouse).</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -372,6 +421,7 @@ interacting with a pointing device (such as a mouse).</p>
                            <td class='docblock-short'>
                                 <p>The <code>IProgressEvent</code> interface represents progress-related
 events.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -379,6 +429,7 @@ events.</p>
                                   title='trait stdweb::web::event::IUiEvent'>IUiEvent</a></td>
                            <td class='docblock-short'>
                                 <p>The <code>IUiEvent</code> interface represents simple user interface events.</p>
+
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
@@ -393,20 +444,22 @@ events.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

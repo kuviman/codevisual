@@ -10,8 +10,11 @@
     <title>stdweb::web::MutationObserverInit - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Struct MutationObserverInit</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#fields">Fields</a><div class="sidebar-links"><a href="#structfield.child_list">child_list</a><a href="#structfield.attributes">attributes</a><a href="#structfield.character_data">character_data</a><a href="#structfield.subtree">subtree</a><a href="#structfield.attribute_old_value">attribute_old_value</a><a href="#structfield.character_data_old_value">character_data_old_value</a><a href="#structfield.attribute_filter">attribute_filter</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Debug">Debug</a><a href="#impl-Clone">Clone</a></div></div><p class='location'><a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>web</a></p><script>window.sidebarCurrent = {name: 'MutationObserverInit', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -59,17 +69,14 @@
     pub character_data_old_value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,
     pub attribute_filter: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a>&amp;'a <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>&gt;,
 }</pre><div class='docblock'><p>Specifies which changes should be observed for the target.</p>
-
 <p>This is only used with the <a href="struct.MutationObserver.html#method.observe"><code>MutationObserver::observe</code></a> method.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver#MutationObserverInit">(JavaScript docs)</a></p>
 </div><h2 id='fields' class='fields small-section-header'>
                        Fields<a href='#fields' class='anchor'></a></h2><span id="structfield.child_list" class="structfield small-section-header">
                            <a href="#structfield.child_list" class="anchor field"></a>
                            <span id="child_list.v" class='invisible'>
                            <code>child_list: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
-                           </span></span><div class='docblock'><p>If <code>true</code> it will observe all inserts and removals of the target&#39;s children (including text nodes).</p>
-
+                           </span></span><div class='docblock'><p>If <code>true</code> it will observe all inserts and removals of the target's children (including text nodes).</p>
 <p>This is <strong>not</strong> recursive, it will only observe immediate children
 (unless <a href="#structfield.subtree"><code>subtree</code></a> is <code>true</code> in which case it will
 observe <strong>all</strong> children and sub-children recursively).</p>
@@ -77,35 +84,33 @@ observe <strong>all</strong> children and sub-children recursively).</p>
                            <a href="#structfield.attributes" class="anchor field"></a>
                            <span id="attributes.v" class='invisible'>
                            <code>attributes: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
-                           </span></span><div class='docblock'><p>If <code>true</code> it will observe all changes to the target&#39;s attributes.</p>
+                           </span></span><div class='docblock'><p>If <code>true</code> it will observe all changes to the target's attributes.</p>
 </div><span id="structfield.character_data" class="structfield small-section-header">
                            <a href="#structfield.character_data" class="anchor field"></a>
                            <span id="character_data.v" class='invisible'>
                            <code>character_data: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
-                           </span></span><div class='docblock'><p>If <code>true</code> it will observe all changes to the <code>CharacterData</code>&#39;s data.</p>
+                           </span></span><div class='docblock'><p>If <code>true</code> it will observe all changes to the <code>CharacterData</code>'s data.</p>
 </div><span id="structfield.subtree" class="structfield small-section-header">
                            <a href="#structfield.subtree" class="anchor field"></a>
                            <span id="subtree.v" class='invisible'>
                            <code>subtree: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
-                           </span></span><div class='docblock'><p>If <code>true</code> it will observe all changes to the target, the target&#39;s children, and the target&#39;s sub-children.</p>
-
+                           </span></span><div class='docblock'><p>If <code>true</code> it will observe all changes to the target, the target's children, and the target's sub-children.</p>
 <p>This is recursive, so it causes <strong>all</strong> children and sub-children to be observed.</p>
 </div><span id="structfield.attribute_old_value" class="structfield small-section-header">
                            <a href="#structfield.attribute_old_value" class="anchor field"></a>
                            <span id="attribute_old_value.v" class='invisible'>
                            <code>attribute_old_value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
-                           </span></span><div class='docblock'><p>If <code>true</code> it will store the target&#39;s old attribute value in <a href="enum.MutationRecord.html#variant.Attribute.field.old_value"><code>old_value</code></a>.</p>
+                           </span></span><div class='docblock'><p>If <code>true</code> it will store the target's old attribute value in <a href="enum.MutationRecord.html#variant.Attribute.field.old_value"><code>old_value</code></a>.</p>
 </div><span id="structfield.character_data_old_value" class="structfield small-section-header">
                            <a href="#structfield.character_data_old_value" class="anchor field"></a>
                            <span id="character_data_old_value.v" class='invisible'>
                            <code>character_data_old_value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code>
-                           </span></span><div class='docblock'><p>If <code>true</code> it will store the <code>CharacterData</code>&#39;s old data in <a href="enum.MutationRecord.html#variant.CharacterData.field.old_data"><code>old_data</code></a>.</p>
+                           </span></span><div class='docblock'><p>If <code>true</code> it will store the <code>CharacterData</code>'s old data in <a href="enum.MutationRecord.html#variant.CharacterData.field.old_data"><code>old_data</code></a>.</p>
 </div><span id="structfield.attribute_filter" class="structfield small-section-header">
                            <a href="#structfield.attribute_filter" class="anchor field"></a>
                            <span id="attribute_filter.v" class='invisible'>
                            <code>attribute_filter: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">&amp;'a [</a>&amp;'a <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>&gt;</code>
                            </span></span><div class='docblock'><p>If <code>Some</code> it will only observe the specified attributes. The attributes should be specified without a namespace.</p>
-
 <p>If <code>None</code> it will observe all attributes.</p>
 </div>
             <h2 id='implementations' class='small-section-header'>
@@ -132,20 +137,22 @@ observe <strong>all</strong> children and sub-children recursively).</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

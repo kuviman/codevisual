@@ -10,8 +10,11 @@
     <title>rodio::SpatialSink - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Struct SpatialSink</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.new">new</a><a href="#method.set_emitter_position">set_emitter_position</a><a href="#method.set_left_ear_position">set_left_ear_position</a><a href="#method.set_right_ear_position">set_right_ear_position</a><a href="#method.append">append</a><a href="#method.volume">volume</a><a href="#method.set_volume">set_volume</a><a href="#method.play">play</a><a href="#method.pause">pause</a><a href="#method.is_paused">is_paused</a><a href="#method.detach">detach</a><a href="#method.sleep_until_end">sleep_until_end</a><a href="#method.empty">empty</a></div></div><p class='location'><a href='index.html'>rodio</a></p><script>window.sidebarCurrent = {name: 'SpatialSink', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -70,22 +80,17 @@
 multiply each sample by this value.</p>
 </div><h4 id='method.set_volume' class="method"><span id='set_volume.v' class='invisible'><code>pub fn <a href='#method.set_volume' class='fnname'>set_volume</a>(&amp;mut self, value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/rodio/spatial_sink.rs.html#87-89' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Changes the volume of the sound.</p>
-
 <p>The value <code>1.0</code> is the &quot;normal&quot; volume (unfiltered input). Any value other than 1.0 will
 multiply each sample by this value.</p>
 </div><h4 id='method.play' class="method"><span id='play.v' class='invisible'><code>pub fn <a href='#method.play' class='fnname'>play</a>(&amp;self)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/rodio/spatial_sink.rs.html#95-97' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Resumes playback of a paused sound.</p>
-
 <p>No effect if not paused.</p>
 </div><h4 id='method.pause' class="method"><span id='pause.v' class='invisible'><code>pub fn <a href='#method.pause' class='fnname'>pause</a>(&amp;self)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/rodio/spatial_sink.rs.html#104-106' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Pauses playback of this sink.</p>
-
 <p>No effect if already paused.</p>
-
 <p>A paused sound can be resumed with <code>play()</code>.</p>
 </div><h4 id='method.is_paused' class="method"><span id='is_paused.v' class='invisible'><code>pub fn <a href='#method.is_paused' class='fnname'>is_paused</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/rodio/spatial_sink.rs.html#111-113' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Gets if a sound is paused</p>
-
 <p>Sounds can be paused and resumed using pause() and play(). This gets if a sound is paused.</p>
 </div><h4 id='method.detach' class="method"><span id='detach.v' class='invisible'><code>pub fn <a href='#method.detach' class='fnname'>detach</a>(self)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/rodio/spatial_sink.rs.html#117-119' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Destroys the sink without stopping the sounds that are still playing.</p>
@@ -106,20 +111,22 @@ multiply each sample by this value.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

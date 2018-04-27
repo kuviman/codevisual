@@ -10,8 +10,11 @@
     <title>cgmath::Matrix2 - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Struct Matrix2</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#fields">Fields</a><div class="sidebar-links"><a href="#structfield.x">x</a><a href="#structfield.y">y</a></div><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.new">new</a><a href="#method.from_cols">from_cols</a><a href="#method.look_at">look_at</a><a href="#method.from_angle">from_angle</a><a href="#method.cast">cast</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Copy">Copy</a><a href="#impl-Clone">Clone</a><a href="#impl-PartialEq">PartialEq</a><a href="#impl-Zero">Zero</a><a href="#impl-One">One</a><a href="#impl-VectorSpace">VectorSpace</a><a href="#impl-Matrix">Matrix</a><a href="#impl-SquareMatrix">SquareMatrix</a><a href="#impl-ApproxEq">ApproxEq</a><a href="#impl-Neg">Neg</a><a href="#impl-Mul%3CS%3E">Mul&lt;S&gt;</a><a href="#impl-Div%3CS%3E">Div&lt;S&gt;</a><a href="#impl-Rem%3CS%3E">Rem&lt;S&gt;</a><a href="#impl-MulAssign%3CS%3E">MulAssign&lt;S&gt;</a><a href="#impl-DivAssign%3CS%3E">DivAssign&lt;S&gt;</a><a href="#impl-RemAssign%3CS%3E">RemAssign&lt;S&gt;</a><a href="#impl-Add%3CMatrix2%3CS%3E%3E">Add&lt;Matrix2&lt;S&gt;&gt;</a><a href="#impl-Add%3C%26%27a%20Matrix2%3CS%3E%3E">Add&lt;&amp;&#39;a Matrix2&lt;S&gt;&gt;</a><a href="#impl-Sub%3CMatrix2%3CS%3E%3E">Sub&lt;Matrix2&lt;S&gt;&gt;</a><a href="#impl-Sub%3C%26%27a%20Matrix2%3CS%3E%3E">Sub&lt;&amp;&#39;a Matrix2&lt;S&gt;&gt;</a><a href="#impl-AddAssign%3CMatrix2%3CS%3E%3E">AddAssign&lt;Matrix2&lt;S&gt;&gt;</a><a href="#impl-SubAssign%3CMatrix2%3CS%3E%3E">SubAssign&lt;Matrix2&lt;S&gt;&gt;</a><a href="#impl-Sum%3CMatrix2%3CS%3E%3E">Sum&lt;Matrix2&lt;S&gt;&gt;</a><a href="#impl-Sum%3C%26%27a%20Matrix2%3CS%3E%3E">Sum&lt;&amp;&#39;a Matrix2&lt;S&gt;&gt;</a><a href="#impl-Product">Product</a><a href="#impl-Product%3C%26%27a%20Matrix2%3CS%3E%3E">Product&lt;&amp;&#39;a Matrix2&lt;S&gt;&gt;</a><a href="#impl-Mul%3CMatrix2%3Cusize%3E%3E">Mul&lt;Matrix2&lt;usize&gt;&gt;</a><a href="#impl-Mul%3C%26%27a%20Matrix2%3Cusize%3E%3E">Mul&lt;&amp;&#39;a Matrix2&lt;usize&gt;&gt;</a><a href="#impl-Div%3CMatrix2%3Cusize%3E%3E">Div&lt;Matrix2&lt;usize&gt;&gt;</a><a href="#impl-Div%3C%26%27a%20Matrix2%3Cusize%3E%3E">Div&lt;&amp;&#39;a Matrix2&lt;usize&gt;&gt;</a><a href="#impl-Rem%3CMatrix2%3Cusize%3E%3E">Rem&lt;Matrix2&lt;usize&gt;&gt;</a><a href="#impl-Rem%3C%26%27a%20Matrix2%3Cusize%3E%3E">Rem&lt;&amp;&#39;a Matrix2&lt;usize&gt;&gt;</a><a href="#impl-Mul%3CMatrix2%3Cu8%3E%3E">Mul&lt;Matrix2&lt;u8&gt;&gt;</a><a href="#impl-Mul%3C%26%27a%20Matrix2%3Cu8%3E%3E">Mul&lt;&amp;&#39;a Matrix2&lt;u8&gt;&gt;</a><a href="#impl-Div%3CMatrix2%3Cu8%3E%3E">Div&lt;Matrix2&lt;u8&gt;&gt;</a><a href="#impl-Div%3C%26%27a%20Matrix2%3Cu8%3E%3E">Div&lt;&amp;&#39;a Matrix2&lt;u8&gt;&gt;</a><a href="#impl-Rem%3CMatrix2%3Cu8%3E%3E">Rem&lt;Matrix2&lt;u8&gt;&gt;</a><a href="#impl-Rem%3C%26%27a%20Matrix2%3Cu8%3E%3E">Rem&lt;&amp;&#39;a Matrix2&lt;u8&gt;&gt;</a><a href="#impl-Mul%3CMatrix2%3Cu16%3E%3E">Mul&lt;Matrix2&lt;u16&gt;&gt;</a><a href="#impl-Mul%3C%26%27a%20Matrix2%3Cu16%3E%3E">Mul&lt;&amp;&#39;a Matrix2&lt;u16&gt;&gt;</a><a href="#impl-Div%3CMatrix2%3Cu16%3E%3E">Div&lt;Matrix2&lt;u16&gt;&gt;</a><a href="#impl-Div%3C%26%27a%20Matrix2%3Cu16%3E%3E">Div&lt;&amp;&#39;a Matrix2&lt;u16&gt;&gt;</a><a href="#impl-Rem%3CMatrix2%3Cu16%3E%3E">Rem&lt;Matrix2&lt;u16&gt;&gt;</a><a href="#impl-Rem%3C%26%27a%20Matrix2%3Cu16%3E%3E">Rem&lt;&amp;&#39;a Matrix2&lt;u16&gt;&gt;</a><a href="#impl-Mul%3CMatrix2%3Cu32%3E%3E">Mul&lt;Matrix2&lt;u32&gt;&gt;</a><a href="#impl-Mul%3C%26%27a%20Matrix2%3Cu32%3E%3E">Mul&lt;&amp;&#39;a Matrix2&lt;u32&gt;&gt;</a><a href="#impl-Div%3CMatrix2%3Cu32%3E%3E">Div&lt;Matrix2&lt;u32&gt;&gt;</a><a href="#impl-Div%3C%26%27a%20Matrix2%3Cu32%3E%3E">Div&lt;&amp;&#39;a Matrix2&lt;u32&gt;&gt;</a><a href="#impl-Rem%3CMatrix2%3Cu32%3E%3E">Rem&lt;Matrix2&lt;u32&gt;&gt;</a><a href="#impl-Rem%3C%26%27a%20Matrix2%3Cu32%3E%3E">Rem&lt;&amp;&#39;a Matrix2&lt;u32&gt;&gt;</a><a href="#impl-Mul%3CMatrix2%3Cu64%3E%3E">Mul&lt;Matrix2&lt;u64&gt;&gt;</a><a href="#impl-Mul%3C%26%27a%20Matrix2%3Cu64%3E%3E">Mul&lt;&amp;&#39;a Matrix2&lt;u64&gt;&gt;</a><a href="#impl-Div%3CMatrix2%3Cu64%3E%3E">Div&lt;Matrix2&lt;u64&gt;&gt;</a><a href="#impl-Div%3C%26%27a%20Matrix2%3Cu64%3E%3E">Div&lt;&amp;&#39;a Matrix2&lt;u64&gt;&gt;</a><a href="#impl-Rem%3CMatrix2%3Cu64%3E%3E">Rem&lt;Matrix2&lt;u64&gt;&gt;</a><a href="#impl-Rem%3C%26%27a%20Matrix2%3Cu64%3E%3E">Rem&lt;&amp;&#39;a Matrix2&lt;u64&gt;&gt;</a><a href="#impl-Mul%3CMatrix2%3Cisize%3E%3E">Mul&lt;Matrix2&lt;isize&gt;&gt;</a><a href="#impl-Mul%3C%26%27a%20Matrix2%3Cisize%3E%3E">Mul&lt;&amp;&#39;a Matrix2&lt;isize&gt;&gt;</a><a href="#impl-Div%3CMatrix2%3Cisize%3E%3E">Div&lt;Matrix2&lt;isize&gt;&gt;</a><a href="#impl-Div%3C%26%27a%20Matrix2%3Cisize%3E%3E">Div&lt;&amp;&#39;a Matrix2&lt;isize&gt;&gt;</a><a href="#impl-Rem%3CMatrix2%3Cisize%3E%3E">Rem&lt;Matrix2&lt;isize&gt;&gt;</a><a href="#impl-Rem%3C%26%27a%20Matrix2%3Cisize%3E%3E">Rem&lt;&amp;&#39;a Matrix2&lt;isize&gt;&gt;</a><a href="#impl-Mul%3CMatrix2%3Ci8%3E%3E">Mul&lt;Matrix2&lt;i8&gt;&gt;</a><a href="#impl-Mul%3C%26%27a%20Matrix2%3Ci8%3E%3E">Mul&lt;&amp;&#39;a Matrix2&lt;i8&gt;&gt;</a><a href="#impl-Div%3CMatrix2%3Ci8%3E%3E">Div&lt;Matrix2&lt;i8&gt;&gt;</a><a href="#impl-Div%3C%26%27a%20Matrix2%3Ci8%3E%3E">Div&lt;&amp;&#39;a Matrix2&lt;i8&gt;&gt;</a><a href="#impl-Rem%3CMatrix2%3Ci8%3E%3E">Rem&lt;Matrix2&lt;i8&gt;&gt;</a><a href="#impl-Rem%3C%26%27a%20Matrix2%3Ci8%3E%3E">Rem&lt;&amp;&#39;a Matrix2&lt;i8&gt;&gt;</a><a href="#impl-Mul%3CMatrix2%3Ci16%3E%3E">Mul&lt;Matrix2&lt;i16&gt;&gt;</a><a href="#impl-Mul%3C%26%27a%20Matrix2%3Ci16%3E%3E">Mul&lt;&amp;&#39;a Matrix2&lt;i16&gt;&gt;</a><a href="#impl-Div%3CMatrix2%3Ci16%3E%3E">Div&lt;Matrix2&lt;i16&gt;&gt;</a><a href="#impl-Div%3C%26%27a%20Matrix2%3Ci16%3E%3E">Div&lt;&amp;&#39;a Matrix2&lt;i16&gt;&gt;</a><a href="#impl-Rem%3CMatrix2%3Ci16%3E%3E">Rem&lt;Matrix2&lt;i16&gt;&gt;</a><a href="#impl-Rem%3C%26%27a%20Matrix2%3Ci16%3E%3E">Rem&lt;&amp;&#39;a Matrix2&lt;i16&gt;&gt;</a><a href="#impl-Mul%3CMatrix2%3Ci32%3E%3E">Mul&lt;Matrix2&lt;i32&gt;&gt;</a><a href="#impl-Mul%3C%26%27a%20Matrix2%3Ci32%3E%3E">Mul&lt;&amp;&#39;a Matrix2&lt;i32&gt;&gt;</a><a href="#impl-Div%3CMatrix2%3Ci32%3E%3E">Div&lt;Matrix2&lt;i32&gt;&gt;</a><a href="#impl-Div%3C%26%27a%20Matrix2%3Ci32%3E%3E">Div&lt;&amp;&#39;a Matrix2&lt;i32&gt;&gt;</a><a href="#impl-Rem%3CMatrix2%3Ci32%3E%3E">Rem&lt;Matrix2&lt;i32&gt;&gt;</a><a href="#impl-Rem%3C%26%27a%20Matrix2%3Ci32%3E%3E">Rem&lt;&amp;&#39;a Matrix2&lt;i32&gt;&gt;</a><a href="#impl-Mul%3CMatrix2%3Ci64%3E%3E">Mul&lt;Matrix2&lt;i64&gt;&gt;</a><a href="#impl-Mul%3C%26%27a%20Matrix2%3Ci64%3E%3E">Mul&lt;&amp;&#39;a Matrix2&lt;i64&gt;&gt;</a><a href="#impl-Div%3CMatrix2%3Ci64%3E%3E">Div&lt;Matrix2&lt;i64&gt;&gt;</a><a href="#impl-Div%3C%26%27a%20Matrix2%3Ci64%3E%3E">Div&lt;&amp;&#39;a Matrix2&lt;i64&gt;&gt;</a><a href="#impl-Rem%3CMatrix2%3Ci64%3E%3E">Rem&lt;Matrix2&lt;i64&gt;&gt;</a><a href="#impl-Rem%3C%26%27a%20Matrix2%3Ci64%3E%3E">Rem&lt;&amp;&#39;a Matrix2&lt;i64&gt;&gt;</a><a href="#impl-Mul%3CMatrix2%3Cf32%3E%3E">Mul&lt;Matrix2&lt;f32&gt;&gt;</a><a href="#impl-Mul%3C%26%27a%20Matrix2%3Cf32%3E%3E">Mul&lt;&amp;&#39;a Matrix2&lt;f32&gt;&gt;</a><a href="#impl-Div%3CMatrix2%3Cf32%3E%3E">Div&lt;Matrix2&lt;f32&gt;&gt;</a><a href="#impl-Div%3C%26%27a%20Matrix2%3Cf32%3E%3E">Div&lt;&amp;&#39;a Matrix2&lt;f32&gt;&gt;</a><a href="#impl-Rem%3CMatrix2%3Cf32%3E%3E">Rem&lt;Matrix2&lt;f32&gt;&gt;</a><a href="#impl-Rem%3C%26%27a%20Matrix2%3Cf32%3E%3E">Rem&lt;&amp;&#39;a Matrix2&lt;f32&gt;&gt;</a><a href="#impl-Mul%3CMatrix2%3Cf64%3E%3E">Mul&lt;Matrix2&lt;f64&gt;&gt;</a><a href="#impl-Mul%3C%26%27a%20Matrix2%3Cf64%3E%3E">Mul&lt;&amp;&#39;a Matrix2&lt;f64&gt;&gt;</a><a href="#impl-Div%3CMatrix2%3Cf64%3E%3E">Div&lt;Matrix2&lt;f64&gt;&gt;</a><a href="#impl-Div%3C%26%27a%20Matrix2%3Cf64%3E%3E">Div&lt;&amp;&#39;a Matrix2&lt;f64&gt;&gt;</a><a href="#impl-Rem%3CMatrix2%3Cf64%3E%3E">Rem&lt;Matrix2&lt;f64&gt;&gt;</a><a href="#impl-Rem%3C%26%27a%20Matrix2%3Cf64%3E%3E">Rem&lt;&amp;&#39;a Matrix2&lt;f64&gt;&gt;</a><a href="#impl-Mul%3CVector2%3CS%3E%3E">Mul&lt;Vector2&lt;S&gt;&gt;</a><a href="#impl-Mul%3C%26%27a%20Vector2%3CS%3E%3E">Mul&lt;&amp;&#39;a Vector2&lt;S&gt;&gt;</a><a href="#impl-Mul%3CMatrix2%3CS%3E%3E">Mul&lt;Matrix2&lt;S&gt;&gt;</a><a href="#impl-Mul%3C%26%27a%20Matrix2%3CS%3E%3E">Mul&lt;&amp;&#39;a Matrix2&lt;S&gt;&gt;</a><a href="#impl-Index%3Cusize%3E">Index&lt;usize&gt;</a><a href="#impl-IndexMut%3Cusize%3E">IndexMut&lt;usize&gt;</a><a href="#impl-Into%3C%5B%5BS%3B%202%5D%3B%202%5D%3E">Into&lt;[[S; 2]; 2]&gt;</a><a href="#impl-AsRef%3C%5B%5BS%3B%202%5D%3B%202%5D%3E">AsRef&lt;[[S; 2]; 2]&gt;</a><a href="#impl-AsMut%3C%5B%5BS%3B%202%5D%3B%202%5D%3E">AsMut&lt;[[S; 2]; 2]&gt;</a><a href="#impl-From%3C%5B%5BS%3B%202%5D%3B%202%5D%3E">From&lt;[[S; 2]; 2]&gt;</a><a href="#impl-From%3C%26%27a%20%5B%5BS%3B%202%5D%3B%202%5D%3E">From&lt;&amp;&#39;a [[S; 2]; 2]&gt;</a><a href="#impl-From%3C%26%27a%20mut%20%5B%5BS%3B%202%5D%3B%202%5D%3E">From&lt;&amp;&#39;a mut [[S; 2]; 2]&gt;</a><a href="#impl-AsRef%3C%5BS%3B%204%5D%3E">AsRef&lt;[S; 4]&gt;</a><a href="#impl-AsMut%3C%5BS%3B%204%5D%3E">AsMut&lt;[S; 4]&gt;</a><a href="#impl-From%3C%26%27a%20%5BS%3B%204%5D%3E">From&lt;&amp;&#39;a [S; 4]&gt;</a><a href="#impl-From%3C%26%27a%20mut%20%5BS%3B%204%5D%3E">From&lt;&amp;&#39;a mut [S; 4]&gt;</a><a href="#impl-From%3CMatrix2%3CS%3E%3E">From&lt;Matrix2&lt;S&gt;&gt;</a><a href="#impl-Debug">Debug</a><a href="#impl-Rand">Rand</a><a href="#impl-AsRef%3CMatrix2%3CS%3E%3E">AsRef&lt;Matrix2&lt;S&gt;&gt;</a><a href="#impl-From%3CBasis2%3CS%3E%3E">From&lt;Basis2&lt;S&gt;&gt;</a></div></div><p class='location'><a href='index.html'>cgmath</a></p><script>window.sidebarCurrent = {name: 'Matrix2', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -55,7 +65,6 @@
     pub x: <a class="struct" href="../cgmath/struct.Vector2.html" title="struct cgmath::Vector2">Vector2</a>&lt;S&gt;,
     pub y: <a class="struct" href="../cgmath/struct.Vector2.html" title="struct cgmath::Vector2">Vector2</a>&lt;S&gt;,
 }</pre><div class='docblock'><p>A 2 x 2, column major matrix</p>
-
 <p>This type is marked as <code>#[repr(C)]</code>.</p>
 </div><h2 id='fields' class='fields small-section-header'>
                        Fields<a href='#fields' class='anchor'></a></h2><span id="structfield.x" class="structfield small-section-header">
@@ -757,20 +766,22 @@ of a 4-dimensional identity matrix.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

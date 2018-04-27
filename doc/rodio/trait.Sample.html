@@ -10,8 +10,11 @@
     <title>rodio::Sample - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Trait Sample</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#required-methods">Required Methods</a><div class="sidebar-links"><a href="#tymethod.lerp">lerp</a><a href="#tymethod.amplify">amplify</a><a href="#tymethod.saturating_add">saturating_add</a><a href="#tymethod.zero_value">zero_value</a><a href="#tymethod.to_i16">to_i16</a><a href="#tymethod.to_u16">to_u16</a><a href="#tymethod.to_f32">to_f32</a><a href="#tymethod.from">from</a></div><a class="sidebar-title" href="#foreign-impls">Implementations on Foreign Types</a><div class="sidebar-links"><a href="#impl-Sample">u16</a><a href="#impl-Sample">i16</a><a href="#impl-Sample">f32</a></div><a class="sidebar-title" href="#implementors">Implementors</a></div><p class='location'><a href='index.html'>rodio</a></p><script>window.sidebarCurrent = {name: 'Sample', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -60,9 +70,7 @@
 <div class='item-spacer'></div>    fn <a href='#tymethod.to_f32' class='fnname'>to_f32</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>;
 <div class='item-spacer'></div>    fn <a href='#tymethod.from' class='fnname'>from</a>&lt;S&gt;(_: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>S) -&gt; Self<br>&nbsp;&nbsp;&nbsp; <span class="where">where<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S: <a class="trait" href="../rodio/trait.Sample.html" title="trait rodio::Sample">Sample</a></span>;
 }</pre><div class='docblock'><p>Represents a value of a single sample.</p>
-
 <p>This trait is implemented by default on three types: <code>i16</code>, <code>u16</code> and <code>f32</code>.</p>
-
 <ul>
 <li>For <code>i16</code>, silence corresponds to the value <code>0</code>. The minimum and maximum amplitudes are
 represented by <code>i16::min_value()</code> and <code>i16::max_value()</code> respectively.</li>
@@ -71,7 +79,6 @@ amplitudes are represented by <code>0</code> and <code>u16::max_value()</code> r
 <li>For <code>f32</code>, silence corresponds to the value <code>0.0</code>. The minimum and maximum amplitudes are
 represented by <code>-1.0</code> and <code>1.0</code> respectively.</li>
 </ul>
-
 <p>You can implement this trait on your own type as well if you wish so.</p>
 </div>
             <h2 id='required-methods' class='small-section-header'>
@@ -79,7 +86,6 @@ represented by <code>-1.0</code> and <code>1.0</code> respectively.</li>
             </h2>
             <div class='methods'>
         <h3 id='tymethod.lerp' class='method'><span id='lerp.v' class='invisible'><code>fn <a href='#tymethod.lerp' class='fnname'>lerp</a>(first: Self, second: Self, numerator: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>, denominator: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>) -&gt; Self</code></span></h3><div class='docblock'><p>Linear interpolation between two samples.</p>
-
 <p>The result should be equal to
 <code>first * numerator / denominator + second * (1 - numerator / denominator)</code>.</p>
 </div><h3 id='tymethod.amplify' class='method'><span id='amplify.v' class='invisible'><code>fn <a href='#tymethod.amplify' class='fnname'>amplify</a>(self, value: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>) -&gt; Self</code></span></h3><div class='docblock'><p>Multiplies the value of this sample by the given amount.</p>
@@ -140,20 +146,22 @@ represented by <code>-1.0</code> and <code>1.0</code> respectively.</li>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

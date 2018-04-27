@@ -10,8 +10,11 @@
     <title>cgmath::conv - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <script src="../../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Module conv</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#functions">Functions</a></li></ul></div><p class='location'><a href='../index.html'>cgmath</a></p><script>window.sidebarCurrent = {name: 'conv', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -52,7 +62,6 @@
                </span><a class='srclink' href='../../src/cgmath/conv.rs.html#1-84' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>Constrained conversion functions for assisting in situations where type
 inference is difficult.</p>
-
 <p>For example, when declaring <code>glium</code> uniforms, we need to convert to fixed
 length arrays. We can use the <code>Into</code> trait directly, but it is rather ugly!</p>
 
@@ -72,7 +81,6 @@ length arrays. We can use the <code>Into</code> trait directly, but it is rather
     <span class="ident">matrix</span>: <span class="ident">Into</span>::<span class="op">&lt;</span>[[_; <span class="number">4</span>]; <span class="number">4</span>]<span class="op">&gt;</span>::<span class="ident">into</span>(<span class="ident">matrix</span>),
     <span class="comment">// Yuck!! (ﾉಥ益ಥ）ﾉ﻿ ┻━┻</span>
 };</pre>
-
 <p>Instead, we can use the conversion functions from the <code>conv</code> module:</p>
 
 <pre class="rust rust-example-rendered">
@@ -99,6 +107,7 @@ length arrays. We can use the <code>Into</code> trait directly, but it is rather
                                   title='fn cgmath::conv::array2'>array2</a></td>
                            <td class='docblock-short'>
                                 <p>Force a conversion into a 2-element array.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -106,6 +115,7 @@ length arrays. We can use the <code>Into</code> trait directly, but it is rather
                                   title='fn cgmath::conv::array3'>array3</a></td>
                            <td class='docblock-short'>
                                 <p>Force a conversion into a 3-element array.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -113,6 +123,7 @@ length arrays. We can use the <code>Into</code> trait directly, but it is rather
                                   title='fn cgmath::conv::array4'>array4</a></td>
                            <td class='docblock-short'>
                                 <p>Force a conversion into a 4-element array.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -120,6 +131,7 @@ length arrays. We can use the <code>Into</code> trait directly, but it is rather
                                   title='fn cgmath::conv::array2x2'>array2x2</a></td>
                            <td class='docblock-short'>
                                 <p>Force a conversion into a 2x2-element array.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -127,6 +139,7 @@ length arrays. We can use the <code>Into</code> trait directly, but it is rather
                                   title='fn cgmath::conv::array3x3'>array3x3</a></td>
                            <td class='docblock-short'>
                                 <p>Force a conversion into a 3x3-element array.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -134,6 +147,7 @@ length arrays. We can use the <code>Into</code> trait directly, but it is rather
                                   title='fn cgmath::conv::array4x4'>array4x4</a></td>
                            <td class='docblock-short'>
                                 <p>Force a conversion into a 4x4-element array.</p>
+
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
@@ -148,20 +162,22 @@ length arrays. We can use the <code>Into</code> trait directly, but it is rather
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

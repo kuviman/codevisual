@@ -10,8 +10,11 @@
     <title>stdweb - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Crate stdweb</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#modules">Modules</a></li><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'stdweb', ty: 'mod', relpath: '../'};</script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -52,8 +62,7 @@
                </span><a class='srclink' href='../src/stdweb/lib.rs.html#1-419' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>The goal of this crate is to provide Rust bindings to the Web APIs and to allow
 a high degree of interoperability between Rust and JavaScript.</p>
-
-<h2 id='examples' class='section-header'><a href='#examples'>Examples</a></h2>
+<h2 id="examples" class="section-header"><a href="#examples">Examples</a></h2>
 <p>You can directly embed JavaScript code into Rust:</p>
 
 <pre class="rust rust-example-rendered">
@@ -64,7 +73,6 @@ a high degree of interoperability between Rust and JavaScript.</p>
 };
 
 <span class="macro">println</span><span class="macro">!</span>( <span class="string">&quot;2 + 2 * 2 = {:?}&quot;</span>, <span class="ident">result</span> );</pre>
-
 <p>Closures are also supported:</p>
 
 <pre class="rust rust-example-rendered">
@@ -77,7 +85,6 @@ a high degree of interoperability between Rust and JavaScript.</p>
     <span class="ident">print_hello</span>( <span class="string">&quot;Bob&quot;</span> );
     <span class="ident">print_hello</span>.<span class="ident">drop</span>(); <span class="comment">// Necessary to clean up the closure on Rust&#39;s side.</span>
 }</pre>
-
 <p>You can also pass arbitrary structures thanks to <a href="https://serde.rs/">serde</a>:</p>
 
 <pre class="rust rust-example-rendered">
@@ -93,7 +100,6 @@ a high degree of interoperability between Rust and JavaScript.</p>
     <span class="ident">var</span> <span class="ident">person</span> <span class="op">=</span> @{<span class="ident">person</span>};
     <span class="ident">console</span>.<span class="ident">log</span>( <span class="ident">person</span>.<span class="ident">name</span> <span class="op">+</span> <span class="string">&quot; is &quot;</span> <span class="op">+</span> <span class="ident">person</span>.<span class="ident">age</span> <span class="op">+</span> <span class="string">&quot; years old.&quot;</span> );
 };</pre>
-
 <p>This crate also exposes a number of Web APIs, for example:</p>
 
 <pre class="rust rust-example-rendered">
@@ -103,7 +109,6 @@ a high degree of interoperability between Rust and JavaScript.</p>
         <span class="macro">js</span><span class="macro">!</span>( @{<span class="ident">anchor</span>}.<span class="ident">style</span> <span class="op">=</span> <span class="string">&quot;display: none;&quot;</span>; );
     }
 });</pre>
-
 <p>Exposing Rust functions to JavaScript is supported too:</p>
 
 <pre class="rust rust-example-rendered">
@@ -113,15 +118,11 @@ a high degree of interoperability between Rust and JavaScript.</p>
     <span class="ident">hasher</span>.<span class="ident">update</span>( <span class="ident">string</span>.<span class="ident">as_bytes</span>() );
     <span class="ident">hasher</span>.<span class="ident">digest</span>().<span class="ident">to_string</span>()
 }</pre>
-
 <p>Then you can do this from Node.js:</p>
-
 <pre><code class="language-js">var hasher = require( &quot;hasher.js&quot; ); // Where `hasher.js` is generated from Rust code.
 console.log( hasher.hash( &quot;Hello world!&quot; ) );
 </code></pre>
-
 <p>Or you can take the same <code>.js</code> file and use it in a web browser:</p>
-
 <pre><code class="language-html">&lt;script src=&quot;hasher.js&quot;&gt;&lt;/script&gt;
 &lt;script&gt;
     Rust.hasher.then( function( hasher ) {
@@ -129,15 +130,12 @@ console.log( hasher.hash( &quot;Hello world!&quot; ) );
     });
 &lt;/script&gt;
 </code></pre>
-
-<p>If you&#39;re using <a href="https://parceljs.org/">Parcel</a> you can also use our <a href="https://github.com/koute/parcel-plugin-cargo-web">experimental Parcel plugin</a>;
+<p>If you're using <a href="https://parceljs.org/">Parcel</a> you can also use our <a href="https://github.com/koute/parcel-plugin-cargo-web">experimental Parcel plugin</a>;
 first do this in your existing Parcel project:</p>
 
 <pre class="rust rust-example-rendered">
 $ <span class="ident">npm</span> <span class="ident">install</span> <span class="op">-</span><span class="op">-</span><span class="ident">save</span> <span class="ident">parcel</span><span class="op">-</span><span class="ident">plugin</span><span class="op">-</span><span class="ident">cargo</span><span class="op">-</span><span class="ident">web</span></pre>
-
 <p>And then simply:</p>
-
 <pre><code class="language-js">import hasher from &quot;./hasher/Cargo.toml&quot;;
 console.log( hasher.hash( &quot;Hello world!&quot; ) );
 </code></pre>
@@ -148,6 +146,7 @@ console.log( hasher.hash( &quot;Hello world!&quot; ) );
                                   title='mod stdweb::serde'>serde</a></td>
                            <td class='docblock-short'>
                                 <p>A module with serde-related APIs.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -155,6 +154,7 @@ console.log( hasher.hash( &quot;Hello world!&quot; ) );
                                   title='mod stdweb::traits'>traits</a></td>
                            <td class='docblock-short'>
                                 <p>A module containing reexports of all of our interface traits.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -163,6 +163,7 @@ console.log( hasher.hash( &quot;Hello world!&quot; ) );
                            <td class='docblock-short'>
                                 <p>A module containing stable counterparts to currently
 unstable Rust features.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -170,6 +171,7 @@ unstable Rust features.</p>
                                   title='mod stdweb::web'>web</a></td>
                            <td class='docblock-short'>
                                 <p>A module with bindings to the Web APIs.</p>
+
                            </td>
                        </tr></table><h2 id='macros' class='section-header'><a href="#macros">Macros</a></h2>
 <table>
@@ -178,6 +180,7 @@ unstable Rust features.</p>
                                   title='macro stdweb::console'>console</a></td>
                            <td class='docblock-short'>
                                 <p>Calls methods on the JavaScript <code>console</code> object.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -185,6 +188,7 @@ unstable Rust features.</p>
                                   title='macro stdweb::js'>js</a></td>
                            <td class='docblock-short'>
                                 <p>Embeds JavaScript code into your Rust program.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -192,8 +196,9 @@ unstable Rust features.</p>
                                   title='macro stdweb::js_deserializable'>js_deserializable</a></td>
                            <td class='docblock-short'>
                                 <p>A macro which makes it possible to convert an instance of a given type
-implementing Serde&#39;s <code>Deserialize</code> into a <a href="enum.Value.html">Value</a> using
+implementing Serde's <code>Deserialize</code> into a <a href="enum.Value.html">Value</a> using
 <a href="unstable/trait.TryInto.html">TryInto</a>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -201,7 +206,8 @@ implementing Serde&#39;s <code>Deserialize</code> into a <a href="enum.Value.htm
                                   title='macro stdweb::js_serializable'>js_serializable</a></td>
                            <td class='docblock-short'>
                                 <p>A macro which makes it possible to pass an instance of a given type
-implementing Serde&#39;s <code>Serialize</code> into the <a href="macro.js.html">js!</a> macro.</p>
+implementing Serde's <code>Serialize</code> into the <a href="macro.js.html">js!</a> macro.</p>
+
                            </td>
                        </tr></table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
@@ -210,13 +216,15 @@ implementing Serde&#39;s <code>Serialize</code> into the <a href="macro.js.html"
                                   title='struct stdweb::Array'>Array</a></td>
                            <td class='docblock-short'>
                                 <p>A type representing a JavaScript array.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="struct" href="struct.Null.html"
                                   title='struct stdweb::Null'>Null</a></td>
                            <td class='docblock-short'>
-                                <p>A unit type representing JavaScript&#39;s <code>null</code>.</p>
+                                <p>A unit type representing JavaScript's <code>null</code>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -224,6 +232,7 @@ implementing Serde&#39;s <code>Serialize</code> into the <a href="macro.js.html"
                                   title='struct stdweb::Number'>Number</a></td>
                            <td class='docblock-short'>
                                 <p>A type representing a JavaScript number.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -231,6 +240,7 @@ implementing Serde&#39;s <code>Serialize</code> into the <a href="macro.js.html"
                                   title='struct stdweb::Object'>Object</a></td>
                            <td class='docblock-short'>
                                 <p>A type representing a JavaScript object.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -238,6 +248,7 @@ implementing Serde&#39;s <code>Serialize</code> into the <a href="macro.js.html"
                                   title='struct stdweb::Once'>Once</a></td>
                            <td class='docblock-short'>
                                 <p>A wrapper for passing <code>FnOnce</code> callbacks into the <code>js!</code> macro.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -245,6 +256,7 @@ implementing Serde&#39;s <code>Serialize</code> into the <a href="macro.js.html"
                                   title='struct stdweb::Reference'>Reference</a></td>
                            <td class='docblock-short'>
                                 <p>A type representing a reference to a JavaScript value.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -252,13 +264,15 @@ implementing Serde&#39;s <code>Serialize</code> into the <a href="macro.js.html"
                                   title='struct stdweb::Symbol'>Symbol</a></td>
                            <td class='docblock-short'>
                                 <p>A type representing a JavaScript <code>Symbol</code>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class="struct" href="struct.Undefined.html"
                                   title='struct stdweb::Undefined'>Undefined</a></td>
                            <td class='docblock-short'>
-                                <p>A unit type representing JavaScript&#39;s <code>undefined</code>.</p>
+                                <p>A unit type representing JavaScript's <code>undefined</code>.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -267,6 +281,7 @@ implementing Serde&#39;s <code>Serialize</code> into the <a href="macro.js.html"
                            <td class='docblock-short'>
                                 <p>A wrapper type for exposing raw Rust slices as <code>TypedArray</code>s
 at zero cost without copying.</p>
+
                            </td>
                        </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table>
@@ -275,6 +290,7 @@ at zero cost without copying.</p>
                                   title='enum stdweb::Value'>Value</a></td>
                            <td class='docblock-short'>
                                 <p>A type representing a JavaScript value.</p>
+
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
@@ -283,6 +299,7 @@ at zero cost without copying.</p>
                                   title='trait stdweb::InstanceOf'>InstanceOf</a></td>
                            <td class='docblock-short'>
                                 <p>A trait to check whenever a given <a href="struct.Reference.html">Reference</a> is of a certain type.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -290,6 +307,7 @@ at zero cost without copying.</p>
                                   title='trait stdweb::JsSerialize'>JsSerialize</a></td>
                            <td class='docblock-short'>
                                 <p>A trait for types which can be serialized through the <code>js!</code> macro.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -297,6 +315,7 @@ at zero cost without copying.</p>
                                   title='trait stdweb::ReferenceType'>ReferenceType</a></td>
                            <td class='docblock-short'>
                                 <p>A trait for types which wrap a reference to a JavaScript object.</p>
+
                            </td>
                        </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
 <table>
@@ -304,7 +323,8 @@ at zero cost without copying.</p>
                            <td><a class="fn" href="fn.event_loop.html"
                                   title='fn stdweb::event_loop'>event_loop</a></td>
                            <td class='docblock-short'>
-                                <p>Runs Emscripten&#39;s event loop.</p>
+                                <p>Runs Emscripten's event loop.</p>
+
                            </td>
                        </tr>
                        <tr class=' module-item'>
@@ -312,6 +332,7 @@ at zero cost without copying.</p>
                                   title='fn stdweb::initialize'>initialize</a></td>
                            <td class='docblock-short'>
                                 <p>Initializes the library.</p>
+
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>
@@ -326,20 +347,22 @@ at zero cost without copying.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 

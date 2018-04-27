@@ -10,8 +10,11 @@
     <title>stdweb::web::event::IKeyboardEvent - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../../../dark.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <script src="../../../storage.js"></script>
     
 
     
@@ -33,6 +36,13 @@
         <p class='location'>Trait IKeyboardEvent</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#provided-methods">Provided Methods</a><div class="sidebar-links"><a href="#method.alt_key">alt_key</a><a href="#method.code">code</a><a href="#method.ctrl_key">ctrl_key</a><a href="#method.get_modifier_state">get_modifier_state</a><a href="#method.is_composing">is_composing</a><a href="#method.location">location</a><a href="#method.key">key</a><a href="#method.meta_key">meta_key</a><a href="#method.repeat">repeat</a><a href="#method.shift_key">shift_key</a></div><a class="sidebar-title" href="#implementors">Implementors</a></div><p class='location'><a href='../../index.html'>stdweb</a>::<wbr><a href='../index.html'>web</a>::<wbr><a href='index.html'>event</a></p><script>window.sidebarCurrent = {name: 'IKeyboardEvent', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../../../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../../../theme.js"></script>
     <nav class="sub">
         <form class="search-form js-only">
             <div class="search-container">
@@ -64,7 +74,6 @@
 }</pre><div class='docblock'><p><code>IKeyboardEvent</code> objects describe a user interaction with the
 keyboard. Each event describes a key; the event type identifies
 what kind of activity was performed.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent">(JavaScript docs)</a></p>
 </div>
             <h2 id='provided-methods' class='small-section-header'>
@@ -72,34 +81,24 @@ what kind of activity was performed.</p>
             </h2>
             <div class='methods'>
         <h3 id='method.alt_key' class='method'><span id='alt_key.v' class='invisible'><code>fn <a href='#method.alt_key' class='fnname'>alt_key</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Indicates whether the Alt key was down when this event was fired.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/altKey">(JavaScript docs)</a></p>
 </div><h3 id='method.code' class='method'><span id='code.v' class='invisible'><code>fn <a href='#method.code' class='fnname'>code</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span></h3><div class='docblock'><p>Returns a code value that indicates the physical key pressed on the keyboard.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code">(JavaScript docs)</a></p>
 </div><h3 id='method.ctrl_key' class='method'><span id='ctrl_key.v' class='invisible'><code>fn <a href='#method.ctrl_key' class='fnname'>ctrl_key</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Returns whether the Ctrl key was down when this event was fired.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/ctrlKey">(JavaScript docs)</a></p>
 </div><h3 id='method.get_modifier_state' class='method'><span id='get_modifier_state.v' class='invisible'><code>fn <a href='#method.get_modifier_state' class='fnname'>get_modifier_state</a>(&amp;self, key: <a class="enum" href="../../../stdweb/web/event/enum.ModifierKey.html" title="enum stdweb::web::event::ModifierKey">ModifierKey</a>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Returns whether a modifier key was down when this event was fired.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState">(JavaScript docs)</a></p>
 </div><h3 id='method.is_composing' class='method'><span id='is_composing.v' class='invisible'><code>fn <a href='#method.is_composing' class='fnname'>is_composing</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Returns whether this event was fired during composition.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/isComposing">(JavaScript docs)</a></p>
 </div><h3 id='method.location' class='method'><span id='location.v' class='invisible'><code>fn <a href='#method.location' class='fnname'>location</a>(&amp;self) -&gt; <a class="enum" href="../../../stdweb/web/event/enum.KeyboardLocation.html" title="enum stdweb::web::event::KeyboardLocation">KeyboardLocation</a></code></span></h3><div class='docblock'><p>Returns the location of the key on the keyboard.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/location">(JavaScript docs)</a></p>
 </div><h3 id='method.key' class='method'><span id='key.v' class='invisible'><code>fn <a href='#method.key' class='fnname'>key</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span></h3><div class='docblock'><p>Returns the value of a key or keys pressed by the user.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key">(JavaScript docs)</a></p>
 </div><h3 id='method.meta_key' class='method'><span id='meta_key.v' class='invisible'><code>fn <a href='#method.meta_key' class='fnname'>meta_key</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Indicates whether the Meta key was down when this event was fired.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/metaKey">(JavaScript docs)</a></p>
 </div><h3 id='method.repeat' class='method'><span id='repeat.v' class='invisible'><code>fn <a href='#method.repeat' class='fnname'>repeat</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Indicates whether the key is held down such that it is repeating.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/repeat">(JavaScript docs)</a></p>
 </div><h3 id='method.shift_key' class='method'><span id='shift_key.v' class='invisible'><code>fn <a href='#method.shift_key' class='fnname'>shift_key</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span></h3><div class='docblock'><p>Indicates whether the Shift key was down when this event was fired.</p>
-
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/shiftKey">(JavaScript docs)</a></p>
 </div></div>
         <h2 id='implementors' class='small-section-header'>
@@ -124,20 +123,22 @@ what kind of activity was performed.</p>
                 <h2>Keyboard Shortcuts</h2>
 
                 <dl>
-                    <dt>?</dt>
+                    <dt><kbd>?</kbd></dt>
                     <dd>Show this help dialog</dd>
-                    <dt>S</dt>
+                    <dt><kbd>S</kbd></dt>
                     <dd>Focus the search field</dd>
-                    <dt>↑</dt>
+                    <dt><kbd>↑</kbd></dt>
                     <dd>Move up in search results</dd>
-                    <dt>↓</dt>
+                    <dt><kbd>↓</kbd></dt>
                     <dd>Move down in search results</dd>
-                    <dt>↹</dt>
+                    <dt><kbd>↹</kbd></dt>
                     <dd>Switch tab</dd>
-                    <dt>&#9166;</dt>
+                    <dt><kbd>&#9166;</kbd></dt>
                     <dd>Go to active search result</dd>
-                    <dt style="width:31px;">+ / -</dt>
-                    <dd>Collapse/expand all sections</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
                 </dl>
             </div>
 
