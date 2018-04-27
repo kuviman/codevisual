@@ -41,20 +41,25 @@ impl App {
 impl App {
     pub fn run<G: Game>() {
         let app = Rc::new(App::new(&G::title()));
-        let mut game = G::new(&app);
+        let game = Rc::new(RefCell::new(G::new(&app)));
+        app.window.set_event_handler(Box::new({
+            let game = game.clone();
+            let app = app.clone();
+            move |event| {
+                app.window.handle(&event);
+                game.borrow_mut().handle_event(event);
+            }
+        }));
 
         let mut timer = Timer::new();
         let main_loop = {
             let app = app.clone();
             move || {
-                for event in app.window.get_events() {
-                    game.handle_event(event);
-                }
-
                 let delta_time = timer.tick().min(0.1); // TODO: configure
-                game.update(delta_time);
+                game.borrow_mut().update(delta_time);
 
-                game.draw(&mut app.ugli_context().default_framebuffer());
+                game.borrow_mut()
+                    .draw(&mut app.ugli_context().default_framebuffer());
 
                 app.window.swap_buffers();
             }

@@ -10,6 +10,7 @@ struct Demo {
     time: f64,
     frames: usize,
     fps: usize,
+    last_event: Option<codevisual::Event>,
 }
 
 impl codevisual::Game for Demo {
@@ -19,6 +20,7 @@ impl codevisual::Game for Demo {
             time: 0.0,
             frames: 0,
             fps: 0,
+            last_event: None,
         }
     }
     fn title() -> String {
@@ -42,6 +44,38 @@ impl codevisual::Game for Demo {
             16.0,
             Color::WHITE,
         );
+        let mut pos = vec2(
+            framebuffer.get_size().x as f32 - 10.0,
+            framebuffer.get_size().y as f32 - 26.0,
+        );
+        if let Some(ref event) = self.last_event {
+            self.app.default_font().draw_aligned(
+                framebuffer,
+                &format!("last event: {:?}", event),
+                pos,
+                1.0,
+                16.0,
+                Color::WHITE,
+            );
+            pos.y -= 16.0;
+        }
+        self.app.default_font().draw_aligned(
+            framebuffer,
+            &format!("mouse pos: {:?}", self.app.window().mouse_pos()),
+            pos,
+            1.0,
+            16.0,
+            Color::WHITE,
+        );
+        pos.y -= 16.0;
+        self.app.default_font().draw_aligned(
+            framebuffer,
+            &format!("pressed keys: {:?}", self.app.window().pressed_keys()),
+            pos,
+            1.0,
+            16.0,
+            Color::WHITE,
+        );
     }
     fn update(&mut self, delta_time: f64) {
         self.time += delta_time;
@@ -51,6 +85,9 @@ impl codevisual::Game for Demo {
             self.time = 0.0;
             self.frames = 0;
         }
+    }
+    fn handle_event(&mut self, event: codevisual::Event) {
+        self.last_event = Some(event);
     }
 }
 
