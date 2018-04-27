@@ -7,7 +7,8 @@ pub use self::cursor::*;
 pub use self::events::*;
 
 pub struct Window {
-    #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))] glutin_window: glutin::GlWindow,
+    #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
+    glutin_window: glutin::GlWindow,
     #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
     glutin_events_loop: RefCell<glutin::EventsLoop>,
     pressed_keys: RefCell<HashSet<Key>>,
@@ -20,11 +21,14 @@ impl Window {
     pub fn new(title: &str) -> Self {
         #[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
         js! {
+            @(no_return)
             var canvas = Module.canvas;
-            window.setInterval(function() {
+            function updateCanvasSize() {
                 canvas.width = canvas.clientWidth;
                 canvas.height = canvas.clientHeight;
-            }, 300);
+            };
+            window.setInterval(updateCanvasSize, 300);
+            updateCanvasSize();
         }
         #[cfg(target_os = "emscripten")]
         let window = {
