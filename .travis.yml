@@ -14,7 +14,6 @@ script:
   - (cd codevisual-demo && cargo web test)
 before_deploy:
   - (cd codevisual-demo && cargo web deploy --release)
-  - mv codevisual-demo/target/deploy target/deploy
   - cargo doc --package codevisual
   - mv target/doc target/deploy
   - echo '<meta http-equiv=refresh content=0;url=codevisual/index.html>' > target/deploy/doc/index.html
