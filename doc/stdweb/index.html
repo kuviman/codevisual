@@ -59,7 +59,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/stdweb/lib.rs.html#1-419' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/stdweb/lib.rs.html#1-442' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>The goal of this crate is to provide Rust bindings to the Web APIs and to allow
 a high degree of interoperability between Rust and JavaScript.</p>
 <h2 id="examples" class="section-header"><a href="#examples">Examples</a></h2>
@@ -216,6 +216,16 @@ implementing Serde's <code>Serialize</code> into the <a href="macro.js.html">js!
                                   title='struct stdweb::Array'>Array</a></td>
                            <td class='docblock-short'>
                                 <p>A type representing a JavaScript array.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.DiscardOnDrop.html"
+                                  title='struct stdweb::DiscardOnDrop'>DiscardOnDrop</a></td>
+                           <td class='docblock-short'>
+                                <p>If you have a value which implements <a href="https://docs.rs/discard/%5E1.0.3/discard/trait.Discard.html"><code>Discard</code></a>, you can use
+<a href="struct.DiscardOnDrop.html#method.new"><code>DiscardOnDrop::new(value)</code></a> which will wrap the value.
+When the wrapper is dropped it will automatically call <a href="https://docs.rs/discard/%5E1.0.3/discard/trait.Discard.html#tymethod.discard"><code>value.discard()</code></a>.</p>
 
                            </td>
                        </tr>

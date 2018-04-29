@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `discard` crate.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, discard">
+
+    <title>discard - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    
+    <link rel="stylesheet" type="text/css" href="../dark.css">
+    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <script src="../storage.js"></script>
+    
+
+    
+    
+</head>
+<body class="rustdoc mod">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <div class="sidebar-menu">&#9776;</div>
+        
+        <p class='location'>Crate discard</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'discard', ty: 'mod', relpath: '../'};</script></div>
+    </nav>
+
+    <div class="theme-picker">
+        <button id="theme-picker" aria-label="Pick another theme!">
+            <img src="../brush.svg" width="18" alt="Pick another theme!">
+        </button>
+        <div id="theme-choices"></div>
+    </div>
+    <script src="../theme.js"></script>
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>discard</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../src/discard/lib.rs.html#1-308' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>There are situations where you need to intentionally leak <em>some</em>
+memory but not <em>other</em> memory. This crate can help!</p>
+<p>But before I explain, you are probably wondering: why would I
+want to leak memory in the first place?</p>
+<p>There are certain rare situations where leaking memory is either
+desirable or <em>necessary</em>.</p>
+<p>As an example, let's say I am using <a href="https://crates.io/crates/stdweb">stdweb</a>,
+which lets me use JavaScript APIs in Rust.</p>
+<p>So I write some code like this:</p>
+
+<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><pre class="rust rust-example-rendered ignore">
+<span class="ident">node</span>.<span class="ident">add_event_listener</span>(<span class="op">|</span><span class="ident">event</span>: <span class="ident">ClickEvent</span><span class="op">|</span> {
+    <span class="comment">// ...</span>
+});</pre>
+<p>Seems reasonable, right? But there's a problem: the <code>add_event_listener</code> method
+returns an <code>EventListenerHandle</code>, and when the <code>EventListenerHandle</code> is dropped it
+will remove the event listener.</p>
+<p>Because I'm not using the <code>EventListenerHandle</code>, it is immediately dropped, so it
+receives no events!</p>
+<p>Okay, no problem, just use <a href="https://doc.rust-lang.org/std/mem/fn.forget.html"><code>std::mem::forget</code></a>:</p>
+
+<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><pre class="rust rust-example-rendered ignore">
+<span class="comment">// This will automatically remove the event listener when `handle` is dropped</span>
+<span class="kw">let</span> <span class="ident">handle</span> <span class="op">=</span> <span class="ident">node</span>.<span class="ident">add_event_listener</span>(<span class="op">|</span><span class="ident">event</span>: <span class="ident">ClickEvent</span><span class="op">|</span> {
+    <span class="comment">// ...</span>
+});
+
+<span class="comment">// Now it will no longer remove the event listener</span>
+<span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">forget</span>(<span class="ident">handle</span>);</pre>
+<p>Now the event listener will remain alive forever, which is what I want.</p>
+<p>But there's two problems with this:</p>
+<ol>
+<li>
+<p>I want it to keep the event listener alive forever, but I <em>also</em> want it to clean up any
+unused internal memory. Using <a href="https://doc.rust-lang.org/std/mem/fn.forget.html"><code>std::mem::forget</code></a>
+causes it to leak <strong><em>all</em></strong> of the memory, which is wasteful.</p>
+</li>
+<li>
+<p>There are situations where I want to leak the event listener, and then later <em>unleak</em> it.
+That's not possible with <a href="https://doc.rust-lang.org/std/mem/fn.forget.html"><code>std::mem::forget</code></a>.</p>
+</li>
+</ol>
+<p>The solution to all of these problems is:</p>
+<ol>
+<li>
+<p>The <code>EventListenerHandle</code> should <strong><em>not</em></strong> implement the <a href="https://doc.rust-lang.org/std/ops/trait.Drop.html"><code>Drop</code></a> trait.</p>
+</li>
+<li>
+<p>The <code>EventListenerHandle</code> should implement the <a href="trait.Discard.html"><code>Discard</code></a> trait instead.</p>
+</li>
+<li>
+<p>The <code>add_event_listener</code> method should return <code>DiscardOnDrop&lt;EventListenerHandle&gt;</code>.</p>
+</li>
+</ol>
+<p>Now let's look at what is possible:</p>
+
+<div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><pre class="rust rust-example-rendered ignore">
+<span class="comment">// This will automatically remove the event listener when `handle` is dropped</span>
+<span class="kw">let</span> <span class="ident">handle</span> <span class="op">=</span> <span class="ident">node</span>.<span class="ident">add_event_listener</span>(<span class="op">|</span><span class="ident">event</span>: <span class="ident">ClickEvent</span><span class="op">|</span> {
+    <span class="comment">// ...</span>
+});
+
+<span class="comment">// Now it will no longer remove the event listener, this is similar to `std::mem::forget`</span>
+<span class="kw">let</span> <span class="ident">leaked</span> <span class="op">=</span> <span class="ident">DiscardOnDrop</span>::<span class="ident">leak</span>(<span class="ident">handle</span>);
+
+<span class="comment">// Now it will remove the event listener, even though it was leaked</span>
+<span class="ident">leaked</span>.<span class="ident">discard</span>();</pre>
+<p>There's two huge differences between <a href="struct.DiscardOnDrop.html#method.leak"><code>DiscardOnDrop::leak</code></a>
+and <a href="https://doc.rust-lang.org/std/mem/fn.forget.html"><code>std::mem::forget</code></a>:</p>
+<ol>
+<li>
+<p><a href="https://doc.rust-lang.org/std/mem/fn.forget.html"><code>std::mem::forget</code></a> leaks <strong><em>all</em></strong> of the memory,
+<a href="struct.DiscardOnDrop.html#method.leak"><code>DiscardOnDrop::leak</code></a> leaks the <em>minimal</em>
+amount of memory: unused memory is properly cleaned up.</p>
+</li>
+<li>
+<p>With <a href="https://doc.rust-lang.org/std/mem/fn.forget.html"><code>std::mem::forget</code></a> you cannot
+clean up a value after it has been leaked, but with
+<a href="struct.DiscardOnDrop.html#method.leak"><code>DiscardOnDrop::leak</code></a> you can manually discard
+the value even after it has been leaked.</p>
+</li>
+</ol>
+<p>Most of the time you don't need to worry about any of this:
+<a href="struct.DiscardOnDrop.html"><code>DiscardOnDrop</code></a> will automatically call
+<a href="trait.Discard.html#tymethod.discard"><code>discard</code></a> when it is dropped, so in that situation
+<a href="trait.Discard.html"><code>Discard</code></a> behaves the same as <a href="https://doc.rust-lang.org/std/ops/trait.Drop.html"><code>Drop</code></a>.</p>
+<p>So you can use normal Rust idioms, and everything works as you would expect. You only need to
+worry about <a href="trait.Discard.html"><code>Discard</code></a> when you need to intentionally leak some memory.</p>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.DiscardOnDrop.html"
+                                  title='struct discard::DiscardOnDrop'>DiscardOnDrop</a></td>
+                           <td class='docblock-short'>
+                                <p>If you have a value which implements <a href="trait.Discard.html"><code>Discard</code></a>, you can use
+<a href="struct.DiscardOnDrop.html#method.new"><code>DiscardOnDrop::new(value)</code></a> which will wrap the value.
+When the wrapper is dropped it will automatically call <a href="trait.Discard.html#tymethod.discard"><code>value.discard()</code></a>.</p>
+
+                           </td>
+                       </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.Discard.html"
+                                  title='trait discard::Discard'>Discard</a></td>
+                           <td class='docblock-short'>
+                                <p>This trait is very similar to <a href="https://doc.rust-lang.org/std/ops/trait.Drop.html"><code>Drop</code></a>:
+it allows for cleaning up memory and resources when they are no longer needed.</p>
+
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt><kbd>?</kbd></dt>
+                    <dd>Show this help dialog</dd>
+                    <dt><kbd>S</kbd></dt>
+                    <dd>Focus the search field</dd>
+                    <dt><kbd>↑</kbd></dt>
+                    <dd>Move up in search results</dd>
+                    <dt><kbd>↓</kbd></dt>
+                    <dd>Move down in search results</dd>
+                    <dt><kbd>↹</kbd></dt>
+                    <dd>Switch tab</dd>
+                    <dt><kbd>&#9166;</kbd></dt>
+                    <dd>Go to active search result</dd>
+                    <dt><kbd>+</kbd></dt>
+                    <dd>Expand all sections</dd>
+                    <dt><kbd>-</kbd></dt>
+                    <dd>Collapse all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "discard";
+    </script>
+    <script src="../main.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

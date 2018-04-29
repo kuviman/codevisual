@@ -251,6 +251,9 @@
 <span id="195">195</span>
 <span id="196">196</span>
 <span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> ::<span class="kw-2">*</span>;
 
@@ -263,7 +266,7 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Font</span> {
     <span class="ident">font</span>: <span class="ident">rusttype</span>::<span class="ident">Font</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span>,
     <span class="ident">cache</span>: <span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">rusttype</span>::<span class="ident">gpu_cache</span>::<span class="ident">Cache</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;&gt;</span>,
-    <span class="ident">cache_texture</span>: <span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">ugli</span>::<span class="ident">Texture2d</span><span class="op">&gt;</span>,
+    <span class="ident">cache_texture</span>: <span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">ugli</span>::<span class="ident">Texture</span><span class="op">&gt;</span>,
     <span class="ident">geometry</span>: <span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">ugli</span>::<span class="ident">VertexBuffer</span><span class="op">&lt;</span><span class="ident">Vertex</span><span class="op">&gt;&gt;</span>,
     <span class="ident">program</span>: <span class="ident">ugli</span>::<span class="ident">Program</span>,
 }
@@ -413,6 +416,8 @@
             }
         }
 
+        <span class="kw">let</span> <span class="ident">framebuffer_size</span> <span class="op">=</span> <span class="ident">framebuffer</span>.<span class="ident">get_size</span>();
+
         <span class="ident">ugli</span>::<span class="ident">draw</span>(
             <span class="ident">framebuffer</span>,
             <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">program</span>,
@@ -421,6 +426,7 @@
             <span class="macro">uniforms</span><span class="macro">!</span> {
                 <span class="ident">u_color</span>: <span class="ident">color</span>,
                 <span class="ident">u_cache_texture</span>: <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">cache_texture</span>,
+                <span class="ident">u_framebuffer_size</span>: <span class="ident">framebuffer_size</span>,
             },
             <span class="ident">ugli</span>::<span class="ident">DrawParameters</span> {
                 <span class="ident">depth_func</span>: <span class="prelude-val">None</span>,

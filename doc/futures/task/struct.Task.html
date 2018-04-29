@@ -74,7 +74,7 @@ the future as notifications arrive, until the future terminates.</p>
 <div class='impl-items'><h4 id='method.notify' class="method"><span id='notify.v' class='invisible'><code>pub fn <a href='#method.notify' class='fnname'>notify</a>(&amp;self)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/futures/task_impl/mod.rs.html#117-120' title='goto source code'>[src]</a></span></h4>
 <div class='docblock'><p>Indicate that the task should attempt to poll its future in a timely
 fashion.</p>
-<p>It's typically guaranteed that, for each call to <code>notify</code>, <code>poll</code> will
+<p>It's typically guaranteed that, after calling <code>notify</code>, <code>poll</code> will
 be called at least once subsequently (unless the future has terminated).
 If the task is currently polling its future when <code>notify</code> is called, it
 must poll the future <em>again</em> afterwards, ensuring that all relevant

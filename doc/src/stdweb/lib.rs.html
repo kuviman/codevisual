@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.1/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -473,6 +473,29 @@
 <span id="417">417</span>
 <span id="418">418</span>
 <span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! The goal of this crate is to provide Rust bindings to the Web APIs and to allow</span>
 <span class="doccomment">//! a high degree of interoperability between Rust and JavaScript.</span>
@@ -617,6 +640,8 @@
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">stdweb_derive</span>;
 
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">discard</span>;
+
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">mod</span> <span class="ident">webcore</span>;
 <span class="kw">mod</span> <span class="ident">webapi</span>;
@@ -649,8 +674,10 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">reference_type</span>::<span class="ident">ReferenceType</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">serialization</span>::<span class="ident">JsSerialize</span>;
 
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">discard</span>::<span class="ident">DiscardOnDrop</span>;
+
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;experimental_features_which_may_break_on_minor_version_bumps&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">promise</span>::<span class="ident">Promise</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">promise</span>::{<span class="ident">Promise</span>, <span class="ident">DoneHandle</span>};
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures&quot;</span>,
@@ -688,7 +715,7 @@
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">node</span>::{<span class="ident">INode</span>, <span class="ident">Node</span>, <span class="ident">CloneKind</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">element</span>::{<span class="ident">IElement</span>, <span class="ident">Element</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">text_node</span>::<span class="ident">TextNode</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">html_element</span>::{<span class="ident">IHtmlElement</span>, <span class="ident">HtmlElement</span>};
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">html_element</span>::{<span class="ident">IHtmlElement</span>, <span class="ident">HtmlElement</span>, <span class="ident">Rect</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">window_or_worker</span>::<span class="ident">IWindowOrWorker</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">parent_node</span>::<span class="ident">IParentNode</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">non_element_parent_node</span>::<span class="ident">INonElementParentNode</span>;
@@ -701,8 +728,8 @@
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">typed_array</span>::<span class="ident">TypedArray</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">file_reader</span>::{<span class="ident">FileReader</span>, <span class="ident">FileReaderResult</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">history</span>::<span class="ident">History</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">web_socket</span>::{<span class="ident">WebSocket</span>, <span class="ident">SocketCloseCode</span>, <span class="ident">SocketBinaryType</span>};
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">rendering_context</span>::{<span class="ident">RenderingContext</span>, <span class="ident">CanvasRenderingContext2d</span>, <span class="ident">CanvasGradient</span>, <span class="ident">CanvasPattern</span>, <span class="ident">CanvasStyle</span>, <span class="ident">ImageData</span>, <span class="ident">TextMetrics</span>};
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">web_socket</span>::{<span class="ident">WebSocket</span>, <span class="ident">SocketCloseCode</span>, <span class="ident">SocketBinaryType</span>, <span class="ident">SocketReadyState</span>};
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">rendering_context</span>::{<span class="ident">RenderingContext</span>, <span class="ident">CanvasRenderingContext2d</span>, <span class="ident">CanvasGradient</span>, <span class="ident">CanvasPattern</span>, <span class="ident">CanvasStyle</span>, <span class="ident">CompositeOperation</span>, <span class="ident">FillRule</span>, <span class="ident">ImageData</span>, <span class="ident">LineCap</span>, <span class="ident">LineJoin</span>, <span class="ident">Repetition</span>, <span class="ident">TextAlign</span>, <span class="ident">TextBaseline</span>, <span class="ident">TextMetrics</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">mutation_observer</span>::{<span class="ident">MutationObserver</span>, <span class="ident">MutationObserverHandle</span>, <span class="ident">MutationObserverInit</span>, <span class="ident">MutationRecord</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">xml_http_request</span>::{<span class="ident">XmlHttpRequest</span>, <span class="ident">XhrReadyState</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">blob</span>::{<span class="ident">IBlob</span>, <span class="ident">Blob</span>};
@@ -715,13 +742,16 @@
             <span class="ident">HierarchyRequestError</span>,
             <span class="ident">IndexSizeError</span>,
             <span class="ident">InvalidAccessError</span>,
+            <span class="ident">InvalidStateError</span>,
             <span class="ident">NotFoundError</span>,
             <span class="ident">NotSupportedError</span>,
             <span class="ident">SecurityError</span>,
             <span class="ident">SyntaxError</span>,
-            <span class="ident">TypeError</span>
+            <span class="ident">TypeError</span>,
+            <span class="ident">InvalidCharacterError</span>
         };
         <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">error</span>::{<span class="ident">IError</span>, <span class="ident">Error</span>};
+        <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">rendering_context</span>::{<span class="ident">AddColorStopError</span>, <span class="ident">DrawImageError</span>, <span class="ident">GetImageDataError</span>};
     }
 
     <span class="doccomment">/// A module containing HTML DOM elements.</span>
@@ -749,8 +779,23 @@
             <span class="ident">MouseDownEvent</span>,
             <span class="ident">MouseUpEvent</span>,
             <span class="ident">MouseMoveEvent</span>,
-
+            <span class="ident">MouseOverEvent</span>,
+            <span class="ident">MouseOutEvent</span>,
             <span class="ident">MouseButton</span>
+        };
+
+        <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">events</span>::<span class="ident">pointer</span>::{
+            <span class="ident">IPointerEvent</span>,
+            <span class="ident">PointerOverEvent</span>,
+            <span class="ident">PointerEnterEvent</span>,
+            <span class="ident">PointerDownEvent</span>,
+            <span class="ident">PointerMoveEvent</span>,
+            <span class="ident">PointerUpEvent</span>,
+            <span class="ident">PointerCancelEvent</span>,
+            <span class="ident">PointerOutEvent</span>,
+            <span class="ident">PointerLeaveEvent</span>,
+            <span class="ident">GotPointerCaptureEvent</span>,
+            <span class="ident">LostPointerCaptureEvent</span>,
         };
 
         <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">events</span>::<span class="ident">keyboard</span>::{
@@ -842,6 +887,7 @@
         <span class="ident">IEvent</span>,
         <span class="ident">IUiEvent</span>,
         <span class="ident">IMouseEvent</span>,
+        <span class="ident">IPointerEvent</span>,
         <span class="ident">IKeyboardEvent</span>,
         <span class="ident">IProgressEvent</span>,
         <span class="ident">IMessageEvent</span>,

@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Color","RGBA color. Component values should be in range [0.0, 1.0]."]]});

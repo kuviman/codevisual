@@ -59,7 +59,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../../src/stdweb/lib.rs.html#260-328' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../../src/stdweb/lib.rs.html#267-350' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>A module containing JavaScript DOM events.</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
@@ -108,6 +108,14 @@ element.</p>
                            <td class='docblock-short'>
                                 <p>The <code>FocusEvent</code> is fired when an element has received focus. The main
 difference between this event and focusin is that only the latter bubbles.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.GotPointerCaptureEvent.html"
+                                  title='struct stdweb::web::event::GotPointerCaptureEvent'>GotPointerCaptureEvent</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>GotPointerCaptureEvent</code> fires when an element receives pointer capture</p>
 
                            </td>
                        </tr>
@@ -181,6 +189,14 @@ or <code>ProgressLoadEvent</code> have been dispatched.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class="struct" href="struct.LostPointerCaptureEvent.html"
+                                  title='struct stdweb::web::event::LostPointerCaptureEvent'>LostPointerCaptureEvent</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>LostPointerCaptureEvent</code> fires when an element loses pointer capture</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class="struct" href="struct.MouseDownEvent.html"
                                   title='struct stdweb::web::event::MouseDownEvent'>MouseDownEvent</a></td>
                            <td class='docblock-short'>
@@ -199,6 +215,24 @@ is moved while over an element.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class="struct" href="struct.MouseOutEvent.html"
+                                  title='struct stdweb::web::event::MouseOutEvent'>MouseOutEvent</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>MouseOutEvent</code> is fired when a pointing device (usually a mouse)
+is moved off the element that has the listener attached or off one of its children.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.MouseOverEvent.html"
+                                  title='struct stdweb::web::event::MouseOverEvent'>MouseOverEvent</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>MouseOverEvent</code> is fired when a pointing device (usually a mouse)
+is moved onto the element that has the listener attached or onto one of its children.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class="struct" href="struct.MouseUpEvent.html"
                                   title='struct stdweb::web::event::MouseUpEvent'>MouseUpEvent</a></td>
                            <td class='docblock-short'>
@@ -208,13 +242,85 @@ over an element.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class="struct" href="struct.PointerCancelEvent.html"
+                                  title='struct stdweb::web::event::PointerCancelEvent'>PointerCancelEvent</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>PointerCancelEvent</code> is fired when a pointer will no longer produce events
+(for example the device is deactivated), or if the pointer starts a gesture after a pointerdown event
+(for example panning, zooming, or drag and drop)</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.PointerDownEvent.html"
+                                  title='struct stdweb::web::event::PointerDownEvent'>PointerDownEvent</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>PointerDownEvent</code> is fired when a pointer becomes active</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.PointerEnterEvent.html"
+                                  title='struct stdweb::web::event::PointerEnterEvent'>PointerEnterEvent</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>PointerEnterEvent</code> is fired when a pointing device is moved into
+the hit test boundaries of an element or its descendants. This event does not bubble.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.PointerLeaveEvent.html"
+                                  title='struct stdweb::web::event::PointerLeaveEvent'>PointerLeaveEvent</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>PointerLeaveEvent</code> is fired when the pointer moves out of the hit test boundaries
+of an element and it's descendants. This can include when a finger leaves a touch screen
+or a pen leaves the detectable hover range. This event does not bubble.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.PointerMoveEvent.html"
+                                  title='struct stdweb::web::event::PointerMoveEvent'>PointerMoveEvent</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>PointerMoveEvent</code> is fired when a pointer changes coordinates</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.PointerOutEvent.html"
+                                  title='struct stdweb::web::event::PointerOutEvent'>PointerOutEvent</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>PointerOutEvent</code> is fired when the pointer moves out of the hit test boundaries of an element.
+This can include when a finger leaves a touch screen or a pen leaves the detectable hover range.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.PointerOverEvent.html"
+                                  title='struct stdweb::web::event::PointerOverEvent'>PointerOverEvent</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>PointerOverEvent</code> is fired when a pointing device is moved into
+a element's hit test boundaries.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.PointerUpEvent.html"
+                                  title='struct stdweb::web::event::PointerUpEvent'>PointerUpEvent</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>PointerUpEvent</code> is fired when a pointer is no longer active</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class="struct" href="struct.PopStateEvent.html"
                                   title='struct stdweb::web::event::PopStateEvent'>PopStateEvent</a></td>
                            <td class='docblock-short'>
-                                <p>A popstate event is dispatched to the window every time the active history entry changes
+                                <p>A <code>PopStateEvent</code> is dispatched to the window every time the active history entry changes
 between two history entries for the same document. If the history entry being activated was
-created by a call to history.push_state() or was affected by a call to history.replace_state(),
-the popstate event's state property contains a copy of the history entry's state object.</p>
+created by a call to <code>history.push_state()</code> or was affected by a call to
+<code>history.replace_state()</code>, the <code>PopStateEvent</code>'s state property contains a copy of the history
+entry's state object.</p>
 
                            </td>
                        </tr>
@@ -412,6 +518,16 @@ what kind of activity was performed.</p>
                            <td class='docblock-short'>
                                 <p>The <code>IMouseEvent</code> interface represents events that occur due to the user
 interacting with a pointing device (such as a mouse).</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="trait" href="trait.IPointerEvent.html"
+                                  title='trait stdweb::web::event::IPointerEvent'>IPointerEvent</a></td>
+                           <td class='docblock-short'>
+                                <p>The <code>IPointerEvent</code> interface represents the state of a DOM event produced by a pointer
+such as the geometry of the contact point, the device type that generated the event, the
+amount of pressure that was applied on the contact surface, etc.</p>
 
                            </td>
                        </tr>

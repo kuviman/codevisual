@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/git/checkouts/ugli-8fb7e17b8fd1bfa0/1220158/ugli/src/framebuffer/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/git/checkouts/ugli-8fb7e17b8fd1bfa0/b69765c/ugli/src/framebuffer/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -202,43 +202,23 @@
 <span id="146">146</span>
 <span id="147">147</span>
 <span id="148">148</span>
-<span id="149">149</span>
-<span id="150">150</span>
-<span id="151">151</span>
-<span id="152">152</span>
-<span id="153">153</span>
-<span id="154">154</span>
-<span id="155">155</span>
-<span id="156">156</span>
-<span id="157">157</span>
-<span id="158">158</span>
-<span id="159">159</span>
-<span id="160">160</span>
-<span id="161">161</span>
-<span id="162">162</span>
-<span id="163">163</span>
-<span id="164">164</span>
-<span id="165">165</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> ::<span class="kw-2">*</span>;
 
 <span class="kw">mod</span> <span class="ident">fbo</span>;
-
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="self">self</span>::<span class="ident">fbo</span>::<span class="kw-2">*</span>;
-
 <span class="kw">mod</span> <span class="ident">read</span>;
 
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="self">self</span>::<span class="ident">fbo</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">read</span>::<span class="kw-2">*</span>;
 
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ColorAttachmentRead</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="prelude-val">None</span>,
-    <span class="ident">Texture</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Texture2d</span>),
+    <span class="ident">Texture</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Texture</span>),
 }
 
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DepthAttachmentRead</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="prelude-val">None</span>,
     <span class="ident">Renderbuffer</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Renderbuffer</span><span class="op">&lt;</span><span class="ident">DepthComponent</span><span class="op">&gt;</span>),
-    <span class="ident">Texture</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">DepthTexture</span>),
 }
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FramebufferRead</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
@@ -285,18 +265,6 @@
                 }
                 <span class="comment">// TODO: update/check size</span>
             }
-            <span class="ident">DepthAttachmentRead</span>::<span class="ident">Texture</span>(<span class="kw-2">ref</span> <span class="ident">texture</span>) <span class="op">=&gt;</span> {
-                <span class="kw">unsafe</span> {
-                    <span class="ident">gl</span>::<span class="ident">FramebufferTexture2D</span>(
-                        <span class="ident">gl</span>::<span class="ident">FRAMEBUFFER</span>,
-                        <span class="ident">gl</span>::<span class="ident">DEPTH_ATTACHMENT</span>,
-                        <span class="ident">gl</span>::<span class="ident">TEXTURE_2D</span>,
-                        <span class="ident">texture</span>.<span class="ident">handle</span>,
-                        <span class="number">0</span>,
-                    );
-                }
-                <span class="ident">size</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">texture</span>.<span class="ident">get_size</span>());
-            }
         }
         <span class="ident">fbo</span>.<span class="ident">check</span>();
         <span class="self">Self</span> {
@@ -326,13 +294,12 @@
 
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ColorAttachment</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="prelude-val">None</span>,
-    <span class="ident">Texture</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Texture2d</span>),
+    <span class="ident">Texture</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Texture</span>),
 }
 
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DepthAttachment</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="prelude-val">None</span>,
     <span class="ident">Renderbuffer</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Renderbuffer</span><span class="op">&lt;</span><span class="ident">DepthComponent</span><span class="op">&gt;</span>),
-    <span class="ident">Texture</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">DepthTexture</span>),
 }
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Framebuffer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
@@ -353,7 +320,6 @@
                     <span class="ident">DepthAttachment</span>::<span class="ident">Renderbuffer</span>(<span class="ident">renderbuffer</span>) <span class="op">=&gt;</span> {
                         <span class="ident">DepthAttachmentRead</span>::<span class="ident">Renderbuffer</span>(<span class="ident">renderbuffer</span>)
                     }
-                    <span class="ident">DepthAttachment</span>::<span class="ident">Texture</span>(<span class="ident">texture</span>) <span class="op">=&gt;</span> <span class="ident">DepthAttachmentRead</span>::<span class="ident">Texture</span>(<span class="ident">texture</span>),
                 },
             ),
         }

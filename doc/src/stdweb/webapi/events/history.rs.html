@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.1/src/webapi/events/history.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webapi/events/history.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>history.rs.html -- source</title>
@@ -180,6 +180,15 @@
 <span id="124">124</span>
 <span id="125">125</span>
 <span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">value</span>::{<span class="ident">Reference</span>, <span class="ident">Value</span>};
 <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">try_from</span>::<span class="ident">TryInto</span>;
@@ -226,10 +235,19 @@
     }
 }
 
-<span class="doccomment">/// A popstate event is dispatched to the window every time the active history entry changes</span>
+<span class="doccomment">/// A `PopStateEvent` is dispatched to the window every time the active history entry changes</span>
 <span class="doccomment">/// between two history entries for the same document. If the history entry being activated was</span>
-<span class="doccomment">/// created by a call to history.push_state() or was affected by a call to history.replace_state(),</span>
-<span class="doccomment">/// the popstate event&#39;s state property contains a copy of the history entry&#39;s state object.</span>
+<span class="doccomment">/// created by a call to `history.push_state()` or was affected by a call to</span>
+<span class="doccomment">/// `history.replace_state()`, the `PopStateEvent`&#39;s state property contains a copy of the history</span>
+<span class="doccomment">/// entry&#39;s state object.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Note that just calling `history.push_state()` or `history.replace_state()` won&#39;t trigger a</span>
+<span class="doccomment">/// `PopStateEvent`. The `PopStateEvent` is only triggered by doing a browser action such as a</span>
+<span class="doccomment">/// clicking on the back button (or calling `history.back()`). And the event is only</span>
+<span class="doccomment">/// triggered when the user navigates between two history entries for the same document.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Browsers tend to handle the `PopStateEvent` differently on page load. Chrome and Safari always</span>
+<span class="doccomment">/// emit a `PopStateEvent` on page load, but Firefox doesn&#39;t.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// [(Javascript docs)](https://developer.mozilla.org/en-US/docs/Web/API/PopStateEvent)</span>
 <span class="comment">// https://html.spec.whatwg.org/#event-popstate</span>

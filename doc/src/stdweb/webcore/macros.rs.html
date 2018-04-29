@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.1/src/webcore/macros.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webcore/macros.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>macros.rs.html -- source</title>
@@ -831,6 +831,26 @@
 <span id="775">775</span>
 <span id="776">776</span>
 <span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
 </pre><pre class="rust ">
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">next</span> {
     (<span class="ident">empty</span>) <span class="op">=&gt;</span> {};
@@ -1298,6 +1318,8 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">///</span>
+<span class="doccomment">/// ## Regular Usage</span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// let name = &quot;Bob&quot;;</span>
 <span class="doccomment">/// let result = js! {</span>
@@ -1306,6 +1328,20 @@
 <span class="doccomment">/// };</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// println!( &quot;2 + 2 = {:?}&quot;, result );</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Note: you **must** include the `return ...;` statement to get a value.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ## No Return</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// If you don&#39;t need to return a value from your snippet you can add a @(no_return) attribute to</span>
+<span class="doccomment">/// slightly improve performance.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// let name = &quot;Bob&quot;;</span>
+<span class="doccomment">/// js! { @(no_return)</span>
+<span class="doccomment">///     console.log( &quot;Hello &quot; + @{name} + &quot;!&quot; );</span>
+<span class="doccomment">/// };</span>
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">js</span> {
@@ -1502,10 +1538,14 @@
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">error_enum_boilerplate</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">error_name</span>:<span class="ident">ident</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span>),<span class="kw-2">*</span>) <span class="op">=&gt;</span> {
+    ($( <span class="attribute">#[ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">error_meta</span>:<span class="ident">meta</span> ]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">error_name</span>:<span class="ident">ident</span>, $( $( <span class="attribute">#[ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_meta</span>:<span class="ident">meta</span> ]</span> )<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span>),<span class="kw-2">*</span>) <span class="op">=&gt;</span> {
+        $( <span class="attribute">#[ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">error_meta</span> ]</span> )<span class="op">*</span>
         <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
         <span class="kw">pub</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">error_name</span> {
-            $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>)),<span class="op">*</span>
+            $(
+                $( <span class="attribute">#[ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant_meta</span> ]</span> )<span class="op">*</span>
+                <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>)
+            ),<span class="op">*</span>
         }
 
         <span class="kw">impl</span> <span class="ident">TryFrom</span><span class="op">&lt;</span>::<span class="ident">webcore</span>::<span class="ident">value</span>::<span class="ident">Value</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">error_name</span> {

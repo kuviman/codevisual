@@ -59,7 +59,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/stdweb/webcore/macros.rs.html#477-485' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../src/stdweb/webcore/macros.rs.html#493-501' title='goto source code'>[src]</a></span></h1>
 <pre class="rust macro">
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">js</span> {
     (@($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">flags</span>:<span class="ident">tt</span>),<span class="kw-2">*</span>) $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">token</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> { ... };
@@ -78,7 +78,7 @@ You need to call <code>.drop()</code> on the callback from the JavaScript side t
 </ul>
 <p>You can pass Rust expressions into the JavaScript code with <code>@{...expr...}</code>.
 The value returned by this macro is an instance of <a href="enum.Value.html">Value</a>.</p>
-<h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1>
+<h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1><h2 id="regular-usage" class="section-header"><a href="#regular-usage">Regular Usage</a></h2>
 <pre class="rust rust-example-rendered">
 <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Bob&quot;</span>;
 <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="macro">js</span><span class="macro">!</span> {
@@ -87,6 +87,16 @@ The value returned by this macro is an instance of <a href="enum.Value.html">Val
 };
 
 <span class="macro">println</span><span class="macro">!</span>( <span class="string">&quot;2 + 2 = {:?}&quot;</span>, <span class="ident">result</span> );</pre>
+<p>Note: you <strong>must</strong> include the <code>return ...;</code> statement to get a value.</p>
+<h2 id="no-return" class="section-header"><a href="#no-return">No Return</a></h2>
+<p>If you don't need to return a value from your snippet you can add a @(no_return) attribute to
+slightly improve performance.</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;Bob&quot;</span>;
+<span class="macro">js</span><span class="macro">!</span> { @(<span class="ident">no_return</span>)
+    <span class="ident">console</span>.<span class="ident">log</span>( <span class="string">&quot;Hello &quot;</span> <span class="op">+</span> @{<span class="ident">name</span>} <span class="op">+</span> <span class="string">&quot;!&quot;</span> );
+};</pre>
 </div></section>
     <section id='search' class="content hidden"></section>
 

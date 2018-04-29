@@ -33,7 +33,7 @@
     <nav class="sidebar">
         <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Module error</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li></ul></div><p class='location'><a href='../../index.html'>stdweb</a>::<wbr><a href='../index.html'>web</a></p><script>window.sidebarCurrent = {name: 'error', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div>
+        <p class='location'>Module error</p><div class="sidebar-elems"><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#traits">Traits</a></li></ul></div><p class='location'><a href='../../index.html'>stdweb</a>::<wbr><a href='../index.html'>web</a></p><script>window.sidebarCurrent = {name: 'error', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script></div>
     </nav>
 
     <div class="theme-picker">
@@ -59,7 +59,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../../src/stdweb/lib.rs.html#235-249' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../../src/stdweb/lib.rs.html#239-256' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>A module containing error types.</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
@@ -105,6 +105,22 @@ occurs.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class="struct" href="struct.InvalidCharacterError.html"
+                                  title='struct stdweb::web::error::InvalidCharacterError'>InvalidCharacterError</a></td>
+                           <td class='docblock-short'>
+                                <p>Used to indicate the string contains one or more characters which are invalid.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="struct" href="struct.InvalidStateError.html"
+                                  title='struct stdweb::web::error::InvalidStateError'>InvalidStateError</a></td>
+                           <td class='docblock-short'>
+                                <p>Occurs when an object is in an invalid state.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class="struct" href="struct.NotFoundError.html"
                                   title='struct stdweb::web::error::NotFoundError'>NotFoundError</a></td>
                            <td class='docblock-short'>
@@ -141,6 +157,31 @@ occurs.</p>
                                   title='struct stdweb::web::error::TypeError'>TypeError</a></td>
                            <td class='docblock-short'>
                                 <p>Used to indicate an unsuccessful operation when none of the other NativeError objects are an appropriate indication of the failure cause.</p>
+
+                           </td>
+                       </tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.AddColorStopError.html"
+                                  title='enum stdweb::web::error::AddColorStopError'>AddColorStopError</a></td>
+                           <td class='docblock-short'>
+                                <p>A enum of the exceptions that CanvasGradient.add_color_stop() may throw</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.DrawImageError.html"
+                                  title='enum stdweb::web::error::DrawImageError'>DrawImageError</a></td>
+                           <td class='docblock-short'>
+                                <p>A enum of the exceptions that CanvasRenderingContext2D.draw_image() and similar may throw</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.GetImageDataError.html"
+                                  title='enum stdweb::web::error::GetImageDataError'>GetImageDataError</a></td>
+                           <td class='docblock-short'>
+                                <p>A enum of the exceptions that CanvasRenderingContext2D.get_image_data() may throw</p>
 
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>

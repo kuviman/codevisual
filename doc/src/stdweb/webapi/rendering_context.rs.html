@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.1/src/webapi/rendering_context.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webapi/rendering_context.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>rendering_context.rs.html -- source</title>
@@ -1421,6 +1421,74 @@
 <span id="1365">1365</span>
 <span id="1366">1366</span>
 <span id="1367">1367</span>
+<span id="1368">1368</span>
+<span id="1369">1369</span>
+<span id="1370">1370</span>
+<span id="1371">1371</span>
+<span id="1372">1372</span>
+<span id="1373">1373</span>
+<span id="1374">1374</span>
+<span id="1375">1375</span>
+<span id="1376">1376</span>
+<span id="1377">1377</span>
+<span id="1378">1378</span>
+<span id="1379">1379</span>
+<span id="1380">1380</span>
+<span id="1381">1381</span>
+<span id="1382">1382</span>
+<span id="1383">1383</span>
+<span id="1384">1384</span>
+<span id="1385">1385</span>
+<span id="1386">1386</span>
+<span id="1387">1387</span>
+<span id="1388">1388</span>
+<span id="1389">1389</span>
+<span id="1390">1390</span>
+<span id="1391">1391</span>
+<span id="1392">1392</span>
+<span id="1393">1393</span>
+<span id="1394">1394</span>
+<span id="1395">1395</span>
+<span id="1396">1396</span>
+<span id="1397">1397</span>
+<span id="1398">1398</span>
+<span id="1399">1399</span>
+<span id="1400">1400</span>
+<span id="1401">1401</span>
+<span id="1402">1402</span>
+<span id="1403">1403</span>
+<span id="1404">1404</span>
+<span id="1405">1405</span>
+<span id="1406">1406</span>
+<span id="1407">1407</span>
+<span id="1408">1408</span>
+<span id="1409">1409</span>
+<span id="1410">1410</span>
+<span id="1411">1411</span>
+<span id="1412">1412</span>
+<span id="1413">1413</span>
+<span id="1414">1414</span>
+<span id="1415">1415</span>
+<span id="1416">1416</span>
+<span id="1417">1417</span>
+<span id="1418">1418</span>
+<span id="1419">1419</span>
+<span id="1420">1420</span>
+<span id="1421">1421</span>
+<span id="1422">1422</span>
+<span id="1423">1423</span>
+<span id="1424">1424</span>
+<span id="1425">1425</span>
+<span id="1426">1426</span>
+<span id="1427">1427</span>
+<span id="1428">1428</span>
+<span id="1429">1429</span>
+<span id="1430">1430</span>
+<span id="1431">1431</span>
+<span id="1432">1432</span>
+<span id="1433">1433</span>
+<span id="1434">1434</span>
+<span id="1435">1435</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">value</span>::{<span class="ident">Reference</span>, <span class="ident">ConversionError</span>};
 <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">try_from</span>::{<span class="ident">TryFrom</span>, <span class="ident">TryInto</span>};
@@ -1484,36 +1552,62 @@
 <span class="attribute">#[<span class="ident">reference</span>(<span class="ident">instance_of</span> <span class="op">=</span> <span class="string">&quot;TextMetrics&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TextMetrics</span>(<span class="ident">Reference</span>);
 
-<span class="doccomment">/// The type of compositing operation to apply when drawing new shapes, where type is a string </span>
-<span class="doccomment">/// identifying which of the twelve compositing operations to use.</span>
-<span class="doccomment">/// </span>
+<span class="doccomment">/// The type of compositing operation to apply when drawing new shapes</span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// [(JavaScript docs)](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalCompositeOperation)</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CompositeOperation</span> {
+    <span class="doccomment">/// Draws new shapes over existing canvas content</span>
     <span class="ident">SourceOver</span>,
+    <span class="doccomment">/// Draws new shapes over existing canvas content, but only where existing canvas content overlaps. Anything not in that area becomes transparent.</span>
     <span class="ident">SourceIn</span>,
+    <span class="doccomment">/// New shapes are drawn where there is no existing canvas content. Everything else (including old canvas content) is made transparent.</span>
     <span class="ident">SourceOut</span>,
+    <span class="doccomment">/// Draws new shapes only where there is existing canvas content, over existing canvas content</span>
     <span class="ident">SourceAtop</span>,
+    <span class="doccomment">/// Draws new shapes behind existing canvas content</span>
     <span class="ident">DestinationOver</span>,
+    <span class="doccomment">/// Keeps existing canvas content where it overlaps with the new shape. Everything outside the overlap is made transparent.</span>
     <span class="ident">DestinationIn</span>,
+    <span class="doccomment">/// The existing content is kept where it doesn&#39;t overlap with the new shape. Everything else, including the new shape area, is made transparent.</span>
+    <span class="ident">DestinationOut</span>,
+    <span class="doccomment">/// Existing content is kept only where it overlaps with the new shape. The new shape is drawn behind the existing content.</span>
     <span class="ident">DestinationAtop</span>,
+    <span class="doccomment">/// Where both shapes overlap, the new color is determined by adding color values</span>
     <span class="ident">Lighter</span>,
+    <span class="doccomment">/// Only the new shape is shown</span>
     <span class="ident">Copy</span>,
+    <span class="doccomment">/// Where both shapes overlap, make it transparent</span>
     <span class="ident">Xor</span>,
+    <span class="doccomment">/// The pixels of the new and old layer are multiplied. (Pixel values are in the range of [0,1], so this makes a darker picture)</span>
     <span class="ident">Multiply</span>,
+    <span class="doccomment">/// Pixels from both new and old are inverted, multiplied together, then inverted again. (Pixel values are in the range of [0,1], so this makes a lighter picture)</span>
     <span class="ident">Screen</span>,
+    <span class="doccomment">/// Applies Multiply to dark colors in the existing content, and Screen to bright colors in the existing content</span>
     <span class="ident">Overlay</span>,
+    <span class="doccomment">/// Retains the darkest pixels</span>
     <span class="ident">Darken</span>,
+    <span class="doccomment">/// Retains the lighest pixels</span>
     <span class="ident">Lighten</span>,
+    <span class="doccomment">/// Divides the bottom layer by the inverted top layer.</span>
     <span class="ident">ColorDodge</span>,
+    <span class="doccomment">/// Divides the inverted bottom layer by the top layer, and then inverts the result.</span>
     <span class="ident">ColorBurn</span>,
+    <span class="doccomment">/// A combination of multiply and screen like overlay, but with top and bottom layer swapped.</span>
     <span class="ident">HardLight</span>,
+    <span class="doccomment">/// A softer version of hard-light. Pure black or white does not result in pure black or white.</span>
     <span class="ident">SoftLight</span>,
+    <span class="doccomment">/// Subtracts the bottom layer from the top layer or the other way round to always get a positive value.</span>
     <span class="ident">Difference</span>,
+    <span class="doccomment">/// Like difference, but with lower contrast.</span>
     <span class="ident">Exclusion</span>,
+    <span class="doccomment">/// Preserves the luma and chroma of the bottom layer, while adopting the hue of the top layer.</span>
     <span class="ident">Hue</span>,
+    <span class="doccomment">/// Preserves the luma and hue of the bottom layer, while adopting the chroma of the top layer.</span>
     <span class="ident">Saturation</span>,
+    <span class="doccomment">/// Preserves the luma of the bottom layer, while adopting the hue and chroma of the top layer.</span>
     <span class="ident">Color</span>,
+    <span class="doccomment">/// Preserves the hue and chroma of the bottom layer, while adopting the luma of the top layer.</span>
     <span class="ident">Luminosity</span>
 }
 
@@ -1523,7 +1617,9 @@
 <span class="comment">// https://html.spec.whatwg.org/#canvasfillrule</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">FillRule</span> {
+    <span class="doccomment">/// [Non-zero winding rule](https://en.wikipedia.org/wiki/Nonzero-rule)</span>
     <span class="ident">NonZero</span>,
+    <span class="doccomment">/// [Even-odd winding rule](https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule)</span>
     <span class="ident">EvenOdd</span>
 }
 
@@ -1544,8 +1640,11 @@
 <span class="comment">// https://html.spec.whatwg.org/#canvaslinecap</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LineCap</span> {
+    <span class="doccomment">/// The ends of lines are squared off at the endpoints</span>
     <span class="ident">Butt</span>,
+    <span class="doccomment">/// The ends of lines are rounded</span>
     <span class="ident">Round</span>,
+    <span class="doccomment">/// The ends of lines are squared off by adding a box with an equal width and half the height of the line&#39;s thickness.</span>
     <span class="ident">Square</span>
 }
 
@@ -1557,8 +1656,11 @@
 <span class="comment">// https://html.spec.whatwg.org/#canvaslinejoin</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LineJoin</span> {
+    <span class="doccomment">/// Fills an additional triangular area</span>
     <span class="ident">Bevel</span>,
+    <span class="doccomment">/// Rounds off the corners of a shape</span>
     <span class="ident">Round</span>,
+    <span class="doccomment">/// Connected segments are joined by extending their outside edges to connect at a single point</span>
     <span class="ident">Miter</span>
 }
 
@@ -1567,9 +1669,13 @@
 <span class="doccomment">/// [(JavaScript docs)](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/createPattern)</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Repetition</span> {
+    <span class="doccomment">/// Repeat in both directions</span>
     <span class="ident">Repeat</span>,
+    <span class="doccomment">/// Repeat horizontally</span>
     <span class="ident">RepeatX</span>,
+    <span class="doccomment">/// Repeat vertically</span>
     <span class="ident">RepeatY</span>,
+    <span class="doccomment">/// Don&#39;t repeat</span>
     <span class="ident">NoRepeat</span>
 }
 
@@ -1579,10 +1685,15 @@
 <span class="comment">// https://html.spec.whatwg.org/#canvastextalign</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TextAlign</span> {
+    <span class="doccomment">/// Text is left-aligned</span>
     <span class="ident">Left</span>,
+    <span class="doccomment">/// Text is right-aligned</span>
     <span class="ident">Right</span>,
+    <span class="doccomment">/// Text is centered</span>
     <span class="ident">Center</span>,
+    <span class="doccomment">/// Text is aligned at the normal start of the line for the current locale</span>
     <span class="ident">Start</span>,
+    <span class="doccomment">/// Text is aligned at the normal end of the line for the current locale</span>
     <span class="ident">End</span>
 }
 
@@ -1592,27 +1703,50 @@
 <span class="comment">// https://html.spec.whatwg.org/#canvastextbaseline</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TextBaseline</span> {
+    <span class="doccomment">/// Text baseline is top of the em square</span>
     <span class="ident">Top</span>,
+    <span class="doccomment">/// Text baseline is the hanging baseline.</span>
     <span class="ident">Hanging</span>,
+    <span class="doccomment">/// Text baseline is the middle of the em square</span>
     <span class="ident">Middle</span>,
+    <span class="doccomment">/// Text baseline is the normal alphabetic baseline. (default)</span>
     <span class="ident">Alphabetic</span>,
+    <span class="doccomment">/// Text baseline is the ideographic baseline</span>
     <span class="ident">Ideographic</span>,
+    <span class="doccomment">/// Text baseline is the bottom of the bounding box.</span>
     <span class="ident">Bottom</span>
 }
 
 <span class="macro">error_enum_boilerplate</span><span class="macro">!</span> {
+    <span class="doccomment">/// A enum of the exceptions that CanvasGradient.add_color_stop() may throw</span>
+    <span class="comment">// https://html.spec.whatwg.org/multipage/canvas.html#dom-canvasgradient-addcolorstop</span>
     <span class="ident">AddColorStopError</span>,
-    <span class="ident">SyntaxError</span>, <span class="ident">IndexSizeError</span>
+    <span class="doccomment">/// A SyntaxError if the color could not be parsed as a valid CSS color</span>
+    <span class="ident">SyntaxError</span>,
+    <span class="doccomment">/// An IndexSizeError if the offset was not between 0 and 1, inclusive</span>
+    <span class="ident">IndexSizeError</span>
 }
 
 <span class="macro">error_enum_boilerplate</span><span class="macro">!</span> {
+    <span class="doccomment">/// A enum of the exceptions that CanvasRenderingContext2D.draw_image() and similar may throw</span>
     <span class="ident">DrawImageError</span>,
-    <span class="ident">IndexSizeError</span>, <span class="ident">InvalidStateError</span>, <span class="ident">NotSupportedError</span>, <span class="ident">TypeError</span>
+    <span class="doccomment">/// An IndexSizeError if the source or destination rectangle has an width or height of 0</span>
+    <span class="ident">IndexSizeError</span>,
+    <span class="doccomment">/// An InvalidStateError if the image has no image data</span>
+    <span class="ident">InvalidStateError</span>,
+    <span class="doccomment">/// A NotSupportedError</span>
+    <span class="ident">NotSupportedError</span>,
+    <span class="doccomment">/// A TypeError if the specified source element isn&#39;t supported</span>
+    <span class="ident">TypeError</span>
 }
 
 <span class="macro">error_enum_boilerplate</span><span class="macro">!</span> {
+    <span class="doccomment">/// A enum of the exceptions that CanvasRenderingContext2D.get_image_data() may throw</span>
     <span class="ident">GetImageDataError</span>,
-    <span class="ident">IndexSizeError</span>, <span class="ident">SecurityError</span>
+    <span class="doccomment">/// An IndexSizeError if thw width or height is 0</span>
+    <span class="ident">IndexSizeError</span>,
+    <span class="doccomment">/// A SecurityError</span>
+    <span class="ident">SecurityError</span>
 }
 
 <span class="kw">impl</span> <span class="ident">TryFrom</span><span class="op">&lt;</span><span class="ident">Value</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CanvasStyle</span> {
@@ -1711,7 +1845,7 @@
     <span class="comment">// https://html.spec.whatwg.org/#2dcontext:dom-context-2d-canvas</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_canvas</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">CanvasElement</span> {
         <span class="macro">js</span><span class="macro">!</span> (
-            @{<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>}.<span class="ident">canvas</span>;
+            <span class="kw">return</span> @{<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>}.<span class="ident">canvas</span>;
         ).<span class="ident">try_into</span>().<span class="ident">unwrap</span>()
     }
 
@@ -1824,6 +1958,7 @@
             <span class="string">&quot;source-atop&quot;</span> <span class="op">=&gt;</span> <span class="ident">CompositeOperation</span>::<span class="ident">SourceAtop</span>,
             <span class="string">&quot;destination-over&quot;</span> <span class="op">=&gt;</span> <span class="ident">CompositeOperation</span>::<span class="ident">DestinationOver</span>,
             <span class="string">&quot;destination-in&quot;</span> <span class="op">=&gt;</span> <span class="ident">CompositeOperation</span>::<span class="ident">DestinationIn</span>,
+            <span class="string">&quot;destination-out&quot;</span> <span class="op">=&gt;</span> <span class="ident">CompositeOperation</span>::<span class="ident">DestinationOut</span>,
             <span class="string">&quot;destination-atop&quot;</span> <span class="op">=&gt;</span> <span class="ident">CompositeOperation</span>::<span class="ident">DestinationAtop</span>,
             <span class="string">&quot;lighter&quot;</span> <span class="op">=&gt;</span> <span class="ident">CompositeOperation</span>::<span class="ident">Lighter</span>,
             <span class="string">&quot;copy&quot;</span> <span class="op">=&gt;</span> <span class="ident">CompositeOperation</span>::<span class="ident">Copy</span>,
@@ -1861,6 +1996,7 @@
             <span class="ident">CompositeOperation</span>::<span class="ident">SourceAtop</span> <span class="op">=&gt;</span> <span class="string">&quot;source-atop&quot;</span>,
             <span class="ident">CompositeOperation</span>::<span class="ident">DestinationOver</span> <span class="op">=&gt;</span> <span class="string">&quot;destination-over&quot;</span>,
             <span class="ident">CompositeOperation</span>::<span class="ident">DestinationIn</span> <span class="op">=&gt;</span> <span class="string">&quot;destination-in&quot;</span>,
+            <span class="ident">CompositeOperation</span>::<span class="ident">DestinationOut</span> <span class="op">=&gt;</span> <span class="string">&quot;destination-out&quot;</span>,
             <span class="ident">CompositeOperation</span>::<span class="ident">DestinationAtop</span> <span class="op">=&gt;</span> <span class="string">&quot;destination-atop&quot;</span>,
             <span class="ident">CompositeOperation</span>::<span class="ident">Lighter</span> <span class="op">=&gt;</span> <span class="string">&quot;lighter&quot;</span>,
             <span class="ident">CompositeOperation</span>::<span class="ident">Copy</span> <span class="op">=&gt;</span> <span class="string">&quot;copy&quot;</span>,

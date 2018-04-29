@@ -33,7 +33,7 @@
     <nav class="sidebar">
         <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Trait IHtmlElement</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#provided-methods">Provided Methods</a><div class="sidebar-links"><a href="#method.focus">focus</a><a href="#method.blur">blur</a><a href="#method.dataset">dataset</a><a href="#method.offset_width">offset_width</a><a href="#method.offset_height">offset_height</a><a href="#method.inner_text">inner_text</a></div><a class="sidebar-title" href="#implementors">Implementors</a></div><p class='location'><a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>traits</a></p><script>window.sidebarCurrent = {name: 'IHtmlElement', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+        <p class='location'>Trait IHtmlElement</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#provided-methods">Provided Methods</a><div class="sidebar-links"><a href="#method.focus">focus</a><a href="#method.blur">blur</a><a href="#method.dataset">dataset</a><a href="#method.get_bounding_client_rect">get_bounding_client_rect</a><a href="#method.offset_width">offset_width</a><a href="#method.offset_height">offset_height</a><a href="#method.inner_text">inner_text</a></div><a class="sidebar-title" href="#implementors">Implementors</a></div><p class='location'><a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>traits</a></p><script>window.sidebarCurrent = {name: 'IHtmlElement', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
     <div class="theme-picker">
@@ -59,11 +59,12 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/stdweb/webapi/html_element.rs.html#12-79' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/stdweb/webapi/html_element.rs.html#94-170' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait IHtmlElement: <a class="trait" href="../../stdweb/web/trait.IElement.html" title="trait stdweb::web::IElement">IElement</a> {
     fn <a href='#method.focus' class='fnname'>focus</a>(&amp;self) { ... }
 <div class='item-spacer'></div>    fn <a href='#method.blur' class='fnname'>blur</a>(&amp;self) { ... }
 <div class='item-spacer'></div>    fn <a href='#method.dataset' class='fnname'>dataset</a>(&amp;self) -&gt; <a class="struct" href="../../stdweb/web/struct.StringMap.html" title="struct stdweb::web::StringMap">StringMap</a> { ... }
+<div class='item-spacer'></div>    fn <a href='#method.get_bounding_client_rect' class='fnname'>get_bounding_client_rect</a>(&amp;self) -&gt; <a class="struct" href="../../stdweb/web/struct.Rect.html" title="struct stdweb::web::Rect">Rect</a> { ... }
 <div class='item-spacer'></div>    fn <a href='#method.offset_width' class='fnname'>offset_width</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a> { ... }
 <div class='item-spacer'></div>    fn <a href='#method.offset_height' class='fnname'>offset_height</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a> { ... }
 <div class='item-spacer'></div>    fn <a href='#method.inner_text' class='fnname'>inner_text</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a> { ... }
@@ -81,6 +82,8 @@
 </div><h3 id='method.dataset' class='method'><span id='dataset.v' class='invisible'><code>fn <a href='#method.dataset' class='fnname'>dataset</a>(&amp;self) -&gt; <a class="struct" href="../../stdweb/web/struct.StringMap.html" title="struct stdweb::web::StringMap">StringMap</a></code></span></h3><div class='docblock'><p>Allows access, both in reading and writing, to all of the custom data attributes (data-*)
 set on the element, either in HTML or in the DOM.</p>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset">(JavaScript docs)</a></p>
+</div><h3 id='method.get_bounding_client_rect' class='method'><span id='get_bounding_client_rect.v' class='invisible'><code>fn <a href='#method.get_bounding_client_rect' class='fnname'>get_bounding_client_rect</a>(&amp;self) -&gt; <a class="struct" href="../../stdweb/web/struct.Rect.html" title="struct stdweb::web::Rect">Rect</a></code></span></h3><div class='docblock'><p>Returns the size of an element and its position relative to the viewport.
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect">(JavaScript docs)</a></p>
 </div><h3 id='method.offset_width' class='method'><span id='offset_width.v' class='invisible'><code>fn <a href='#method.offset_width' class='fnname'>offset_width</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a></code></span></h3><div class='docblock'><p>Returns the layout width of an element. Typically, an element's offsetWidth is a
 measurement which includes the element borders, the element horizontal padding, the
 element vertical scrollbar (if present, if rendered) and the element CSS width.</p>
@@ -97,7 +100,7 @@ standard in 2016 after being adopted by all major browser vendors.</p>
           Implementors<a href='#implementors' class='anchor'></a>
         </h2>
         <ul class='item-list' id='implementors-list'>
-    <li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_element.rs.html#93' title='goto source code'>[src]</a></div><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/struct.HtmlElement.html" title="struct stdweb::web::HtmlElement">HtmlElement</a></code></li>
+    <li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_element.rs.html#184' title='goto source code'>[src]</a></div><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/struct.HtmlElement.html" title="struct stdweb::web::HtmlElement">HtmlElement</a></code></li>
 <li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/image.rs.html#22' title='goto source code'>[src]</a></div><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/html_element/struct.ImageElement.html" title="struct stdweb::web::html_element::ImageElement">ImageElement</a></code></li>
 <li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/input.rs.html#21' title='goto source code'>[src]</a></div><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/html_element/struct.InputElement.html" title="struct stdweb::web::html_element::InputElement">InputElement</a></code></li>
 <li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/textarea.rs.html#20' title='goto source code'>[src]</a></div><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/html_element/struct.TextAreaElement.html" title="struct stdweb::web::html_element::TextAreaElement">TextAreaElement</a></code></li>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.1/src/webapi/dom_exception.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webapi/dom_exception.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>dom_exception.rs.html -- source</title>
@@ -202,6 +202,28 @@
 <span id="146">146</span>
 <span id="147">147</span>
 <span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">value</span>::<span class="ident">Reference</span>;
 <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">error</span>::{<span class="ident">IError</span>, <span class="ident">Error</span>};
@@ -325,6 +347,28 @@
 <span class="kw">impl</span> <span class="ident">IDomException</span> <span class="kw">for</span> <span class="ident">NotSupportedError</span> {}
 
 <span class="macro">error_boilerplate</span><span class="macro">!</span> { <span class="ident">NotSupportedError</span>, <span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;NotSupportedError&quot;</span> }
+
+<span class="doccomment">/// Used to indicate the string contains one or more characters which are invalid.</span>
+<span class="comment">// https://heycam.github.io/webidl/#invalidcharactererror</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">ReferenceType</span>)]</span>
+<span class="attribute">#[<span class="ident">reference</span>(<span class="ident">subclass_of</span>(<span class="ident">Error</span>, <span class="ident">DomException</span>))]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InvalidCharacterError</span>( <span class="ident">Reference</span> );
+
+<span class="kw">impl</span> <span class="ident">IError</span> <span class="kw">for</span> <span class="ident">InvalidCharacterError</span> {}
+<span class="kw">impl</span> <span class="ident">IDomException</span> <span class="kw">for</span> <span class="ident">InvalidCharacterError</span> {}
+
+<span class="macro">error_boilerplate</span><span class="macro">!</span> { <span class="ident">InvalidCharacterError</span>, <span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;InvalidCharacterError&quot;</span> }
+
+<span class="doccomment">/// Used to indicate that a pointer id passed as an argument was for some reason invalid.</span>
+<span class="comment">// https://w3c.github.io/pointerevents/#extensions-to-the-element-interface</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">ReferenceType</span>)]</span>
+<span class="attribute">#[<span class="ident">reference</span>(<span class="ident">subclass_of</span>(<span class="ident">Error</span>, <span class="ident">DomException</span>))]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InvalidPointerId</span>( <span class="ident">Reference</span> );
+
+<span class="kw">impl</span> <span class="ident">IError</span> <span class="kw">for</span> <span class="ident">InvalidPointerId</span> {}
+<span class="kw">impl</span> <span class="ident">IDomException</span> <span class="kw">for</span> <span class="ident">InvalidPointerId</span> {}
+
+<span class="macro">error_boilerplate</span><span class="macro">!</span> { <span class="ident">InvalidPointerId</span>, <span class="ident">name</span> <span class="op">=</span> <span class="string">&quot;InvalidPointerId&quot;</span> }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">test</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;web_test&quot;</span>))]</span>
 <span class="kw">mod</span> <span class="ident">test</span> {

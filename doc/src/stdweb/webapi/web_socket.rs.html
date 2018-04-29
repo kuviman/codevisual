@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.1/src/webapi/web_socket.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webapi/web_socket.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>web_socket.rs.html -- source</title>
@@ -395,6 +395,7 @@
 <span id="339">339</span>
 <span id="340">340</span>
 <span id="341">341</span>
+<span id="342">342</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">value</span>::{<span class="ident">Value</span>, <span class="ident">Reference</span>, <span class="ident">ConversionError</span>};
 <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">try_from</span>::{<span class="ident">TryFrom</span>, <span class="ident">TryInto</span>};
@@ -504,6 +505,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [(JavaScript docs)](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket#Ready_state_constants)</span>
 <span class="comment">// https://html.spec.whatwg.org/#dom-websocket-readystate</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SocketReadyState</span> {
     <span class="ident">Connecting</span> <span class="op">=</span> <span class="number">0</span>,
@@ -602,7 +604,7 @@
     <span class="doccomment">/// [(JavaScript docs)](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket)</span>
     <span class="comment">// https://html.spec.whatwg.org/#the-websocket-interface:dom-websocket-readystate</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ready_state</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">SocketReadyState</span> {
-        <span class="macro">js</span><span class="macro">!</span>( <span class="kw">return</span> @{<span class="self">self</span>}.<span class="ident">protocol</span>; ).<span class="ident">try_into</span>().<span class="ident">unwrap</span>()
+        <span class="macro">js</span><span class="macro">!</span>( <span class="kw">return</span> @{<span class="self">self</span>}.<span class="ident">readyState</span>; ).<span class="ident">try_into</span>().<span class="ident">unwrap</span>()
     }
 
     <span class="doccomment">/// Returns the URL as resolved by the constructor. This is always an absolute URL.</span>

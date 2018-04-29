@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/git/checkouts/ugli-8fb7e17b8fd1bfa0/1220158/ugli/src/draw/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/git/checkouts/ugli-8fb7e17b8fd1bfa0/b69765c/ugli/src/draw/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -308,11 +308,6 @@
 <span id="252">252</span>
 <span id="253">253</span>
 <span id="254">254</span>
-<span id="255">255</span>
-<span id="256">256</span>
-<span id="257">257</span>
-<span id="258">258</span>
-<span id="259">259</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> ::<span class="kw-2">*</span>;
 
@@ -373,10 +368,6 @@
     <span class="kw">let</span> <span class="ident">draw_parameters</span> <span class="op">=</span> <span class="ident">draw_parameters</span>.<span class="ident">borrow</span>();
     <span class="ident">draw_parameters</span>.<span class="ident">apply</span>(<span class="ident">framebuffer</span>.<span class="ident">get_size</span>());
     <span class="ident">program</span>.<span class="ident">bind</span>();
-    <span class="kw">let</span> <span class="ident">uniforms</span> <span class="op">=</span> (
-        <span class="ident">SingleUniform</span>::<span class="ident">new</span>(<span class="string">&quot;u_framebuffer_size&quot;</span>, <span class="ident">framebuffer</span>.<span class="ident">get_size</span>()),
-        <span class="ident">uniforms</span>,
-    );
     <span class="kw">unsafe</span> {
         <span class="ident">UNIFORM_TEXTURE_COUNT</span> <span class="op">=</span> <span class="number">0</span>;
     }
@@ -469,7 +460,6 @@
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">uniform_info</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">program</span>.<span class="ident">uniforms</span>.<span class="ident">get</span>(<span class="ident">name</span>) {
                 <span class="ident">uniform</span>.<span class="ident">apply</span>(<span class="ident">uniform_info</span>);
             }
-            <span class="ident">uniform</span>.<span class="ident">walk_extra</span>(<span class="ident">name</span>, <span class="self">self</span>);
         }
     }
 

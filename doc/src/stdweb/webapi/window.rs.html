@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.1/src/webapi/window.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webapi/window.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>window.rs.html -- source</title>
@@ -247,6 +247,29 @@
 <span id="191">191</span>
 <span id="192">192</span>
 <span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">value</span>::<span class="ident">Reference</span>;
 <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">try_from</span>::<span class="ident">TryInto</span>;
@@ -266,12 +289,12 @@
     <span class="doccomment">/// Cancels an animation frame request.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [(Javascript docs)](https://developer.mozilla.org/en-US/docs/Web/API/Window/cancelAnimationFrame)</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cancel</span>(<span class="self">self</span>) {
-        <span class="macro">js</span><span class="macro">!</span>{
-            <span class="ident">var</span> <span class="ident">val</span> <span class="op">=</span> @{<span class="self">self</span>.<span class="number">0</span>};
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cancel</span>( <span class="self">self</span> ) {
+        <span class="macro">js</span><span class="macro">!</span> { @(<span class="ident">no_return</span>)
+            <span class="ident">var</span> <span class="ident">val</span> <span class="op">=</span> @{<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>};
             <span class="ident">val</span>.<span class="ident">window</span>.<span class="ident">cancelAnimationFrame</span>(<span class="ident">val</span>.<span class="ident">request</span>);
             <span class="ident">val</span>.<span class="ident">callback</span>.<span class="ident">drop</span>();
-        };
+        }
     }
 }
 
@@ -438,6 +461,29 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">outer_height</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">i32</span> {
         <span class="macro">js</span><span class="macro">!</span>(
             <span class="kw">return</span> @{<span class="self">self</span>}.<span class="ident">outerHeight</span>;
+        ).<span class="ident">try_into</span>().<span class="ident">unwrap</span>()
+    }
+
+    <span class="doccomment">/// The read-only Window property pageYOffset is an alias for scrollY; as such, it returns</span>
+    <span class="doccomment">/// the number of pixels the document is currently scrolled along the vertical axis (that is,</span>
+    <span class="doccomment">/// up or down), with a value of 0.0 indicating that the top edge of the Document is currently</span>
+    <span class="doccomment">/// aligned with the top edge of the window&#39;s content area.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [(JavaScript docs)](https://developer.mozilla.org/en-US/docs/Web/API/Window/pageYOffset)</span>
+    <span class="comment">// https://drafts.csswg.org/cssom-view/#ref-for-dom-window-pageyoffset</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">page_y_offset</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">f64</span> {
+        <span class="macro">js</span><span class="macro">!</span>(
+            <span class="kw">return</span> @{<span class="self">self</span>}.<span class="ident">pageYOffset</span>;
+        ).<span class="ident">try_into</span>().<span class="ident">unwrap</span>()
+    }
+
+    <span class="doccomment">/// This is an alias for scrollX.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [(JavaScript docs)](https://developer.mozilla.org/en-US/docs/Web/API/Window/pageXOffset)</span>
+    <span class="comment">// https://drafts.csswg.org/cssom-view/#ref-for-dom-window-pagexoffset</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">page_x_offset</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">f64</span> {
+        <span class="macro">js</span><span class="macro">!</span>(
+            <span class="kw">return</span> @{<span class="self">self</span>}.<span class="ident">pageXOffset</span>;
         ).<span class="ident">try_into</span>().<span class="ident">unwrap</span>()
     }
 }

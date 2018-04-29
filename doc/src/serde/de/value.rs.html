@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-1.0.29/src/de/value.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/serde-1.0.43/src/de/value.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>value.rs.html -- source</title>
@@ -1354,9 +1354,6 @@
 <span id="1298">1298</span>
 <span id="1299">1299</span>
 <span id="1300">1300</span>
-<span id="1301">1301</span>
-<span id="1302">1302</span>
-<span id="1303">1303</span>
 </pre><pre class="rust ">
 <span class="comment">// Copyright 2017 Serde Developers</span>
 <span class="comment">//</span>
@@ -1397,10 +1394,10 @@
 
 <span class="kw">use</span> <span class="ident">lib</span>::<span class="kw-2">*</span>;
 
+<span class="kw">use</span> <span class="self">self</span>::<span class="ident">private</span>::{<span class="ident">First</span>, <span class="ident">Second</span>};
 <span class="kw">use</span> <span class="ident">de</span>::{<span class="self">self</span>, <span class="ident">Expected</span>, <span class="ident">IntoDeserializer</span>, <span class="ident">SeqAccess</span>};
 <span class="kw">use</span> <span class="ident">private</span>::<span class="ident">de</span>::<span class="ident">size_hint</span>;
 <span class="kw">use</span> <span class="ident">ser</span>;
-<span class="kw">use</span> <span class="self">self</span>::<span class="ident">private</span>::{<span class="ident">First</span>, <span class="ident">Second</span>};
 
 <span class="comment">////////////////////////////////////////////////////////////////////////////////</span>
 
@@ -1418,6 +1415,7 @@
 
 <span class="kw">impl</span> <span class="ident">de</span>::<span class="ident">Error</span> <span class="kw">for</span> <span class="ident">Error</span> {
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;alloc&quot;</span>))]</span>
+    <span class="attribute">#[<span class="ident">cold</span>]</span>
     <span class="kw">fn</span> <span class="ident">custom</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">msg</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="self">Self</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">Display</span>,
@@ -1428,6 +1426,7 @@
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;alloc&quot;</span>)))]</span>
+    <span class="attribute">#[<span class="ident">cold</span>]</span>
     <span class="kw">fn</span> <span class="ident">custom</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">msg</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="self">Self</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">Display</span>,
@@ -1438,6 +1437,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">ser</span>::<span class="ident">Error</span> <span class="kw">for</span> <span class="ident">Error</span> {
+    <span class="attribute">#[<span class="ident">cold</span>]</span>
     <span class="kw">fn</span> <span class="ident">custom</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">msg</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="self">Self</span>
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">Display</span>,
@@ -2012,11 +2012,8 @@
 {
     <span class="doccomment">/// Check for remaining elements after passing a `SeqDeserializer` to</span>
     <span class="doccomment">/// `Visitor::visit_seq`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">end</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">E</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">remaining</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">while</span> <span class="self">self</span>.<span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">is_some</span>() {
-            <span class="ident">remaining</span> <span class="op">+=</span> <span class="number">1</span>;
-        }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">end</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">E</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">remaining</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">iter</span>.<span class="ident">count</span>();
         <span class="kw">if</span> <span class="ident">remaining</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="prelude-val">Ok</span>(())
         } <span class="kw">else</span> {
@@ -2209,11 +2206,8 @@
 {
     <span class="doccomment">/// Check for remaining elements after passing a `MapDeserializer` to</span>
     <span class="doccomment">/// `Visitor::visit_map`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">end</span>(<span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">E</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">remaining</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">while</span> <span class="self">self</span>.<span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">is_some</span>() {
-            <span class="ident">remaining</span> <span class="op">+=</span> <span class="number">1</span>;
-        }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">end</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">E</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">remaining</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">iter</span>.<span class="ident">count</span>();
         <span class="kw">if</span> <span class="ident">remaining</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="prelude-val">Ok</span>(())
         } <span class="kw">else</span> {

@@ -59,7 +59,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/stdweb/lib.rs.html#195-329' title='goto source code'>[src]</a></span></h1>
+               </span><a class='srclink' href='../../src/stdweb/lib.rs.html#199-351' title='goto source code'>[src]</a></span></h1>
 <div class='docblock'><p>A module with bindings to the Web APIs.</p>
 </div><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
 <table>
@@ -139,7 +139,8 @@ Intentionally blank, no non-experimental properties or methods.</p>
                            <td><a class="struct" href="struct.Date.html"
                                   title='struct stdweb::web::Date'>Date</a></td>
                            <td class='docblock-short'>
-                                <p><a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Date">(JavaScript docs)</a></p>
+                                <p><a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Date">(JavaScript docs)</a>
+https://www.ecma-international.org/ecma-262/6.0/#sec-date-constructor</p>
 
                            </td>
                        </tr>
@@ -272,6 +273,15 @@ such as <a href="trait.INode.html#method.child_nodes">INode::child_nodes</a> and
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class="struct" href="struct.Rect.html"
+                                  title='struct stdweb::web::Rect'>Rect</a></td>
+                           <td class='docblock-short'>
+                                <p>Represents a rectangle.
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/DOMRect">(JavaScript docs)</a></p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class="struct" href="struct.RequestAnimationFrameHandle.html"
                                   title='struct stdweb::web::RequestAnimationFrameHandle'>RequestAnimationFrameHandle</a></td>
                            <td class='docblock-short'>
@@ -382,6 +392,14 @@ what the user is doing. XmlHttpRequest is used heavily in Ajax programming.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class="enum" href="enum.CompositeOperation.html"
+                                  title='enum stdweb::web::CompositeOperation'>CompositeOperation</a></td>
+                           <td class='docblock-short'>
+                                <p>The type of compositing operation to apply when drawing new shapes</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class="enum" href="enum.CrossOriginSetting.html"
                                   title='enum stdweb::web::CrossOriginSetting'>CrossOriginSetting</a></td>
                            <td class='docblock-short'>
@@ -398,6 +416,32 @@ what the user is doing. XmlHttpRequest is used heavily in Ajax programming.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class="enum" href="enum.FillRule.html"
+                                  title='enum stdweb::web::FillRule'>FillRule</a></td>
+                           <td class='docblock-short'>
+                                <p>The algorithm by which to determine if a point is inside a path or outside a path.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.LineCap.html"
+                                  title='enum stdweb::web::LineCap'>LineCap</a></td>
+                           <td class='docblock-short'>
+                                <p>How the end points of every line are drawn.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.LineJoin.html"
+                                  title='enum stdweb::web::LineJoin'>LineJoin</a></td>
+                           <td class='docblock-short'>
+                                <p>determines how two connecting segments (of lines, arcs or curves) with non-zero lengths in a shape are
+joined together (degenerate segments with zero lengths, whose specified endpoints and control points are
+exactly at the same position, are skipped).</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class="enum" href="enum.MutationRecord.html"
                                   title='enum stdweb::web::MutationRecord'>MutationRecord</a></td>
                            <td class='docblock-short'>
@@ -406,10 +450,42 @@ what the user is doing. XmlHttpRequest is used heavily in Ajax programming.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
+                           <td><a class="enum" href="enum.Repetition.html"
+                                  title='enum stdweb::web::Repetition'>Repetition</a></td>
+                           <td class='docblock-short'>
+                                <p>An enum indicating how to repeat the image.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
                            <td><a class="enum" href="enum.SocketBinaryType.html"
                                   title='enum stdweb::web::SocketBinaryType'>SocketBinaryType</a></td>
                            <td class='docblock-short'>
                                 <p>The type of binary data being transmitted by the WebSocket connection.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.SocketReadyState.html"
+                                  title='enum stdweb::web::SocketReadyState'>SocketReadyState</a></td>
+                           <td class='docblock-short'>
+                                <p>A number indicating the state of the <code>WebSocket</code>.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.TextAlign.html"
+                                  title='enum stdweb::web::TextAlign'>TextAlign</a></td>
+                           <td class='docblock-short'>
+                                <p>Specifies text alignment</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.TextBaseline.html"
+                                  title='enum stdweb::web::TextBaseline'>TextBaseline</a></td>
+                           <td class='docblock-short'>
+                                <p>Text baseline being used when drawing text</p>
 
                            </td>
                        </tr>

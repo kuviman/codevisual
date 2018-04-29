@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.1/src/webcore/serialization.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webcore/serialization.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>serialization.rs.html -- source</title>
@@ -1981,6 +1981,25 @@
 <span id="1925">1925</span>
 <span id="1926">1926</span>
 <span id="1927">1927</span>
+<span id="1928">1928</span>
+<span id="1929">1929</span>
+<span id="1930">1930</span>
+<span id="1931">1931</span>
+<span id="1932">1932</span>
+<span id="1933">1933</span>
+<span id="1934">1934</span>
+<span id="1935">1935</span>
+<span id="1936">1936</span>
+<span id="1937">1937</span>
+<span id="1938">1938</span>
+<span id="1939">1939</span>
+<span id="1940">1940</span>
+<span id="1941">1941</span>
+<span id="1942">1942</span>
+<span id="1943">1943</span>
+<span id="1944">1944</span>
+<span id="1945">1945</span>
+<span id="1946">1946</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">slice</span>;
@@ -2379,7 +2398,7 @@
 <span class="kw">impl</span> <span class="ident">SerializedUntaggedReference</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">deserialize</span>( <span class="kw-2">&amp;</span><span class="self">self</span> ) <span class="op">-&gt;</span> <span class="ident">Reference</span> {
-        <span class="kw">unsafe</span> { <span class="ident">Reference</span>::<span class="ident">from_raw_unchecked</span>( <span class="self">self</span>.<span class="ident">refid</span> ) }
+        <span class="kw">unsafe</span> { <span class="ident">Reference</span>::<span class="ident">from_raw_unchecked_noref</span>( <span class="self">self</span>.<span class="ident">refid</span> ) }
     }
 }
 
@@ -3271,6 +3290,25 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">reference</span>() {
         <span class="macro">assert_eq</span><span class="macro">!</span>( <span class="macro">js</span><span class="macro">!</span> { <span class="kw">return</span> <span class="ident">new</span> <span class="ident">Date</span>(); }.<span class="ident">is_reference</span>(), <span class="bool-val">true</span> );
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">bad_reference</span>() {
+        <span class="macro">assert_eq</span><span class="macro">!</span>( <span class="macro">js</span><span class="macro">!</span> {
+            <span class="ident">var</span> <span class="ident">WeakMapProto</span> <span class="op">=</span> <span class="ident">WeakMap</span>.<span class="ident">prototype</span>;
+            <span class="kw">if</span> (<span class="ident">WeakMapProto</span>.<span class="ident">BAD_REFERENCE</span> <span class="op">==</span><span class="op">=</span> <span class="ident">undefined</span>) {
+                <span class="ident">WeakMapProto</span>.<span class="ident">BAD_REFERENCE</span> <span class="op">=</span> {};
+                <span class="ident">WeakMapProto</span>.<span class="ident">oldSet</span> <span class="op">=</span> <span class="ident">WeakMapProto</span>.<span class="ident">set</span>;
+                <span class="ident">WeakMapProto</span>.<span class="ident">set</span> <span class="op">=</span> <span class="ident">function</span>(<span class="ident">key</span>, <span class="ident">value</span>) {
+                    <span class="kw">if</span> (<span class="ident">key</span> <span class="op">==</span><span class="op">=</span> <span class="ident">WeakMapProto</span>.<span class="ident">BAD_REFERENCE</span>) {
+                        <span class="ident">throw</span> <span class="ident">new</span> <span class="ident">TypeError</span>(<span class="string">&quot;BAD_REFERENCE&quot;</span>);
+                    } <span class="kw">else</span> {
+                        <span class="kw">return</span> <span class="ident">this</span>.<span class="ident">oldSet</span>(<span class="ident">key</span>, <span class="ident">value</span>);
+                    }
+                };
+            }
+            <span class="kw">return</span> <span class="ident">WeakMapProto</span>.<span class="ident">BAD_REFERENCE</span>;
+        }.<span class="ident">is_reference</span>(), <span class="bool-val">true</span> );
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>

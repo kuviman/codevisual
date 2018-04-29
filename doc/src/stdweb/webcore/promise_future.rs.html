@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.1/src/webcore/promise_future.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webcore/promise_future.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>promise_future.rs.html -- source</title>
@@ -170,6 +170,8 @@
 <span id="114">114</span>
 <span id="115">115</span>
 <span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>;
 <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">value</span>::{<span class="ident">Value</span>, <span class="ident">ConversionError</span>};
@@ -177,11 +179,12 @@
 <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">error</span>;
 <span class="kw">use</span> <span class="ident">futures</span>::{<span class="ident">Future</span>, <span class="ident">Poll</span>, <span class="ident">Async</span>};
 <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">unsync</span>::<span class="ident">oneshot</span>::<span class="ident">Receiver</span>;
-<span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">promise_executor</span>::<span class="ident">spawn</span>;
-<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">promise</span>::<span class="ident">Promise</span>;
+<span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">executor</span>::<span class="ident">spawn</span>;
+<span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">discard</span>::<span class="ident">DiscardOnDrop</span>;
+<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">promise</span>::{<span class="ident">Promise</span>, <span class="ident">DoneHandle</span>};
 
 
-<span class="doccomment">/// This allows you to use a JavaScript [`Promise`](struct.Promise.html) as if it is a Rust [`Future`](https://docs.rs/futures/0.1.18/futures/future/trait.Future.html).</span>
+<span class="doccomment">/// This allows you to use a JavaScript [`Promise`](struct.Promise.html) as if it is a Rust [`Future`](https://docs.rs/futures/0.1.*/futures/future/trait.Future.html).</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// The preferred way to create a `PromiseFuture` is to use [`value.try_into()`](unstable/trait.TryInto.html) on a JavaScript [`Value`](enum.Value.html).</span>
 <span class="doccomment">///</span>
@@ -194,18 +197,19 @@
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PromiseFuture</span><span class="op">&lt;</span> <span class="ident">Value</span>, <span class="ident">Error</span> <span class="op">=</span> <span class="ident">error</span>::<span class="ident">Error</span> <span class="op">&gt;</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">future</span>: <span class="ident">Receiver</span><span class="op">&lt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span> <span class="ident">Value</span>, <span class="ident">Error</span> <span class="op">&gt;</span> <span class="op">&gt;</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">_done_handle</span>: <span class="ident">DiscardOnDrop</span><span class="op">&lt;</span> <span class="ident">DoneHandle</span> <span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">PromiseFuture</span><span class="op">&lt;</span> (), () <span class="op">&gt;</span> {
-    <span class="doccomment">/// Asynchronously runs the [`Future`](https://docs.rs/futures/0.1.18/futures/future/trait.Future.html) and then immediately returns.</span>
+    <span class="doccomment">/// Asynchronously runs the [`Future`](https://docs.rs/futures/0.1.*/futures/future/trait.Future.html) and then immediately returns.</span>
     <span class="doccomment">/// This does not block the current thread. The only way to retrieve the value of the future is to use the various</span>
-    <span class="doccomment">/// [`Future`](https://docs.rs/futures/0.1.18/futures/future/trait.Future.html) methods, such as</span>
-    <span class="doccomment">/// [`map`](https://docs.rs/futures/0.1.18/futures/future/trait.Future.html#method.map) or</span>
-    <span class="doccomment">/// [`inspect`](https://docs.rs/futures/0.1.18/futures/future/trait.Future.html#method.inspect).</span>
+    <span class="doccomment">/// [`Future`](https://docs.rs/futures/0.1.*/futures/future/trait.Future.html) methods, such as</span>
+    <span class="doccomment">/// [`map`](https://docs.rs/futures/0.1.*/futures/future/trait.Future.html#method.map) or</span>
+    <span class="doccomment">/// [`inspect`](https://docs.rs/futures/0.1.*/futures/future/trait.Future.html#method.inspect).</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This function requires you to handle all errors yourself. Because the errors happen asynchronously, the only way to catch them is</span>
-    <span class="doccomment">/// to use a [`Future`](https://docs.rs/futures/0.1.18/futures/future/trait.Future.html) method, such as</span>
-    <span class="doccomment">/// [`map_err`](https://docs.rs/futures/0.1.18/futures/future/trait.Future.html#method.map_err).</span>
+    <span class="doccomment">/// to use a [`Future`](https://docs.rs/futures/0.1.*/futures/future/trait.Future.html) method, such as</span>
+    <span class="doccomment">/// [`map_err`](https://docs.rs/futures/0.1.*/futures/future/trait.Future.html#method.map_err).</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// It is very common to want to print the errors to the console. You can do that by using `.map_err(|e| console!(error, e))`</span>
     <span class="doccomment">///</span>

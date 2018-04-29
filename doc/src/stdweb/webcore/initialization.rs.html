@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.1/src/webcore/initialization.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webcore/initialization.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>initialization.rs.html -- source</title>
@@ -103,6 +103,7 @@
 <span id="47">47</span>
 <span id="48">48</span>
 <span id="49">49</span>
+<span id="50">50</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">panic</span>;
 <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">ffi</span>;
@@ -122,7 +123,8 @@
         <span class="ident">INITIALIZED</span> <span class="op">=</span> <span class="bool-val">true</span>;
     }
 
-    <span class="macro">include</span><span class="macro">!</span>( <span class="macro">concat</span><span class="macro">!</span>( <span class="macro">env</span><span class="macro">!</span>( <span class="string">&quot;OUT_DIR&quot;</span> ), <span class="string">&quot;/runtime.rs&quot;</span> ) );
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;docs-rs&quot;</span>))]</span>
+    <span class="macro">include</span><span class="macro">!</span>( <span class="macro">concat</span><span class="macro">!</span>( <span class="macro">env</span><span class="macro">!</span>( <span class="string">&quot;OUT_DIR&quot;</span> ), <span class="macro">env</span><span class="macro">!</span>( <span class="string">&quot;PATH_SEPARATOR&quot;</span> ), <span class="string">&quot;runtime.rs&quot;</span> ) );
 
     <span class="kw">if</span> <span class="macro">cfg</span><span class="macro">!</span>( <span class="ident">test</span> ) <span class="op">==</span> <span class="bool-val">false</span> {
         <span class="ident">panic</span>::<span class="ident">set_hook</span>( <span class="ident">Box</span>::<span class="ident">new</span>( <span class="op">|</span><span class="ident">info</span><span class="op">|</span> {

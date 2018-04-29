@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-1.0.0/src/iter/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rayon-1.0.1/src/iter/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -2228,13 +2228,13 @@
 <span class="doccomment">//! check out the [`ParallelIterator`] and [`IndexedParallelIterator`]</span>
 <span class="doccomment">//! traits.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! If you&#39;d like to offer parallel iterators for your own collector,</span>
-<span class="doccomment">//! or write your own combinator, then check out the [plumbing]</span>
-<span class="doccomment">//! module.</span>
+<span class="doccomment">//! If you&#39;d like to build a custom parallel iterator, or to write your own</span>
+<span class="doccomment">//! combinator, then check out the [split] function and the [plumbing] module.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! [regular iterator]: http://doc.rust-lang.org/std/iter/trait.Iterator.html</span>
 <span class="doccomment">//! [`ParallelIterator`]: trait.ParallelIterator.html</span>
 <span class="doccomment">//! [`IndexedParallelIterator`]: trait.IndexedParallelIterator.html</span>
+<span class="doccomment">//! [split]: fn.split.html</span>
 <span class="doccomment">//! [plumbing]: plumbing</span>
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">either</span>::<span class="ident">Either</span>;
@@ -2915,9 +2915,9 @@
     <span class="doccomment">/// ### Fold vs Map/Reduce</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Fold makes sense if you have some operation where it is</span>
-    <span class="doccomment">/// cheaper to groups of elements at a time. For example, imagine</span>
-    <span class="doccomment">/// collecting characters into a string. If you were going to use</span>
-    <span class="doccomment">/// map/reduce, you might try this:</span>
+    <span class="doccomment">/// cheaper to create groups of elements at a time. For example,</span>
+    <span class="doccomment">/// imagine collecting characters into a string. If you were going</span>
+    <span class="doccomment">/// to use map/reduce, you might try this:</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// use rayon::prelude::*;</span>
@@ -2935,7 +2935,7 @@
     <span class="doccomment">/// Because reduce produces the same type of element as its input,</span>
     <span class="doccomment">/// you have to first map each character into a string, and then</span>
     <span class="doccomment">/// you can reduce them. This means we create one string per</span>
-    <span class="doccomment">/// element in ou iterator -- not so great. Using `fold`, we can</span>
+    <span class="doccomment">/// element in our iterator -- not so great. Using `fold`, we can</span>
     <span class="doccomment">/// do this instead:</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
