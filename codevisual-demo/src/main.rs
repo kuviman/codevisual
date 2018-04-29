@@ -2,13 +2,8 @@
 extern crate codevisual;
 #[macro_use]
 extern crate ugli;
-extern crate color;
-extern crate geom;
-extern crate prelude;
 
-use prelude::*;
-use geom::*;
-use color::*;
+use codevisual::prelude::*;
 
 struct Demo {
     app: Rc<codevisual::App>,

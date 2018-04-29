@@ -26,14 +26,19 @@ extern crate threadpool;
 extern crate ugli;
 extern crate color;
 extern crate geom;
-extern crate prelude;
+extern crate prelude as external_prelude;
 extern crate timer;
 
-pub(crate) use prelude::*;
-pub(crate) use color::*;
-pub(crate) use geom::*;
-pub(crate) use timer::*;
 pub(crate) use failure::Error;
+
+pub mod prelude {
+    pub use external_prelude::*;
+    pub use geom::*;
+    pub use color::*;
+    pub use timer::*;
+}
+
+pub(crate) use prelude::*;
 
 mod app;
 mod game;
