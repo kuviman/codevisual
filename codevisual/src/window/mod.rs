@@ -28,6 +28,7 @@ impl Window {
             use stdweb::unstable::TryInto;
             let canvas = js! {
                 var canvas = Module.canvas;
+                canvas.tabIndex = -1;
                 function updateCanvasSize() {
                     canvas.width = canvas.clientWidth;
                     canvas.height = canvas.clientHeight;
