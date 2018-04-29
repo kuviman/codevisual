@@ -11,10 +11,10 @@ pub struct Window {
     glutin_window: glutin::GlWindow,
     #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
     glutin_events_loop: RefCell<glutin::EventsLoop>,
-    event_handler: RefCell<Option<Box<FnMut(Event)>>>,
-    pressed_keys: RefCell<HashSet<Key>>,
+    event_handler: Rc<RefCell<Option<Box<FnMut(Event)>>>>,
+    pressed_keys: Rc<RefCell<HashSet<Key>>>,
     should_close: Cell<bool>,
-    mouse_pos: Cell<Vec2>,
+    mouse_pos: Rc<Cell<Vec2>>,
     ugli_context: Rc<ugli::Context>,
 }
 
@@ -37,11 +37,11 @@ impl Window {
             let ugli_context =
                 Rc::new(ugli::Context::create_webgl(emscripten::Selector::Canvas).unwrap());
             Self {
-                event_handler: RefCell::new(None),
+                event_handler: Rc::new(RefCell::new(None)),
                 ugli_context,
                 should_close: Cell::new(false),
-                mouse_pos: Cell::new(vec2(0.0, 0.0)),
-                pressed_keys: RefCell::new(HashSet::new()),
+                mouse_pos: Rc::new(Cell::new(vec2(0.0, 0.0))),
+                pressed_keys: Rc::new(RefCell::new(HashSet::new())),
             }
         };
         #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
@@ -58,11 +58,11 @@ impl Window {
             Self {
                 glutin_window,
                 glutin_events_loop: RefCell::new(glutin_events_loop),
-                event_handler: RefCell::new(None),
+                event_handler: Rc::new(RefCell::new(None)),
                 ugli_context,
                 should_close: Cell::new(false),
-                mouse_pos: Cell::new(vec2(0.0, 0.0)),
-                pressed_keys: RefCell::new(HashSet::new()),
+                mouse_pos: Rc::new(Cell::new(vec2(0.0, 0.0))),
+                pressed_keys: Rc::new(RefCell::new(HashSet::new())),
             }
         };
         window
@@ -86,22 +86,27 @@ impl Window {
         }
         #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
         for event in self.internal_get_events() {
+            Self::default_handler(&event, &self.pressed_keys, &self.mouse_pos);
             if let Some(ref mut handler) = *self.event_handler.borrow_mut() {
                 handler(event);
             }
         }
     }
 
-    pub(crate) fn handle(&self, event: &Event) {
+    fn default_handler(
+        event: &Event,
+        pressed_keys: &RefCell<HashSet<Key>>,
+        mouse_pos: &Cell<Vec2>,
+    ) {
         match *event {
             Event::KeyDown { key } => {
-                self.pressed_keys.borrow_mut().insert(key);
+                pressed_keys.borrow_mut().insert(key);
             }
             Event::KeyUp { key } => {
-                self.pressed_keys.borrow_mut().remove(&key);
+                pressed_keys.borrow_mut().remove(&key);
             }
             Event::MouseMove { position } => {
-                self.mouse_pos.set(position);
+                mouse_pos.set(position);
             }
             _ => {}
         }

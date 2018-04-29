@@ -44,9 +44,7 @@ impl App {
         let game = Rc::new(RefCell::new(G::new(&app)));
         app.window.set_event_handler(Box::new({
             let game = game.clone();
-            let app = app.clone();
             move |event| {
-                app.window.handle(&event);
                 game.borrow_mut().handle_event(event);
             }
         }));
