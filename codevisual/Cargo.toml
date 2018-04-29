@@ -5,6 +5,9 @@ authors = ["kuviman <kuviman@gmail.com>"]
 
 [dependencies]
 prelude = { git = "https://github.com/kuviman/commons" }
+geom = { git = "https://github.com/kuviman/commons" }
+color = { git = "https://github.com/kuviman/commons" }
+timer = { git = "https://github.com/kuviman/commons" }
 ugli = { git = "https://github.com/kuviman/ugli" }
 rusttype = "0.3.0"
 serde = "1.0"

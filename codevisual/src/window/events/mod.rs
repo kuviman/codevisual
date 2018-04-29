@@ -15,20 +15,38 @@ pub enum MouseButton {
 
 #[derive(Debug, Copy, Clone)]
 pub struct TouchPoint {
-    pub position: Vec2,
+    pub position: Vec2<f64>,
 }
 
 #[derive(Debug, Clone)]
 pub enum Event {
-    MouseDown { position: Vec2, button: MouseButton },
-    MouseUp { position: Vec2, button: MouseButton },
-    MouseMove { position: Vec2 },
-    Wheel { delta: f64 },
-    TouchStart { touches: Vec<TouchPoint> },
-    TouchMove { touches: Vec<TouchPoint> },
+    MouseDown {
+        position: Vec2<f64>,
+        button: MouseButton,
+    },
+    MouseUp {
+        position: Vec2<f64>,
+        button: MouseButton,
+    },
+    MouseMove {
+        position: Vec2<f64>,
+    },
+    Wheel {
+        delta: f64,
+    },
+    TouchStart {
+        touches: Vec<TouchPoint>,
+    },
+    TouchMove {
+        touches: Vec<TouchPoint>,
+    },
     TouchEnd,
-    KeyDown { key: Key },
-    KeyUp { key: Key },
+    KeyDown {
+        key: Key,
+    },
+    KeyUp {
+        key: Key,
+    },
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]

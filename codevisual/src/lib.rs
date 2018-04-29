@@ -24,9 +24,15 @@ extern crate stdweb;
 extern crate threadpool;
 #[macro_use]
 extern crate ugli;
-pub extern crate prelude;
+extern crate color;
+extern crate geom;
+extern crate prelude;
+extern crate timer;
 
 pub(crate) use prelude::*;
+pub(crate) use color::*;
+pub(crate) use geom::*;
+pub(crate) use timer::*;
 pub(crate) use failure::Error;
 
 mod app;

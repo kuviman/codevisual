@@ -7,6 +7,8 @@ pub use self::cursor::*;
 pub use self::events::*;
 
 pub struct Window {
+    #[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
+    canvas: stdweb::web::html_element::CanvasElement,
     #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
     glutin_window: glutin::GlWindow,
     #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
@@ -14,35 +16,47 @@ pub struct Window {
     event_handler: Rc<RefCell<Option<Box<FnMut(Event)>>>>,
     pressed_keys: Rc<RefCell<HashSet<Key>>>,
     should_close: Cell<bool>,
-    mouse_pos: Rc<Cell<Vec2>>,
+    mouse_pos: Rc<Cell<Vec2<f64>>>,
     ugli_context: Rc<ugli::Context>,
 }
 
 impl Window {
     pub fn new(title: &str) -> Self {
         #[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
-        js! {
-            @(no_return)
-            var canvas = Module.canvas;
-            function updateCanvasSize() {
-                canvas.width = canvas.clientWidth;
-                canvas.height = canvas.clientHeight;
-            };
-            window.setInterval(updateCanvasSize, 300);
-            updateCanvasSize();
-        }
-        #[cfg(target_os = "emscripten")]
         let window = {
-            println!("Starting {}", title);
+            let _ = title;
+            use stdweb::unstable::TryInto;
+            let canvas = js! {
+                var canvas = Module.canvas;
+                function updateCanvasSize() {
+                    canvas.width = canvas.clientWidth;
+                    canvas.height = canvas.clientHeight;
+                };
+                window.setInterval(updateCanvasSize, 300);
+                updateCanvasSize();
+                return canvas;
+            }.try_into()
+                .unwrap();
             let ugli_context =
                 Rc::new(ugli::Context::create_webgl(emscripten::Selector::Canvas).unwrap());
-            Self {
+            let window = Self {
+                canvas,
                 event_handler: Rc::new(RefCell::new(None)),
                 ugli_context,
                 should_close: Cell::new(false),
                 mouse_pos: Rc::new(Cell::new(vec2(0.0, 0.0))),
                 pressed_keys: Rc::new(RefCell::new(HashSet::new())),
-            }
+            };
+            let event_handler = window.event_handler.clone();
+            let pressed_keys = window.pressed_keys.clone();
+            let mouse_pos = window.mouse_pos.clone();
+            window.subscribe_events(move |event| {
+                Self::default_handler(&event, &pressed_keys, &mouse_pos);
+                if let Some(ref mut handler) = *event_handler.borrow_mut() {
+                    handler(event);
+                }
+            });
+            window
         };
         #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
         let window = {
@@ -96,7 +110,7 @@ impl Window {
     fn default_handler(
         event: &Event,
         pressed_keys: &RefCell<HashSet<Key>>,
-        mouse_pos: &Cell<Vec2>,
+        mouse_pos: &Cell<Vec2<f64>>,
     ) {
         match *event {
             Event::KeyDown { key } => {
@@ -114,7 +128,10 @@ impl Window {
 
     pub fn get_size(&self) -> Vec2<usize> {
         #[cfg(target_os = "emscripten")]
-        return emscripten::get_canvas_size();
+        return {
+            let (width, height) = emscripten::get_canvas_size();
+            vec2(width, height)
+        };
         #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
         return {
             let (width, height) = self.glutin_window.get_inner_size().unwrap_or((1, 1));
@@ -139,7 +156,7 @@ impl Window {
         self.pressed_keys.borrow().clone()
     }
 
-    pub fn mouse_pos(&self) -> Vec2 {
+    pub fn mouse_pos(&self) -> Vec2<f64> {
         self.mouse_pos.get()
     }
 }

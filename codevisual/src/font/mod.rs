@@ -9,7 +9,7 @@ struct Vertex {
 pub struct Font {
     font: rusttype::Font<'static>,
     cache: RefCell<rusttype::gpu_cache::Cache<'static>>,
-    cache_texture: RefCell<ugli::Texture2d>,
+    cache_texture: RefCell<ugli::Texture>,
     geometry: RefCell<ugli::VertexBuffer<Vertex>>,
     program: ugli::Program,
 }
@@ -159,6 +159,8 @@ impl Font {
             }
         }
 
+        let framebuffer_size = framebuffer.get_size();
+
         ugli::draw(
             framebuffer,
             &self.program,
@@ -167,6 +169,7 @@ impl Font {
             uniforms! {
                 u_color: color,
                 u_cache_texture: &*cache_texture,
+                u_framebuffer_size: framebuffer_size,
             },
             ugli::DrawParameters {
                 depth_func: None,

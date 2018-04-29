@@ -31,7 +31,7 @@ impl Window {
         };
     }
 
-    pub fn set_cursor_position(&self, position: Vec2) {
+    pub fn set_cursor_position(&self, position: Vec2<f64>) {
         #![allow(unused_variables)]
         #[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
         unimplemented!();
@@ -41,7 +41,7 @@ impl Window {
             .expect("Failed to set cursor position");
     }
 
-    pub fn get_cursor_position(&self) -> Vec2 {
+    pub fn get_cursor_position(&self) -> Vec2<f64> {
         self.mouse_pos.get()
     }
 

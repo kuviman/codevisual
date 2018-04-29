@@ -6,3 +6,6 @@ authors = ["kuviman <kuviman@gmail.com>"]
 [dependencies]
 codevisual = { path = "../codevisual" }
 ugli = { git = "https://github.com/kuviman/ugli" }
+prelude = { git = "https://github.com/kuviman/commons" }
+color = { git = "https://github.com/kuviman/commons" }
+geom = { git = "https://github.com/kuviman/commons" }
