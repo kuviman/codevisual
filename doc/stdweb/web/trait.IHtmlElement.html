@@ -10,10 +10,11 @@
     <title>stdweb::web::IHtmlElement - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -54,13 +55,11 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>web</a>::<wbr><a class="trait" href=''>IHtmlElement</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>web</a>::<wbr><a class="trait" href=''>IHtmlElement</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/stdweb/webapi/html_element.rs.html#94-170' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait IHtmlElement: <a class="trait" href="../../stdweb/web/trait.IElement.html" title="trait stdweb::web::IElement">IElement</a> {
+               </span><a class='srclink' href='../../src/stdweb/webapi/html_element.rs.html#94-170' title='goto source code'>[src]</a></span></h1><div class="docblock type-decl"><pre class='rust trait'>pub trait IHtmlElement: <a class="trait" href="../../stdweb/web/trait.IElement.html" title="trait stdweb::web::IElement">IElement</a> {
     fn <a href='#method.focus' class='fnname'>focus</a>(&amp;self) { ... }
 <div class='item-spacer'></div>    fn <a href='#method.blur' class='fnname'>blur</a>(&amp;self) { ... }
 <div class='item-spacer'></div>    fn <a href='#method.dataset' class='fnname'>dataset</a>(&amp;self) -&gt; <a class="struct" href="../../stdweb/web/struct.StringMap.html" title="struct stdweb::web::StringMap">StringMap</a> { ... }
@@ -68,7 +67,7 @@
 <div class='item-spacer'></div>    fn <a href='#method.offset_width' class='fnname'>offset_width</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a> { ... }
 <div class='item-spacer'></div>    fn <a href='#method.offset_height' class='fnname'>offset_height</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a> { ... }
 <div class='item-spacer'></div>    fn <a href='#method.inner_text' class='fnname'>inner_text</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a> { ... }
-}</pre><div class='docblock'><p>The <code>IHtmlElement</code> interface represents any HTML element.</p>
+}</pre></div><div class='docblock'><p>The <code>IHtmlElement</code> interface represents any HTML element.</p>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement">(JavaScript docs)</a></p>
 </div>
             <h2 id='provided-methods' class='small-section-header'>
@@ -100,12 +99,14 @@ standard in 2016 after being adopted by all major browser vendors.</p>
           Implementors<a href='#implementors' class='anchor'></a>
         </h2>
         <ul class='item-list' id='implementors-list'>
-    <li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_element.rs.html#184' title='goto source code'>[src]</a></div><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/struct.HtmlElement.html" title="struct stdweb::web::HtmlElement">HtmlElement</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/image.rs.html#22' title='goto source code'>[src]</a></div><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/html_element/struct.ImageElement.html" title="struct stdweb::web::html_element::ImageElement">ImageElement</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/input.rs.html#21' title='goto source code'>[src]</a></div><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/html_element/struct.InputElement.html" title="struct stdweb::web::html_element::InputElement">InputElement</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/textarea.rs.html#20' title='goto source code'>[src]</a></div><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/html_element/struct.TextAreaElement.html" title="struct stdweb::web::html_element::TextAreaElement">TextAreaElement</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/canvas.rs.html#25' title='goto source code'>[src]</a></div><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/html_element/struct.CanvasElement.html" title="struct stdweb::web::html_element::CanvasElement">CanvasElement</a></code></li>
-</ul><script type="text/javascript" async
+    <li><table class='table-display'><tbody><tr><td><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/struct.HtmlElement.html" title="struct stdweb::web::HtmlElement">HtmlElement</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_element.rs.html#184' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/html_element/struct.CanvasElement.html" title="struct stdweb::web::html_element::CanvasElement">CanvasElement</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/canvas.rs.html#25' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/html_element/struct.ImageElement.html" title="struct stdweb::web::html_element::ImageElement">ImageElement</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/image.rs.html#22' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/html_element/struct.InputElement.html" title="struct stdweb::web::html_element::InputElement">InputElement</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/input.rs.html#21' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/html_element/struct.TextAreaElement.html" title="struct stdweb::web::html_element::TextAreaElement">TextAreaElement</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/textarea.rs.html#20' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/html_element/struct.SelectElement.html" title="struct stdweb::web::html_element::SelectElement">SelectElement</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/select.rs.html#39' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IHtmlElement for <a class="struct" href="../../stdweb/web/html_element/struct.OptionElement.html" title="struct stdweb::web::html_element::OptionElement">OptionElement</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/html_elements/option.rs.html#21' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+</ul><script type="text/javascript">window.inlined_types=new Set([]);</script><script type="text/javascript" async
                          src="../../implementors/stdweb/web/trait.IHtmlElement.js">
                  </script></section>
     <section id='search' class="content hidden"></section>

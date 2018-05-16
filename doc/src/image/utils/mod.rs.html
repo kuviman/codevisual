@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.18.0/./src/utils/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/image-0.19.0/./src/utils/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle">
     <script src="../../../storage.js"></script>
     
 
@@ -87,16 +88,8 @@
 <span id="31">31</span>
 <span id="32">32</span>
 <span id="33">33</span>
-<span id="34">34</span>
-<span id="35">35</span>
-<span id="36">36</span>
-<span id="37">37</span>
 </pre><pre class="rust ">
 <span class="doccomment">//!  Utilities</span>
-
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">bitstream</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">lzw</span>;
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">iter</span>::<span class="ident">repeat</span>;
 <span class="kw">use</span> <span class="ident">num_iter</span>::<span class="ident">range_step</span>;
@@ -109,7 +102,7 @@
     <span class="kw">let</span> <span class="ident">extra</span> <span class="op">=</span> <span class="ident">pixels</span> <span class="op">%</span> <span class="number">8</span>;
     <span class="kw">let</span> <span class="ident">entries</span> <span class="op">=</span> <span class="ident">pixels</span> <span class="op">/</span> <span class="number">8</span> <span class="op">+</span> <span class="kw">match</span> <span class="ident">extra</span> {
     	<span class="number">0</span> <span class="op">=&gt;</span> <span class="number">0</span>,
-    	_ <span class="op">=&gt;</span> <span class="number">1</span>
+    	<span class="kw">_</span> <span class="op">=&gt;</span> <span class="number">1</span>
     };
     <span class="kw">let</span> <span class="ident">mask</span> <span class="op">=</span> ((<span class="number">1u16</span> <span class="op">&lt;&lt;</span> <span class="ident">bit_depth</span>) <span class="op">-</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">u8</span>;
     <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span>

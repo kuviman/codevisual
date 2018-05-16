@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webapi/mutation_observer.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.5/src/webapi/mutation_observer.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mutation_observer.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle">
     <script src="../../../storage.js"></script>
     
 
@@ -645,7 +646,7 @@
 
     <span class="attribute">#[ <span class="ident">test</span> ]</span>
     <span class="kw">fn</span> <span class="ident">test_observe</span>() {
-        <span class="kw">let</span> <span class="ident">observer</span> <span class="op">=</span> <span class="ident">MutationObserver</span>::<span class="ident">new</span>( <span class="op">|</span>_, _<span class="op">|</span> {} );
+        <span class="kw">let</span> <span class="ident">observer</span> <span class="op">=</span> <span class="ident">MutationObserver</span>::<span class="ident">new</span>( <span class="op">|</span><span class="kw">_</span>, <span class="kw">_</span><span class="op">|</span> {} );
 
         <span class="comment">// TODO replace with document.body</span>
         <span class="ident">observer</span>.<span class="ident">observe</span>( <span class="kw-2">&amp;</span><span class="ident">document</span>(),  <span class="ident">MutationObserverInit</span> {

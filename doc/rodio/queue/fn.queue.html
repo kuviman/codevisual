@@ -10,10 +10,11 @@
     <title>rodio::queue::queue - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -33,7 +34,7 @@
     <nav class="sidebar">
         <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'><a href='../index.html'>rodio</a>::<wbr><a href='index.html'>queue</a></p><script>window.sidebarCurrent = {name: 'queue', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <div class="sidebar-elems"><p class='location'><a href='../index.html'>rodio</a>::<wbr><a href='index.html'>queue</a></p><script>window.sidebarCurrent = {name: 'queue', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
     <div class="theme-picker">
@@ -54,13 +55,11 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>rodio</a>::<wbr><a href='index.html'>queue</a>::<wbr><a class="fn" href=''>queue</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>rodio</a>::<wbr><a href='index.html'>queue</a>::<wbr><a class="fn" href=''>queue</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/rodio/queue.rs.html#29-44' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn queue&lt;S&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;keep_alive_if_empty: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a><br>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a><a class="struct" href="https://doc.rust-lang.org/nightly/alloc/arc/struct.Arc.html" title="struct alloc::arc::Arc">Arc</a>&lt;<a class="struct" href="../../rodio/queue/struct.SourcesQueueInput.html" title="struct rodio::queue::SourcesQueueInput">SourcesQueueInput</a>&lt;S&gt;&gt;, <a class="struct" href="../../rodio/queue/struct.SourcesQueueOutput.html" title="struct rodio::queue::SourcesQueueOutput">SourcesQueueOutput</a>&lt;S&gt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a> <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;S: <a class="trait" href="../../rodio/trait.Sample.html" title="trait rodio::Sample">Sample</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'static,&nbsp;</span></pre><div class='docblock'><p>Builds a new queue. It consists of an input and an output.</p>
+               </span><a class='srclink' href='../../src/rodio/queue.rs.html#29-44' title='goto source code'>[src]</a></span></h1><pre class='rust fn'>pub fn queue&lt;S&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;keep_alive_if_empty: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a><br>) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a><a class="struct" href="https://doc.rust-lang.org/nightly/alloc/arc/struct.Arc.html" title="struct alloc::arc::Arc">Arc</a>&lt;<a class="struct" href="../../rodio/queue/struct.SourcesQueueInput.html" title="struct rodio::queue::SourcesQueueInput">SourcesQueueInput</a>&lt;S&gt;&gt;, <a class="struct" href="../../rodio/queue/struct.SourcesQueueOutput.html" title="struct rodio::queue::SourcesQueueOutput">SourcesQueueOutput</a>&lt;S&gt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a> <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;S: <a class="trait" href="../../rodio/trait.Sample.html" title="trait rodio::Sample">Sample</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + 'static,&nbsp;</span></pre><div class='docblock'><p>Builds a new queue. It consists of an input and an output.</p>
 <p>The input can be used to add sounds to the end of the queue, while the output implements
 <code>Source</code> and plays the sounds.</p>
 <p>The parameter indicates how the queue should behave if the queue becomes empty:</p>

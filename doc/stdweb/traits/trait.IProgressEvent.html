@@ -10,10 +10,11 @@
     <title>stdweb::traits::IProgressEvent - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -54,17 +55,15 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>traits</a>::<wbr><a class="trait" href=''>IProgressEvent</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>traits</a>::<wbr><a class="trait" href=''>IProgressEvent</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#10-43' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait IProgressEvent: <a class="trait" href="../../stdweb/web/event/trait.IEvent.html" title="trait stdweb::web::event::IEvent">IEvent</a> {
+               </span><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#10-43' title='goto source code'>[src]</a></span></h1><div class="docblock type-decl"><pre class='rust trait'>pub trait IProgressEvent: <a class="trait" href="../../stdweb/web/event/trait.IEvent.html" title="trait stdweb::web::event::IEvent">IEvent</a> {
     fn <a href='#method.length_computable' class='fnname'>length_computable</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> { ... }
 <div class='item-spacer'></div>    fn <a href='#method.loaded' class='fnname'>loaded</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a> { ... }
 <div class='item-spacer'></div>    fn <a href='#method.total' class='fnname'>total</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u64.html">u64</a> { ... }
-}</pre><div class='docblock'><p>The <code>IProgressEvent</code> interface represents progress-related
+}</pre></div><div class='docblock'><p>The <code>IProgressEvent</code> interface represents progress-related
 events.</p>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ProgressEvent">(JavaScript docs)</a></p>
 </div>
@@ -83,13 +82,13 @@ events.</p>
           Implementors<a href='#implementors' class='anchor'></a>
         </h2>
         <ul class='item-list' id='implementors-list'>
-    <li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#68' title='goto source code'>[src]</a></div><code>impl IProgressEvent for <a class="struct" href="../../stdweb/web/event/struct.ProgressEvent.html" title="struct stdweb::web::event::ProgressEvent">ProgressEvent</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#83' title='goto source code'>[src]</a></div><code>impl IProgressEvent for <a class="struct" href="../../stdweb/web/event/struct.ProgressLoadEvent.html" title="struct stdweb::web::event::ProgressLoadEvent">ProgressLoadEvent</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#98' title='goto source code'>[src]</a></div><code>impl IProgressEvent for <a class="struct" href="../../stdweb/web/event/struct.LoadStartEvent.html" title="struct stdweb::web::event::LoadStartEvent">LoadStartEvent</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#115' title='goto source code'>[src]</a></div><code>impl IProgressEvent for <a class="struct" href="../../stdweb/web/event/struct.LoadEndEvent.html" title="struct stdweb::web::event::LoadEndEvent">LoadEndEvent</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#130' title='goto source code'>[src]</a></div><code>impl IProgressEvent for <a class="struct" href="../../stdweb/web/event/struct.ProgressAbortEvent.html" title="struct stdweb::web::event::ProgressAbortEvent">ProgressAbortEvent</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#145' title='goto source code'>[src]</a></div><code>impl IProgressEvent for <a class="struct" href="../../stdweb/web/event/struct.ProgressErrorEvent.html" title="struct stdweb::web::event::ProgressErrorEvent">ProgressErrorEvent</a></code></li>
-</ul><script type="text/javascript" async
+    <li><table class='table-display'><tbody><tr><td><code>impl IProgressEvent for <a class="struct" href="../../stdweb/web/event/struct.ProgressEvent.html" title="struct stdweb::web::event::ProgressEvent">ProgressEvent</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#68' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IProgressEvent for <a class="struct" href="../../stdweb/web/event/struct.ProgressLoadEvent.html" title="struct stdweb::web::event::ProgressLoadEvent">ProgressLoadEvent</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#83' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IProgressEvent for <a class="struct" href="../../stdweb/web/event/struct.LoadStartEvent.html" title="struct stdweb::web::event::LoadStartEvent">LoadStartEvent</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#98' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IProgressEvent for <a class="struct" href="../../stdweb/web/event/struct.LoadEndEvent.html" title="struct stdweb::web::event::LoadEndEvent">LoadEndEvent</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#115' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IProgressEvent for <a class="struct" href="../../stdweb/web/event/struct.ProgressAbortEvent.html" title="struct stdweb::web::event::ProgressAbortEvent">ProgressAbortEvent</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#130' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IProgressEvent for <a class="struct" href="../../stdweb/web/event/struct.ProgressErrorEvent.html" title="struct stdweb::web::event::ProgressErrorEvent">ProgressErrorEvent</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/progress.rs.html#145' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+</ul><script type="text/javascript">window.inlined_types=new Set([]);</script><script type="text/javascript" async
                          src="../../implementors/stdweb/traits/trait.IProgressEvent.js">
                  </script></section>
     <section id='search' class="content hidden"></section>

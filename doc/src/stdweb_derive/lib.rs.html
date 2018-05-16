@@ -10,10 +10,11 @@
     <title>lib.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -400,7 +401,7 @@
     <span class="kw">if</span> <span class="ident">attr</span>.<span class="ident">path</span>.<span class="ident">segments</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">1</span> <span class="op">&amp;&amp;</span> <span class="ident">attr</span>.<span class="ident">path</span>.<span class="ident">segments</span>[<span class="number">0</span>].<span class="ident">ident</span> <span class="op">==</span> <span class="string">&quot;reference&quot;</span> {
         <span class="kw">match</span> <span class="ident">attr</span>.<span class="ident">interpret_meta</span>() {
             <span class="prelude-val">Some</span>( <span class="ident">syn</span>::<span class="ident">Meta</span>::<span class="ident">List</span>( <span class="ident">meta</span> ) ) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>( <span class="ident">meta</span>.<span class="ident">nested</span>.<span class="ident">into_iter</span>().<span class="ident">collect</span>() ),
-            _ <span class="op">=&gt;</span> {
+            <span class="kw">_</span> <span class="op">=&gt;</span> {
                 <span class="macro">panic</span><span class="macro">!</span>( <span class="string">&quot;Unrecognized meta item type!&quot;</span> );
             }
         }
@@ -465,17 +466,17 @@
                                     <span class="ident">syn</span>::<span class="ident">Meta</span>::<span class="ident">Word</span>( <span class="ident">ident</span> ) <span class="op">=&gt;</span> {
                                         <span class="ident">subclass_of</span>.<span class="ident">push</span>( <span class="ident">ident</span> );
                                     },
-                                    _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>( <span class="string">&quot;The value of &#39;#[reference(subclass_of(...))]&#39; is invalid!&quot;</span> )
+                                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>( <span class="string">&quot;The value of &#39;#[reference(subclass_of(...))]&#39; is invalid!&quot;</span> )
                                 }
                             },
-                            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>( <span class="string">&quot;The value of &#39;#[reference(subclass_of(...))]&#39; is invalid!&quot;</span> )
+                            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>( <span class="string">&quot;The value of &#39;#[reference(subclass_of(...))]&#39; is invalid!&quot;</span> )
                         }
                     }
                 },
                 <span class="ident">syn</span>::<span class="ident">NestedMeta</span>::<span class="ident">Meta</span>( <span class="kw-2">ref</span> <span class="ident">meta</span> ) <span class="op">=&gt;</span> {
                     <span class="macro">panic</span><span class="macro">!</span>( <span class="string">&quot;Unrecognized attribute: &#39;#[reference({})]&#39;&quot;</span>, <span class="ident">meta</span>.<span class="ident">name</span>() );
                 },
-                _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>( <span class="string">&quot;Unrecognized attribute!&quot;</span> )
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>( <span class="string">&quot;Unrecognized attribute!&quot;</span> )
             }
         }
     }
@@ -502,7 +503,7 @@
                                 <span class="ident">invalid_structure</span>();
                             }
 
-                            <span class="kw">let</span> <span class="ident">segs</span>: <span class="ident">Vec</span><span class="op">&lt;</span> _ <span class="op">&gt;</span> <span class="op">=</span> <span class="ident">ty_path</span>.<span class="ident">path</span>.<span class="ident">segments</span>.<span class="ident">iter</span>().<span class="ident">collect</span>();
+                            <span class="kw">let</span> <span class="ident">segs</span>: <span class="ident">Vec</span><span class="op">&lt;</span> <span class="kw">_</span> <span class="op">&gt;</span> <span class="op">=</span> <span class="ident">ty_path</span>.<span class="ident">path</span>.<span class="ident">segments</span>.<span class="ident">iter</span>().<span class="ident">collect</span>();
                             <span class="kw">if</span> <span class="ident">segs</span>.<span class="ident">last</span>().<span class="ident">unwrap</span>().<span class="ident">ident</span> <span class="op">!=</span> <span class="string">&quot;Reference&quot;</span> <span class="op">||</span> <span class="op">!</span><span class="ident">segs</span>.<span class="ident">last</span>().<span class="ident">unwrap</span>().<span class="ident">arguments</span>.<span class="ident">is_empty</span>() {
                                 <span class="ident">invalid_structure</span>();
                             }
@@ -514,10 +515,10 @@
                                         <span class="ident">invalid_structure</span>();
                                     }
                                 },
-                                _ <span class="op">=&gt;</span> <span class="ident">invalid_structure</span>()
+                                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">invalid_structure</span>()
                             }
                         },
-                        _ <span class="op">=&gt;</span> <span class="ident">invalid_structure</span>()
+                        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">invalid_structure</span>()
                     }
 
                     <span class="kw">match</span> <span class="ident">fields_iter</span>.<span class="ident">next</span>().<span class="ident">map</span>( <span class="op">|</span><span class="ident">field</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="ident">field</span>.<span class="ident">ty</span> ) {
@@ -526,30 +527,30 @@
                                 <span class="ident">invalid_structure</span>();
                             }
 
-                            <span class="kw">let</span> <span class="ident">segs</span>: <span class="ident">Vec</span><span class="op">&lt;</span> _ <span class="op">&gt;</span> <span class="op">=</span> <span class="ident">ty_path</span>.<span class="ident">path</span>.<span class="ident">segments</span>.<span class="ident">iter</span>().<span class="ident">collect</span>();
+                            <span class="kw">let</span> <span class="ident">segs</span>: <span class="ident">Vec</span><span class="op">&lt;</span> <span class="kw">_</span> <span class="op">&gt;</span> <span class="op">=</span> <span class="ident">ty_path</span>.<span class="ident">path</span>.<span class="ident">segments</span>.<span class="ident">iter</span>().<span class="ident">collect</span>();
                             <span class="kw">if</span> <span class="ident">segs</span>.<span class="ident">last</span>().<span class="ident">unwrap</span>().<span class="ident">ident</span> <span class="op">!=</span> <span class="string">&quot;PhantomData&quot;</span> {
                                 <span class="ident">invalid_structure</span>();
                             }
                         },
-                        <span class="prelude-val">Some</span>( _ ) <span class="op">=&gt;</span> <span class="ident">invalid_structure</span>(),
+                        <span class="prelude-val">Some</span>( <span class="kw">_</span> ) <span class="op">=&gt;</span> <span class="ident">invalid_structure</span>(),
                         <span class="prelude-val">None</span> <span class="op">=&gt;</span> {}
                     }
                 },
-                _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>( <span class="string">&quot;Only tuple structures are supported!&quot;</span> )
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>( <span class="string">&quot;Only tuple structures are supported!&quot;</span> )
             }
         },
-        _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>( <span class="string">&quot;Only tuple structures are supported!&quot;</span> )
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>( <span class="string">&quot;Only tuple structures are supported!&quot;</span> )
     }
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">default_args</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
     <span class="kw">for</span> <span class="ident">param</span> <span class="kw">in</span> <span class="ident">input</span>.<span class="ident">generics</span>.<span class="ident">params</span>.<span class="ident">iter</span>() {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">param</span> {
-            <span class="ident">syn</span>::<span class="ident">GenericParam</span>::<span class="ident">Type</span>( _ ) <span class="op">=&gt;</span> {
+            <span class="ident">syn</span>::<span class="ident">GenericParam</span>::<span class="ident">Type</span>( <span class="kw">_</span> ) <span class="op">=&gt;</span> {
                 <span class="ident">default_args</span>.<span class="ident">push</span>( <span class="macro">quote</span><span class="macro">!</span> {
                     ::<span class="ident">std</span>::<span class="ident">default</span>::<span class="ident">Default</span>::<span class="ident">default</span>()
                 });
             },
-            _ <span class="op">=&gt;</span> {}
+            <span class="kw">_</span> <span class="op">=&gt;</span> {}
         }
     }
     <span class="kw">let</span> <span class="ident">default_args</span> <span class="op">=</span> <span class="macro">quote</span><span class="macro">!</span> { #(#<span class="ident">default_args</span>),<span class="op">*</span> };
@@ -570,7 +571,7 @@
         <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="macro">quote</span><span class="macro">!</span> {}
     };
 
-    <span class="kw">let</span> <span class="ident">subclass_of_impl</span>: <span class="ident">Vec</span><span class="op">&lt;</span> _ <span class="op">&gt;</span> <span class="op">=</span> <span class="ident">subclass_of</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>( <span class="op">|</span><span class="ident">target</span><span class="op">|</span> {
+    <span class="kw">let</span> <span class="ident">subclass_of_impl</span>: <span class="ident">Vec</span><span class="op">&lt;</span> <span class="kw">_</span> <span class="op">&gt;</span> <span class="op">=</span> <span class="ident">subclass_of</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>( <span class="op">|</span><span class="ident">target</span><span class="op">|</span> {
         <span class="kw">let</span> <span class="ident">target</span>: <span class="ident">syn</span>::<span class="ident">Ident</span> <span class="op">=</span> <span class="ident">target</span>.<span class="ident">into</span>();
         <span class="macro">quote</span><span class="macro">!</span> {
             <span class="kw">impl</span> #<span class="ident">impl_generics</span> <span class="ident">From</span><span class="op">&lt;</span> #<span class="ident">name</span> #<span class="ident">ty_generics</span> <span class="op">&gt;</span> <span class="kw">for</span> #<span class="ident">target</span> #<span class="ident">where_clause</span> {

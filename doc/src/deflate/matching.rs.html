@@ -10,10 +10,11 @@
     <title>matching.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -606,7 +607,7 @@
     <span class="comment">// The position of the previous value in the hash chain.</span>
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">prev_head</span>;
 
-    <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span>..<span class="ident">max_hash_checks</span> {
+    <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">max_hash_checks</span> {
         <span class="ident">prev_head</span> <span class="op">=</span> <span class="ident">current_head</span>;
         <span class="ident">current_head</span> <span class="op">=</span> <span class="ident">hash_table</span>.<span class="ident">get_prev</span>(<span class="ident">current_head</span>) <span class="kw">as</span> <span class="ident">usize</span>;
         <span class="kw">if</span> <span class="ident">current_head</span> <span class="op">&gt;=</span> <span class="ident">prev_head</span> <span class="op">||</span> <span class="ident">current_head</span> <span class="op">&lt;</span> <span class="ident">limit</span> {
@@ -704,7 +705,7 @@
     <span class="comment">// The position of the previous value in the hash chain.</span>
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">prev_head</span>;
 
-    <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span>..<span class="ident">max_hash_checks</span> {
+    <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">max_hash_checks</span> {
         <span class="ident">prev_head</span> <span class="op">=</span> <span class="ident">current_head</span>;
         <span class="ident">current_head</span> <span class="op">=</span> <span class="ident">hash_table</span>.<span class="ident">get_prev</span>(<span class="ident">current_head</span>) <span class="kw">as</span> <span class="ident">usize</span>;
         <span class="kw">if</span> <span class="ident">current_head</span> <span class="op">&gt;=</span> <span class="ident">prev_head</span> <span class="op">||</span> <span class="ident">current_head</span> <span class="op">&lt;</span> <span class="ident">limit</span> <span class="op">+</span> <span class="ident">offset</span> {

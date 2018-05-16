@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/git/checkouts/ugli-8fb7e17b8fd1bfa0/b69765c/ugli/src/draw/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/git/checkouts/ugli-8fb7e17b8fd1bfa0/7c70cfa/ugli/src/draw/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle">
     <script src="../../../storage.js"></script>
     
 
@@ -539,8 +540,8 @@
             <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">D</span>: <span class="ident">Vertex</span><span class="op">&gt;</span> <span class="ident">VertexAttributeVisitor</span> <span class="kw">for</span> <span class="ident">VAC</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">D</span><span class="op">&gt;</span> {
                 <span class="kw">fn</span> <span class="ident">visit</span><span class="op">&lt;</span><span class="ident">A</span>: <span class="ident">VertexAttribute</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">attribute</span>: <span class="kw-2">&amp;</span><span class="ident">A</span>) {
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">attribute_info</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">program</span>.<span class="ident">attributes</span>.<span class="ident">get</span>(<span class="ident">name</span>) {
-                        <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">offset</span> <span class="op">+</span> <span class="ident">attribute</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> _ <span class="kw">as</span> <span class="ident">usize</span>
-                            <span class="op">-</span> <span class="self">self</span>.<span class="ident">sample</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> _ <span class="kw">as</span> <span class="ident">usize</span>;
+                        <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">offset</span> <span class="op">+</span> <span class="ident">attribute</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span>
+                            <span class="op">-</span> <span class="self">self</span>.<span class="ident">sample</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span>;
                         <span class="kw">unsafe</span> {
                             <span class="ident">gl</span>::<span class="ident">EnableVertexAttribArray</span>(<span class="ident">attribute_info</span>.<span class="ident">location</span>);
                             <span class="ident">gl</span>::<span class="ident">VertexAttribPointer</span>(

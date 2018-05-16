@@ -10,10 +10,11 @@
     <title>winit - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../dark.css">
-    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle">
     <script src="../storage.js"></script>
     
 
@@ -54,13 +55,11 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>winit</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>winit</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/winit/lib.rs.html#1-467' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><p>Winit allows you to build a window on as many platforms as possible.</p>
+               </span><a class='srclink' href='../src/winit/lib.rs.html#1-462' title='goto source code'>[src]</a></span></h1><div class='docblock'><p>Winit allows you to build a window on as many platforms as possible.</p>
 <h1 id="building-a-window" class="section-header"><a href="#building-a-window">Building a window</a></h1>
 <p>Before you can build a window, you first need to build an <code>EventsLoop</code>. This is done with the
 <code>EventsLoop::new()</code> function. Example:</p>
@@ -95,7 +94,7 @@ screen, such as video games.</p>
             <span class="ident">Event</span>::<span class="ident">WindowEvent</span> { <span class="ident">event</span>: <span class="ident">WindowEvent</span>::<span class="ident">Resized</span>(<span class="ident">w</span>, <span class="ident">h</span>), .. } <span class="op">=&gt;</span> {
                 <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;The window was resized to {}x{}&quot;</span>, <span class="ident">w</span>, <span class="ident">h</span>);
             },
-            _ <span class="op">=&gt;</span> ()
+            <span class="kw">_</span> <span class="op">=&gt;</span> ()
         }
     });
 }</pre>
@@ -107,11 +106,11 @@ forever unless it is stopped by returning <code>ControlFlow::Break</code>.</p>
 
 <span class="ident">events_loop</span>.<span class="ident">run_forever</span>(<span class="op">|</span><span class="ident">event</span><span class="op">|</span> {
     <span class="kw">match</span> <span class="ident">event</span> {
-        <span class="ident">Event</span>::<span class="ident">WindowEvent</span> { <span class="ident">event</span>: <span class="ident">WindowEvent</span>::<span class="ident">Closed</span>, .. } <span class="op">=&gt;</span> {
-            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;The window was closed ; stopping&quot;</span>);
+        <span class="ident">Event</span>::<span class="ident">WindowEvent</span> { <span class="ident">event</span>: <span class="ident">WindowEvent</span>::<span class="ident">CloseRequested</span>, .. } <span class="op">=&gt;</span> {
+            <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;The close button was pressed; stopping&quot;</span>);
             <span class="ident">ControlFlow</span>::<span class="ident">Break</span>
         },
-        _ <span class="op">=&gt;</span> <span class="ident">ControlFlow</span>::<span class="ident">Continue</span>,
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">ControlFlow</span>::<span class="ident">Continue</span>,
     }
 });</pre>
 <p>If you use multiple windows, the <code>WindowEvent</code> event has a member named <code>window_id</code>. You can

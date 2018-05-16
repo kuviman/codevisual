@@ -10,10 +10,11 @@
     <title>ugli::DrawMode - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../dark.css">
-    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle">
     <script src="../storage.js"></script>
     
 
@@ -33,7 +34,7 @@
     <nav class="sidebar">
         <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Enum DrawMode</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#variants">Variants</a><div class="sidebar-links"><a href="#variant.Points">Points</a><a href="#variant.Lines">Lines</a><a href="#variant.LineStrip">LineStrip</a><a href="#variant.LineLoop">LineLoop</a><a href="#variant.Triangles">Triangles</a><a href="#variant.TriangleStrip">TriangleStrip</a><a href="#variant.TriangleFan">TriangleFan</a></div></div><p class='location'><a href='index.html'>ugli</a></p><script>window.sidebarCurrent = {name: 'DrawMode', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+        <p class='location'>Enum DrawMode</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#variants">Variants</a><div class="sidebar-links"><a href="#variant.Points">Points</a><a href="#variant.Lines">Lines</a><a href="#variant.LineStrip">LineStrip</a><a href="#variant.LineLoop">LineLoop</a><a href="#variant.Triangles">Triangles</a><a href="#variant.TriangleStrip">TriangleStrip</a><a href="#variant.TriangleFan">TriangleFan</a></div><a class="sidebar-title" href="#synthetic-implementations">Auto Trait Implementations</a><div class="sidebar-links"><a href="#impl-Send">Send</a><a href="#impl-Sync">Sync</a></div></div><p class='location'><a href='index.html'>ugli</a></p><script>window.sidebarCurrent = {name: 'DrawMode', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
     <div class="theme-picker">
@@ -54,13 +55,11 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Enum <a href='index.html'>ugli</a>::<wbr><a class="enum" href=''>DrawMode</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Enum <a href='index.html'>ugli</a>::<wbr><a class="enum" href=''>DrawMode</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/ugli/draw/mod.rs.html#7-15' title='goto source code'>[src]</a></span></h1>
-<pre class='rust enum'>pub enum DrawMode {
+               </span><a class='srclink' href='../src/ugli/draw/mod.rs.html#7-15' title='goto source code'>[src]</a></span></h1><div class="docblock type-decl"><pre class='rust enum'>pub enum DrawMode {
     Points,
     Lines {
         line_width: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>,
@@ -74,7 +73,7 @@
     Triangles,
     TriangleStrip,
     TriangleFan,
-}</pre><h2 id='variants' class='variants small-section-header'>
+}</pre></div><h2 id='variants' class='variants small-section-header'>
                    Variants<a href='#variants' class='anchor'></a></h2>
 <span id="variant.Points" class="variant small-section-header"><a href="#variant.Points" class="anchor field"></a><span id='Points.v' class='invisible'><code>Points</code></span></span><span id="variant.Lines" class="variant small-section-header"><a href="#variant.Lines" class="anchor field"></a><span id='Lines.v' class='invisible'><code>Lines</code></span></span><span class='docblock autohide sub-variant' id='variant.Lines.fields'><h3 class='fields'>Fields of <code>Lines</code></h3>
 
@@ -82,7 +81,17 @@
 
                            <table><tr><td id='variant.LineStrip.field.line_width'><span id='LineStrip.v.line_width.v' class='invisible'><code>line_width:&nbsp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a></code></span></td><td></td></tr></table></span><span id="variant.LineLoop" class="variant small-section-header"><a href="#variant.LineLoop" class="anchor field"></a><span id='LineLoop.v' class='invisible'><code>LineLoop</code></span></span><span class='docblock autohide sub-variant' id='variant.LineLoop.fields'><h3 class='fields'>Fields of <code>LineLoop</code></h3>
 
-                           <table><tr><td id='variant.LineLoop.field.line_width'><span id='LineLoop.v.line_width.v' class='invisible'><code>line_width:&nbsp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a></code></span></td><td></td></tr></table></span><span id="variant.Triangles" class="variant small-section-header"><a href="#variant.Triangles" class="anchor field"></a><span id='Triangles.v' class='invisible'><code>Triangles</code></span></span><span id="variant.TriangleStrip" class="variant small-section-header"><a href="#variant.TriangleStrip" class="anchor field"></a><span id='TriangleStrip.v' class='invisible'><code>TriangleStrip</code></span></span><span id="variant.TriangleFan" class="variant small-section-header"><a href="#variant.TriangleFan" class="anchor field"></a><span id='TriangleFan.v' class='invisible'><code>TriangleFan</code></span></span></section>
+                           <table><tr><td id='variant.LineLoop.field.line_width'><span id='LineLoop.v.line_width.v' class='invisible'><code>line_width:&nbsp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a></code></span></td><td></td></tr></table></span><span id="variant.Triangles" class="variant small-section-header"><a href="#variant.Triangles" class="anchor field"></a><span id='Triangles.v' class='invisible'><code>Triangles</code></span></span><span id="variant.TriangleStrip" class="variant small-section-header"><a href="#variant.TriangleStrip" class="anchor field"></a><span id='TriangleStrip.v' class='invisible'><code>TriangleStrip</code></span></span><span id="variant.TriangleFan" class="variant small-section-header"><a href="#variant.TriangleFan" class="anchor field"></a><span id='TriangleFan.v' class='invisible'><code>TriangleFan</code></span></span>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+            <div id='implementations-list'>
+        </div>
+                <h2 id='synthetic-implementations' class='small-section-header'>
+                  Auto Trait Implementations<a href='#synthetic-implementations' class='anchor'></a>
+                </h2>
+                <div id='synthetic-implementations-list'>
+            <h3 id='impl-Send' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="enum" href="../ugli/enum.DrawMode.html" title="enum ugli::DrawMode">DrawMode</a></code><a href='#impl-Send' class='anchor'></a></span></td><td><span class='out-of-band'></span></td></tr></tbody></table></h3><div class='impl-items'></div><h3 id='impl-Sync' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="enum" href="../ugli/enum.DrawMode.html" title="enum ugli::DrawMode">DrawMode</a></code><a href='#impl-Sync' class='anchor'></a></span></td><td><span class='out-of-band'></span></td></tr></tbody></table></h3><div class='impl-items'></div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

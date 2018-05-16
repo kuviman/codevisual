@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/winit-0.9.0/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/winit-0.13.1/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -516,11 +517,6 @@
 <span id="460">460</span>
 <span id="461">461</span>
 <span id="462">462</span>
-<span id="463">463</span>
-<span id="464">464</span>
-<span id="465">465</span>
-<span id="466">466</span>
-<span id="467">467</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Winit allows you to build a window on as many platforms as possible.</span>
 <span class="doccomment">//!</span>
@@ -584,8 +580,8 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! events_loop.run_forever(|event| {</span>
 <span class="doccomment">//!     match event {</span>
-<span class="doccomment">//!         Event::WindowEvent { event: WindowEvent::Closed, .. } =&gt; {</span>
-<span class="doccomment">//!             println!(&quot;The window was closed ; stopping&quot;);</span>
+<span class="doccomment">//!         Event::WindowEvent { event: WindowEvent::CloseRequested, .. } =&gt; {</span>
+<span class="doccomment">//!             println!(&quot;The close button was pressed; stopping&quot;);</span>
 <span class="doccomment">//!             ControlFlow::Break</span>
 <span class="doccomment">//!         },</span>
 <span class="doccomment">//!         _ =&gt; ControlFlow::Continue,</span>
@@ -611,15 +607,8 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libc</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;windows&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">winapi</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;windows&quot;</span>)]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">kernel32</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;windows&quot;</span>)]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">shell32</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;windows&quot;</span>)]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">user32</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;windows&quot;</span>)]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">dwmapi</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;macos&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;ios&quot;</span>))]</span>
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">objc</span>;
@@ -631,6 +620,8 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">core_graphics</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;linux&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;dragonfly&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;freebsd&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;openbsd&quot;</span>))]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">x11_dl</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;linux&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;dragonfly&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;freebsd&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;openbsd&quot;</span>))]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">percent_encoding</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;linux&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;freebsd&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;dragonfly&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;openbsd&quot;</span>))]</span>
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">wayland_client</span>;
@@ -656,7 +647,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// events_loop.run_forever(|event| {</span>
 <span class="doccomment">///     match event {</span>
-<span class="doccomment">///         Event::WindowEvent { event: WindowEvent::Closed, .. } =&gt; {</span>
+<span class="doccomment">///         Event::WindowEvent { event: WindowEvent::CloseRequested, .. } =&gt; {</span>
 <span class="doccomment">///             ControlFlow::Break</span>
 <span class="doccomment">///         },</span>
 <span class="doccomment">///         _ =&gt; ControlFlow::Continue,</span>

@@ -10,10 +10,11 @@
     <title>lewton::header::HuffmanVqReadErr - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -33,7 +34,7 @@
     <nav class="sidebar">
         <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Enum HuffmanVqReadErr</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#variants">Variants</a><div class="sidebar-links"><a href="#variant.EndOfPacket">EndOfPacket</a><a href="#variant.NoVqLookupForCodebook">NoVqLookupForCodebook</a></div></div><p class='location'><a href='../index.html'>lewton</a>::<wbr><a href='index.html'>header</a></p><script>window.sidebarCurrent = {name: 'HuffmanVqReadErr', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+        <p class='location'>Enum HuffmanVqReadErr</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#variants">Variants</a><div class="sidebar-links"><a href="#variant.EndOfPacket">EndOfPacket</a><a href="#variant.NoVqLookupForCodebook">NoVqLookupForCodebook</a></div><a class="sidebar-title" href="#synthetic-implementations">Auto Trait Implementations</a><div class="sidebar-links"><a href="#impl-Send">Send</a><a href="#impl-Sync">Sync</a></div></div><p class='location'><a href='../index.html'>lewton</a>::<wbr><a href='index.html'>header</a></p><script>window.sidebarCurrent = {name: 'HuffmanVqReadErr', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
     <div class="theme-picker">
@@ -54,16 +55,14 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>lewton</a>::<wbr><a href='index.html'>header</a>::<wbr><a class="enum" href=''>HuffmanVqReadErr</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>lewton</a>::<wbr><a href='index.html'>header</a>::<wbr><a class="enum" href=''>HuffmanVqReadErr</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/lewton/header.rs.html#492-495' title='goto source code'>[src]</a></span></h1>
-<pre class='rust enum'>pub enum HuffmanVqReadErr {
+               </span><a class='srclink' href='../../src/lewton/header.rs.html#492-495' title='goto source code'>[src]</a></span></h1><div class="docblock type-decl"><pre class='rust enum'>pub enum HuffmanVqReadErr {
     EndOfPacket,
     NoVqLookupForCodebook,
-}</pre><div class='docblock'><p>Small Error type for <code>BitpackCursor::read_huffman_vq</code>.</p>
+}</pre></div><div class='docblock'><p>Small Error type for <code>BitpackCursor::read_huffman_vq</code>.</p>
 <p>This is in order to enable calling code to distinguish
 between the two cases of the enum. Esp. in some cases
 the decoder might have to reject packages with the
@@ -71,7 +70,17 @@ NoVqLookupForCodebook variant, but have to treat EndOfPacket
 as normal occurence.</p>
 </div><h2 id='variants' class='variants small-section-header'>
                    Variants<a href='#variants' class='anchor'></a></h2>
-<span id="variant.EndOfPacket" class="variant small-section-header"><a href="#variant.EndOfPacket" class="anchor field"></a><span id='EndOfPacket.v' class='invisible'><code>EndOfPacket</code></span></span><span id="variant.NoVqLookupForCodebook" class="variant small-section-header"><a href="#variant.NoVqLookupForCodebook" class="anchor field"></a><span id='NoVqLookupForCodebook.v' class='invisible'><code>NoVqLookupForCodebook</code></span></span></section>
+<span id="variant.EndOfPacket" class="variant small-section-header"><a href="#variant.EndOfPacket" class="anchor field"></a><span id='EndOfPacket.v' class='invisible'><code>EndOfPacket</code></span></span><span id="variant.NoVqLookupForCodebook" class="variant small-section-header"><a href="#variant.NoVqLookupForCodebook" class="anchor field"></a><span id='NoVqLookupForCodebook.v' class='invisible'><code>NoVqLookupForCodebook</code></span></span>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+            <div id='implementations-list'>
+        </div>
+                <h2 id='synthetic-implementations' class='small-section-header'>
+                  Auto Trait Implementations<a href='#synthetic-implementations' class='anchor'></a>
+                </h2>
+                <div id='synthetic-implementations-list'>
+            <h3 id='impl-Send' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="enum" href="../../lewton/header/enum.HuffmanVqReadErr.html" title="enum lewton::header::HuffmanVqReadErr">HuffmanVqReadErr</a></code><a href='#impl-Send' class='anchor'></a></span></td><td><span class='out-of-band'></span></td></tr></tbody></table></h3><div class='impl-items'></div><h3 id='impl-Sync' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="enum" href="../../lewton/header/enum.HuffmanVqReadErr.html" title="enum lewton::header::HuffmanVqReadErr">HuffmanVqReadErr</a></code><a href='#impl-Sync' class='anchor'></a></span></td><td><span class='out-of-band'></span></td></tr></tbody></table></h3><div class='impl-items'></div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

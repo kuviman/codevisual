@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/git/checkouts/ugli-8fb7e17b8fd1bfa0/b69765c/ugli/src/texture/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/git/checkouts/ugli-8fb7e17b8fd1bfa0/7c70cfa/ugli/src/texture/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle">
     <script src="../../../storage.js"></script>
     
 
@@ -287,14 +288,14 @@
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">WrapMode</span> {
-    <span class="ident">Repeat</span> <span class="op">=</span> <span class="ident">gl</span>::<span class="ident">REPEAT</span> <span class="kw">as</span> _,
-    <span class="ident">Clamp</span> <span class="op">=</span> <span class="ident">gl</span>::<span class="ident">CLAMP_TO_EDGE</span> <span class="kw">as</span> _,
+    <span class="ident">Repeat</span> <span class="op">=</span> <span class="ident">gl</span>::<span class="ident">REPEAT</span> <span class="kw">as</span> <span class="kw">_</span>,
+    <span class="ident">Clamp</span> <span class="op">=</span> <span class="ident">gl</span>::<span class="ident">CLAMP_TO_EDGE</span> <span class="kw">as</span> <span class="kw">_</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Filter</span> {
-    <span class="ident">Nearest</span> <span class="op">=</span> <span class="ident">gl</span>::<span class="ident">NEAREST</span> <span class="kw">as</span> _,
-    <span class="ident">Linear</span> <span class="op">=</span> <span class="ident">gl</span>::<span class="ident">LINEAR</span> <span class="kw">as</span> _,
+    <span class="ident">Nearest</span> <span class="op">=</span> <span class="ident">gl</span>::<span class="ident">NEAREST</span> <span class="kw">as</span> <span class="kw">_</span>,
+    <span class="ident">Linear</span> <span class="op">=</span> <span class="ident">gl</span>::<span class="ident">LINEAR</span> <span class="kw">as</span> <span class="kw">_</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
@@ -315,7 +316,7 @@
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Texture</span> <span class="op">=</span> <span class="ident">Texture2d</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>;
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">TexturePixel</span><span class="op">&gt;</span> <span class="ident">Texture2d</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">new_raw</span>(_: <span class="kw-2">&amp;</span><span class="ident">Context</span>, <span class="ident">size</span>: <span class="ident">Vec2</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">new_raw</span>(<span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Context</span>, <span class="ident">size</span>: <span class="ident">Vec2</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">handle</span>: <span class="ident">GLuint</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">uninitialized</span>();
             <span class="ident">gl</span>::<span class="ident">GenTextures</span>(<span class="number">1</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">handle</span>);
@@ -424,7 +425,7 @@
                 <span class="number">0</span>,
                 <span class="ident">gl</span>::<span class="ident">RGBA</span> <span class="kw">as</span> <span class="ident">GLenum</span>,
                 <span class="ident">gl</span>::<span class="ident">UNSIGNED_BYTE</span>,
-                <span class="ident">data</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> _,
+                <span class="ident">data</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span>,
             );
         }
         <span class="ident">texture</span>
@@ -442,7 +443,7 @@
             <span class="ident">size</span>.<span class="ident">y</span> <span class="kw">as</span> <span class="ident">GLsizei</span>,
             <span class="ident">gl</span>::<span class="ident">RGBA</span>,
             <span class="ident">gl</span>::<span class="ident">UNSIGNED_BYTE</span>,
-            <span class="ident">data</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> _,
+            <span class="ident">data</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span>,
         );
     }
 
@@ -460,7 +461,7 @@
                 <span class="number">0</span>,
                 <span class="ident">gl</span>::<span class="ident">RGBA</span> <span class="kw">as</span> <span class="ident">GLenum</span>,
                 <span class="ident">gl</span>::<span class="ident">UNSIGNED_BYTE</span>,
-                <span class="ident">image</span>.<span class="ident">into_raw</span>().<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> _,
+                <span class="ident">image</span>.<span class="ident">into_raw</span>().<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span>,
             );
         }
         <span class="kw">if</span> <span class="ident">texture</span>.<span class="ident">is_pot</span>() {

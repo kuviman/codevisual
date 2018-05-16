@@ -10,10 +10,11 @@
     <title>crc.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -447,7 +448,7 @@
     <span class="kw">use</span> <span class="ident">input</span>::<span class="ident">BufferedReader</span>;
     <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">BufferedReader</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">test_vector</span>));
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">Crc8Reader</span>::<span class="ident">new</span>(<span class="ident">data</span>);
-    <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(_) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_u8_or_eof</span>().<span class="ident">unwrap</span>() {}
+    <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_u8_or_eof</span>().<span class="ident">unwrap</span>() {}
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">crc</span>(), <span class="ident">result</span>);
 }
 
@@ -456,7 +457,7 @@
     <span class="kw">use</span> <span class="ident">input</span>::<span class="ident">BufferedReader</span>;
     <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">BufferedReader</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">Cursor</span>::<span class="ident">new</span>(<span class="ident">test_vector</span>));
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">Crc16Reader</span>::<span class="ident">new</span>(<span class="ident">data</span>);
-    <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(_) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_u8_or_eof</span>().<span class="ident">unwrap</span>() {}
+    <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">read_u8_or_eof</span>().<span class="ident">unwrap</span>() {}
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">crc</span>(), <span class="ident">result</span>);
 }
 

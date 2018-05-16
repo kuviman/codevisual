@@ -10,10 +10,11 @@
     <title>huffman_tree.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -623,7 +624,7 @@ impl fmt::Debug for HuffTree {
 		<span class="kw">if</span> <span class="self">self</span>.<span class="ident">even_childs</span> {
 			<span class="comment">//println!(&quot; =&gt; HAS EVEN CHILDS&quot;);</span>
 			<span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">l</span> {
-				<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-val">Some</span>(_) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="bool-val">false</span>,
+				<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="bool-val">false</span>,
 				<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
 					<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_node</span> <span class="op">=</span> <span class="ident">HuffTree</span> { <span class="ident">even_childs</span> :<span class="bool-val">true</span>, <span class="ident">payload</span> :<span class="prelude-val">None</span>, <span class="ident">l</span> :<span class="prelude-val">None</span>, <span class="ident">r</span> :<span class="prelude-val">None</span> };
 					<span class="ident">new_node</span>.<span class="ident">insert_rec</span>(<span class="ident">payload</span>, <span class="ident">depth</span> <span class="op">-</span> <span class="number">1</span>);
@@ -829,7 +830,7 @@ impl fmt::Debug for HuffTree {
 				<span class="kw">let</span> <span class="ident">payload</span> <span class="op">=</span> <span class="ident">tree</span>.<span class="ident">payload</span>.<span class="ident">unwrap</span>();
 				<span class="kw">let</span> <span class="ident">it</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">prefix_idx</span>;
 				<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="ident">prefix</span> <span class="kw">as</span> <span class="ident">usize</span>;
-				<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">1</span> .. (<span class="number">1u16</span> <span class="op">&lt;&lt;</span> (<span class="number">8</span> <span class="op">-</span> <span class="ident">prefix_idx</span>)) {
+				<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">1</span> .. (<span class="number">1u16</span> <span class="op">&lt;&lt;</span> (<span class="number">8</span> <span class="op">-</span> <span class="ident">prefix_idx</span>)) {
 					<span class="ident">unrolled_entries</span>[<span class="ident">i</span>] <span class="op">=</span>
 						<span class="ident">UnrolledLookupEntry</span>::<span class="ident">HasEntry</span>(<span class="ident">prefix_idx</span>, <span class="ident">payload</span>);
 					<span class="ident">i</span> <span class="op">+=</span> <span class="ident">it</span>;
@@ -873,7 +874,7 @@ impl fmt::Debug for HuffTree {
 				<span class="op">=&gt;</span> <span class="ident">PayloadFound</span>(<span class="ident">cnt_to_remove</span>, <span class="ident">payload</span>),
 			<span class="ident">InconclusiveWithHint</span>(<span class="ident">hint</span>)
 				<span class="op">=&gt;</span> <span class="ident">Iter</span>(<span class="number">8</span>, <span class="ident">VorbisHuffmanIter</span> { <span class="ident">desc_prog</span> : <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">desc_prog</span>, <span class="ident">pos</span> : <span class="ident">hint</span> }),
-			_
+			<span class="kw">_</span>
 				<span class="op">=&gt;</span> <span class="ident">Iter</span>(<span class="number">0</span>, <span class="ident">VorbisHuffmanIter</span> { <span class="ident">desc_prog</span> : <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">desc_prog</span>, <span class="ident">pos</span> : <span class="number">0</span> }),
 		};
 	}
@@ -958,7 +959,7 @@ impl fmt::Debug for HuffTree {
 <span class="kw">fn</span> <span class="ident">test_issue_8</span>() {
 	<span class="comment">// regression test for issue 8</span>
 	<span class="comment">// make sure that it doesn&#39;t panic.</span>
-	<span class="kw">let</span> _ <span class="op">=</span> <span class="ident">VorbisHuffmanTree</span>::<span class="ident">load_from_array</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="number">625</span>]);
+	<span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">VorbisHuffmanTree</span>::<span class="ident">load_from_array</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="number">625</span>]);
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>

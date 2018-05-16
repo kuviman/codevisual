@@ -10,10 +10,11 @@
     <title>claxon::metadata::MetadataBlock - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -33,7 +34,7 @@
     <nav class="sidebar">
         <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Enum MetadataBlock</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#variants">Variants</a><div class="sidebar-links"><a href="#variant.StreamInfo">StreamInfo</a><a href="#variant.Padding">Padding</a><a href="#variant.Application">Application</a><a href="#variant.SeekTable">SeekTable</a><a href="#variant.VorbisComment">VorbisComment</a><a href="#variant.CueSheet">CueSheet</a><a href="#variant.Picture">Picture</a><a href="#variant.Reserved">Reserved</a></div></div><p class='location'><a href='../index.html'>claxon</a>::<wbr><a href='index.html'>metadata</a></p><script>window.sidebarCurrent = {name: 'MetadataBlock', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+        <p class='location'>Enum MetadataBlock</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#variants">Variants</a><div class="sidebar-links"><a href="#variant.StreamInfo">StreamInfo</a><a href="#variant.Padding">Padding</a><a href="#variant.Application">Application</a><a href="#variant.SeekTable">SeekTable</a><a href="#variant.VorbisComment">VorbisComment</a><a href="#variant.CueSheet">CueSheet</a><a href="#variant.Picture">Picture</a><a href="#variant.Reserved">Reserved</a></div><a class="sidebar-title" href="#synthetic-implementations">Auto Trait Implementations</a><div class="sidebar-links"><a href="#impl-Send">Send</a><a href="#impl-Sync">Sync</a></div></div><p class='location'><a href='../index.html'>claxon</a>::<wbr><a href='index.html'>metadata</a></p><script>window.sidebarCurrent = {name: 'MetadataBlock', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
     <div class="theme-picker">
@@ -54,13 +55,11 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>claxon</a>::<wbr><a href='index.html'>metadata</a>::<wbr><a class="enum" href=''>MetadataBlock</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>claxon</a>::<wbr><a href='index.html'>metadata</a>::<wbr><a class="enum" href=''>MetadataBlock</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/claxon/metadata.rs.html#65-90' title='goto source code'>[src]</a></span></h1>
-<pre class='rust enum'>pub enum MetadataBlock {
+               </span><a class='srclink' href='../../src/claxon/metadata.rs.html#65-90' title='goto source code'>[src]</a></span></h1><div class="docblock type-decl"><pre class='rust enum'>pub enum MetadataBlock {
     StreamInfo(<a class="struct" href="../../claxon/metadata/struct.StreamInfo.html" title="struct claxon::metadata::StreamInfo">StreamInfo</a>),
     Padding {
         length: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>,
@@ -74,7 +73,7 @@
     CueSheet,
     Picture,
     Reserved,
-}</pre><div class='docblock'><p>A metadata about the flac stream.</p>
+}</pre></div><div class='docblock'><p>A metadata about the flac stream.</p>
 </div><h2 id='variants' class='variants small-section-header'>
                    Variants<a href='#variants' class='anchor'></a></h2>
 <span id="variant.StreamInfo" class="variant small-section-header"><a href="#variant.StreamInfo" class="anchor field"></a><span id='StreamInfo.v' class='invisible'><code>StreamInfo(<a class="struct" href="../../claxon/metadata/struct.StreamInfo.html" title="struct claxon::metadata::StreamInfo">StreamInfo</a>)</code></span></span><div class='docblock'><p>A stream info block.</p>
@@ -92,7 +91,17 @@
 </div><span id="variant.CueSheet" class="variant small-section-header"><a href="#variant.CueSheet" class="anchor field"></a><span id='CueSheet.v' class='invisible'><code>CueSheet</code></span></span><div class='docblock'><p>A CUE sheet block.</p>
 </div><span id="variant.Picture" class="variant small-section-header"><a href="#variant.Picture" class="anchor field"></a><span id='Picture.v' class='invisible'><code>Picture</code></span></span><div class='docblock'><p>A picture block.</p>
 </div><span id="variant.Reserved" class="variant small-section-header"><a href="#variant.Reserved" class="anchor field"></a><span id='Reserved.v' class='invisible'><code>Reserved</code></span></span><div class='docblock'><p>A block with a reserved block type, not supported by this library.</p>
-</div></section>
+</div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+            <div id='implementations-list'>
+        </div>
+                <h2 id='synthetic-implementations' class='small-section-header'>
+                  Auto Trait Implementations<a href='#synthetic-implementations' class='anchor'></a>
+                </h2>
+                <div id='synthetic-implementations-list'>
+            <h3 id='impl-Send' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="enum" href="../../claxon/metadata/enum.MetadataBlock.html" title="enum claxon::metadata::MetadataBlock">MetadataBlock</a></code><a href='#impl-Send' class='anchor'></a></span></td><td><span class='out-of-band'></span></td></tr></tbody></table></h3><div class='impl-items'></div><h3 id='impl-Sync' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="enum" href="../../claxon/metadata/enum.MetadataBlock.html" title="enum claxon::metadata::MetadataBlock">MetadataBlock</a></code><a href='#impl-Sync' class='anchor'></a></span></td><td><span class='out-of-band'></span></td></tr></tbody></table></h3><div class='impl-items'></div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rodio-0.5.2/src/conversions/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rodio-0.7.0/src/conversions/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle">
     <script src="../../../storage.js"></script>
     
 
@@ -75,20 +76,20 @@
 <span class="doccomment">/*!
 This module contains function that will convert from one PCM format to another.
 
-This includes conversion between samples formats, channels or sample rates.
+This includes conversion between sample formats, channels or sample rates.
 
 */</span>
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">channels</span>::<span class="ident">ChannelsCountConverter</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">channels</span>::<span class="ident">ChannelCountConverter</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">sample</span>::<span class="ident">DataConverter</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">sample</span>::<span class="ident">Sample</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">samples_rate</span>::<span class="ident">SamplesRateConverter</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">sample_rate</span>::<span class="ident">SampleRateConverter</span>;
 
 <span class="kw">mod</span> <span class="ident">channels</span>;
 <span class="comment">// TODO: &lt; shouldn&#39;t be public ; there&#39;s a bug in Rust 1.4 and below that makes This</span>
 <span class="comment">// `pub` mandatory</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">sample</span>;
-<span class="kw">mod</span> <span class="ident">samples_rate</span>;
+<span class="kw">mod</span> <span class="ident">sample_rate</span>;
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

@@ -10,10 +10,11 @@
     <title>metadata.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -550,7 +551,7 @@
             <span class="comment">// This code is invalid to avoid confusion with a frame sync code.</span>
             <span class="ident">fmt_err</span>(<span class="string">&quot;invalid metadata block type&quot;</span>)
         }
-        _ <span class="op">=&gt;</span> {
+        <span class="kw">_</span> <span class="op">=&gt;</span> {
             <span class="comment">// Any other block type is &#39;reserved&#39; at the moment of writing. The</span>
             <span class="comment">// reference implementation reads it as an &#39;unknown&#39; block. That is</span>
             <span class="comment">// one way of handling it, but maybe there should be some kind of</span>

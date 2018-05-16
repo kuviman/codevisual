@@ -10,10 +10,11 @@
     <title>impl_default.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle">
     <script src="../../../../storage.js"></script>
     
 
@@ -189,12 +190,12 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">events</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
         {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">handle_event</span> <span class="op">=</span> <span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">e</span> {
-                <span class="ident">glutin</span>::<span class="ident">WindowEvent</span>::<span class="ident">Closed</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">should_close</span>.<span class="ident">set</span>(<span class="bool-val">true</span>),
+                <span class="ident">glutin</span>::<span class="ident">WindowEvent</span>::<span class="ident">CloseRequested</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">should_close</span>.<span class="ident">set</span>(<span class="bool-val">true</span>),
                 <span class="ident">glutin</span>::<span class="ident">WindowEvent</span>::<span class="ident">MouseWheel</span> { <span class="ident">delta</span>, .. } <span class="op">=&gt;</span> {
                     <span class="ident">events</span>.<span class="ident">push</span>(<span class="ident">Event</span>::<span class="ident">Wheel</span> {
                         <span class="ident">delta</span>: <span class="kw">match</span> <span class="ident">delta</span> {
-                            <span class="ident">glutin</span>::<span class="ident">MouseScrollDelta</span>::<span class="ident">PixelDelta</span>(_, <span class="ident">dy</span>) <span class="op">=&gt;</span> <span class="ident">dy</span> <span class="kw">as</span> <span class="ident">f64</span>,
-                            <span class="ident">glutin</span>::<span class="ident">MouseScrollDelta</span>::<span class="ident">LineDelta</span>(_, <span class="ident">dy</span>) <span class="op">=&gt;</span> <span class="ident">dy</span> <span class="kw">as</span> <span class="ident">f64</span> <span class="op">*</span> <span class="number">51.0</span>,
+                            <span class="ident">glutin</span>::<span class="ident">MouseScrollDelta</span>::<span class="ident">PixelDelta</span>(<span class="kw">_</span>, <span class="ident">dy</span>) <span class="op">=&gt;</span> <span class="ident">dy</span> <span class="kw">as</span> <span class="ident">f64</span>,
+                            <span class="ident">glutin</span>::<span class="ident">MouseScrollDelta</span>::<span class="ident">LineDelta</span>(<span class="kw">_</span>, <span class="ident">dy</span>) <span class="op">=&gt;</span> <span class="ident">dy</span> <span class="kw">as</span> <span class="ident">f64</span> <span class="op">*</span> <span class="number">51.0</span>,
                         },
                     });
                 }
@@ -209,7 +210,7 @@
                         <span class="ident">glutin</span>::<span class="ident">MouseButton</span>::<span class="ident">Left</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">MouseButton</span>::<span class="ident">Left</span>),
                         <span class="ident">glutin</span>::<span class="ident">MouseButton</span>::<span class="ident">Middle</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">MouseButton</span>::<span class="ident">Middle</span>),
                         <span class="ident">glutin</span>::<span class="ident">MouseButton</span>::<span class="ident">Right</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">MouseButton</span>::<span class="ident">Right</span>),
-                        _ <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+                        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
                     };
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">button</span>) <span class="op">=</span> <span class="ident">button</span> {
                         <span class="kw">let</span> <span class="ident">position</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">mouse_pos</span>.<span class="ident">get</span>();
@@ -228,7 +229,7 @@
                         });
                     }
                 }
-                _ <span class="op">=&gt;</span> {}
+                <span class="kw">_</span> <span class="op">=&gt;</span> {}
             };
             <span class="self">self</span>.<span class="ident">glutin_events_loop</span>.<span class="ident">borrow_mut</span>().<span class="ident">poll_events</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="ident">glutin</span>::<span class="ident">Event</span>::<span class="ident">WindowEvent</span> { <span class="ident">event</span>: <span class="ident">e</span>, .. } <span class="op">=</span> <span class="ident">e</span> {
@@ -303,7 +304,7 @@
         <span class="ident">GKey</span>::<span class="ident">PageUp</span> <span class="op">=&gt;</span> <span class="ident">Key</span>::<span class="ident">PageUp</span>,
         <span class="ident">GKey</span>::<span class="ident">PageDown</span> <span class="op">=&gt;</span> <span class="ident">Key</span>::<span class="ident">PageDown</span>,
 
-        _ <span class="op">=&gt;</span> {
+        <span class="kw">_</span> <span class="op">=&gt;</span> {
             <span class="comment">//            eprintln!(&quot;Unrecognized key: {:?}&quot;, key);</span>
             <span class="ident">Key</span>::<span class="ident">Unknown</span>
         }

@@ -10,10 +10,11 @@
     <title>alsa_sys::snd_seq_event_t - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../dark.css">
-    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle">
     <script src="../storage.js"></script>
     
 
@@ -33,7 +34,7 @@
     <nav class="sidebar">
         <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Struct snd_seq_event_t</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#fields">Fields</a><div class="sidebar-links"><a href="#structfield._type">_type</a><a href="#structfield.flags">flags</a><a href="#structfield.tag">tag</a><a href="#structfield.queue">queue</a><a href="#structfield.time">time</a><a href="#structfield.source">source</a><a href="#structfield.dest">dest</a><a href="#structfield.data">data</a></div></div><p class='location'><a href='index.html'>alsa_sys</a></p><script>window.sidebarCurrent = {name: 'snd_seq_event_t', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+        <p class='location'>Struct snd_seq_event_t</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#fields">Fields</a><div class="sidebar-links"><a href="#structfield._type">_type</a><a href="#structfield.flags">flags</a><a href="#structfield.tag">tag</a><a href="#structfield.queue">queue</a><a href="#structfield.time">time</a><a href="#structfield.source">source</a><a href="#structfield.dest">dest</a><a href="#structfield.data">data</a></div><a class="sidebar-title" href="#synthetic-implementations">Auto Trait Implementations</a><div class="sidebar-links"><a href="#impl-Send">Send</a><a href="#impl-Sync">Sync</a></div></div><p class='location'><a href='index.html'>alsa_sys</a></p><script>window.sidebarCurrent = {name: 'snd_seq_event_t', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
     <div class="theme-picker">
@@ -54,13 +55,11 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>alsa_sys</a>::<wbr><a class="struct" href=''>snd_seq_event_t</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>alsa_sys</a>::<wbr><a class="struct" href=''>snd_seq_event_t</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/alsa_sys/lib.rs.html#752-761' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'><div class="docblock attributes">#[repr(C)]
+               </span><a class='srclink' href='../src/alsa_sys/lib.rs.html#752-761' title='goto source code'>[src]</a></span></h1><div class="docblock type-decl"><pre class='rust struct'><div class="docblock attributes">#[repr(C)]
 </div>pub struct snd_seq_event_t {
     pub _type: <a class="type" href="../alsa_sys/type.snd_seq_event_type_t.html" title="type alsa_sys::snd_seq_event_type_t">snd_seq_event_type_t</a>,
     pub flags: <a class="type" href="../libc/type.c_uchar.html" title="type libc::c_uchar">c_uchar</a>,
@@ -70,7 +69,7 @@
     pub source: <a class="struct" href="../alsa_sys/struct.snd_seq_addr_t.html" title="struct alsa_sys::snd_seq_addr_t">snd_seq_addr_t</a>,
     pub dest: <a class="struct" href="../alsa_sys/struct.snd_seq_addr_t.html" title="struct alsa_sys::snd_seq_addr_t">snd_seq_addr_t</a>,
     pub data: <a class="struct" href="../alsa_sys/struct.Union_Unnamed10.html" title="struct alsa_sys::Union_Unnamed10">Union_Unnamed10</a>,
-}</pre><h2 id='fields' class='fields small-section-header'>
+}</pre></div><h2 id='fields' class='fields small-section-header'>
                        Fields<a href='#fields' class='anchor'></a></h2><span id="structfield._type" class="structfield small-section-header">
                            <a href="#structfield._type" class="anchor field"></a>
                            <span id="_type.v" class='invisible'>
@@ -103,7 +102,17 @@
                            <a href="#structfield.data" class="anchor field"></a>
                            <span id="data.v" class='invisible'>
                            <code>data: <a class="struct" href="../alsa_sys/struct.Union_Unnamed10.html" title="struct alsa_sys::Union_Unnamed10">Union_Unnamed10</a></code>
-                           </span></span></section>
+                           </span></span>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+            <div id='implementations-list'>
+        </div>
+                <h2 id='synthetic-implementations' class='small-section-header'>
+                  Auto Trait Implementations<a href='#synthetic-implementations' class='anchor'></a>
+                </h2>
+                <div id='synthetic-implementations-list'>
+            <h3 id='impl-Send' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="struct" href="../alsa_sys/struct.snd_seq_event_t.html" title="struct alsa_sys::snd_seq_event_t">snd_seq_event_t</a></code><a href='#impl-Send' class='anchor'></a></span></td><td><span class='out-of-band'></span></td></tr></tbody></table></h3><div class='impl-items'></div><h3 id='impl-Sync' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="struct" href="../alsa_sys/struct.snd_seq_event_t.html" title="struct alsa_sys::snd_seq_event_t">snd_seq_event_t</a></code><a href='#impl-Sync' class='anchor'></a></span></td><td><span class='out-of-band'></span></td></tr></tbody></table></h3><div class='impl-items'></div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

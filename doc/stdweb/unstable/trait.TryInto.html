@@ -10,10 +10,11 @@
     <title>stdweb::unstable::TryInto - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -54,16 +55,14 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>unstable</a>::<wbr><a class="trait" href=''>TryInto</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>unstable</a>::<wbr><a class="trait" href=''>TryInto</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/stdweb/webcore/try_from.rs.html#15-21' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait TryInto&lt;T&gt;: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> {
+               </span><a class='srclink' href='../../src/stdweb/webcore/try_from.rs.html#15-21' title='goto source code'>[src]</a></span></h1><div class="docblock type-decl"><pre class='rust trait'>pub trait TryInto&lt;T&gt;: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> {
     type <a href='#associatedtype.Error' class="type">Error</a>;
     fn <a href='#tymethod.try_into' class='fnname'>try_into</a>(self) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;T, Self::<a class="type" href="../../stdweb/unstable/trait.TryInto.html#associatedtype.Error" title="type stdweb::unstable::TryInto::Error">Error</a>&gt;;
-}</pre><div class='docblock'><p>An attempted conversion that consumes self, which may or may not be expensive.</p>
+}</pre></div><div class='docblock'><p>An attempted conversion that consumes self, which may or may not be expensive.</p>
 <p>This definition is only temporary until Rust's <code>TryInto</code> is stabilized.</p>
 </div>
             <h2 id='associated-types' class='small-section-header'>
@@ -82,8 +81,8 @@
           Implementors<a href='#implementors' class='anchor'></a>
         </h2>
         <ul class='item-list' id='implementors-list'>
-    <li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webcore/try_from.rs.html#23-29' title='goto source code'>[src]</a></div><code>impl&lt;T, U&gt; TryInto&lt;U&gt; for T <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;U: <a class="trait" href="../../stdweb/unstable/trait.TryFrom.html" title="trait stdweb::unstable::TryFrom">TryFrom</a>&lt;T&gt;,&nbsp;</span><span class="where fmt-newline">  type <a href='#associatedtype.Error' class="type">Error</a> = U::<a class="type" href="../../stdweb/unstable/trait.TryFrom.html#associatedtype.Error" title="type stdweb::unstable::TryFrom::Error">Error</a>;</span></code></li>
-</ul><script type="text/javascript" async
+    <li><table class='table-display'><tbody><tr><td><code>impl&lt;T, U&gt; TryInto&lt;U&gt; for T <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;U: <a class="trait" href="../../stdweb/unstable/trait.TryFrom.html" title="trait stdweb::unstable::TryFrom">TryFrom</a>&lt;T&gt;,&nbsp;</span><span class="where fmt-newline">  type <a href='#associatedtype.Error' class="type">Error</a> = U::<a class="type" href="../../stdweb/unstable/trait.TryFrom.html#associatedtype.Error" title="type stdweb::unstable::TryFrom::Error">Error</a>;</span></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webcore/try_from.rs.html#23-29' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+</ul><script type="text/javascript">window.inlined_types=new Set([]);</script><script type="text/javascript" async
                          src="../../implementors/stdweb/unstable/trait.TryInto.js">
                  </script></section>
     <section id='search' class="content hidden"></section>

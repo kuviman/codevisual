@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webapi/xml_http_request.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.5/src/webapi/xml_http_request.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>xml_http_request.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle">
     <script src="../../../storage.js"></script>
     
 
@@ -295,7 +296,7 @@
             <span class="number">2</span> <span class="op">=&gt;</span> <span class="ident">HeadersReceived</span>,
             <span class="number">3</span> <span class="op">=&gt;</span> <span class="ident">Loading</span>,
             <span class="number">4</span> <span class="op">=&gt;</span> <span class="ident">Done</span>,
-            _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>( <span class="string">&quot;Unexpected value of XMLHttpRequest::readyState: {}&quot;</span>, <span class="ident">state</span> )
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>( <span class="string">&quot;Unexpected value of XMLHttpRequest::readyState: {}&quot;</span>, <span class="ident">state</span> )
         }
     }
 
@@ -309,7 +310,7 @@
         <span class="kw">match</span> <span class="ident">response</span> {
             <span class="ident">Value</span>::<span class="ident">Null</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>( <span class="prelude-val">None</span> ),
             <span class="ident">Value</span>::<span class="ident">String</span>( <span class="ident">resp</span> ) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>( <span class="prelude-val">Some</span>( <span class="ident">resp</span> ) ),
-            _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
         }
     }
 
@@ -344,7 +345,7 @@
         <span class="kw">match</span> <span class="ident">header</span> {
             <span class="ident">Value</span>::<span class="ident">Null</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
             <span class="ident">Value</span>::<span class="ident">String</span>(<span class="ident">text</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">text</span>),
-            _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
         }
     }
 

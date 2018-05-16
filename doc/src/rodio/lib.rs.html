@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rodio-0.5.2/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rodio-0.7.0/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -180,6 +181,8 @@
 <span id="124">124</span>
 <span id="125">125</span>
 <span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! Audio playback library.</span>
 <span class="doccomment">//!</span>
@@ -189,8 +192,8 @@
 <span class="doccomment">//! - Create an object that represents the streaming sound. It can be a sine wave, a buffer, a</span>
 <span class="doccomment">//!   [decoder](decoder/index.html), etc. or even your own type that implements</span>
 <span class="doccomment">//!   [the `Source` trait](source/trait.Source.html).</span>
-<span class="doccomment">//! - Choose an output with the [`get_endpoints_list`](fn.get_endpoints_list.html) or</span>
-<span class="doccomment">//!   [`get_default_endpoint`](fn.get_default_endpoint.html) functions.</span>
+<span class="doccomment">//! - Choose an output with the [`devices`](fn.devices.html) or</span>
+<span class="doccomment">//!   [`default_output_device`](fn.default_output_device.html) functions.</span>
 <span class="doccomment">//! - Call [`play_raw(output, source)`](fn.play_raw.html).</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! The `play_raw` function expects the source to produce `f32`s, which may not be the case. If you</span>
@@ -203,11 +206,11 @@
 <span class="doccomment">//! use std::io::BufReader;</span>
 <span class="doccomment">//! use rodio::Source;</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! let endpoint = rodio::get_default_endpoint().unwrap();</span>
+<span class="doccomment">//! let device = rodio::default_output_device().unwrap();</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! let file = File::open(&quot;sound.ogg&quot;).unwrap();</span>
 <span class="doccomment">//! let source = rodio::Decoder::new(BufReader::new(file)).unwrap();</span>
-<span class="doccomment">//! rodio::play_raw(&amp;endpoint, source.convert_samples());</span>
+<span class="doccomment">//! rodio::play_raw(&amp;device, source.convert_samples());</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ## Sink</span>
@@ -221,8 +224,8 @@
 <span class="doccomment">//! ```no_run</span>
 <span class="doccomment">//! use rodio::Sink;</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! let endpoint = rodio::get_default_endpoint().unwrap();</span>
-<span class="doccomment">//! let sink = Sink::new(&amp;endpoint);</span>
+<span class="doccomment">//! let device = rodio::default_output_device().unwrap();</span>
+<span class="doccomment">//! let sink = Sink::new(&amp;device);</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! // Add a dummy source of the sake of the example.</span>
 <span class="doccomment">//! let source = rodio::source::SineWave::new(440);</span>
@@ -255,7 +258,7 @@
 <span class="doccomment">//! ## How it works under the hood</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Rodio spawns a background thread that is dedicated to reading from the sources and sending</span>
-<span class="doccomment">//! the output to the endpoint. Whenever you give up ownership of a `Source` in order to play it,</span>
+<span class="doccomment">//! the output to the device. Whenever you give up ownership of a `Source` in order to play it,</span>
 <span class="doccomment">//! it is sent to this background thread where it will be read by rodio.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! All the sounds are mixed together by rodio before being sent to the operating system or the</span>
@@ -266,16 +269,18 @@
 
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">test</span>, <span class="ident">deny</span>(<span class="ident">missing_docs</span>))]</span>
 
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;flac&quot;</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">claxon</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">cpal</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wav&quot;</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">hound</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lazy_static</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;vorbis&quot;</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lewton</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">cgmath</span>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">cpal</span>::{<span class="ident">Endpoint</span>, <span class="ident">get_default_endpoint</span>, <span class="ident">get_endpoints_list</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">cpal</span>::{<span class="ident">Device</span>, <span class="ident">default_output_device</span>, <span class="ident">default_input_device</span>, <span class="ident">devices</span>, <span class="ident">output_devices</span>, <span class="ident">input_devices</span>};
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">conversions</span>::<span class="ident">Sample</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">decoder</span>::<span class="ident">Decoder</span>;
@@ -299,11 +304,11 @@
 
 <span class="doccomment">/// Plays a sound once. Returns a `Sink` that can be used to control the sound.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">play_once</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>(<span class="ident">endpoint</span>: <span class="kw-2">&amp;</span><span class="ident">Endpoint</span>, <span class="ident">input</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Sink</span>, <span class="ident">decoder</span>::<span class="ident">DecoderError</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">play_once</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>(<span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">Device</span>, <span class="ident">input</span>: <span class="ident">R</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Sink</span>, <span class="ident">decoder</span>::<span class="ident">DecoderError</span><span class="op">&gt;</span>
     <span class="kw">where</span> <span class="ident">R</span>: <span class="ident">Read</span> <span class="op">+</span> <span class="ident">Seek</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
 {
     <span class="kw">let</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">decoder</span>::<span class="ident">Decoder</span>::<span class="ident">new</span>(<span class="ident">input</span>)<span class="question-mark">?</span>;
-    <span class="kw">let</span> <span class="ident">sink</span> <span class="op">=</span> <span class="ident">Sink</span>::<span class="ident">new</span>(<span class="ident">endpoint</span>);
+    <span class="kw">let</span> <span class="ident">sink</span> <span class="op">=</span> <span class="ident">Sink</span>::<span class="ident">new</span>(<span class="ident">device</span>);
     <span class="ident">sink</span>.<span class="ident">append</span>(<span class="ident">input</span>);
     <span class="prelude-val">Ok</span>(<span class="ident">sink</span>)
 }

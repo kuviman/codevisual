@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/gl-0.7.0/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/gl-0.10.0/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -164,11 +165,11 @@
 <span class="doccomment">//! You can load the function pointers into their respective function pointers</span>
 <span class="doccomment">//! using the `load_with` function. You must supply a loader function from your</span>
 <span class="doccomment">//! context library, This is how it would look using [glfw-rs]</span>
-<span class="doccomment">//! (https://github.com/brendanzab/glfw-rs):</span>
+<span class="doccomment">//! (https://github.com/PistonDevelopers/glfw-rs):</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ~~~ignore</span>
 <span class="doccomment">//! // the supplied function must be of the type:</span>
-<span class="doccomment">//! // `&amp;fn(symbol: &amp;str) -&gt; Option&lt;extern &quot;C&quot; fn()&gt;`</span>
+<span class="doccomment">//! // `&amp;fn(symbol: &amp;&#39;static str) -&gt; *const std::os::raw::c_void`</span>
 <span class="doccomment">//! gl::load_with(|s| glfw.get_proc_address(s));</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! // loading a specific function pointer</span>

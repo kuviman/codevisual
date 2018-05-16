@@ -10,10 +10,11 @@
     <title>prelude::StableFnMut - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../dark.css">
-    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle">
     <script src="../storage.js"></script>
     
 
@@ -54,15 +55,13 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>prelude</a>::<wbr><a class="trait" href=''>StableFnMut</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>prelude</a>::<wbr><a class="trait" href=''>StableFnMut</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/prelude/stable_fn.rs.html#6-8' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait StableFnMut&lt;Args&gt;: <a class="trait" href="../prelude/trait.StableFnOnce.html" title="trait prelude::StableFnOnce">StableFnOnce</a>&lt;Args&gt; {
+               </span><a class='srclink' href='../src/prelude/stable_fn.rs.html#6-8' title='goto source code'>[src]</a></span></h1><div class="docblock type-decl"><pre class='rust trait'>pub trait StableFnMut&lt;Args&gt;: <a class="trait" href="../prelude/trait.StableFnOnce.html" title="trait prelude::StableFnOnce">StableFnOnce</a>&lt;Args&gt; {
     fn <a href='#tymethod.call_mut' class='fnname'>call_mut</a>(&amp;mut self, args: Args) -&gt; Self::<a class="type" href="../prelude/trait.StableFnOnce.html#associatedtype.Output" title="type prelude::StableFnOnce::Output">Output</a>;
-}</pre>
+}</pre></div>
             <h2 id='required-methods' class='small-section-header'>
               Required Methods<a href='#required-methods' class='anchor'></a>
             </h2>
@@ -72,12 +71,12 @@
           Implementors<a href='#implementors' class='anchor'></a>
         </h2>
         <ul class='item-list' id='implementors-list'>
-    <li><div class='out-of-band'><a class='srclink' href='../src/prelude/stable_fn.rs.html#23-28' title='goto source code'>[src]</a></div><code>impl&lt;R, F:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>() -&gt; R&gt; StableFnMut&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.unit.html">()</a>&gt; for F</code></li>
-<li><div class='out-of-band'><a class='srclink' href='../src/prelude/stable_fn.rs.html#23-28' title='goto source code'>[src]</a></div><code>impl&lt;A, R, F:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(A) -&gt; R&gt; StableFnMut&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>A<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">,)</a>&gt; for F</code></li>
-<li><div class='out-of-band'><a class='srclink' href='../src/prelude/stable_fn.rs.html#23-28' title='goto source code'>[src]</a></div><code>impl&lt;A, B, R, F:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(A, B) -&gt; R&gt; StableFnMut&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>A, B<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>&gt; for F</code></li>
-<li><div class='out-of-band'><a class='srclink' href='../src/prelude/stable_fn.rs.html#23-28' title='goto source code'>[src]</a></div><code>impl&lt;A, B, C, R, F:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(A, B, C) -&gt; R&gt; StableFnMut&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>A, B, C<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>&gt; for F</code></li>
-<li><div class='out-of-band'><a class='srclink' href='../src/prelude/stable_fn.rs.html#23-28' title='goto source code'>[src]</a></div><code>impl&lt;A, B, C, D, R, F:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(A, B, C, D) -&gt; R&gt; StableFnMut&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>A, B, C, D<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>&gt; for F</code></li>
-</ul><script type="text/javascript" async
+    <li><table class='table-display'><tbody><tr><td><code>impl&lt;R, F:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>() -&gt; R&gt; StableFnMut&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.unit.html">()</a>&gt; for F</code><td><div class='out-of-band'><a class='srclink' href='../src/prelude/stable_fn.rs.html#23-28' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl&lt;A, R, F:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(A) -&gt; R&gt; StableFnMut&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>A<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">,)</a>&gt; for F</code><td><div class='out-of-band'><a class='srclink' href='../src/prelude/stable_fn.rs.html#23-28' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl&lt;A, B, R, F:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(A, B) -&gt; R&gt; StableFnMut&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>A, B<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>&gt; for F</code><td><div class='out-of-band'><a class='srclink' href='../src/prelude/stable_fn.rs.html#23-28' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl&lt;A, B, C, R, F:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(A, B, C) -&gt; R&gt; StableFnMut&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>A, B, C<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>&gt; for F</code><td><div class='out-of-band'><a class='srclink' href='../src/prelude/stable_fn.rs.html#23-28' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl&lt;A, B, C, D, R, F:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(A, B, C, D) -&gt; R&gt; StableFnMut&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">(</a>A, B, C, D<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.tuple.html">)</a>&gt; for F</code><td><div class='out-of-band'><a class='srclink' href='../src/prelude/stable_fn.rs.html#23-28' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+</ul><script type="text/javascript">window.inlined_types=new Set([]);</script><script type="text/javascript" async
                          src="../implementors/prelude/trait.StableFnMut.js">
                  </script></section>
     <section id='search' class="content hidden"></section>

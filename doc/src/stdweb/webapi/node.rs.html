@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webapi/node.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.5/src/webapi/node.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>node.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle">
     <script src="../../../storage.js"></script>
     
 
@@ -866,13 +867,62 @@
 <span id="810">810</span>
 <span id="811">811</span>
 <span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
 
 <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">value</span>::<span class="ident">Reference</span>;
 <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">try_from</span>::{<span class="ident">TryFrom</span>, <span class="ident">TryInto</span>};
 <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">document</span>::<span class="ident">Document</span>;
-<span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">dom_exception</span>::{<span class="ident">HierarchyRequestError</span>, <span class="ident">NotFoundError</span>};
+<span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">dom_exception</span>::{<span class="ident">HierarchyRequestError</span>, <span class="ident">NotFoundError</span>, <span class="ident">SyntaxError</span>};
 <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">element</span>::<span class="ident">Element</span>;
 <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">event_target</span>::{<span class="ident">IEventTarget</span>, <span class="ident">EventTarget</span>};
 <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">node_list</span>::<span class="ident">NodeList</span>;
@@ -1040,7 +1090,7 @@
             <span class="number">9</span> <span class="op">=&gt;</span> <span class="ident">NodeType</span>::<span class="ident">Document</span>,
             <span class="number">10</span> <span class="op">=&gt;</span> <span class="ident">NodeType</span>::<span class="ident">DocumentType</span>,
             <span class="number">11</span> <span class="op">=&gt;</span> <span class="ident">NodeType</span>::<span class="ident">DocumentFragment</span>,
-            _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;Unexpected nodeType&quot;</span>)
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;Unexpected nodeType&quot;</span>)
         }
     }
 
@@ -1231,6 +1281,38 @@
 <span class="kw">impl</span> <span class="ident">IEventTarget</span> <span class="kw">for</span> <span class="ident">Node</span> {}
 <span class="kw">impl</span> <span class="ident">INode</span> <span class="kw">for</span> <span class="ident">Node</span> {}
 
+<span class="kw">impl</span> <span class="ident">Node</span> {
+    <span class="doccomment">/// Attempt to create the `Node` from raw html. The html string must contain **exactly one**</span>
+    <span class="doccomment">/// root node.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns a `SyntaxError` if:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// - There is not **exactly one** root node.</span>
+    <span class="doccomment">/// - The html syntax is wrong. However, on most browsers the html parsing algorighm is</span>
+    <span class="doccomment">///   _unbelievably_ forgiving and will just turn your html into text or maybe even an empty</span>
+    <span class="doccomment">///   string.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// It is recommended to have control over the html being given to this function as not</span>
+    <span class="doccomment">/// having control is a security concern.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// For more details, see information about setting `innerHTML`:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// &lt;https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_html</span>(<span class="ident">html</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Node</span>, <span class="ident">SyntaxError</span><span class="op">&gt;</span> {
+        <span class="macro">js_try</span><span class="macro">!</span>(
+            <span class="ident">var</span> <span class="ident">span</span> <span class="op">=</span> <span class="ident">document</span>.<span class="ident">createElement</span>(<span class="string">&quot;span&quot;</span>);
+            <span class="ident">span</span>.<span class="ident">innerHTML</span> <span class="op">=</span> @{<span class="ident">html</span>};
+            <span class="kw">if</span>( <span class="ident">span</span>.<span class="ident">childNodes</span>.<span class="ident">length</span> <span class="op">!=</span> <span class="number">1</span> ) {
+                <span class="ident">throw</span> <span class="ident">new</span> <span class="ident">DOMException</span>(
+                    <span class="string">&quot;Node::from_html requires a single root node but has: &quot;</span>
+                    <span class="op">+</span> <span class="ident">span</span>.<span class="ident">childNodes</span>.<span class="ident">length</span>,
+                    <span class="string">&quot;SyntaxError&quot;</span>);
+            }
+            <span class="kw">return</span> <span class="ident">span</span>.<span class="ident">childNodes</span>[<span class="number">0</span>];
+        ).<span class="ident">unwrap</span>()
+    }
+}
+
 <span class="doccomment">/// Determines the type of a `Node`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// [(JavaScript docs)](https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType)</span>
@@ -1352,8 +1434,8 @@
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">parent</span>.<span class="ident">first_child</span>().<span class="ident">unwrap</span>().<span class="ident">as_ref</span>(), <span class="ident">child2</span>.<span class="ident">as_ref</span>());
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">removed</span>.<span class="ident">as_ref</span>(), <span class="ident">child1</span>.<span class="ident">as_ref</span>());
         <span class="kw">match</span> <span class="ident">parent</span>.<span class="ident">remove_child</span>(<span class="kw-2">&amp;</span><span class="ident">child1</span>) {
-            <span class="prelude-val">Err</span>(_) <span class="op">=&gt;</span> (),
-            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Expected error&quot;</span>)
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> (),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Expected error&quot;</span>)
         }
 
         <span class="ident">parent</span>.<span class="ident">remove_child</span>(<span class="kw-2">&amp;</span><span class="ident">child2</span>).<span class="ident">unwrap</span>();
@@ -1412,13 +1494,13 @@
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">node</span>.<span class="ident">first_child</span>().<span class="ident">unwrap</span>().<span class="ident">as_ref</span>(), <span class="ident">child2</span>.<span class="ident">as_ref</span>());
 
         <span class="kw">match</span> <span class="ident">node</span>.<span class="ident">insert_before</span>(<span class="kw-2">&amp;</span><span class="ident">child3</span>, <span class="kw-2">&amp;</span><span class="ident">child3</span>) {
-            <span class="prelude-val">Err</span>(<span class="ident">InsertNodeError</span>::<span class="ident">NotFoundError</span>(_)) <span class="op">=&gt;</span> (),
-            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Expected NotFoundError&quot;</span>)
+            <span class="prelude-val">Err</span>(<span class="ident">InsertNodeError</span>::<span class="ident">NotFoundError</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> (),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Expected NotFoundError&quot;</span>)
         }
 
         <span class="kw">match</span> <span class="ident">node</span>.<span class="ident">insert_before</span>(<span class="kw-2">&amp;</span><span class="ident">doc_type</span>(), <span class="kw-2">&amp;</span><span class="ident">child1</span>) {
-            <span class="prelude-val">Err</span>(<span class="ident">InsertNodeError</span>::<span class="ident">HierarchyRequestError</span>(_)) <span class="op">=&gt;</span> (),
-            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Expected HierarchyRequestError&quot;</span>)
+            <span class="prelude-val">Err</span>(<span class="ident">InsertNodeError</span>::<span class="ident">HierarchyRequestError</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> (),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Expected HierarchyRequestError&quot;</span>)
         }
     }
 
@@ -1433,13 +1515,13 @@
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">child1</span>.<span class="ident">parent_node</span>().<span class="ident">is_none</span>());
 
         <span class="kw">match</span> <span class="ident">node</span>.<span class="ident">replace_child</span>(<span class="kw-2">&amp;</span><span class="ident">child2</span>, <span class="kw-2">&amp;</span><span class="ident">child1</span>) {
-            <span class="prelude-val">Err</span>(<span class="ident">InsertNodeError</span>::<span class="ident">NotFoundError</span>(_)) <span class="op">=&gt;</span> (),
-            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Expected NotFoundError&quot;</span>)
+            <span class="prelude-val">Err</span>(<span class="ident">InsertNodeError</span>::<span class="ident">NotFoundError</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> (),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Expected NotFoundError&quot;</span>)
         }
 
         <span class="kw">match</span> <span class="ident">node</span>.<span class="ident">replace_child</span>(<span class="kw-2">&amp;</span><span class="ident">doc_type</span>(), <span class="kw-2">&amp;</span><span class="ident">child2</span>) {
-            <span class="prelude-val">Err</span>(<span class="ident">InsertNodeError</span>::<span class="ident">HierarchyRequestError</span>(_)) <span class="op">=&gt;</span> (),
-            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Expected HierarchyRequestError&quot;</span>)
+            <span class="prelude-val">Err</span>(<span class="ident">InsertNodeError</span>::<span class="ident">HierarchyRequestError</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> (),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Expected HierarchyRequestError&quot;</span>)
         }
     }
 
@@ -1675,8 +1757,25 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">option_node_from_numeric_value_results_in_an_error</span>() {
         <span class="kw">let</span> <span class="ident">value</span>: <span class="ident">Value</span> <span class="op">=</span> <span class="number">123_i32</span>.<span class="ident">into</span>();
-        <span class="kw">let</span> <span class="ident">empty_opt_node</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span> <span class="ident">Node</span> <span class="op">&gt;</span>, _ <span class="op">&gt;</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">try_into</span>();
+        <span class="kw">let</span> <span class="ident">empty_opt_node</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span> <span class="ident">Node</span> <span class="op">&gt;</span>, <span class="kw">_</span> <span class="op">&gt;</span> <span class="op">=</span> <span class="ident">value</span>.<span class="ident">try_into</span>();
         <span class="macro">assert</span><span class="macro">!</span>( <span class="ident">empty_opt_node</span>.<span class="ident">is_err</span>() );
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">from_html</span>() {
+        <span class="kw">let</span> <span class="ident">node</span> <span class="op">=</span> <span class="ident">Node</span>::<span class="ident">from_html</span>(<span class="string">&quot;&lt;div&gt;Some text, horray!&lt;/div&gt;&quot;</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="ident">node</span>.<span class="ident">first_child</span>().<span class="ident">unwrap</span>();
+
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">node</span>.<span class="ident">node_name</span>(), <span class="string">&quot;DIV&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">node</span>.<span class="ident">last_child</span>().<span class="ident">unwrap</span>(), <span class="ident">text</span>);
+
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">text</span>.<span class="ident">node_name</span>(), <span class="string">&quot;#text&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">text</span>.<span class="ident">node_value</span>().<span class="ident">unwrap</span>(), <span class="string">&quot;Some text, horray!&quot;</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">text</span>.<span class="ident">first_child</span>().<span class="ident">is_none</span>());
+
+        <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">Node</span>::<span class="ident">from_html</span>(<span class="string">&quot;&lt;div&gt;foo&lt;/div&gt;&lt;div&gt;bar&lt;/div&gt;&quot;</span>).<span class="ident">unwrap_err</span>();
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">err</span>).<span class="ident">contains</span>(<span class="string">&quot;requires a single root node&quot;</span>));
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">Node</span>::<span class="ident">from_html</span>(<span class="string">&quot;&lt;di&quot;</span>).<span class="ident">is_err</span>());
     }
 }
 </pre>

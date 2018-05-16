@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rodio-0.5.2/src/source/from_iter.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rodio-0.7.0/src/source/from_iter.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>from_iter.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle">
     <script src="../../../storage.js"></script>
     
 
@@ -345,9 +346,9 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">samples_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">fn</span> <span class="ident">sample_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">src</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">current_source</span> {
-            <span class="ident">src</span>.<span class="ident">samples_rate</span>()
+            <span class="ident">src</span>.<span class="ident">sample_rate</span>()
         } <span class="kw">else</span> {
             <span class="comment">// Dummy value that only happens if the iterator was empty.</span>
             <span class="number">44100</span>
@@ -378,13 +379,13 @@
                                    }));
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">channels</span>(), <span class="number">1</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">samples_rate</span>(), <span class="number">48000</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">sample_rate</span>(), <span class="number">48000</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="number">10</span>));
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="op">-</span><span class="number">10</span>));
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="number">10</span>));
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="op">-</span><span class="number">10</span>));
         <span class="comment">/*assert_eq!(rx.channels(), 2);
-        assert_eq!(rx.samples_rate(), 96000);*/</span>
+        assert_eq!(rx.sample_rate(), 96000);*/</span>
         <span class="comment">// FIXME: not working</span>
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="number">5</span>));
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="number">5</span>));

@@ -10,10 +10,11 @@
     <title>wayland_window - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../dark.css">
-    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle">
     <script src="../storage.js"></script>
     
 
@@ -54,13 +55,11 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>wayland_window</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>wayland_window</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/wayland_window/lib.rs.html#1-275' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><p>Wayland Window, a minimalistic decoration-drawing library for
+               </span><a class='srclink' href='../src/wayland_window/lib.rs.html#1-275' title='goto source code'>[src]</a></span></h1><div class='docblock'><p>Wayland Window, a minimalistic decoration-drawing library for
 wayland applications.</p>
 <p>This crate is only usable in conjuction of the
 <a href="https://crates.io/crates/wayland-client"><code>wayland-client</code></a> crate.</p>
@@ -110,12 +109,12 @@ For example like this</p>
 
 <span class="comment">// use it in your implementation:</span>
 <span class="kw">let</span> <span class="ident">my_implementation</span> <span class="op">=</span> <span class="ident">FrameImplementation</span> {
-    <span class="ident">configure</span>: <span class="op">|</span><span class="ident">evqh</span>, <span class="ident">token</span>, _, <span class="ident">newsize</span><span class="op">|</span> {
+    <span class="ident">configure</span>: <span class="op">|</span><span class="ident">evqh</span>, <span class="ident">token</span>, <span class="kw">_</span>, <span class="ident">newsize</span><span class="op">|</span> {
         <span class="kw">let</span> <span class="ident">configure_state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ConfigureState</span> <span class="op">=</span> <span class="ident">evqh</span>.<span class="ident">state</span>().<span class="ident">get_mut</span>(<span class="ident">token</span>);
         <span class="ident">configure_state</span>.<span class="ident">new_size</span> <span class="op">=</span> <span class="ident">newsize</span>;
     },
-    <span class="ident">close</span>: <span class="op">|</span>_, _<span class="op">|</span> { <span class="comment">/* ... */</span> },
-    <span class="ident">refresh</span>: <span class="op">|</span>_, _<span class="op">|</span> { <span class="comment">/* ... */</span> }
+    <span class="ident">close</span>: <span class="op">|</span><span class="kw">_</span>, <span class="kw">_</span><span class="op">|</span> { <span class="comment">/* ... */</span> },
+    <span class="ident">refresh</span>: <span class="op">|</span><span class="kw">_</span>, <span class="kw">_</span><span class="op">|</span> { <span class="comment">/* ... */</span> }
 };
 
 <span class="comment">// create the decorated surface:</span>

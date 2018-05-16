@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webapi/rendering_context.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.5/src/webapi/rendering_context.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>rendering_context.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle">
     <script src="../../../storage.js"></script>
     
 
@@ -1978,7 +1979,7 @@
             <span class="string">&quot;saturation&quot;</span> <span class="op">=&gt;</span> <span class="ident">CompositeOperation</span>::<span class="ident">Saturation</span>,
             <span class="string">&quot;color&quot;</span> <span class="op">=&gt;</span> <span class="ident">CompositeOperation</span>::<span class="ident">Color</span>,
             <span class="string">&quot;luminosity&quot;</span> <span class="op">=&gt;</span> <span class="ident">CompositeOperation</span>::<span class="ident">Luminosity</span>,
-            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unexpected globalCompositeOperation value: {:?}&quot;</span>, <span class="ident">composite_operation_str</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unexpected globalCompositeOperation value: {:?}&quot;</span>, <span class="ident">composite_operation_str</span>),
         }
     }
 
@@ -2037,7 +2038,7 @@
             <span class="string">&quot;butt&quot;</span> <span class="op">=&gt;</span> <span class="ident">LineCap</span>::<span class="ident">Butt</span>,
             <span class="string">&quot;round&quot;</span> <span class="op">=&gt;</span> <span class="ident">LineCap</span>::<span class="ident">Round</span>,
             <span class="string">&quot;square&quot;</span> <span class="op">=&gt;</span> <span class="ident">LineCap</span>::<span class="ident">Square</span>,
-            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unexpected lineCap value: {:?}&quot;</span>, <span class="ident">line_cap_str</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unexpected lineCap value: {:?}&quot;</span>, <span class="ident">line_cap_str</span>),
         }
     }
 
@@ -2092,7 +2093,7 @@
             <span class="string">&quot;bevel&quot;</span> <span class="op">=&gt;</span> <span class="ident">LineJoin</span>::<span class="ident">Bevel</span>,
             <span class="string">&quot;round&quot;</span> <span class="op">=&gt;</span> <span class="ident">LineJoin</span>::<span class="ident">Round</span>,
             <span class="string">&quot;miter&quot;</span> <span class="op">=&gt;</span> <span class="ident">LineJoin</span>::<span class="ident">Miter</span>,
-            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unexpected lineJoin value: {:?}&quot;</span>, <span class="ident">line_join_str</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unexpected lineJoin value: {:?}&quot;</span>, <span class="ident">line_join_str</span>),
         }
     }
 
@@ -2295,7 +2296,7 @@
             <span class="string">&quot;left&quot;</span> <span class="op">=&gt;</span> <span class="ident">TextAlign</span>::<span class="ident">Left</span>,
             <span class="string">&quot;right&quot;</span> <span class="op">=&gt;</span> <span class="ident">TextAlign</span>::<span class="ident">Right</span>,
             <span class="string">&quot;start&quot;</span> <span class="op">=&gt;</span> <span class="ident">TextAlign</span>::<span class="ident">Start</span>,
-            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unexpected textAlign value: {:?}&quot;</span>, <span class="ident">text_align_str</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unexpected textAlign value: {:?}&quot;</span>, <span class="ident">text_align_str</span>),
         }
     }
 
@@ -2333,7 +2334,7 @@
             <span class="string">&quot;ideographic&quot;</span> <span class="op">=&gt;</span> <span class="ident">TextBaseline</span>::<span class="ident">Ideographic</span>,
             <span class="string">&quot;middle&quot;</span> <span class="op">=&gt;</span> <span class="ident">TextBaseline</span>::<span class="ident">Middle</span>,
             <span class="string">&quot;top&quot;</span> <span class="op">=&gt;</span> <span class="ident">TextBaseline</span>::<span class="ident">Top</span>,
-            _ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unexpected textBaseLine value: {:?}&quot;</span>, <span class="ident">text_baseline_str</span>)
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unexpected textBaseLine value: {:?}&quot;</span>, <span class="ident">text_baseline_str</span>)
         }
     }
 
@@ -2912,7 +2913,7 @@
         <span class="kw">let</span> <span class="ident">style</span> <span class="op">=</span> <span class="ident">canvas</span>.<span class="ident">get_fill_style</span>();
         <span class="kw">match</span> <span class="ident">style</span> {
             <span class="ident">CanvasStyle</span>::<span class="ident">String</span>(<span class="ident">s</span>) <span class="op">=&gt;</span> <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">s</span>, <span class="string">&quot;#c80000&quot;</span>),
-            _ <span class="op">=&gt;</span> <span class="macro">assert</span><span class="macro">!</span>(<span class="bool-val">false</span>, <span class="string">&quot;Expected style to be a string \&quot;#c80000\&quot; was instead {:?}&quot;</span>, <span class="ident">style</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">assert</span><span class="macro">!</span>(<span class="bool-val">false</span>, <span class="string">&quot;Expected style to be a string \&quot;#c80000\&quot; was instead {:?}&quot;</span>, <span class="ident">style</span>),
         }
     }
 

@@ -10,10 +10,11 @@
     <title>lib.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -1331,10 +1332,10 @@ mod are `PacketReader` and `PacketWriter`.
 	<span class="kw">fn</span> <span class="ident">description</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
 		<span class="kw">match</span> <span class="self">self</span> {
 			<span class="kw-2">&amp;</span><span class="ident">OggReadError</span>::<span class="ident">NoCapturePatternFound</span> <span class="op">=&gt;</span> <span class="string">&quot;No Ogg capture pattern found&quot;</span>,
-			<span class="kw-2">&amp;</span><span class="ident">OggReadError</span>::<span class="ident">InvalidStreamStructVer</span>(_) <span class="op">=&gt;</span>
+			<span class="kw-2">&amp;</span><span class="ident">OggReadError</span>::<span class="ident">InvalidStreamStructVer</span>(<span class="kw">_</span>) <span class="op">=&gt;</span>
 				<span class="string">&quot;A non zero stream structure version was passed&quot;</span>,
-			<span class="kw-2">&amp;</span><span class="ident">OggReadError</span>::<span class="ident">HashMismatch</span>(_, _) <span class="op">=&gt;</span> <span class="string">&quot;CRC32 hash mismatch&quot;</span>,
-			<span class="kw-2">&amp;</span><span class="ident">OggReadError</span>::<span class="ident">ReadError</span>(_) <span class="op">=&gt;</span> <span class="string">&quot;I/O error&quot;</span>,
+			<span class="kw-2">&amp;</span><span class="ident">OggReadError</span>::<span class="ident">HashMismatch</span>(<span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="string">&quot;CRC32 hash mismatch&quot;</span>,
+			<span class="kw-2">&amp;</span><span class="ident">OggReadError</span>::<span class="ident">ReadError</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="string">&quot;I/O error&quot;</span>,
 			<span class="kw-2">&amp;</span><span class="ident">OggReadError</span>::<span class="ident">InvalidData</span> <span class="op">=&gt;</span> <span class="string">&quot;Constraint violated&quot;</span>,
 		}
 	}
@@ -1342,7 +1343,7 @@ mod are `PacketReader` and `PacketWriter`.
 	<span class="kw">fn</span> <span class="ident">cause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
 		<span class="kw">match</span> <span class="self">self</span> {
 			<span class="kw-2">&amp;</span><span class="ident">OggReadError</span>::<span class="ident">ReadError</span>(<span class="kw-2">ref</span> <span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span>),
-			_ <span class="op">=&gt;</span> <span class="prelude-val">None</span>
+			<span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>
 		}
 	}
 }
@@ -1560,7 +1561,7 @@ some fail with e.g. the `WouldBlock` error kind.
 					<span class="number">0x4f</span> <span class="comment">/*&#39;O&#39;*/</span> <span class="kw">if</span> <span class="ident">cpat_offs</span> <span class="op">==</span> <span class="number">0</span> <span class="op">=&gt;</span> <span class="ident">cpat_offs</span> <span class="op">=</span> <span class="number">1</span>,
 					<span class="number">0x67</span> <span class="comment">/*&#39;g&#39;*/</span> <span class="kw">if</span> <span class="ident">cpat_offs</span> <span class="op">==</span> <span class="number">1</span> <span class="op">||</span> <span class="ident">cpat_offs</span> <span class="op">==</span> <span class="number">2</span> <span class="op">=&gt;</span> <span class="ident">cpat_offs</span> <span class="op">+=</span> <span class="number">1</span>,
 					<span class="number">0x53</span> <span class="comment">/*&#39;S&#39;*/</span> <span class="kw">if</span> <span class="ident">cpat_offs</span> <span class="op">==</span> <span class="number">3</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">i</span>),
-					_ <span class="op">=&gt;</span> <span class="ident">cpat_offs</span> <span class="op">=</span> <span class="number">0</span>,
+					<span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">cpat_offs</span> <span class="op">=</span> <span class="number">0</span>,
 				}
 			}
 			<span class="kw">return</span> <span class="prelude-val">None</span>;
@@ -1853,7 +1854,7 @@ some fail with e.g. the `WouldBlock` error kind.
 		<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span> :<span class="ident">Seek</span><span class="op">&gt;</span> <span class="ident">MaybeAdvance</span> <span class="kw">for</span> <span class="ident">T</span> {
 			<span class="ident">default</span> <span class="kw">fn</span> <span class="ident">seek_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">len</span> :<span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
 				<span class="kw">return</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="op">-</span>(<span class="ident">len</span> <span class="kw">as</span> <span class="ident">i64</span>))) {
-					<span class="prelude-val">Ok</span>(_) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+					<span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
 					<span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
 				};
 			}
@@ -1870,7 +1871,7 @@ some fail with e.g. the `WouldBlock` error kind.
 	<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;async&quot;</span>))]</span>
 	<span class="kw">fn</span> <span class="ident">seek_back</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">len</span> :<span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
 		<span class="kw">return</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">rdr</span>.<span class="ident">seek</span>(<span class="ident">SeekFrom</span>::<span class="ident">Current</span>(<span class="op">-</span>(<span class="ident">len</span> <span class="kw">as</span> <span class="ident">i64</span>))) {
-			<span class="prelude-val">Ok</span>(_) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+			<span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
 			<span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
 		};
 	}

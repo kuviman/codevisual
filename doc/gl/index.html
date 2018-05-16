@@ -10,10 +10,11 @@
     <title>gl - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../dark.css">
-    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle">
     <script src="../storage.js"></script>
     
 
@@ -54,13 +55,11 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>gl</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Crate <a class="mod" href=''>gl</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/gl/lib.rs.html#15-79' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><h1 id="usage" class="section-header"><a href="#usage">Usage</a></h1>
+               </span><a class='srclink' href='../src/gl/lib.rs.html#15-79' title='goto source code'>[src]</a></span></h1><div class='docblock'><h1 id="usage" class="section-header"><a href="#usage">Usage</a></h1>
 <p>You can import the pointer style loader and type aliases like so:</p>
 
 <pre class="rust rust-example-rendered">
@@ -70,11 +69,11 @@
 <p>You can load the function pointers into their respective function pointers
 using the <code>load_with</code> function. You must supply a loader function from your
 context library, This is how it would look using [glfw-rs]
-(https://github.com/brendanzab/glfw-rs):</p>
+(https://github.com/PistonDevelopers/glfw-rs):</p>
 
 <div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><pre class="rust rust-example-rendered ignore">
 <span class="comment">// the supplied function must be of the type:</span>
-<span class="comment">// `&amp;fn(symbol: &amp;str) -&gt; Option&lt;extern &quot;C&quot; fn()&gt;`</span>
+<span class="comment">// `&amp;fn(symbol: &amp;&#39;static str) -&gt; *const std::os::raw::c_void`</span>
 <span class="ident">gl</span>::<span class="ident">load_with</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">glfw</span>.<span class="ident">get_proc_address</span>(<span class="ident">s</span>));
 
 <span class="comment">// loading a specific function pointer</span>

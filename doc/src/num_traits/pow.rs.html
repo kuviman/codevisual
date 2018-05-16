@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.2.2/src/pow.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.2.4/src/pow.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>pow.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -274,6 +275,29 @@
 <span id="218">218</span>
 <span id="219">219</span>
 <span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">ops</span>::<span class="ident">Mul</span>;
 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">num</span>::<span class="ident">Wrapping</span>;
@@ -375,6 +399,25 @@
 <span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">i64</span>, <span class="ident">u16</span>, <span class="ident">u32</span>, <span class="ident">i64</span>::<span class="ident">pow</span>);
 <span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">i64</span>, <span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">i64</span>::<span class="ident">pow</span>);
 <span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">i64</span>, <span class="ident">usize</span>);
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">has_i128</span>)]</span>
+<span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">u128</span>, <span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">u128</span>::<span class="ident">pow</span>);
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">has_i128</span>)]</span>
+<span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">u128</span>, <span class="ident">u16</span>, <span class="ident">u32</span>, <span class="ident">u128</span>::<span class="ident">pow</span>);
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">has_i128</span>)]</span>
+<span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">u128</span>, <span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">u128</span>::<span class="ident">pow</span>);
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">has_i128</span>)]</span>
+<span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">u128</span>, <span class="ident">usize</span>);
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">has_i128</span>)]</span>
+<span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">i128</span>, <span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">i128</span>::<span class="ident">pow</span>);
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">has_i128</span>)]</span>
+<span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">i128</span>, <span class="ident">u16</span>, <span class="ident">u32</span>, <span class="ident">i128</span>::<span class="ident">pow</span>);
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">has_i128</span>)]</span>
+<span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">i128</span>, <span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">i128</span>::<span class="ident">pow</span>);
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">has_i128</span>)]</span>
+<span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">i128</span>, <span class="ident">usize</span>);
+
 <span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">usize</span>, <span class="ident">u8</span>, <span class="ident">u32</span>, <span class="ident">usize</span>::<span class="ident">pow</span>);
 <span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">usize</span>, <span class="ident">u16</span>, <span class="ident">u32</span>, <span class="ident">usize</span>::<span class="ident">pow</span>);
 <span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">usize</span>, <span class="ident">u32</span>, <span class="ident">u32</span>, <span class="ident">usize</span>::<span class="ident">pow</span>);
@@ -391,6 +434,10 @@
 <span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>);
 <span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>);
 <span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">i64</span><span class="op">&gt;</span>);
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">has_i128</span>)]</span>
+<span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">u128</span><span class="op">&gt;</span>);
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">has_i128</span>)]</span>
+<span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">i128</span><span class="op">&gt;</span>);
 <span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>);
 <span class="macro">pow_impl</span><span class="macro">!</span>(<span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">isize</span><span class="op">&gt;</span>);
 

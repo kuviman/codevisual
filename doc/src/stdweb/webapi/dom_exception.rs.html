@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webapi/dom_exception.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.5/src/webapi/dom_exception.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>dom_exception.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle">
     <script src="../../../storage.js"></script>
     
 
@@ -391,7 +392,7 @@
 
         <span class="comment">// Failed downcast.</span>
         <span class="kw">let</span> <span class="ident">err</span>: <span class="ident">DomException</span> <span class="op">=</span> <span class="ident">new_dom_exception</span>(<span class="string">&quot;foo&quot;</span>, <span class="ident">name</span>);
-        <span class="kw">let</span> <span class="ident">err</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SyntaxError</span>, _<span class="op">&gt;</span> <span class="op">=</span> <span class="ident">err</span>.<span class="ident">try_into</span>();
+        <span class="kw">let</span> <span class="ident">err</span>: <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SyntaxError</span>, <span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">err</span>.<span class="ident">try_into</span>();
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">err</span>.<span class="ident">is_err</span>());
     }
 }

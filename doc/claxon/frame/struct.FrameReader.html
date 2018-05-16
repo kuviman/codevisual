@@ -10,10 +10,11 @@
     <title>claxon::frame::FrameReader - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -33,7 +34,7 @@
     <nav class="sidebar">
         <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Struct FrameReader</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.new">new</a><a href="#method.read_next_or_eof">read_next_or_eof</a></div></div><p class='location'><a href='../index.html'>claxon</a>::<wbr><a href='index.html'>frame</a></p><script>window.sidebarCurrent = {name: 'FrameReader', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+        <p class='location'>Struct FrameReader</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.new">new</a><a href="#method.read_next_or_eof">read_next_or_eof</a></div><a class="sidebar-title" href="#synthetic-implementations">Auto Trait Implementations</a><div class="sidebar-links"><a href="#impl-Send">Send</a><a href="#impl-Sync">Sync</a></div></div><p class='location'><a href='../index.html'>claxon</a>::<wbr><a href='index.html'>frame</a></p><script>window.sidebarCurrent = {name: 'FrameReader', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
     <div class="theme-picker">
@@ -54,31 +55,36 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>claxon</a>::<wbr><a href='index.html'>frame</a>::<wbr><a class="struct" href=''>FrameReader</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>claxon</a>::<wbr><a href='index.html'>frame</a>::<wbr><a class="struct" href=''>FrameReader</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/claxon/frame.rs.html#590-592' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct FrameReader&lt;R:&nbsp;ReadBytes&gt; { /* fields omitted */ }</pre><div class='docblock'><p>Reads frames from a stream and exposes decoded blocks as an iterator.</p>
+               </span><a class='srclink' href='../../src/claxon/frame.rs.html#590-592' title='goto source code'>[src]</a></span></h1><div class="docblock type-decl"><pre class='rust struct'>pub struct FrameReader&lt;R:&nbsp;ReadBytes&gt; { /* fields omitted */ }</pre></div><div class='docblock'><p>Reads frames from a stream and exposes decoded blocks as an iterator.</p>
 <p>TODO: for now, it is assumes that the reader starts at a frame header;
 no searching for a sync code is performed at the moment.</p>
 </div>
                     <h2 id='methods' class='small-section-header'>
                       Methods<a href='#methods' class='anchor'></a>
                     </h2>
-                <h3 id='impl' class='impl'><span class='in-band'><code>impl&lt;R:&nbsp;ReadBytes&gt; <a class="struct" href="../../claxon/frame/struct.FrameReader.html" title="struct claxon::frame::FrameReader">FrameReader</a>&lt;R&gt;</code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/claxon/frame.rs.html#621-739' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>pub fn <a href='#method.new' class='fnname'>new</a>(input: R) -&gt; <a class="struct" href="../../claxon/frame/struct.FrameReader.html" title="struct claxon::frame::FrameReader">FrameReader</a>&lt;R&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/claxon/frame.rs.html#623-627' title='goto source code'>[src]</a></span></h4>
-<div class='docblock'><p>Creates a new frame reader that will yield at least one element.</p>
-</div><h4 id='method.read_next_or_eof' class="method"><span id='read_next_or_eof.v' class='invisible'><code>pub fn <a href='#method.read_next_or_eof' class='fnname'>read_next_or_eof</a>(&amp;mut self, buffer: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>&gt;) -&gt; <a class="type" href="../../claxon/frame/type.FrameResult.html" title="type claxon::frame::FrameResult">FrameResult</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/claxon/frame.rs.html#638-738' title='goto source code'>[src]</a></span></h4>
-<div class='docblock'><p>Decodes the next frame or returns an error if the data was invalid.</p>
+                <h3 id='impl' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl&lt;R:&nbsp;ReadBytes&gt; <a class="struct" href="../../claxon/frame/struct.FrameReader.html" title="struct claxon::frame::FrameReader">FrameReader</a>&lt;R&gt;</code><a href='#impl' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/claxon/frame.rs.html#621-739' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.new' class='fnname'>new</a>(input: R) -&gt; <a class="struct" href="../../claxon/frame/struct.FrameReader.html" title="struct claxon::frame::FrameReader">FrameReader</a>&lt;R&gt;</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/claxon/frame.rs.html#623-627' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4><div class='docblock'><p>Creates a new frame reader that will yield at least one element.</p>
+</div><h4 id='method.read_next_or_eof' class="method"><span id='read_next_or_eof.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.read_next_or_eof' class='fnname'>read_next_or_eof</a>(&amp;mut self, buffer: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>&gt;) -&gt; <a class="type" href="../../claxon/frame/type.FrameResult.html" title="type claxon::frame::FrameResult">FrameResult</a></code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/claxon/frame.rs.html#638-738' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4><div class='docblock'><p>Decodes the next frame or returns an error if the data was invalid.</p>
 <p>The buffer is moved into the returned block, so that the same buffer may
 be reused to decode multiple blocks, avoiding a heap allocation every
 time. It can be retrieved again with <code>block.into_buffer()</code>. If the
 buffer is not large enough to hold all samples, a larger buffer is
 allocated automatically.</p>
 <p>TODO: I should really be consistent with 'read' and 'decode'.</p>
-</div></div></section>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+            <div id='implementations-list'>
+        </div>
+                <h2 id='synthetic-implementations' class='small-section-header'>
+                  Auto Trait Implementations<a href='#synthetic-implementations' class='anchor'></a>
+                </h2>
+                <div id='synthetic-implementations-list'>
+            <h3 id='impl-Send' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl&lt;R&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="struct" href="../../claxon/frame/struct.FrameReader.html" title="struct claxon::frame::FrameReader">FrameReader</a>&lt;R&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;R: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>,&nbsp;</span></code><a href='#impl-Send' class='anchor'></a></span></td><td><span class='out-of-band'></span></td></tr></tbody></table></h3><div class='impl-items'></div><h3 id='impl-Sync' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl&lt;R&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="struct" href="../../claxon/frame/struct.FrameReader.html" title="struct claxon::frame::FrameReader">FrameReader</a>&lt;R&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;R: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a>,&nbsp;</span></code><a href='#impl-Sync' class='anchor'></a></span></td><td><span class='out-of-band'></span></td></tr></tbody></table></h3><div class='impl-items'></div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

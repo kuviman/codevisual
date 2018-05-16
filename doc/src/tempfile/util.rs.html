@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/tempfile-3.0.1/src/util.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/tempfile-3.0.2/src/util.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>util.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -129,7 +130,7 @@
                 <span class="ident">v</span> @ <span class="number">0</span>...<span class="number">9</span> <span class="op">=&gt;</span> (<span class="ident">v</span> <span class="op">+</span> <span class="string">b&#39;0&#39;</span>),
                 <span class="ident">v</span> @ <span class="number">10</span>...<span class="number">35</span> <span class="op">=&gt;</span> (<span class="ident">v</span> <span class="op">-</span> <span class="number">10</span> <span class="op">+</span> <span class="string">b&#39;a&#39;</span>),
                 <span class="ident">v</span> @ <span class="number">36</span>...<span class="number">61</span> <span class="op">=&gt;</span> (<span class="ident">v</span> <span class="op">-</span> <span class="number">36</span> <span class="op">+</span> <span class="string">b&#39;A&#39;</span>),
-                _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
             }
         }
     }
@@ -146,7 +147,7 @@
 <span class="kw">where</span>
     <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="ident">PathBuf</span>) <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span>,
 {
-    <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span>..::<span class="ident">NUM_RETRIES</span> {
+    <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..::<span class="ident">NUM_RETRIES</span> {
         <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">base</span>.<span class="ident">join</span>(<span class="ident">tmpname</span>(<span class="ident">prefix</span>, <span class="ident">suffix</span>, <span class="ident">random_len</span>));
         <span class="kw">return</span> <span class="kw">match</span> <span class="ident">f</span>(<span class="ident">path</span>) {
             <span class="prelude-val">Err</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">AlreadyExists</span> <span class="op">=&gt;</span> <span class="kw">continue</span>,

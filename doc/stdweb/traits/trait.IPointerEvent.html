@@ -10,10 +10,11 @@
     <title>stdweb::traits::IPointerEvent - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -54,13 +55,11 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>traits</a>::<wbr><a class="trait" href=''>IPointerEvent</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>stdweb</a>::<wbr><a href='index.html'>traits</a>::<wbr><a class="trait" href=''>IPointerEvent</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#16-153' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait IPointerEvent: <a class="trait" href="../../stdweb/web/event/trait.IMouseEvent.html" title="trait stdweb::web::event::IMouseEvent">IMouseEvent</a> {
+               </span><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#16-153' title='goto source code'>[src]</a></span></h1><div class="docblock type-decl"><pre class='rust trait'>pub trait IPointerEvent: <a class="trait" href="../../stdweb/web/event/trait.IMouseEvent.html" title="trait stdweb::web::event::IMouseEvent">IMouseEvent</a> {
     fn <a href='#method.pointer_id' class='fnname'>pointer_id</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a> { ... }
 <div class='item-spacer'></div>    fn <a href='#method.width' class='fnname'>width</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a> { ... }
 <div class='item-spacer'></div>    fn <a href='#method.height' class='fnname'>height</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.f64.html">f64</a> { ... }
@@ -71,7 +70,7 @@
 <div class='item-spacer'></div>    fn <a href='#method.twist' class='fnname'>twist</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a> { ... }
 <div class='item-spacer'></div>    fn <a href='#method.pointer_type' class='fnname'>pointer_type</a>(&amp;self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String">String</a> { ... }
 <div class='item-spacer'></div>    fn <a href='#method.is_primary' class='fnname'>is_primary</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> { ... }
-}</pre><div class='docblock'><p>The <code>IPointerEvent</code> interface represents the state of a DOM event produced by a pointer
+}</pre></div><div class='docblock'><p>The <code>IPointerEvent</code> interface represents the state of a DOM event produced by a pointer
 such as the geometry of the contact point, the device type that generated the event, the
 amount of pressure that was applied on the contact surface, etc.</p>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent">(JavaScript docs)</a></p>
@@ -109,17 +108,17 @@ the transducer (e.g. pen stylus) around it's own major axis</p>
           Implementors<a href='#implementors' class='anchor'></a>
         </h2>
         <ul class='item-list' id='implementors-list'>
-    <li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#183' title='goto source code'>[src]</a></div><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.PointerOverEvent.html" title="struct stdweb::web::event::PointerOverEvent">PointerOverEvent</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#201' title='goto source code'>[src]</a></div><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.PointerEnterEvent.html" title="struct stdweb::web::event::PointerEnterEvent">PointerEnterEvent</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#218' title='goto source code'>[src]</a></div><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.PointerDownEvent.html" title="struct stdweb::web::event::PointerDownEvent">PointerDownEvent</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#235' title='goto source code'>[src]</a></div><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.PointerMoveEvent.html" title="struct stdweb::web::event::PointerMoveEvent">PointerMoveEvent</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#266' title='goto source code'>[src]</a></div><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.PointerUpEvent.html" title="struct stdweb::web::event::PointerUpEvent">PointerUpEvent</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#285' title='goto source code'>[src]</a></div><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.PointerCancelEvent.html" title="struct stdweb::web::event::PointerCancelEvent">PointerCancelEvent</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#303' title='goto source code'>[src]</a></div><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.PointerOutEvent.html" title="struct stdweb::web::event::PointerOutEvent">PointerOutEvent</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#322' title='goto source code'>[src]</a></div><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.PointerLeaveEvent.html" title="struct stdweb::web::event::PointerLeaveEvent">PointerLeaveEvent</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#339' title='goto source code'>[src]</a></div><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.GotPointerCaptureEvent.html" title="struct stdweb::web::event::GotPointerCaptureEvent">GotPointerCaptureEvent</a></code></li>
-<li><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#356' title='goto source code'>[src]</a></div><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.LostPointerCaptureEvent.html" title="struct stdweb::web::event::LostPointerCaptureEvent">LostPointerCaptureEvent</a></code></li>
-</ul><script type="text/javascript" async
+    <li><table class='table-display'><tbody><tr><td><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.PointerOverEvent.html" title="struct stdweb::web::event::PointerOverEvent">PointerOverEvent</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#183' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.PointerEnterEvent.html" title="struct stdweb::web::event::PointerEnterEvent">PointerEnterEvent</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#201' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.PointerDownEvent.html" title="struct stdweb::web::event::PointerDownEvent">PointerDownEvent</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#218' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.PointerMoveEvent.html" title="struct stdweb::web::event::PointerMoveEvent">PointerMoveEvent</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#235' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.PointerUpEvent.html" title="struct stdweb::web::event::PointerUpEvent">PointerUpEvent</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#266' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.PointerCancelEvent.html" title="struct stdweb::web::event::PointerCancelEvent">PointerCancelEvent</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#285' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.PointerOutEvent.html" title="struct stdweb::web::event::PointerOutEvent">PointerOutEvent</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#303' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.PointerLeaveEvent.html" title="struct stdweb::web::event::PointerLeaveEvent">PointerLeaveEvent</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#322' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.GotPointerCaptureEvent.html" title="struct stdweb::web::event::GotPointerCaptureEvent">GotPointerCaptureEvent</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#339' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl IPointerEvent for <a class="struct" href="../../stdweb/web/event/struct.LostPointerCaptureEvent.html" title="struct stdweb::web::event::LostPointerCaptureEvent">LostPointerCaptureEvent</a></code><td><div class='out-of-band'><a class='srclink' href='../../src/stdweb/webapi/events/pointer.rs.html#356' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+</ul><script type="text/javascript">window.inlined_types=new Set([]);</script><script type="text/javascript" async
                          src="../../implementors/stdweb/traits/trait.IPointerEvent.js">
                  </script></section>
     <section id='search' class="content hidden"></section>

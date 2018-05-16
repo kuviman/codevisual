@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rodio-0.5.2/src/source/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rodio-0.7.0/src/source/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle">
     <script src="../../../storage.js"></script>
     
 
@@ -504,7 +505,7 @@
 <span class="doccomment">/// The three characteristics that describe a sound are provided through this trait:</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// - The number of channels can be retreived with `channels`.</span>
-<span class="doccomment">/// - The frequency can be retreived with `samples_rate`.</span>
+<span class="doccomment">/// - The frequency can be retreived with `sample_rate`.</span>
 <span class="doccomment">/// - The list of values can be retreived by iterating on the source. The `Source` trait requires</span>
 <span class="doccomment">///   that the `Iterator` trait be implemented as well.</span>
 <span class="doccomment">///</span>
@@ -519,7 +520,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// However, for optimization purposes rodio supposes that the number of channels and the frequency</span>
 <span class="doccomment">/// stay the same for long periods of time and avoids calling `channels()` and</span>
-<span class="doccomment">/// `samples_rate` too frequently.</span>
+<span class="doccomment">/// `sample_rate` too frequently.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// In order to properly handle this situation, the `current_frame_len()` method should return</span>
 <span class="doccomment">/// the number of samples that remain in the iterator before the samples rate and number of</span>
@@ -533,14 +534,14 @@
     <span class="doccomment">/// Should never return 0 unless there&#39;s no more data.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// After the engine has finished reading the specified number of samples, it will check</span>
-    <span class="doccomment">/// whether the value of `channels()` and/or `samples_rate()` have changed.</span>
+    <span class="doccomment">/// whether the value of `channels()` and/or `sample_rate()` have changed.</span>
     <span class="kw">fn</span> <span class="ident">current_frame_len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Returns the number of channels. Channels are always interleaved.</span>
     <span class="kw">fn</span> <span class="ident">channels</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u16</span>;
 
     <span class="doccomment">/// Returns the rate at which the source should be played. In number of samples per second.</span>
-    <span class="kw">fn</span> <span class="ident">samples_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span>;
+    <span class="kw">fn</span> <span class="ident">sample_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span>;
 
     <span class="doccomment">/// Returns the total duration of this source, if known.</span>
     <span class="doccomment">///</span>
@@ -700,8 +701,8 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">samples_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
-        (<span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span>).<span class="ident">samples_rate</span>()
+    <span class="kw">fn</span> <span class="ident">sample_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+        (<span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span>).<span class="ident">sample_rate</span>()
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -724,8 +725,8 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">samples_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
-        (<span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span>).<span class="ident">samples_rate</span>()
+    <span class="kw">fn</span> <span class="ident">sample_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+        (<span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span>).<span class="ident">sample_rate</span>()
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -748,8 +749,8 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">samples_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
-        (<span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span>).<span class="ident">samples_rate</span>()
+    <span class="kw">fn</span> <span class="ident">sample_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+        (<span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span>).<span class="ident">sample_rate</span>()
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>

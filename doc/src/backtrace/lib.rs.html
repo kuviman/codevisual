@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/backtrace-0.3.6/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/backtrace-0.3.7/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -300,7 +301,7 @@
 <span class="doccomment">//! }</span>
 <span class="doccomment">//! ```</span>
 
-<span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_root_url</span> <span class="op">=</span> <span class="string">&quot;http://alexcrichton.com/backtrace-rs&quot;</span>)]</span>
+<span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_root_url</span> <span class="op">=</span> <span class="string">&quot;https://docs.rs/backtrace&quot;</span>)]</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">missing_docs</span>)]</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">warnings</span>)]</span>
 
@@ -369,7 +370,7 @@
 
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LockGuard</span>(<span class="ident">MutexGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, ()<span class="op">&gt;</span>);
 
-    <span class="kw">static</span> <span class="kw-2">mut</span> <span class="ident">LOCK</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">Mutex</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="op">=</span> <span class="number">0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> _;
+    <span class="kw">static</span> <span class="kw-2">mut</span> <span class="ident">LOCK</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">Mutex</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="op">=</span> <span class="number">0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw">_</span>;
     <span class="kw">static</span> <span class="ident">INIT</span>: <span class="ident">Once</span> <span class="op">=</span> <span class="ident">ONCE_INIT</span>;
     <span class="macro">thread_local</span><span class="macro">!</span>(<span class="kw">static</span> <span class="ident">LOCK_HELD</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Cell</span>::<span class="ident">new</span>(<span class="bool-val">false</span>));
 
@@ -406,7 +407,7 @@
 
     <span class="kw">if</span> <span class="op">!</span><span class="ident">INITIALIZED</span> {
         <span class="ident">dbghelp</span>::<span class="ident">SymInitializeW</span>(<span class="ident">processthreadsapi</span>::<span class="ident">GetCurrentProcess</span>(),
-                                <span class="number">0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> _,
+                                <span class="number">0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw">_</span>,
                                 <span class="ident">minwindef</span>::<span class="ident">TRUE</span>);
         <span class="ident">INITIALIZED</span> <span class="op">=</span> <span class="bool-val">true</span>;
     }

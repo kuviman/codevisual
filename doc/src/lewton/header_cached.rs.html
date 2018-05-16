@@ -10,10 +10,11 @@
     <title>header_cached.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -297,7 +298,7 @@ The caching is done to speed up decoding.
 		<span class="ident">k2</span> <span class="op">+=</span> <span class="number">2</span>;
 	}
 	<span class="ident">k2</span> <span class="op">=</span> <span class="number">0</span>;
-	<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span>..<span class="ident">n8</span> {
+	<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">n8</span> {
 		<span class="ident">c</span>.<span class="ident">push</span>( <span class="ident">f32</span>::<span class="ident">cos</span>(((<span class="ident">k2</span> <span class="op">+</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">f32</span>) <span class="op">*</span> <span class="ident">pi_2_n</span>));
 		<span class="ident">c</span>.<span class="ident">push</span>(<span class="op">-</span><span class="ident">f32</span>::<span class="ident">sin</span>(((<span class="ident">k2</span> <span class="op">+</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">f32</span>) <span class="op">*</span> <span class="ident">pi_2_n</span>));
 		<span class="ident">k2</span> <span class="op">+=</span> <span class="number">2</span>;

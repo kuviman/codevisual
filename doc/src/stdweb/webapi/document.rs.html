@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webapi/document.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.5/src/webapi/document.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>document.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle">
     <script src="../../../storage.js"></script>
     
 
@@ -186,6 +187,18 @@
 <span id="130">130</span>
 <span id="131">131</span>
 <span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">value</span>::<span class="ident">Reference</span>;
 <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">try_from</span>::<span class="ident">TryInto</span>;
@@ -193,6 +206,7 @@
 <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">node</span>::{<span class="ident">INode</span>, <span class="ident">Node</span>};
 <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">element</span>::<span class="ident">Element</span>;
 <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">html_element</span>::<span class="ident">HtmlElement</span>;
+<span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">document_fragment</span>::<span class="ident">DocumentFragment</span>;
 <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">text_node</span>::<span class="ident">TextNode</span>;
 <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">location</span>::<span class="ident">Location</span>;
 <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">parent_node</span>::<span class="ident">IParentNode</span>;
@@ -223,6 +237,17 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Document</span> {
+    <span class="doccomment">/// In an HTML document, the Document.createDocumentFragment() method creates a</span>
+    <span class="doccomment">/// new empty DocumentFragment.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [(JavaScript docs)](https://developer.mozilla.org/en-US/docs/Web/API/Document/createDocumentFragment)</span>
+    <span class="comment">// https://dom.spec.whatwg.org/#ref-for-dom-document-createdocumentfragment</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_document_fragment</span>( <span class="kw-2">&amp;</span><span class="self">self</span> ) <span class="op">-&gt;</span> <span class="ident">DocumentFragment</span> {
+        <span class="kw">unsafe</span> {
+            <span class="macro">js</span><span class="macro">!</span>( <span class="kw">return</span> @{<span class="self">self</span>}.<span class="ident">createDocumentFragment</span>(); ).<span class="ident">into_reference_unchecked</span>().<span class="ident">unwrap</span>()
+        }
+    }
+
     <span class="doccomment">/// In an HTML document, the Document.createElement() method creates the HTML</span>
     <span class="doccomment">/// element specified by `tag`, or an HTMLUnknownElement if `tag` isn&#39;t</span>
     <span class="doccomment">/// recognized. In other documents, it creates an element with a null namespace URI.</span>

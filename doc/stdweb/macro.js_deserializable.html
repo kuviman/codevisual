@@ -10,10 +10,11 @@
     <title>stdweb::js_deserializable - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../dark.css">
-    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle">
     <script src="../storage.js"></script>
     
 
@@ -33,7 +34,7 @@
     <nav class="sidebar">
         <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'><a href='index.html'>stdweb</a></p><script>window.sidebarCurrent = {name: 'js_deserializable', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <div class="sidebar-elems"><p class='location'><a href='index.html'>stdweb</a></p><script>window.sidebarCurrent = {name: 'js_deserializable', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
     <div class="theme-picker">
@@ -54,19 +55,17 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Macro <a href='index.html'>stdweb</a>::<wbr><a class="macro" href=''>js_deserializable</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Macro <a href='index.html'>stdweb</a>::<wbr><a class="macro" href=''>js_deserializable</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/stdweb/ecosystem/serde.rs.html#1166-1178' title='goto source code'>[src]</a></span></h1>
-<pre class="rust macro">
+               </span><a class='srclink' href='../src/stdweb/ecosystem/serde.rs.html#1166-1178' title='goto source code'>[src]</a></span></h1><div class="docblock type-decl"><pre class="rust macro">
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">js_deserializable</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>:<span class="ident">tt</span>) <span class="op">=&gt;</span> { ... };
     (<span class="kw">impl</span><span class="op">&lt;</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">impl_arg</span>:<span class="ident">tt</span>),<span class="op">*</span> <span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>:<span class="ident">ty</span> <span class="kw">where</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">bounds</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> { ... };
     (<span class="kw">impl</span><span class="op">&lt;</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">impl_arg</span>:<span class="ident">tt</span>),<span class="op">*</span> <span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>:<span class="ident">ty</span>) <span class="op">=&gt;</span> { ... };
 }</pre>
-<div class='docblock'><p>A macro which makes it possible to convert an instance of a given type
+</div><div class='docblock'><p>A macro which makes it possible to convert an instance of a given type
 implementing Serde's <code>Deserialize</code> into a <a href="enum.Value.html">Value</a> using
 <a href="unstable/trait.TryInto.html">TryInto</a>.</p>
 <p>For types defined outside of your crate you can also use the <a href="serde/struct.Serde.html">Serde</a>

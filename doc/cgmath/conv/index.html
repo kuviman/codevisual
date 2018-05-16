@@ -10,10 +10,11 @@
     <title>cgmath::conv - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -54,13 +55,11 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>cgmath</a>::<wbr><a class="mod" href=''>conv</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>cgmath</a>::<wbr><a class="mod" href=''>conv</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/cgmath/conv.rs.html#1-84' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><p>Constrained conversion functions for assisting in situations where type
+               </span><a class='srclink' href='../../src/cgmath/conv.rs.html#1-84' title='goto source code'>[src]</a></span></h1><div class='docblock'><p>Constrained conversion functions for assisting in situations where type
 inference is difficult.</p>
 <p>For example, when declaring <code>glium</code> uniforms, we need to convert to fixed
 length arrays. We can use the <code>Into</code> trait directly, but it is rather ugly!</p>
@@ -77,8 +76,8 @@ length arrays. We can use the <code>Into</code> trait directly, but it is rather
 <span class="kw">let</span> <span class="ident">matrix</span> <span class="op">=</span> <span class="ident">Matrix4</span>::<span class="ident">from_scale</span>(<span class="number">2.0</span>);
 
 <span class="kw">let</span> <span class="ident">uniforms</span> <span class="op">=</span> <span class="macro">uniform</span><span class="macro">!</span> {
-    <span class="ident">point</span>: <span class="ident">Into</span>::<span class="op">&lt;</span>[_; <span class="number">2</span>]<span class="op">&gt;</span>::<span class="ident">into</span>(<span class="ident">point</span>),
-    <span class="ident">matrix</span>: <span class="ident">Into</span>::<span class="op">&lt;</span>[[_; <span class="number">4</span>]; <span class="number">4</span>]<span class="op">&gt;</span>::<span class="ident">into</span>(<span class="ident">matrix</span>),
+    <span class="ident">point</span>: <span class="ident">Into</span>::<span class="op">&lt;</span>[<span class="kw">_</span>; <span class="number">2</span>]<span class="op">&gt;</span>::<span class="ident">into</span>(<span class="ident">point</span>),
+    <span class="ident">matrix</span>: <span class="ident">Into</span>::<span class="op">&lt;</span>[[<span class="kw">_</span>; <span class="number">4</span>]; <span class="number">4</span>]<span class="op">&gt;</span>::<span class="ident">into</span>(<span class="ident">matrix</span>),
     <span class="comment">// Yuck!! (ﾉಥ益ಥ）ﾉ﻿ ┻━┻</span>
 };</pre>
 <p>Instead, we can use the conversion functions from the <code>conv</code> module:</p>

@@ -10,10 +10,11 @@
     <title>header.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -1223,13 +1224,13 @@ decoded in this mod.
 <span class="comment">// TODO that type choice was a bit unfortunate,</span>
 <span class="comment">// perhaps one day fix this</span>
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">HeaderReadError</span> {
-	<span class="kw">fn</span> <span class="ident">from</span>(_ :()) <span class="op">-&gt;</span> <span class="ident">HeaderReadError</span> {
+	<span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span> :()) <span class="op">-&gt;</span> <span class="ident">HeaderReadError</span> {
 		<span class="ident">HeaderReadError</span>::<span class="ident">EndOfPacket</span>
 	}
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">HuffmanError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">HeaderReadError</span> {
-	<span class="kw">fn</span> <span class="ident">from</span>(_ :<span class="ident">HuffmanError</span>) <span class="op">-&gt;</span> <span class="ident">HeaderReadError</span> {
+	<span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span> :<span class="ident">HuffmanError</span>) <span class="op">-&gt;</span> <span class="ident">HeaderReadError</span> {
 		<span class="ident">HeaderReadError</span>::<span class="ident">HeaderBadFormat</span>
 	}
 }
@@ -1238,13 +1239,13 @@ decoded in this mod.
 	<span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span> :<span class="ident">Error</span>) <span class="op">-&gt;</span> <span class="ident">HeaderReadError</span> {
 		<span class="kw">match</span> <span class="ident">err</span>.<span class="ident">kind</span>() {
 			<span class="ident">ErrorKind</span>::<span class="ident">UnexpectedEof</span> <span class="op">=&gt;</span> <span class="ident">HeaderReadError</span>::<span class="ident">EndOfPacket</span>,
-			_ <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Non EOF Error occured when reading from Cursor&lt;&amp;[u8]&gt;: {}&quot;</span>, <span class="ident">err</span>),
+			<span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Non EOF Error occured when reading from Cursor&lt;&amp;[u8]&gt;: {}&quot;</span>, <span class="ident">err</span>),
 		}
 	}
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">FromUtf8Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">HeaderReadError</span> {
-	<span class="kw">fn</span> <span class="ident">from</span>(_ :<span class="ident">FromUtf8Error</span>) <span class="op">-&gt;</span> <span class="ident">HeaderReadError</span> {
+	<span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span> :<span class="ident">FromUtf8Error</span>) <span class="op">-&gt;</span> <span class="ident">HeaderReadError</span> {
 		<span class="ident">HeaderReadError</span>::<span class="ident">Utf8DecodeError</span>
 	}
 }
@@ -1256,7 +1257,7 @@ decoded in this mod.
 			<span class="kw-2">&amp;</span><span class="ident">HeaderReadError</span>::<span class="ident">NotVorbisHeader</span> <span class="op">=&gt;</span> <span class="string">&quot;The packet is not a vorbis header&quot;</span>,
 			<span class="kw-2">&amp;</span><span class="ident">HeaderReadError</span>::<span class="ident">UnsupportedVorbisVersion</span> <span class="op">=&gt;</span> <span class="string">&quot;The vorbis version is not supported&quot;</span>,
 			<span class="kw-2">&amp;</span><span class="ident">HeaderReadError</span>::<span class="ident">HeaderBadFormat</span> <span class="op">=&gt;</span> <span class="string">&quot;Invalid header&quot;</span>,
-			<span class="kw-2">&amp;</span><span class="ident">HeaderReadError</span>::<span class="ident">HeaderBadType</span>(_) <span class="op">=&gt;</span> <span class="string">&quot;Invalid/unexpected header type&quot;</span>,
+			<span class="kw-2">&amp;</span><span class="ident">HeaderReadError</span>::<span class="ident">HeaderBadType</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="string">&quot;Invalid/unexpected header type&quot;</span>,
 			<span class="kw-2">&amp;</span><span class="ident">HeaderReadError</span>::<span class="ident">HeaderIsAudio</span> <span class="op">=&gt;</span> <span class="string">&quot;Packet seems to be audio&quot;</span>,
 			<span class="kw-2">&amp;</span><span class="ident">HeaderReadError</span>::<span class="ident">Utf8DecodeError</span> <span class="op">=&gt;</span> <span class="string">&quot;UTF-8 decoding error&quot;</span>,
 			<span class="kw-2">&amp;</span><span class="ident">HeaderReadError</span>::<span class="ident">BufferNotAddressable</span> <span class="op">=&gt;</span> <span class="string">&quot;Requested to create buffer of non-addressable size&quot;</span>,
@@ -1443,7 +1444,7 @@ spec requires.
 	<span class="comment">// Now read the comments</span>
 	<span class="kw">let</span> <span class="ident">comment_count</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()) <span class="kw">as</span> <span class="ident">usize</span>;
 	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">comment_list</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">comment_count</span>);
-	<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">comment_count</span> {
+	<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">comment_count</span> {
 		<span class="kw">let</span> <span class="ident">comment_length</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u32</span>::<span class="op">&lt;</span><span class="ident">LittleEndian</span><span class="op">&gt;</span>()) <span class="kw">as</span> <span class="ident">usize</span>;
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">comment_buf</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>; <span class="ident">comment_length</span>]; <span class="comment">// TODO fix this, we initialize memory for NOTHING!!! Out of some reason, this is seen as &quot;unsafe&quot; by rustc.</span>
 		<span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_exact</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">comment_buf</span>));
@@ -1456,7 +1457,7 @@ spec requires.
 			<span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">continue</span> <span class="comment">// try!(Err(HeaderReadError::HeaderBadFormat))</span>
 		};
 		<span class="kw">let</span> (<span class="ident">key_eq</span>, <span class="ident">val</span>) <span class="op">=</span> <span class="ident">comment</span>.<span class="ident">split_at</span>(<span class="ident">eq_idx</span> <span class="op">+</span> <span class="number">1</span>);
-		<span class="kw">let</span> (<span class="ident">key</span>, _) <span class="op">=</span> <span class="ident">key_eq</span>.<span class="ident">split_at</span>(<span class="ident">eq_idx</span>);
+		<span class="kw">let</span> (<span class="ident">key</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">key_eq</span>.<span class="ident">split_at</span>(<span class="ident">eq_idx</span>);
 		<span class="ident">comment_list</span>.<span class="ident">push</span>((<span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">key</span>), <span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">val</span>)));
 	}
 	<span class="kw">let</span> <span class="ident">framing</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u8</span>());
@@ -1608,7 +1609,7 @@ spec requires.
 		<span class="kw">for</span> <span class="ident">lookup_offset</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">codebook_entries</span> {
 			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">last</span> <span class="op">=</span> <span class="number">0.</span>;
 			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">index_divisor</span> <span class="op">=</span> <span class="number">1</span>;
-			<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">codebook_dimensions</span> {
+			<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">codebook_dimensions</span> {
 				<span class="kw">let</span> <span class="ident">multiplicand_offset</span> <span class="op">=</span> (<span class="ident">lookup_offset</span> <span class="op">/</span> <span class="ident">index_divisor</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="kw">as</span> <span class="ident">usize</span> <span class="op">%</span>
 					<span class="ident">codebook_lookup_values</span>;
 				<span class="kw">let</span> <span class="ident">vec_elem</span> <span class="op">=</span> <span class="ident">lup</span>.<span class="ident">codebook_multiplicands</span>[<span class="ident">multiplicand_offset</span>] <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span>
@@ -1624,7 +1625,7 @@ spec requires.
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">last</span> <span class="op">=</span> <span class="number">0.</span>;
 		<span class="kw">for</span> <span class="ident">lookup_offset</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">codebook_entries</span> {
 			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">multiplicand_offset</span> :<span class="ident">usize</span> <span class="op">=</span> <span class="ident">lookup_offset</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="ident">codebook_dimensions</span> <span class="kw">as</span> <span class="ident">usize</span>;
-			<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">codebook_dimensions</span> {
+			<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">codebook_dimensions</span> {
 				<span class="kw">let</span> <span class="ident">vec_elem</span> <span class="op">=</span> <span class="ident">lup</span>.<span class="ident">codebook_multiplicands</span>[<span class="ident">multiplicand_offset</span>] <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span>
 					<span class="ident">lup</span>.<span class="ident">codebook_delta_value</span> <span class="op">+</span> <span class="ident">lup</span>.<span class="ident">codebook_minimum_value</span> <span class="op">+</span> <span class="ident">last</span>;
 				<span class="kw">if</span> <span class="ident">lup</span>.<span class="ident">codebook_sequence_p</span> {
@@ -1657,7 +1658,7 @@ spec requires.
 
 		<span class="kw">let</span> <span class="ident">idx</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">read_huffman</span>(<span class="kw-2">&amp;</span><span class="ident">b</span>.<span class="ident">codebook_huffman_tree</span>) {
 			<span class="prelude-val">Ok</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="ident">v</span> <span class="kw">as</span> <span class="ident">usize</span>,
-			<span class="prelude-val">Err</span>(_) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">HuffmanVqReadErr</span>::<span class="ident">EndOfPacket</span>),
+			<span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">HuffmanVqReadErr</span>::<span class="ident">EndOfPacket</span>),
 		};
 		<span class="kw">let</span> <span class="ident">codebook_vq_lookup_vec</span> :<span class="kw-2">&amp;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">b</span>.<span class="ident">codebook_vq_lookup_vec</span>.<span class="ident">as_ref</span>() {
 			<span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">v</span>) <span class="op">=&gt;</span> <span class="ident">v</span>,
@@ -1797,7 +1798,7 @@ spec requires.
 		<span class="macro">convert_to_usize</span><span class="macro">!</span>(<span class="ident">codebook_entries</span>, <span class="ident">u32</span>));
 	<span class="kw">if</span> <span class="op">!</span><span class="ident">ordered</span> {
 		<span class="kw">let</span> <span class="ident">sparse</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_bit_flag</span>());
-		<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">codebook_entries</span> {
+		<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">codebook_entries</span> {
 			<span class="kw">let</span> <span class="ident">length</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">sparse</span> {
 				<span class="kw">let</span> <span class="ident">flag</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_bit_flag</span>());
 				<span class="kw">if</span> <span class="ident">flag</span> {
@@ -1820,7 +1821,7 @@ spec requires.
 		<span class="kw">while</span> <span class="ident">current_entry</span> <span class="op">&lt;</span> <span class="ident">codebook_entries</span> {
 			<span class="kw">let</span> <span class="ident">number</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_dyn_u32</span>(
 				::<span class="ident">ilog</span>((<span class="ident">codebook_entries</span> <span class="op">-</span> <span class="ident">current_entry</span>) <span class="kw">as</span> <span class="ident">u64</span>)));
-			<span class="kw">for</span> _ <span class="kw">in</span> <span class="ident">current_entry</span> .. <span class="ident">current_entry</span> <span class="op">+</span> <span class="ident">number</span> {
+			<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="ident">current_entry</span> .. <span class="ident">current_entry</span> <span class="op">+</span> <span class="ident">number</span> {
 				<span class="ident">codebook_codeword_lengths</span>.<span class="ident">push</span>(<span class="ident">current_length</span>);
 			}
 			<span class="ident">current_entry</span> <span class="op">+=</span> <span class="ident">number</span>;
@@ -1852,7 +1853,7 @@ spec requires.
 		};
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">codebook_multiplicands</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(
 			<span class="macro">convert_to_usize</span><span class="macro">!</span>(<span class="ident">codebook_lookup_values</span>, <span class="ident">u64</span>));
-		<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">codebook_lookup_values</span> {
+		<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">codebook_lookup_values</span> {
 			<span class="ident">codebook_multiplicands</span>.<span class="ident">push</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_dyn_u32</span>(<span class="ident">codebook_value_bits</span>)));
 		}
 		<span class="prelude-val">Some</span>(<span class="ident">CodebookVqLookup</span> {
@@ -1899,7 +1900,7 @@ spec requires.
 			<span class="kw">let</span> <span class="ident">floor0_number_of_books</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u4</span>()) <span class="op">+</span> <span class="number">1</span>;
 			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">floor0_book_list</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(
 				<span class="macro">convert_to_usize</span><span class="macro">!</span>(<span class="ident">floor0_number_of_books</span>, <span class="ident">u8</span>));
-			<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">floor0_number_of_books</span> {
+			<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">floor0_number_of_books</span> {
 				<span class="ident">floor0_book_list</span>.<span class="ident">push</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u8</span>()));
 			}
 			<span class="prelude-val">Ok</span>(<span class="ident">Floor</span>::<span class="ident">TypeZero</span>(<span class="ident">FloorTypeZero</span> {
@@ -1923,7 +1924,7 @@ spec requires.
 			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">maximum_class</span> :<span class="ident">i8</span> <span class="op">=</span> <span class="op">-</span><span class="number">1</span>;
 			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">floor1_partition_class_list</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(
 				<span class="ident">floor1_partitions</span> <span class="kw">as</span> <span class="ident">usize</span>);
-			<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">floor1_partitions</span> {
+			<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">floor1_partitions</span> {
 				<span class="kw">let</span> <span class="ident">cur_class</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u4</span>());
 				<span class="ident">maximum_class</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">cur_class</span> <span class="kw">as</span> <span class="ident">i8</span> <span class="op">&gt;</span> <span class="ident">maximum_class</span>
 					{ <span class="ident">cur_class</span> <span class="kw">as</span> <span class="ident">i8</span> } <span class="kw">else</span> { <span class="ident">maximum_class</span> };
@@ -1939,7 +1940,7 @@ spec requires.
 			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">floor1_subclass_books</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>((<span class="ident">maximum_class</span> <span class="op">+</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">usize</span>);
 
 			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">floor1_class_masterbooks</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>((<span class="ident">maximum_class</span> <span class="op">+</span> <span class="number">1</span>) <span class="kw">as</span> <span class="ident">usize</span>);
-			<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">maximum_class</span> <span class="op">+</span> <span class="number">1</span> {
+			<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">maximum_class</span> <span class="op">+</span> <span class="number">1</span> {
 				<span class="ident">floor1_class_dimensions</span>.<span class="ident">push</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u3</span>()) <span class="op">+</span> <span class="number">1</span>);
 				<span class="kw">let</span> <span class="ident">cur_subclass</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u2</span>());
 				<span class="ident">floor1_class_subclasses</span>.<span class="ident">push</span>(<span class="ident">cur_subclass</span>);
@@ -1958,7 +1959,7 @@ spec requires.
 				}
 				<span class="kw">let</span> <span class="ident">cur_books_cnt</span> :<span class="ident">u8</span> <span class="op">=</span> (<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">cur_subclass</span>);
 				<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cur_books</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">cur_books_cnt</span> <span class="kw">as</span> <span class="ident">usize</span>);
-				<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">cur_books_cnt</span> {
+				<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">cur_books_cnt</span> {
 					<span class="comment">// The fact that we need i16 here (and shouldn&#39;t do</span>
 					<span class="comment">// wrapping sub) is only revealed if you read the</span>
 					<span class="comment">// &quot;packet decode&quot; part of the floor 1 spec...</span>
@@ -1986,14 +1987,14 @@ spec requires.
 			<span class="ident">floor1_x_list</span>.<span class="ident">push</span>(<span class="number">0</span>);
 			<span class="ident">floor1_x_list</span>.<span class="ident">push</span>(<span class="number">1u32</span> <span class="op">&lt;&lt;</span> <span class="ident">rangebits</span>);
 			<span class="kw">for</span> <span class="ident">cur_class_num</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="ident">floor1_partition_class_list</span> {
-				<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">floor1_class_dimensions</span>[<span class="kw-2">*</span><span class="ident">cur_class_num</span> <span class="kw">as</span> <span class="ident">usize</span>] {
+				<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">floor1_class_dimensions</span>[<span class="kw-2">*</span><span class="ident">cur_class_num</span> <span class="kw">as</span> <span class="ident">usize</span>] {
 					<span class="ident">floor1_x_list</span>.<span class="ident">push</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_dyn_u32</span>(<span class="ident">rangebits</span>)));
 				}
 			}
 			<span class="comment">// Now do an uniqueness check on floor1_x_list</span>
 			<span class="comment">// to check decodability.</span>
 			<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">floor1_x_list_sorted</span> <span class="op">=</span> <span class="ident">floor1_x_list</span>.<span class="ident">iter</span>().<span class="ident">cloned</span>()
-				.<span class="ident">enumerate</span>().<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span>_<span class="op">&gt;&gt;</span>();
+				.<span class="ident">enumerate</span>().<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;&gt;</span>();
 			<span class="ident">floor1_x_list_sorted</span>.<span class="ident">sort_by</span>(<span class="op">|</span><span class="ident">a</span>, <span class="ident">b</span><span class="op">|</span> <span class="ident">a</span>.<span class="number">1</span>.<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">b</span>.<span class="number">1</span>));
 			<span class="comment">// 0 is guaranteed to be in the list,</span>
 			<span class="comment">// and due to sorting it will be first.</span>
@@ -2021,7 +2022,7 @@ spec requires.
 			}))
 		},
 		<span class="comment">// Type greater than 1 is error condition per spec</span>
-		_ <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">HeaderReadError</span>::<span class="ident">HeaderBadFormat</span>),
+		<span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">HeaderReadError</span>::<span class="ident">HeaderBadFormat</span>),
 	}
 }
 
@@ -2041,7 +2042,7 @@ spec requires.
 	<span class="kw">let</span> <span class="ident">residue_classbook</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u8</span>());
 	<span class="comment">// Read the bitmap pattern:</span>
 	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">residue_cascade</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">residue_classifications</span> <span class="kw">as</span> <span class="ident">usize</span>);
-	<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">residue_classifications</span> {
+	<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">residue_classifications</span> {
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">high_bits</span> <span class="op">=</span> <span class="number">0</span>;
 		<span class="kw">let</span> <span class="ident">low_bits</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u3</span>());
 		<span class="kw">let</span> <span class="ident">bitflag</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_bit_flag</span>());
@@ -2101,7 +2102,7 @@ spec requires.
 	};
 	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mapping_magnitudes</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">mapping_coupling_steps</span> <span class="kw">as</span> <span class="ident">usize</span>);
 	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mapping_angles</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">mapping_coupling_steps</span> <span class="kw">as</span> <span class="ident">usize</span>);
-	<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">mapping_coupling_steps</span> {
+	<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">mapping_coupling_steps</span> {
 		<span class="kw">let</span> <span class="ident">cur_mag</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_dyn_u8</span>(<span class="ident">audio_chan_ilog</span>));
 		<span class="kw">let</span> <span class="ident">cur_angle</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_dyn_u8</span>(<span class="ident">audio_chan_ilog</span>));
 		<span class="kw">if</span> (<span class="ident">cur_angle</span> <span class="op">==</span> <span class="ident">cur_mag</span>) <span class="op">||</span> (<span class="ident">cur_mag</span> <span class="op">&gt;=</span> <span class="ident">audio_channels</span>)
@@ -2119,7 +2120,7 @@ spec requires.
 	}
 	<span class="kw">let</span> <span class="ident">mapping_mux</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">mapping_submaps</span> <span class="op">&gt;</span> <span class="number">1</span> {
 		<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">m</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">audio_channels</span> <span class="kw">as</span> <span class="ident">usize</span>);
-		<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">audio_channels</span> {
+		<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">audio_channels</span> {
 			<span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u4</span>());
 			<span class="kw">if</span> <span class="ident">val</span> <span class="op">&gt;=</span> <span class="ident">mapping_submaps</span> {
 				<span class="comment">// Undecodable per spec</span>
@@ -2133,7 +2134,7 @@ spec requires.
 	};
 	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mapping_submap_floors</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">mapping_submaps</span> <span class="kw">as</span> <span class="ident">usize</span>);
 	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mapping_submap_residues</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">mapping_submaps</span> <span class="kw">as</span> <span class="ident">usize</span>);
-	<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">mapping_submaps</span> {
+	<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">mapping_submaps</span> {
 		<span class="comment">// To whom those reserved bits may concern.</span>
 		<span class="comment">// I have discarded them!</span>
 		<span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u8</span>());
@@ -2198,13 +2199,13 @@ spec requires.
 	<span class="comment">// 1. Read the codebooks</span>
 	<span class="kw">let</span> <span class="ident">vorbis_codebook_count</span> :<span class="ident">u16</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u8</span>()) <span class="kw">as</span> <span class="ident">u16</span> <span class="op">+</span> <span class="number">1</span>;
 	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">codebooks</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">vorbis_codebook_count</span> <span class="kw">as</span> <span class="ident">usize</span>);
-	<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">vorbis_codebook_count</span> {
+	<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">vorbis_codebook_count</span> {
 		<span class="ident">codebooks</span>.<span class="ident">push</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">read_codebook</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">rdr</span>)));
 	}
 
 	<span class="comment">// 2. Read the time domain transforms</span>
 	<span class="kw">let</span> <span class="ident">vorbis_time_count</span> :<span class="ident">u8</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u6</span>()) <span class="op">+</span> <span class="number">1</span>;
-	<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">vorbis_time_count</span> {
+	<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">vorbis_time_count</span> {
 		<span class="kw">if</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u16</span>()) <span class="op">!=</span> <span class="number">0</span> {
 			<span class="macro">try</span><span class="macro">!</span>(<span class="prelude-val">Err</span>(<span class="ident">HeaderReadError</span>::<span class="ident">HeaderBadFormat</span>));
 		}
@@ -2213,21 +2214,21 @@ spec requires.
 	<span class="comment">// 3. Read the floor values</span>
 	<span class="kw">let</span> <span class="ident">vorbis_floor_count</span> :<span class="ident">u8</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u6</span>()) <span class="op">+</span> <span class="number">1</span>;
 	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">floors</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">vorbis_floor_count</span> <span class="kw">as</span> <span class="ident">usize</span>);
-	<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">vorbis_floor_count</span> {
+	<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">vorbis_floor_count</span> {
 		<span class="ident">floors</span>.<span class="ident">push</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">read_floor</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">rdr</span>, <span class="ident">vorbis_codebook_count</span>, <span class="ident">blocksizes</span>)));
 	}
 
 	<span class="comment">// 4. Read the residue values</span>
 	<span class="kw">let</span> <span class="ident">vorbis_residue_count</span> :<span class="ident">u8</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u6</span>()) <span class="op">+</span> <span class="number">1</span>;
 	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">residues</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">vorbis_residue_count</span> <span class="kw">as</span> <span class="ident">usize</span>);
-	<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">vorbis_residue_count</span> {
+	<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">vorbis_residue_count</span> {
 		<span class="ident">residues</span>.<span class="ident">push</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">read_residue</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">rdr</span>, <span class="kw-2">&amp;</span><span class="ident">codebooks</span>)));
 	}
 
 	<span class="comment">// 5. Read the mappings</span>
 	<span class="kw">let</span> <span class="ident">vorbis_mapping_count</span> :<span class="ident">u8</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u6</span>()) <span class="op">+</span> <span class="number">1</span>;
 	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mappings</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">vorbis_mapping_count</span> <span class="kw">as</span> <span class="ident">usize</span>);
-	<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">vorbis_mapping_count</span> {
+	<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">vorbis_mapping_count</span> {
 		<span class="ident">mappings</span>.<span class="ident">push</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">read_mapping</span>(<span class="op">&amp;</span> <span class="kw-2">mut</span> <span class="ident">rdr</span>,
 			<span class="ident">audio_chan_ilog</span>, <span class="ident">audio_channels</span>,
 			<span class="ident">vorbis_floor_count</span>, <span class="ident">vorbis_residue_count</span>)));
@@ -2236,7 +2237,7 @@ spec requires.
 	<span class="comment">// 6. Read the modes</span>
 	<span class="kw">let</span> <span class="ident">vorbis_mode_count</span> :<span class="ident">u8</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">rdr</span>.<span class="ident">read_u6</span>()) <span class="op">+</span> <span class="number">1</span>;
 	<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">modes</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">vorbis_mode_count</span> <span class="kw">as</span> <span class="ident">usize</span>);
-	<span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">vorbis_mode_count</span> {
+	<span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span> .. <span class="ident">vorbis_mode_count</span> {
 		<span class="ident">modes</span>.<span class="ident">push</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">read_mode_info</span>(<span class="op">&amp;</span> <span class="kw-2">mut</span> <span class="ident">rdr</span>, <span class="ident">vorbis_mapping_count</span>)));
 	}
 

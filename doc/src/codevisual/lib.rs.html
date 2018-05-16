@@ -10,10 +10,11 @@
     <title>lib.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -110,10 +111,12 @@
 </pre><pre class="rust ">
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">warnings</span>)]</span>
 
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">color</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;emscripten&quot;</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">emscripten</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">failure</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">geom</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;asmjs&quot;</span>, <span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>)))]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">glutin</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;asmjs&quot;</span>, <span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>)))]</span>
@@ -123,6 +126,7 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">lazy_static</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;asmjs&quot;</span>, <span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>)))]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num_cpus</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">prelude</span> <span class="kw">as</span> <span class="ident">external_prelude</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;asmjs&quot;</span>, <span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>)))]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rodio</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rusttype</span>;
@@ -132,12 +136,9 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">stdweb</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;asmjs&quot;</span>, <span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>)))]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">threadpool</span>;
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">timer</span>;
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">ugli</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">color</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">geom</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">prelude</span> <span class="kw">as</span> <span class="ident">external_prelude</span>;
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">timer</span>;
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="ident">failure</span>::<span class="ident">Error</span>;
 

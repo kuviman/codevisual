@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webcore/serialization.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.5/src/webcore/serialization.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>serialization.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle">
     <script src="../../../storage.js"></script>
     
 
@@ -2301,7 +2302,7 @@
         var object = Module.STDWEB_PRIVATE.acquire_js_reference( $0 );\
         Module.STDWEB_PRIVATE.serialize_object( $1, object );&quot;</span>,
         <span class="ident">reference</span>.<span class="ident">as_raw</span>(),
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">result</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> _
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">result</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw">_</span>
     );
 
     <span class="macro">assert_eq</span><span class="macro">!</span>( <span class="ident">result</span>.<span class="ident">tag</span>, <span class="ident">Tag</span>::<span class="ident">Object</span> );
@@ -2363,7 +2364,7 @@
         var array = Module.STDWEB_PRIVATE.acquire_js_reference( $0 );\
         Module.STDWEB_PRIVATE.serialize_array( $1, array );&quot;</span>,
         <span class="ident">reference</span>.<span class="ident">as_raw</span>(),
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">result</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> _
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">result</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="kw">_</span>
     );
 
     <span class="macro">assert_eq</span><span class="macro">!</span>( <span class="ident">result</span>.<span class="ident">tag</span>, <span class="ident">Tag</span>::<span class="ident">Array</span> );
@@ -2410,7 +2411,7 @@
             <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">reader_name</span>( <span class="kw-2">&amp;</span><span class="self">self</span> ) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">untagged_type</span> {
                 <span class="macro">debug_assert_eq</span><span class="macro">!</span>( <span class="self">self</span>.<span class="ident">tag</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span> );
                 <span class="kw">unsafe</span> {
-                    <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> _ <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">untagged_type</span>)
+                    <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">untagged_type</span>)
                 }
             }
         }
@@ -2434,7 +2435,7 @@
             <span class="attribute">#[<span class="ident">test</span>]</span>
             <span class="kw">fn</span> <span class="ident">does_not_overlap_with_the_tag</span>() {
                 <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">untagged_type</span> <span class="op">&gt;</span>();
-                <span class="kw">let</span> <span class="ident">tag_offset</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="number">0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;static</span> <span class="op">&gt;</span>)).<span class="ident">tag</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> _ <span class="kw">as</span> <span class="ident">usize</span> };
+                <span class="kw">let</span> <span class="ident">tag_offset</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="number">0</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;static</span> <span class="op">&gt;</span>)).<span class="ident">tag</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> };
                 <span class="macro">assert</span><span class="macro">!</span>( <span class="ident">size</span> <span class="op">&lt;=</span> <span class="ident">tag_offset</span> );
             }
         }
@@ -2482,7 +2483,7 @@
 <span class="kw">impl</span> <span class="ident">JsSerialize</span> <span class="kw">for</span> () {
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
         <span class="ident">SerializedUntaggedUndefined</span>.<span class="ident">into</span>()
     }
 
@@ -2498,7 +2499,7 @@
 <span class="kw">impl</span> <span class="ident">JsSerialize</span> <span class="kw">for</span> <span class="ident">Undefined</span> {
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
         <span class="ident">SerializedUntaggedUndefined</span>.<span class="ident">into</span>()
     }
 
@@ -2514,7 +2515,7 @@
 <span class="kw">impl</span> <span class="ident">JsSerialize</span> <span class="kw">for</span> <span class="ident">Null</span> {
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
         <span class="ident">SerializedUntaggedNull</span>.<span class="ident">into</span>()
     }
 
@@ -2530,7 +2531,7 @@
 <span class="kw">impl</span> <span class="ident">JsSerialize</span> <span class="kw">for</span> <span class="ident">Symbol</span> {
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
         <span class="ident">SerializedUntaggedSymbol</span> {
             <span class="ident">id</span>: <span class="self">self</span>.<span class="number">0</span>
         }.<span class="ident">into</span>()
@@ -2548,7 +2549,7 @@
 <span class="kw">impl</span> <span class="ident">JsSerialize</span> <span class="kw">for</span> <span class="ident">Reference</span> {
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
         <span class="ident">SerializedUntaggedReference</span> {
             <span class="ident">refid</span>: <span class="self">self</span>.<span class="ident">as_raw</span>()
         }.<span class="ident">into</span>()
@@ -2566,7 +2567,7 @@
 <span class="kw">impl</span> <span class="ident">JsSerialize</span> <span class="kw">for</span> <span class="ident">bool</span> {
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="kw-2">*</span><span class="self">self</span> {
             <span class="ident">SerializedUntaggedTrue</span> {}.<span class="ident">into</span>()
         } <span class="kw">else</span> {
@@ -2586,7 +2587,7 @@
 <span class="kw">impl</span> <span class="ident">JsSerialize</span> <span class="kw">for</span> <span class="ident">str</span> {
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
         <span class="ident">SerializedUntaggedString</span> {
             <span class="ident">pointer</span>: <span class="self">self</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="ident">u32</span>,
             <span class="ident">length</span>: <span class="self">self</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u32</span>
@@ -2621,7 +2622,7 @@
 <span class="kw">impl</span> <span class="ident">JsSerialize</span> <span class="kw">for</span> <span class="ident">i8</span> {
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
         <span class="ident">SerializedUntaggedI32</span> {
             <span class="ident">value</span>: <span class="kw-2">*</span><span class="self">self</span> <span class="kw">as</span> <span class="ident">i32</span>
         }.<span class="ident">into</span>()
@@ -2639,7 +2640,7 @@
 <span class="kw">impl</span> <span class="ident">JsSerialize</span> <span class="kw">for</span> <span class="ident">i16</span> {
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
         <span class="ident">SerializedUntaggedI32</span> {
             <span class="ident">value</span>: <span class="kw-2">*</span><span class="self">self</span> <span class="kw">as</span> <span class="ident">i32</span>
         }.<span class="ident">into</span>()
@@ -2657,7 +2658,7 @@
 <span class="kw">impl</span> <span class="ident">JsSerialize</span> <span class="kw">for</span> <span class="ident">i32</span> {
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
         <span class="ident">SerializedUntaggedI32</span> {
             <span class="ident">value</span>: <span class="kw-2">*</span><span class="self">self</span>
         }.<span class="ident">into</span>()
@@ -2675,7 +2676,7 @@
 <span class="kw">impl</span> <span class="ident">JsSerialize</span> <span class="kw">for</span> <span class="ident">u8</span> {
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
         <span class="ident">SerializedUntaggedI32</span> {
             <span class="ident">value</span>: <span class="kw-2">*</span><span class="self">self</span> <span class="kw">as</span> <span class="ident">i32</span>
         }.<span class="ident">into</span>()
@@ -2693,7 +2694,7 @@
 <span class="kw">impl</span> <span class="ident">JsSerialize</span> <span class="kw">for</span> <span class="ident">u16</span> {
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
         <span class="ident">SerializedUntaggedI32</span> {
             <span class="ident">value</span>: <span class="kw-2">*</span><span class="self">self</span> <span class="kw">as</span> <span class="ident">i32</span>
         }.<span class="ident">into</span>()
@@ -2711,7 +2712,7 @@
 <span class="kw">impl</span> <span class="ident">JsSerialize</span> <span class="kw">for</span> <span class="ident">u32</span> {
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
         <span class="ident">SerializedUntaggedF64</span> {
             <span class="ident">value</span>: <span class="kw-2">*</span><span class="self">self</span> <span class="kw">as</span> <span class="ident">f64</span>
         }.<span class="ident">into</span>()
@@ -2729,7 +2730,7 @@
 <span class="kw">impl</span> <span class="ident">JsSerialize</span> <span class="kw">for</span> <span class="ident">f32</span> {
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
         <span class="ident">SerializedUntaggedF64</span> {
             <span class="ident">value</span>: <span class="kw-2">*</span><span class="self">self</span> <span class="kw">as</span> <span class="ident">f64</span>
         }.<span class="ident">into</span>()
@@ -2747,7 +2748,7 @@
 <span class="kw">impl</span> <span class="ident">JsSerialize</span> <span class="kw">for</span> <span class="ident">f64</span> {
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
         <span class="ident">SerializedUntaggedF64</span> {
             <span class="ident">value</span>: <span class="kw-2">*</span><span class="self">self</span>
         }.<span class="ident">into</span>()
@@ -2935,7 +2936,7 @@
         <span class="kw">impl</span><span class="op">&lt;</span> <span class="lifetime">&#39;r</span> <span class="op">&gt;</span> <span class="ident">JsSerialize</span> <span class="kw">for</span> <span class="ident">UnsafeTypedArray</span><span class="op">&lt;</span> <span class="lifetime">&#39;r</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span> <span class="op">&gt;</span> {
             <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">_into_js</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
                 <span class="ident">SerializedUntaggedUnsafeTypedArray</span> {
                     <span class="ident">pointer</span>: <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="ident">u32</span> <span class="op">/</span> <span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ty</span> <span class="op">&gt;</span>() <span class="kw">as</span> <span class="ident">u32</span>,
                     <span class="ident">length</span>: <span class="self">self</span>.<span class="number">0</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u32</span>,
@@ -3014,7 +3015,7 @@
                 $(
                     <span class="kw">let</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">arguments</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">try_into</span>() {
                         <span class="prelude-val">Ok</span>( <span class="ident">value</span> ) <span class="op">=&gt;</span> <span class="ident">value</span>,
-                        <span class="prelude-val">Err</span>( _ ) <span class="op">=&gt;</span> {
+                        <span class="prelude-val">Err</span>( <span class="kw">_</span> ) <span class="op">=&gt;</span> {
                             <span class="macro">panic</span><span class="macro">!</span>(
                                 <span class="string">&quot;Argument #{} is not convertible to &#39;{}&#39;&quot;</span>,
                                 <span class="ident">nth_argument</span> <span class="op">+</span> <span class="number">1</span>,
@@ -3033,7 +3034,7 @@
 
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="prelude-val">Some</span>( <span class="ident">result</span> );
                 <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">JsSerializeOwned</span>::<span class="ident">into_js_owned</span>( <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">result</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">arena</span> );
-                <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">result</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> _;
+                <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">result</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span>;
 
                 <span class="comment">// This is kinda hacky but I&#39;m not sure how else to do it at the moment.</span>
                 <span class="macro">__js_raw_asm</span><span class="macro">!</span>( <span class="string">&quot;Module.STDWEB_PRIVATE.tmp = Module.STDWEB_PRIVATE.to_js( $0 );&quot;</span>, <span class="ident">result</span> );
@@ -3078,7 +3079,7 @@
                 $(
                     <span class="kw">let</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">arguments</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">try_into</span>() {
                         <span class="prelude-val">Ok</span>( <span class="ident">value</span> ) <span class="op">=&gt;</span> <span class="ident">value</span>,
-                        <span class="prelude-val">Err</span>( _ ) <span class="op">=&gt;</span> {
+                        <span class="prelude-val">Err</span>( <span class="kw">_</span> ) <span class="op">=&gt;</span> {
                             <span class="macro">panic</span><span class="macro">!</span>(
                                 <span class="string">&quot;Argument #{} is not convertible to &#39;{}&#39;&quot;</span>,
                                 <span class="ident">nth_argument</span> <span class="op">+</span> <span class="number">1</span>,
@@ -3097,7 +3098,7 @@
 
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="prelude-val">Some</span>( <span class="ident">result</span> );
                 <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">JsSerializeOwned</span>::<span class="ident">into_js_owned</span>( <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">result</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">arena</span> );
-                <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">result</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> _;
+                <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">result</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span>;
 
                 <span class="comment">// This is kinda hacky but I&#39;m not sure how else to do it at the moment.</span>
                 <span class="macro">__js_raw_asm</span><span class="macro">!</span>( <span class="string">&quot;Module.STDWEB_PRIVATE.tmp = Module.STDWEB_PRIVATE.to_js( $0 );&quot;</span>, <span class="ident">result</span> );
@@ -3116,7 +3117,7 @@
             <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">CallOnce</span><span class="op">&lt;</span> ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>,)<span class="kw-2">*</span>) <span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>, <span class="ident">F</span>::<span class="ident">Output</span>: <span class="ident">JsSerializeOwned</span>
         {
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">into_js_owned</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span> <span class="self">Self</span> <span class="op">&gt;</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">into_js_owned</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span> <span class="self">Self</span> <span class="op">&gt;</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">callback</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">F</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">into_raw</span>( <span class="ident">Box</span>::<span class="ident">new</span>( <span class="ident">value</span>.<span class="ident">take</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap_newtype</span>().<span class="number">0</span> ) );
 
                 <span class="ident">SerializedUntaggedFunctionOnce</span> {
@@ -3136,7 +3137,7 @@
             <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">CallMut</span><span class="op">&lt;</span> ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>,)<span class="kw-2">*</span>) <span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>, <span class="ident">F</span>::<span class="ident">Output</span>: <span class="ident">JsSerializeOwned</span>
         {
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">into_js_owned</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span> <span class="self">Self</span> <span class="op">&gt;</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">into_js_owned</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span> <span class="self">Self</span> <span class="op">&gt;</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="ident">callback</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">F</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">into_raw</span>( <span class="ident">Box</span>::<span class="ident">new</span>( <span class="ident">value</span>.<span class="ident">take</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap_newtype</span>() ) );
 
                 <span class="ident">SerializedUntaggedFunction</span> {
@@ -3156,7 +3157,7 @@
             <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">CallMut</span><span class="op">&lt;</span> ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>,)<span class="kw-2">*</span>) <span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>, <span class="ident">F</span>::<span class="ident">Output</span>: <span class="ident">JsSerializeOwned</span>
         {
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">into_js_owned</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span> <span class="self">Self</span> <span class="op">&gt;</span>, _: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">into_js_owned</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span>( <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span> <span class="self">Self</span> <span class="op">&gt;</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PreallocatedArena</span> ) <span class="op">-&gt;</span> <span class="ident">SerializedValue</span><span class="op">&lt;</span> <span class="lifetime">&#39;a</span> <span class="op">&gt;</span> {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>( <span class="ident">value</span> ) <span class="op">=</span> <span class="ident">value</span>.<span class="ident">take</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap_newtype</span>() {
                     <span class="kw">let</span> <span class="ident">callback</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">F</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">into_raw</span>( <span class="ident">Box</span>::<span class="ident">new</span>( <span class="ident">value</span> ) );
                     <span class="ident">SerializedUntaggedFunction</span> {
@@ -3491,7 +3492,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">object_from_btreemap</span>() {
-        <span class="kw">let</span> <span class="ident">object</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span> _, _ <span class="op">&gt;</span> <span class="op">=</span> [
+        <span class="kw">let</span> <span class="ident">object</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span> <span class="kw">_</span>, <span class="kw">_</span> <span class="op">&gt;</span> <span class="op">=</span> [
             (<span class="string">&quot;number&quot;</span>.<span class="ident">to_string</span>(), <span class="ident">Value</span>::<span class="ident">Number</span>( <span class="number">123</span>.<span class="ident">into</span>() )),
             (<span class="string">&quot;string&quot;</span>.<span class="ident">to_string</span>(), <span class="ident">Value</span>::<span class="ident">String</span>( <span class="string">&quot;Hello!&quot;</span>.<span class="ident">into</span>() ))
         ].<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">collect</span>();
@@ -3505,7 +3506,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">object_from_borrowed_btreemap</span>() {
-        <span class="kw">let</span> <span class="ident">object</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span> _, _ <span class="op">&gt;</span> <span class="op">=</span> [
+        <span class="kw">let</span> <span class="ident">object</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span> <span class="kw">_</span>, <span class="kw">_</span> <span class="op">&gt;</span> <span class="op">=</span> [
             (<span class="string">&quot;number&quot;</span>.<span class="ident">to_string</span>(), <span class="ident">Value</span>::<span class="ident">Number</span>( <span class="number">123</span>.<span class="ident">into</span>() ))
         ].<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">collect</span>();
 
@@ -3519,7 +3520,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">object_from_btreemap_with_convertible_key_and_value</span>() {
         <span class="kw">let</span> <span class="ident">key</span>: <span class="ident">Cow</span><span class="op">&lt;</span> <span class="ident">str</span> <span class="op">&gt;</span> <span class="op">=</span> <span class="string">&quot;number&quot;</span>.<span class="ident">into</span>();
-        <span class="kw">let</span> <span class="ident">object</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span> _, _ <span class="op">&gt;</span> <span class="op">=</span> [
+        <span class="kw">let</span> <span class="ident">object</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span> <span class="kw">_</span>, <span class="kw">_</span> <span class="op">&gt;</span> <span class="op">=</span> [
             (<span class="ident">key</span>, <span class="number">123</span>)
         ].<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">collect</span>();
 
@@ -3532,7 +3533,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">object_from_hashmap</span>() {
-        <span class="kw">let</span> <span class="ident">object</span>: <span class="ident">HashMap</span><span class="op">&lt;</span> _, _ <span class="op">&gt;</span> <span class="op">=</span> [
+        <span class="kw">let</span> <span class="ident">object</span>: <span class="ident">HashMap</span><span class="op">&lt;</span> <span class="kw">_</span>, <span class="kw">_</span> <span class="op">&gt;</span> <span class="op">=</span> [
             (<span class="string">&quot;number&quot;</span>.<span class="ident">to_string</span>(), <span class="ident">Value</span>::<span class="ident">Number</span>( <span class="number">123</span>.<span class="ident">into</span>() )),
             (<span class="string">&quot;string&quot;</span>.<span class="ident">to_string</span>(), <span class="ident">Value</span>::<span class="ident">String</span>( <span class="string">&quot;Hello!&quot;</span>.<span class="ident">into</span>() ))
         ].<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">collect</span>();
@@ -3546,7 +3547,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">vector_of_strings</span>() {
-        <span class="kw">let</span> <span class="ident">vec</span>: <span class="ident">Vec</span><span class="op">&lt;</span> _ <span class="op">&gt;</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
+        <span class="kw">let</span> <span class="ident">vec</span>: <span class="ident">Vec</span><span class="op">&lt;</span> <span class="kw">_</span> <span class="op">&gt;</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
             <span class="string">&quot;one&quot;</span>.<span class="ident">to_string</span>(),
             <span class="string">&quot;two&quot;</span>.<span class="ident">to_string</span>()
         ];
@@ -3832,7 +3833,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">object</span>() {
-        <span class="kw">let</span> <span class="ident">object</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span> _, _ <span class="op">&gt;</span> <span class="op">=</span> [
+        <span class="kw">let</span> <span class="ident">object</span>: <span class="ident">BTreeMap</span><span class="op">&lt;</span> <span class="kw">_</span>, <span class="kw">_</span> <span class="op">&gt;</span> <span class="op">=</span> [
             (<span class="string">&quot;one&quot;</span>.<span class="ident">to_string</span>(), <span class="ident">Value</span>::<span class="ident">Number</span>( <span class="number">1</span>.<span class="ident">into</span>() )),
             (<span class="string">&quot;two&quot;</span>.<span class="ident">to_string</span>(), <span class="ident">Value</span>::<span class="ident">Number</span>( <span class="number">2</span>.<span class="ident">into</span>() ))
         ].<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">collect</span>();

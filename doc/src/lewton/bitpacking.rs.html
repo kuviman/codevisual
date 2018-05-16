@@ -10,10 +10,11 @@
     <title>bitpacking.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -1196,7 +1197,7 @@ and doesn&#39;t even have a builtin single byte type.
 					<span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">payload</span>);
 				},
 			},
-			<span class="prelude-val">Err</span>(_) <span class="op">=&gt;</span> <span class="ident">tree</span>.<span class="ident">iter</span>(),
+			<span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">tree</span>.<span class="ident">iter</span>(),
 		};
 
 		<span class="kw">loop</span> {

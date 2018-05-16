@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rodio-0.5.2/src/dynamic_mixer.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rodio-0.7.0/src/dynamic_mixer.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>dynamic_mixer.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -303,7 +304,7 @@
 <span class="doccomment">/// added to the mixer will be converted to these values.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// After creating a mixer, you can add new sounds with the controller.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mixer</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">channels</span>: <span class="ident">u16</span>, <span class="ident">samples_rate</span>: <span class="ident">u32</span>)
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mixer</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="ident">channels</span>: <span class="ident">u16</span>, <span class="ident">sample_rate</span>: <span class="ident">u32</span>)
                 <span class="op">-&gt;</span> (<span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">DynamicMixerController</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;&gt;</span>, <span class="ident">DynamicMixer</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>)
     <span class="kw">where</span> <span class="ident">S</span>: <span class="ident">Sample</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
 {
@@ -311,7 +312,7 @@
                              <span class="ident">has_pending</span>: <span class="ident">AtomicBool</span>::<span class="ident">new</span>(<span class="bool-val">false</span>),
                              <span class="ident">pending_sources</span>: <span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">Vec</span>::<span class="ident">new</span>()),
                              <span class="ident">channels</span>: <span class="ident">channels</span>,
-                             <span class="ident">samples_rate</span>: <span class="ident">samples_rate</span>,
+                             <span class="ident">sample_rate</span>: <span class="ident">sample_rate</span>,
                          });
 
     <span class="kw">let</span> <span class="ident">output</span> <span class="op">=</span> <span class="ident">DynamicMixer</span> {
@@ -327,7 +328,7 @@
     <span class="ident">has_pending</span>: <span class="ident">AtomicBool</span>,
     <span class="ident">pending_sources</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Source</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">S</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
     <span class="ident">channels</span>: <span class="ident">u16</span>,
-    <span class="ident">samples_rate</span>: <span class="ident">u32</span>,
+    <span class="ident">sample_rate</span>: <span class="ident">u32</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> <span class="ident">DynamicMixerController</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>
@@ -338,11 +339,11 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">source</span>: <span class="ident">T</span>)
         <span class="kw">where</span> <span class="ident">T</span>: <span class="ident">Source</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">S</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>
     {
-        <span class="kw">let</span> <span class="ident">uniform_source</span> <span class="op">=</span> <span class="ident">UniformSourceIterator</span>::<span class="ident">new</span>(<span class="ident">source</span>, <span class="self">self</span>.<span class="ident">channels</span>, <span class="self">self</span>.<span class="ident">samples_rate</span>);
+        <span class="kw">let</span> <span class="ident">uniform_source</span> <span class="op">=</span> <span class="ident">UniformSourceIterator</span>::<span class="ident">new</span>(<span class="ident">source</span>, <span class="self">self</span>.<span class="ident">channels</span>, <span class="self">self</span>.<span class="ident">sample_rate</span>);
         <span class="self">self</span>.<span class="ident">pending_sources</span>
             .<span class="ident">lock</span>()
             .<span class="ident">unwrap</span>()
-            .<span class="ident">push</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">uniform_source</span>) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span>_<span class="op">&gt;</span>);
+            .<span class="ident">push</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">uniform_source</span>) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>);
         <span class="self">self</span>.<span class="ident">has_pending</span>.<span class="ident">store</span>(<span class="bool-val">true</span>, <span class="ident">Ordering</span>::<span class="ident">SeqCst</span>); <span class="comment">// TODO: can we relax this ordering?</span>
     }
 }
@@ -370,8 +371,8 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">samples_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
-        <span class="self">self</span>.<span class="ident">input</span>.<span class="ident">samples_rate</span>
+    <span class="kw">fn</span> <span class="ident">sample_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+        <span class="self">self</span>.<span class="ident">input</span>.<span class="ident">sample_rate</span>
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -440,7 +441,7 @@
         <span class="ident">tx</span>.<span class="ident">add</span>(<span class="ident">SamplesBuffer</span>::<span class="ident">new</span>(<span class="number">1</span>, <span class="number">48000</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">5i16</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>]));
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">channels</span>(), <span class="number">1</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">samples_rate</span>(), <span class="number">48000</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">sample_rate</span>(), <span class="number">48000</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="number">15</span>));
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="op">-</span><span class="number">5</span>));
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="number">15</span>));
@@ -456,7 +457,7 @@
         <span class="ident">tx</span>.<span class="ident">add</span>(<span class="ident">SamplesBuffer</span>::<span class="ident">new</span>(<span class="number">1</span>, <span class="number">48000</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">5i16</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>]));
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">channels</span>(), <span class="number">2</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">samples_rate</span>(), <span class="number">48000</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">sample_rate</span>(), <span class="number">48000</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="number">15</span>));
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="number">15</span>));
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="op">-</span><span class="number">5</span>));
@@ -476,7 +477,7 @@
         <span class="ident">tx</span>.<span class="ident">add</span>(<span class="ident">SamplesBuffer</span>::<span class="ident">new</span>(<span class="number">1</span>, <span class="number">48000</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">5i16</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">5</span>]));
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">channels</span>(), <span class="number">1</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">samples_rate</span>(), <span class="number">96000</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">sample_rate</span>(), <span class="number">96000</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="number">15</span>));
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="number">5</span>));
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">rx</span>.<span class="ident">next</span>(), <span class="prelude-val">Some</span>(<span class="op">-</span><span class="number">5</span>));

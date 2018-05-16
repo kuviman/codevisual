@@ -10,10 +10,11 @@
     <title>frame.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -1006,7 +1007,7 @@
         <span class="number">0b1110</span> <span class="op">=&gt;</span> <span class="ident">read_16bit_sr_ten</span> <span class="op">=</span> <span class="bool-val">true</span>, <span class="comment">// Read tens of Hz from end of header.</span>
         <span class="comment">// 1111 is invalid to prevent sync-fooling.</span>
         <span class="comment">// Other values are impossible at this point.</span>
-        _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">fmt_err</span>(<span class="string">&quot;invalid frame header&quot;</span>),
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">fmt_err</span>(<span class="string">&quot;invalid frame header&quot;</span>),
     }
 
     <span class="comment">// Next are 4 bits channel assignment, 3 bits sample size, and 1 reserved bit.</span>
@@ -1020,7 +1021,7 @@
         <span class="number">0b1001</span> <span class="op">=&gt;</span> <span class="ident">ChannelAssignment</span>::<span class="ident">RightSideStereo</span>,
         <span class="number">0b1010</span> <span class="op">=&gt;</span> <span class="ident">ChannelAssignment</span>::<span class="ident">MidSideStereo</span>,
         <span class="comment">// Values 1011 through 1111 are reserved and thus invalid.</span>
-        _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">fmt_err</span>(<span class="string">&quot;invalid frame header, encountered reserved value&quot;</span>),
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">fmt_err</span>(<span class="string">&quot;invalid frame header, encountered reserved value&quot;</span>),
     };
 
     <span class="comment">// The next three bits indicate bits per sample.</span>
@@ -1032,7 +1033,7 @@
         <span class="number">0b101</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="number">20</span>),
         <span class="number">0b110</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="number">24</span>),
         <span class="comment">// Values 011 and 111 are reserved. Other values are impossible.</span>
-        _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">fmt_err</span>(<span class="string">&quot;invalid frame header, encountered reserved value&quot;</span>),
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">fmt_err</span>(<span class="string">&quot;invalid frame header, encountered reserved value&quot;</span>),
     };
 
     <span class="comment">// The final bit has a mandatory value of 0, it is a reserved bit.</span>

@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.5/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -496,6 +497,18 @@
 <span id="440">440</span>
 <span id="441">441</span>
 <span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! The goal of this crate is to provide Rust bindings to the Web APIs and to allow</span>
 <span class="doccomment">//! a high degree of interoperability between Rust and JavaScript.</span>
@@ -634,8 +647,14 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;unknown&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">stdweb_internal_macros</span>::<span class="ident">js_export</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures&quot;</span>)]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures-support&quot;</span>)]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures_core</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures-support&quot;</span>)]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures_util</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures-support&quot;</span>)]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">futures_channel</span>;
 
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">stdweb_derive</span>;
@@ -680,7 +699,7 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">promise</span>::{<span class="ident">Promise</span>, <span class="ident">DoneHandle</span>};
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(
-    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures&quot;</span>,
+    <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures-support&quot;</span>,
     <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;experimental_features_which_may_break_on_minor_version_bumps&quot;</span>
 ))]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">promise_future</span>::<span class="ident">PromiseFuture</span>;
@@ -712,8 +731,9 @@
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">date</span>::<span class="ident">Date</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">event_target</span>::{<span class="ident">IEventTarget</span>, <span class="ident">EventTarget</span>, <span class="ident">EventListenerHandle</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">window</span>::<span class="ident">RequestAnimationFrameHandle</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">node</span>::{<span class="ident">INode</span>, <span class="ident">Node</span>, <span class="ident">CloneKind</span>};
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">node</span>::{<span class="ident">INode</span>, <span class="ident">Node</span>, <span class="ident">CloneKind</span>, <span class="ident">NodeType</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">element</span>::{<span class="ident">IElement</span>, <span class="ident">Element</span>};
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">document_fragment</span>::<span class="ident">DocumentFragment</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">text_node</span>::<span class="ident">TextNode</span>;
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">html_element</span>::{<span class="ident">IHtmlElement</span>, <span class="ident">HtmlElement</span>, <span class="ident">Rect</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">window_or_worker</span>::<span class="ident">IWindowOrWorker</span>;
@@ -733,6 +753,7 @@
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">mutation_observer</span>::{<span class="ident">MutationObserver</span>, <span class="ident">MutationObserverHandle</span>, <span class="ident">MutationObserverInit</span>, <span class="ident">MutationRecord</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">xml_http_request</span>::{<span class="ident">XmlHttpRequest</span>, <span class="ident">XhrReadyState</span>};
     <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">blob</span>::{<span class="ident">IBlob</span>, <span class="ident">Blob</span>};
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">html_collection</span>::<span class="ident">HtmlCollection</span>;
 
     <span class="doccomment">/// A module containing error types.</span>
     <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">error</span> {
@@ -752,6 +773,7 @@
         };
         <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">error</span>::{<span class="ident">IError</span>, <span class="ident">Error</span>};
         <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">rendering_context</span>::{<span class="ident">AddColorStopError</span>, <span class="ident">DrawImageError</span>, <span class="ident">GetImageDataError</span>};
+        <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">html_elements</span>::<span class="ident">UnknownValueError</span>;
     }
 
     <span class="doccomment">/// A module containing HTML DOM elements.</span>
@@ -760,6 +782,8 @@
         <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">html_elements</span>::<span class="ident">InputElement</span>;
         <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">html_elements</span>::<span class="ident">TextAreaElement</span>;
         <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">html_elements</span>::<span class="ident">CanvasElement</span>;
+        <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">html_elements</span>::<span class="ident">SelectElement</span>;
+        <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">html_elements</span>::<span class="ident">OptionElement</span>;
     }
 
     <span class="doccomment">/// A module containing JavaScript DOM events.</span>
@@ -823,7 +847,8 @@
             <span class="ident">SocketCloseEvent</span>,
             <span class="ident">SocketErrorEvent</span>,
             <span class="ident">SocketOpenEvent</span>,
-            <span class="ident">SocketMessageEvent</span>
+            <span class="ident">SocketMessageEvent</span>,
+            <span class="ident">SocketMessageData</span>
         };
 
         <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">webapi</span>::<span class="ident">events</span>::<span class="ident">history</span>::{
@@ -919,14 +944,14 @@
     <span class="comment">// This is to prevent an unused_mut warnings in macros, because an `allow` doesn&#39;t work apparently?</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">noop</span><span class="op">&lt;</span> <span class="ident">T</span> <span class="op">&gt;</span>( _: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span> ) {}
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">noop</span><span class="op">&lt;</span> <span class="ident">T</span> <span class="op">&gt;</span>( <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span> ) {}
 
     <span class="comment">// TODO: Remove this.</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TODO</span>;
 
     <span class="kw">impl</span> ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">TODO</span> {
-        <span class="kw">fn</span> <span class="ident">fmt</span>( <span class="kw-2">&amp;</span><span class="self">self</span>, _: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span> ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span> (), ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Error</span> <span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">fmt</span>( <span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span> ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span> (), ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Error</span> <span class="op">&gt;</span> {
             <span class="macro">unreachable</span><span class="macro">!</span>();
         }
     }

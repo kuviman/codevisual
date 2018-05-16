@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rodio-0.5.2/src/source/blt.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rodio-0.7.0/src/source/blt.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>blt.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle">
     <script src="../../../storage.js"></script>
     
 
@@ -299,7 +300,7 @@
         <span class="kw">let</span> <span class="ident">last_in_frame</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">input</span>.<span class="ident">current_frame_len</span>() <span class="op">==</span> <span class="prelude-val">Some</span>(<span class="number">1</span>);
 
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">applier</span>.<span class="ident">is_none</span>() {
-            <span class="self">self</span>.<span class="ident">applier</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">formula</span>.<span class="ident">to_applier</span>(<span class="self">self</span>.<span class="ident">input</span>.<span class="ident">samples_rate</span>()));
+            <span class="self">self</span>.<span class="ident">applier</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">formula</span>.<span class="ident">to_applier</span>(<span class="self">self</span>.<span class="ident">input</span>.<span class="ident">sample_rate</span>()));
         }
 
         <span class="kw">let</span> <span class="ident">sample</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">input</span>.<span class="ident">next</span>() {
@@ -349,8 +350,8 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">samples_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
-        <span class="self">self</span>.<span class="ident">input</span>.<span class="ident">samples_rate</span>()
+    <span class="kw">fn</span> <span class="ident">sample_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+        <span class="self">self</span>.<span class="ident">input</span>.<span class="ident">sample_rate</span>()
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>

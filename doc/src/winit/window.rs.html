@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/winit-0.9.0/src/window.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/winit-0.13.1/src/window.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>window.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -436,6 +437,36 @@
 <span id="380">380</span>
 <span id="381">381</span>
 <span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">vec_deque</span>::<span class="ident">IntoIter</span> <span class="kw">as</span> <span class="ident">VecDequeIter</span>;
 
@@ -620,6 +651,15 @@
         <span class="self">self</span>.<span class="ident">window</span>.<span class="ident">get_position</span>()
     }
 
+    <span class="doccomment">/// Returns the position of the top-left hand corner of the window&#39;s client area relative to the</span>
+    <span class="doccomment">/// top-left hand corner of the desktop.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The same conditions that apply to `get_position` apply to this method.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_inner_position</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">i32</span>, <span class="ident">i32</span>)<span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">window</span>.<span class="ident">get_inner_position</span>()
+    }
+
     <span class="doccomment">/// Modifies the position of the window.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See `get_position` for more information about the coordinates.</span>
@@ -694,6 +734,22 @@
         <span class="self">self</span>.<span class="ident">window</span>.<span class="ident">set_inner_size</span>(<span class="ident">x</span>, <span class="ident">y</span>)
     }
 
+    <span class="doccomment">/// Sets a minimum dimension size for the window.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Width and height are in pixels.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_min_dimensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">dimensions</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>) {
+        <span class="self">self</span>.<span class="ident">window</span>.<span class="ident">set_min_dimensions</span>(<span class="ident">dimensions</span>)
+    }
+
+    <span class="doccomment">/// Sets a maximum dimension size for the window.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Width and height are in pixels.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_max_dimensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">dimensions</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">u32</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>) {
+        <span class="self">self</span>.<span class="ident">window</span>.<span class="ident">set_max_dimensions</span>(<span class="ident">dimensions</span>)
+    }
+
     <span class="doccomment">/// DEPRECATED. Gets the native platform specific display for this window.</span>
     <span class="doccomment">/// This is typically only required when integrating with</span>
     <span class="doccomment">/// other libraries that need this information.</span>
@@ -752,8 +808,13 @@
         <span class="self">self</span>.<span class="ident">window</span>.<span class="ident">set_fullscreen</span>(<span class="ident">monitor</span>)
     }
 
-    <span class="doccomment">/// Returns the current monitor the window is on or the primary monitor is nothing</span>
-    <span class="doccomment">/// matches</span>
+    <span class="doccomment">/// Turn window decorations on or off.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_decorations</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">decorations</span>: <span class="ident">bool</span>) {
+        <span class="self">self</span>.<span class="ident">window</span>.<span class="ident">set_decorations</span>(<span class="ident">decorations</span>)
+    }
+
+    <span class="doccomment">/// Returns the monitor on which the window currently resides</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_current_monitor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">MonitorId</span> {
         <span class="self">self</span>.<span class="ident">window</span>.<span class="ident">get_current_monitor</span>()
     }

@@ -10,10 +10,11 @@
     <title>subframe.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -953,7 +954,7 @@
         <span class="number">0b00</span> <span class="op">=&gt;</span> <span class="ident">RicePartitionType</span>::<span class="ident">Rice</span>,
         <span class="number">0b01</span> <span class="op">=&gt;</span> <span class="ident">RicePartitionType</span>::<span class="ident">Rice2</span>,
         <span class="comment">// 10 and 11 are reserved.</span>
-        _ <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">fmt_err</span>(<span class="string">&quot;invalid residual, encountered reserved value&quot;</span>),
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">fmt_err</span>(<span class="string">&quot;invalid residual, encountered reserved value&quot;</span>),
     };
 
     <span class="comment">// Next are 4 bits partition order.</span>
@@ -979,7 +980,7 @@
         <span class="ident">RicePartitionType</span>::<span class="ident">Rice</span> <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">start</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">n_samples</span> <span class="op">-</span> <span class="ident">n_warm_up</span>;
-            <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span>..<span class="ident">n_partitions</span> {
+            <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">n_partitions</span> {
                 <span class="kw">let</span> <span class="ident">slice</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>[<span class="ident">start</span>..<span class="ident">start</span> <span class="op">+</span> <span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>];
                 <span class="macro">try</span><span class="macro">!</span>(<span class="ident">decode_rice_partition</span>(<span class="ident">input</span>, <span class="ident">slice</span>));
                 <span class="ident">start</span> <span class="op">=</span> <span class="ident">start</span> <span class="op">+</span> <span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>;
@@ -989,7 +990,7 @@
         <span class="ident">RicePartitionType</span>::<span class="ident">Rice2</span> <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">start</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">n_samples</span> <span class="op">-</span> <span class="ident">n_warm_up</span>;
-            <span class="kw">for</span> _ <span class="kw">in</span> <span class="number">0</span>..<span class="ident">n_partitions</span> {
+            <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">n_partitions</span> {
                 <span class="kw">let</span> <span class="ident">slice</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>[<span class="ident">start</span>..<span class="ident">start</span> <span class="op">+</span> <span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>];
                 <span class="macro">try</span><span class="macro">!</span>(<span class="ident">decode_rice2_partition</span>(<span class="ident">input</span>, <span class="ident">slice</span>));
                 <span class="ident">start</span> <span class="op">=</span> <span class="ident">start</span> <span class="op">+</span> <span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>;
@@ -1139,7 +1140,7 @@
         <span class="number">2</span> <span class="op">=&gt;</span> <span class="kw-2">&amp;</span><span class="ident">o2</span>,
         <span class="number">3</span> <span class="op">=&gt;</span> <span class="kw-2">&amp;</span><span class="ident">o3</span>,
         <span class="number">4</span> <span class="op">=&gt;</span> <span class="kw-2">&amp;</span><span class="ident">o4</span>,
-        _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
     };
 
     <span class="kw">let</span> <span class="ident">window_size</span> <span class="op">=</span> <span class="ident">order</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">+</span> <span class="number">1</span>;

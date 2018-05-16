@@ -10,10 +10,11 @@
     <title>cgmath::InnerSpace - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../dark.css">
-    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle">
     <script src="../storage.js"></script>
     
 
@@ -54,13 +55,11 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>cgmath</a>::<wbr><a class="trait" href=''>InnerSpace</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Trait <a href='index.html'>cgmath</a>::<wbr><a class="trait" href=''>InnerSpace</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/cgmath/structure.rs.html#198-255' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait InnerSpace: <a class="trait" href="../cgmath/prelude/trait.VectorSpace.html" title="trait cgmath::prelude::VectorSpace">VectorSpace</a> <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self::<a class="type" href="../cgmath/prelude/trait.VectorSpace.html#associatedtype.Scalar" title="type cgmath::prelude::VectorSpace::Scalar">Scalar</a>: <a class="trait" href="../cgmath/trait.BaseFloat.html" title="trait cgmath::BaseFloat">BaseFloat</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="../cgmath/prelude/trait.MetricSpace.html" title="trait cgmath::prelude::MetricSpace">MetricSpace</a>&lt;Metric = Self::<a class="type" href="../cgmath/prelude/trait.VectorSpace.html#associatedtype.Scalar" title="type cgmath::prelude::VectorSpace::Scalar">Scalar</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="../approx/trait.ApproxEq.html" title="trait approx::ApproxEq">ApproxEq</a>&lt;Epsilon = Self::<a class="type" href="../cgmath/prelude/trait.VectorSpace.html#associatedtype.Scalar" title="type cgmath::prelude::VectorSpace::Scalar">Scalar</a>&gt;,&nbsp;</span>{
+               </span><a class='srclink' href='../src/cgmath/structure.rs.html#198-255' title='goto source code'>[src]</a></span></h1><div class="docblock type-decl"><pre class='rust trait'>pub trait InnerSpace: <a class="trait" href="../cgmath/prelude/trait.VectorSpace.html" title="trait cgmath::prelude::VectorSpace">VectorSpace</a> <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self::<a class="type" href="../cgmath/prelude/trait.VectorSpace.html#associatedtype.Scalar" title="type cgmath::prelude::VectorSpace::Scalar">Scalar</a>: <a class="trait" href="../cgmath/trait.BaseFloat.html" title="trait cgmath::BaseFloat">BaseFloat</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="../cgmath/prelude/trait.MetricSpace.html" title="trait cgmath::prelude::MetricSpace">MetricSpace</a>&lt;Metric = Self::<a class="type" href="../cgmath/prelude/trait.VectorSpace.html#associatedtype.Scalar" title="type cgmath::prelude::VectorSpace::Scalar">Scalar</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="../approx/trait.ApproxEq.html" title="trait approx::ApproxEq">ApproxEq</a>&lt;Epsilon = Self::<a class="type" href="../cgmath/prelude/trait.VectorSpace.html#associatedtype.Scalar" title="type cgmath::prelude::VectorSpace::Scalar">Scalar</a>&gt;,&nbsp;</span>{
     fn <a href='#tymethod.dot' class='fnname'>dot</a>(self, other: Self) -&gt; Self::<a class="type" href="../cgmath/prelude/trait.VectorSpace.html#associatedtype.Scalar" title="type cgmath::prelude::VectorSpace::Scalar">Scalar</a>;
 
     fn <a href='#method.is_perpendicular' class='fnname'>is_perpendicular</a>(self, other: Self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> { ... }
@@ -70,7 +69,7 @@
 <div class='item-spacer'></div>    fn <a href='#method.normalize' class='fnname'>normalize</a>(self) -&gt; Self { ... }
 <div class='item-spacer'></div>    fn <a href='#method.normalize_to' class='fnname'>normalize_to</a>(self, magnitude: Self::<a class="type" href="../cgmath/prelude/trait.VectorSpace.html#associatedtype.Scalar" title="type cgmath::prelude::VectorSpace::Scalar">Scalar</a>) -&gt; Self { ... }
 <div class='item-spacer'></div>    fn <a href='#method.lerp' class='fnname'>lerp</a>(self, other: Self, amount: Self::<a class="type" href="../cgmath/prelude/trait.VectorSpace.html#associatedtype.Scalar" title="type cgmath::prelude::VectorSpace::Scalar">Scalar</a>) -&gt; Self { ... }
-}</pre><div class='docblock'><p>Vectors that also have a <a href="https://en.wikipedia.org/wiki/Dot_product">dot</a>
+}</pre></div><div class='docblock'><p>Vectors that also have a <a href="https://en.wikipedia.org/wiki/Dot_product">dot</a>
 (or <a href="https://en.wikipedia.org/wiki/Inner_product_space">inner</a>) product.</p>
 <p>The dot product allows for the definition of other useful operations, like
 finding the magnitude of a vector or normalizing it.</p>
@@ -103,12 +102,12 @@ towards the magnitude of <code>other</code> by the specified amount.</p>
           Implementors<a href='#implementors' class='anchor'></a>
         </h2>
         <ul class='item-list' id='implementors-list'>
-    <li><div class='out-of-band'><a class='srclink' href='../src/cgmath/quaternion.rs.html#233-238' title='goto source code'>[src]</a></div><code>impl&lt;S:&nbsp;<a class="trait" href="../cgmath/trait.BaseFloat.html" title="trait cgmath::BaseFloat">BaseFloat</a>&gt; InnerSpace for <a class="struct" href="../cgmath/struct.Quaternion.html" title="struct cgmath::Quaternion">Quaternion</a>&lt;S&gt;</code></li>
-<li><div class='out-of-band'><a class='srclink' href='../src/cgmath/vector.rs.html#714-719' title='goto source code'>[src]</a></div><code>impl&lt;S:&nbsp;<a class="trait" href="../cgmath/trait.BaseFloat.html" title="trait cgmath::BaseFloat">BaseFloat</a>&gt; InnerSpace for <a class="struct" href="../cgmath/struct.Vector1.html" title="struct cgmath::Vector1">Vector1</a>&lt;S&gt;</code></li>
-<li><div class='out-of-band'><a class='srclink' href='../src/cgmath/vector.rs.html#721-731' title='goto source code'>[src]</a></div><code>impl&lt;S:&nbsp;<a class="trait" href="../cgmath/trait.BaseFloat.html" title="trait cgmath::BaseFloat">BaseFloat</a>&gt; InnerSpace for <a class="struct" href="../cgmath/struct.Vector2.html" title="struct cgmath::Vector2">Vector2</a>&lt;S&gt;</code></li>
-<li><div class='out-of-band'><a class='srclink' href='../src/cgmath/vector.rs.html#733-743' title='goto source code'>[src]</a></div><code>impl&lt;S:&nbsp;<a class="trait" href="../cgmath/trait.BaseFloat.html" title="trait cgmath::BaseFloat">BaseFloat</a>&gt; InnerSpace for <a class="struct" href="../cgmath/struct.Vector3.html" title="struct cgmath::Vector3">Vector3</a>&lt;S&gt;</code></li>
-<li><div class='out-of-band'><a class='srclink' href='../src/cgmath/vector.rs.html#745-750' title='goto source code'>[src]</a></div><code>impl&lt;S:&nbsp;<a class="trait" href="../cgmath/trait.BaseFloat.html" title="trait cgmath::BaseFloat">BaseFloat</a>&gt; InnerSpace for <a class="struct" href="../cgmath/struct.Vector4.html" title="struct cgmath::Vector4">Vector4</a>&lt;S&gt;</code></li>
-</ul><script type="text/javascript" async
+    <li><table class='table-display'><tbody><tr><td><code>impl&lt;S:&nbsp;<a class="trait" href="../cgmath/trait.BaseFloat.html" title="trait cgmath::BaseFloat">BaseFloat</a>&gt; InnerSpace for <a class="struct" href="../cgmath/struct.Quaternion.html" title="struct cgmath::Quaternion">Quaternion</a>&lt;S&gt;</code><td><div class='out-of-band'><a class='srclink' href='../src/cgmath/quaternion.rs.html#233-238' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl&lt;S:&nbsp;<a class="trait" href="../cgmath/trait.BaseFloat.html" title="trait cgmath::BaseFloat">BaseFloat</a>&gt; InnerSpace for <a class="struct" href="../cgmath/struct.Vector1.html" title="struct cgmath::Vector1">Vector1</a>&lt;S&gt;</code><td><div class='out-of-band'><a class='srclink' href='../src/cgmath/vector.rs.html#714-719' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl&lt;S:&nbsp;<a class="trait" href="../cgmath/trait.BaseFloat.html" title="trait cgmath::BaseFloat">BaseFloat</a>&gt; InnerSpace for <a class="struct" href="../cgmath/struct.Vector2.html" title="struct cgmath::Vector2">Vector2</a>&lt;S&gt;</code><td><div class='out-of-band'><a class='srclink' href='../src/cgmath/vector.rs.html#721-731' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl&lt;S:&nbsp;<a class="trait" href="../cgmath/trait.BaseFloat.html" title="trait cgmath::BaseFloat">BaseFloat</a>&gt; InnerSpace for <a class="struct" href="../cgmath/struct.Vector3.html" title="struct cgmath::Vector3">Vector3</a>&lt;S&gt;</code><td><div class='out-of-band'><a class='srclink' href='../src/cgmath/vector.rs.html#733-743' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+<li><table class='table-display'><tbody><tr><td><code>impl&lt;S:&nbsp;<a class="trait" href="../cgmath/trait.BaseFloat.html" title="trait cgmath::BaseFloat">BaseFloat</a>&gt; InnerSpace for <a class="struct" href="../cgmath/struct.Vector4.html" title="struct cgmath::Vector4">Vector4</a>&lt;S&gt;</code><td><div class='out-of-band'><a class='srclink' href='../src/cgmath/vector.rs.html#745-750' title='goto source code'>[src]</a></div></td></tr></tbody></table></li>
+</ul><script type="text/javascript">window.inlined_types=new Set([]);</script><script type="text/javascript" async
                          src="../implementors/cgmath/trait.InnerSpace.js">
                  </script></section>
     <section id='search' class="content hidden"></section>

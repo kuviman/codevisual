@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.2.2/src/int.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/num-traits-0.2.4/src/int.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>int.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -430,6 +431,10 @@
 <span id="374">374</span>
 <span id="375">375</span>
 <span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">ops</span>::{<span class="ident">Not</span>, <span class="ident">BitAnd</span>, <span class="ident">BitOr</span>, <span class="ident">BitXor</span>, <span class="ident">Shl</span>, <span class="ident">Shr</span>};
 
@@ -801,11 +806,15 @@
 <span class="macro">prim_int_impl</span><span class="macro">!</span>(<span class="ident">u16</span>,   <span class="ident">i16</span>,   <span class="ident">u16</span>);
 <span class="macro">prim_int_impl</span><span class="macro">!</span>(<span class="ident">u32</span>,   <span class="ident">i32</span>,   <span class="ident">u32</span>);
 <span class="macro">prim_int_impl</span><span class="macro">!</span>(<span class="ident">u64</span>,   <span class="ident">i64</span>,   <span class="ident">u64</span>);
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">has_i128</span>)]</span>
+<span class="macro">prim_int_impl</span><span class="macro">!</span>(<span class="ident">u128</span>,  <span class="ident">i128</span>,  <span class="ident">u128</span>);
 <span class="macro">prim_int_impl</span><span class="macro">!</span>(<span class="ident">usize</span>, <span class="ident">isize</span>, <span class="ident">usize</span>);
 <span class="macro">prim_int_impl</span><span class="macro">!</span>(<span class="ident">i8</span>,    <span class="ident">i8</span>,    <span class="ident">u8</span>);
 <span class="macro">prim_int_impl</span><span class="macro">!</span>(<span class="ident">i16</span>,   <span class="ident">i16</span>,   <span class="ident">u16</span>);
 <span class="macro">prim_int_impl</span><span class="macro">!</span>(<span class="ident">i32</span>,   <span class="ident">i32</span>,   <span class="ident">u32</span>);
 <span class="macro">prim_int_impl</span><span class="macro">!</span>(<span class="ident">i64</span>,   <span class="ident">i64</span>,   <span class="ident">u64</span>);
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">has_i128</span>)]</span>
+<span class="macro">prim_int_impl</span><span class="macro">!</span>(<span class="ident">i128</span>,  <span class="ident">i128</span>,  <span class="ident">u128</span>);
 <span class="macro">prim_int_impl</span><span class="macro">!</span>(<span class="ident">isize</span>, <span class="ident">isize</span>, <span class="ident">usize</span>);
 </pre>
 </section>

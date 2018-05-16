@@ -10,10 +10,11 @@
     <title>stdweb::web::event - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle">
     <script src="../../../storage.js"></script>
     
 
@@ -54,13 +55,11 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Module <a href='../../index.html'>stdweb</a>::<wbr><a href='../index.html'>web</a>::<wbr><a class="mod" href=''>event</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Module <a href='../../index.html'>stdweb</a>::<wbr><a href='../index.html'>web</a>::<wbr><a class="mod" href=''>event</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../../src/stdweb/lib.rs.html#267-350' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'><p>A module containing JavaScript DOM events.</p>
+               </span><a class='srclink' href='../../../src/stdweb/lib.rs.html#278-362' title='goto source code'>[src]</a></span></h1><div class='docblock'><p>A module containing JavaScript DOM events.</p>
 </div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
@@ -460,6 +459,18 @@ events by this name are used from a variety of APIs.</p>
                                   title='enum stdweb::web::event::MouseButton'>MouseButton</a></td>
                            <td class='docblock-short'>
                                 <p>Represents buttons on a mouse during mouse events.</p>
+
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class="enum" href="enum.SocketMessageData.html"
+                                  title='enum stdweb::web::event::SocketMessageData'>SocketMessageData</a></td>
+                           <td class='docblock-short'>
+                                <p>Represents the types of data which can be received on a web socket. Messages
+are transmitted tagged as either binary or text: text messages are always
+received as strings. Binary messages may be received as either blobs or array
+buffers as preferred by the receiver. This choice is indicated via the
+<code>binary_type</code> field on the web socket.</p>
 
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>

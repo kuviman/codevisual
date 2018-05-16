@@ -10,10 +10,11 @@
     <title>codevisual::ShaderLib - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../dark.css">
-    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle">
     <script src="../storage.js"></script>
     
 
@@ -33,7 +34,7 @@
     <nav class="sidebar">
         <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'>Struct ShaderLib</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.new">new</a><a href="#method.process">process</a><a href="#method.compile">compile</a></div></div><p class='location'><a href='index.html'>codevisual</a></p><script>window.sidebarCurrent = {name: 'ShaderLib', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
+        <p class='location'>Struct ShaderLib</p><div class="sidebar-elems"><div class="block items"><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.new">new</a><a href="#method.process">process</a><a href="#method.compile">compile</a></div><a class="sidebar-title" href="#synthetic-implementations">Auto Trait Implementations</a><div class="sidebar-links"><a href="#impl-Send">!Send</a><a href="#impl-Sync">!Sync</a></div></div><p class='location'><a href='index.html'>codevisual</a></p><script>window.sidebarCurrent = {name: 'ShaderLib', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
     <div class="theme-picker">
@@ -54,21 +55,25 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>codevisual</a>::<wbr><a class="struct" href=''>ShaderLib</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>codevisual</a>::<wbr><a class="struct" href=''>ShaderLib</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/codevisual/shader_lib/mod.rs.html#3-6' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct ShaderLib { /* fields omitted */ }</pre>
+               </span><a class='srclink' href='../src/codevisual/shader_lib/mod.rs.html#3-6' title='goto source code'>[src]</a></span></h1><div class="docblock type-decl"><pre class='rust struct'>pub struct ShaderLib { /* fields omitted */ }</pre></div>
                     <h2 id='methods' class='small-section-header'>
                       Methods<a href='#methods' class='anchor'></a>
                     </h2>
-                <h3 id='impl' class='impl'><span class='in-band'><code>impl <a class="struct" href="../codevisual/struct.ShaderLib.html" title="struct codevisual::ShaderLib">ShaderLib</a></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/codevisual/shader_lib/mod.rs.html#8-81' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>pub fn <a href='#method.new' class='fnname'>new</a>(context: &amp;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/rc/struct.Rc.html" title="struct alloc::rc::Rc">Rc</a>&lt;<a class="struct" href="../ugli/context/struct.Context.html" title="struct ugli::context::Context">Context</a>&gt;) -&gt; Self</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/codevisual/shader_lib/mod.rs.html#9-19' title='goto source code'>[src]</a></span></h4>
-<h4 id='method.process' class="method"><span id='process.v' class='invisible'><code>pub fn <a href='#method.process' class='fnname'>process</a>&lt;'a&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;'a self, <br>&nbsp;&nbsp;&nbsp;&nbsp;shader_type: <a class="enum" href="../ugli/shader/enum.ShaderType.html" title="enum ugli::shader::ShaderType">ShaderType</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;source: &amp;'a <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a><br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;&amp;'a <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt;, <a class="struct" href="../failure/error/struct.Error.html" title="struct failure::error::Error">Error</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/codevisual/shader_lib/mod.rs.html#45-63' title='goto source code'>[src]</a></span></h4>
-<h4 id='method.compile' class="method"><span id='compile.v' class='invisible'><code>pub fn <a href='#method.compile' class='fnname'>compile</a>(&amp;self, source: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="../ugli/program/struct.Program.html" title="struct ugli::program::Program">Program</a>, <a class="struct" href="../failure/error/struct.Error.html" title="struct failure::error::Error">Error</a>&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/codevisual/shader_lib/mod.rs.html#64-80' title='goto source code'>[src]</a></span></h4>
-</div></section>
+                <h3 id='impl' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl <a class="struct" href="../codevisual/struct.ShaderLib.html" title="struct codevisual::ShaderLib">ShaderLib</a></code><a href='#impl' class='anchor'></a></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/codevisual/shader_lib/mod.rs.html#8-81' title='goto source code'>[src]</a></span></td></tr></tbody></table></h3><div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.new' class='fnname'>new</a>(context: &amp;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/rc/struct.Rc.html" title="struct alloc::rc::Rc">Rc</a>&lt;<a class="struct" href="../ugli/context/struct.Context.html" title="struct ugli::context::Context">Context</a>&gt;) -&gt; Self</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/codevisual/shader_lib/mod.rs.html#9-19' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4><h4 id='method.process' class="method"><span id='process.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.process' class='fnname'>process</a>&lt;'a&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;'a self, <br>&nbsp;&nbsp;&nbsp;&nbsp;shader_type: <a class="enum" href="../ugli/shader/enum.ShaderType.html" title="enum ugli::shader::ShaderType">ShaderType</a>, <br>&nbsp;&nbsp;&nbsp;&nbsp;source: &amp;'a <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a><br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;&amp;'a <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt;, <a class="struct" href="../failure/error/struct.Error.html" title="struct failure::error::Error">Error</a>&gt;</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/codevisual/shader_lib/mod.rs.html#45-63' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4><h4 id='method.compile' class="method"><span id='compile.v' class='invisible'><table class='table-display'><tbody><tr><td><code>pub fn <a href='#method.compile' class='fnname'>compile</a>(&amp;self, source: &amp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="../ugli/program/struct.Program.html" title="struct ugli::program::Program">Program</a>, <a class="struct" href="../failure/error/struct.Error.html" title="struct failure::error::Error">Error</a>&gt;</code></span></td><td><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../src/codevisual/shader_lib/mod.rs.html#64-80' title='goto source code'>[src]</a></td></tr></tbody></table></span></h4></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+            <div id='implementations-list'>
+        </div>
+                <h2 id='synthetic-implementations' class='small-section-header'>
+                  Auto Trait Implementations<a href='#synthetic-implementations' class='anchor'></a>
+                </h2>
+                <div id='synthetic-implementations-list'>
+            <h3 id='impl-Send' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl !<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> for <a class="struct" href="../codevisual/struct.ShaderLib.html" title="struct codevisual::ShaderLib">ShaderLib</a></code><a href='#impl-Send' class='anchor'></a></span></td><td><span class='out-of-band'></span></td></tr></tbody></table></h3><div class='impl-items'></div><h3 id='impl-Sync' class='impl'><span class='in-band'><table class='table-display'><tbody><tr><td><code>impl !<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> for <a class="struct" href="../codevisual/struct.ShaderLib.html" title="struct codevisual::ShaderLib">ShaderLib</a></code><a href='#impl-Sync' class='anchor'></a></span></td><td><span class='out-of-band'></span></td></tr></tbody></table></h3><div class='impl-items'></div></div></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>

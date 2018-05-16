@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webapi/web_socket.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.5/src/webapi/web_socket.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>web_socket.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle">
     <script src="../../../storage.js"></script>
     
 
@@ -710,7 +711,7 @@
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">WebSocket</span>::<span class="ident">new</span>(<span class="string">&quot;ws://localhost&quot;</span>).<span class="ident">is_ok</span>());
 
         <span class="kw">match</span> <span class="ident">WebSocket</span>::<span class="ident">new</span>(<span class="string">&quot;bad url&quot;</span>) {
-            <span class="prelude-val">Err</span>(<span class="ident">CreationError</span>::<span class="ident">SyntaxError</span>(_)) <span class="op">=&gt;</span> (),
+            <span class="prelude-val">Err</span>(<span class="ident">CreationError</span>::<span class="ident">SyntaxError</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> (),
             <span class="ident">v</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;expected SyntaxError, got {:?}&quot;</span>, <span class="ident">v</span>),
         }
     }
@@ -725,16 +726,16 @@
 
         <span class="comment">// Invalid close code</span>
         <span class="kw">match</span> <span class="ident">socket</span>.<span class="ident">close_with_status</span>( <span class="ident">SocketCloseCode</span>(<span class="number">12345</span>), <span class="string">&quot;closed&quot;</span> ) {
-            <span class="prelude-val">Err</span>(<span class="ident">CloseError</span>::<span class="ident">InvalidAccessError</span>(_)) <span class="op">=&gt;</span> (),
+            <span class="prelude-val">Err</span>(<span class="ident">CloseError</span>::<span class="ident">InvalidAccessError</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> (),
             <span class="ident">v</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;expected InvalidAccessError, got {:?}&quot;</span>, <span class="ident">v</span>),
         }
 
         <span class="comment">// Close reason too long (&gt;123 bytes according to spec)</span>
         <span class="kw">match</span> <span class="ident">socket</span>.<span class="ident">close_with_status</span>(
             <span class="ident">SocketCloseCode</span>::<span class="ident">NORMAL_CLOSURE</span>,
-            <span class="kw-2">&amp;</span>(<span class="number">0</span>..<span class="number">200</span>).<span class="ident">map</span>(<span class="op">|</span>_<span class="op">|</span> <span class="string">&quot;X&quot;</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>()
+            <span class="kw-2">&amp;</span>(<span class="number">0</span>..<span class="number">200</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="string">&quot;X&quot;</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>()
         ) {
-            <span class="prelude-val">Err</span>(<span class="ident">CloseError</span>::<span class="ident">SyntaxError</span>(_)) <span class="op">=&gt;</span> (),
+            <span class="prelude-val">Err</span>(<span class="ident">CloseError</span>::<span class="ident">SyntaxError</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> (),
             <span class="ident">v</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;expected SyntaxError, got {:?}&quot;</span>, <span class="ident">v</span>),
         }
     }

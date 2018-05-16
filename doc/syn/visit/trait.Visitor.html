@@ -10,10 +10,11 @@
     <title>syn::visit::Visitor - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -54,13 +55,11 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>syn</a>::<wbr><a href='index.html'>visit</a>::<wbr><a class="trait" href=''>Visitor</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>syn</a>::<wbr><a href='index.html'>visit</a>::<wbr><a class="trait" href=''>Visitor</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../../src/syn/visit.rs.html#29-132' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait Visitor: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> {
+               </span><a class='srclink' href='../../src/syn/visit.rs.html#29-132' title='goto source code'>[src]</a></span></h1><div class="docblock type-decl"><pre class='rust trait'>pub trait Visitor: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> {
     fn <a href='#method.visit_ident' class='fnname'>visit_ident</a>(&amp;mut self, _ident: &amp;<a class="struct" href="../../syn/struct.Ident.html" title="struct syn::Ident">Ident</a>) { ... }
 <div class='item-spacer'></div>    fn <a href='#method.visit_derive_input' class='fnname'>visit_derive_input</a>(&amp;mut self, derive_input: &amp;<a class="struct" href="../../syn/struct.DeriveInput.html" title="struct syn::DeriveInput">DeriveInput</a>) { ... }
 <div class='item-spacer'></div>    fn <a href='#method.visit_ty' class='fnname'>visit_ty</a>(&amp;mut self, ty: &amp;<a class="enum" href="../../syn/enum.Ty.html" title="enum syn::Ty">Ty</a>) { ... }
@@ -93,7 +92,7 @@
 <div class='item-spacer'></div>    fn <a href='#method.visit_stmt' class='fnname'>visit_stmt</a>(&amp;mut self, stmt: &amp;<a class="enum" href="../../syn/enum.Stmt.html" title="enum syn::Stmt">Stmt</a>) { ... }
 <div class='item-spacer'></div>    fn <a href='#method.visit_local' class='fnname'>visit_local</a>(&amp;mut self, local: &amp;<a class="struct" href="../../syn/struct.Local.html" title="struct syn::Local">Local</a>) { ... }
 <div class='item-spacer'></div>    fn <a href='#method.visit_view_path' class='fnname'>visit_view_path</a>(&amp;mut self, view_path: &amp;<a class="enum" href="../../syn/enum.ViewPath.html" title="enum syn::ViewPath">ViewPath</a>) { ... }
-}</pre><div class='docblock'><p>Each method of the Visitor trait is a hook to be potentially
+}</pre></div><div class='docblock'><p>Each method of the Visitor trait is a hook to be potentially
 overridden.  Each method's default implementation recursively visits
 the substructure of the input via the corresponding <code>walk</code> method;
 e.g. the <code>visit_mod</code> method by default calls <code>visit::walk_mod</code>.</p>
@@ -111,7 +110,7 @@ new default implementation gets introduced.)</p>
           Implementors<a href='#implementors' class='anchor'></a>
         </h2>
         <ul class='item-list' id='implementors-list'>
-    </ul><script type="text/javascript" async
+    </ul><script type="text/javascript">window.inlined_types=new Set([]);</script><script type="text/javascript" async
                          src="../../implementors/syn/visit/trait.Visitor.js">
                  </script></section>
     <section id='search' class="content hidden"></section>

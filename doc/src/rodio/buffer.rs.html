@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rodio-0.5.2/src/buffer.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/rodio-0.7.0/src/buffer.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>buffer.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -220,7 +221,7 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SamplesBuffer</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
     <span class="ident">data</span>: <span class="ident">VecIntoIter</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>,
     <span class="ident">channels</span>: <span class="ident">u16</span>,
-    <span class="ident">samples_rate</span>: <span class="ident">u32</span>,
+    <span class="ident">sample_rate</span>: <span class="ident">u32</span>,
     <span class="ident">duration</span>: <span class="ident">Duration</span>,
 }
 
@@ -236,22 +237,22 @@
     <span class="doccomment">/// - Panics if the length of the buffer is superior to approximatively 16 billion elements.</span>
     <span class="doccomment">///   This is because the calculation of the duration would overflow.</span>
     <span class="doccomment">///</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">channels</span>: <span class="ident">u16</span>, <span class="ident">samples_rate</span>: <span class="ident">u32</span>, <span class="ident">data</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="ident">SamplesBuffer</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">channels</span>: <span class="ident">u16</span>, <span class="ident">sample_rate</span>: <span class="ident">u32</span>, <span class="ident">data</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="ident">SamplesBuffer</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="ident">D</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;&gt;</span>
     {
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">channels</span> <span class="op">!=</span> <span class="number">0</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">samples_rate</span> <span class="op">!=</span> <span class="number">0</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">sample_rate</span> <span class="op">!=</span> <span class="number">0</span>);
 
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">into</span>();
         <span class="kw">let</span> <span class="ident">duration_ns</span> <span class="op">=</span> <span class="number">1_000_000_000u64</span>.<span class="ident">checked_mul</span>(<span class="ident">data</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>).<span class="ident">unwrap</span>() <span class="op">/</span>
-            <span class="ident">samples_rate</span> <span class="kw">as</span> <span class="ident">u64</span> <span class="op">/</span> <span class="ident">channels</span> <span class="kw">as</span> <span class="ident">u64</span>;
+            <span class="ident">sample_rate</span> <span class="kw">as</span> <span class="ident">u64</span> <span class="op">/</span> <span class="ident">channels</span> <span class="kw">as</span> <span class="ident">u64</span>;
         <span class="kw">let</span> <span class="ident">duration</span> <span class="op">=</span> <span class="ident">Duration</span>::<span class="ident">new</span>(<span class="ident">duration_ns</span> <span class="op">/</span> <span class="number">1_000_000_000</span>,
                                      (<span class="ident">duration_ns</span> <span class="op">%</span> <span class="number">1_000_000_000</span>) <span class="kw">as</span> <span class="ident">u32</span>);
 
         <span class="ident">SamplesBuffer</span> {
             <span class="ident">data</span>: <span class="ident">data</span>.<span class="ident">into_iter</span>(),
             <span class="ident">channels</span>: <span class="ident">channels</span>,
-            <span class="ident">samples_rate</span>: <span class="ident">samples_rate</span>,
+            <span class="ident">sample_rate</span>: <span class="ident">sample_rate</span>,
             <span class="ident">duration</span>: <span class="ident">duration</span>,
         }
     }
@@ -271,8 +272,8 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">samples_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
-        <span class="self">self</span>.<span class="ident">samples_rate</span>
+    <span class="kw">fn</span> <span class="ident">sample_rate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
+        <span class="self">self</span>.<span class="ident">sample_rate</span>
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -304,7 +305,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">basic</span>() {
-        <span class="kw">let</span> _ <span class="op">=</span> <span class="ident">SamplesBuffer</span>::<span class="ident">new</span>(<span class="number">1</span>, <span class="number">44100</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0i16</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]);
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">SamplesBuffer</span>::<span class="ident">new</span>(<span class="number">1</span>, <span class="number">44100</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0i16</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -315,7 +316,7 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="attribute">#[<span class="ident">should_panic</span>]</span>
-    <span class="kw">fn</span> <span class="ident">panic_if_zero_samples_rate</span>() {
+    <span class="kw">fn</span> <span class="ident">panic_if_zero_sample_rate</span>() {
         <span class="ident">SamplesBuffer</span>::<span class="ident">new</span>(<span class="number">1</span>, <span class="number">0</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0i16</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]);
     }
 

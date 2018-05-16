@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/winit-0.9.0/src/events.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/winit-0.13.1/src/events.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>events.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -498,6 +499,13 @@
 <span id="442">442</span>
 <span id="443">443</span>
 <span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">PathBuf</span>;
 <span class="kw">use</span> {<span class="ident">WindowId</span>, <span class="ident">DeviceId</span>};
@@ -531,8 +539,11 @@
     <span class="doccomment">/// The position of the window has changed.</span>
     <span class="ident">Moved</span>(<span class="ident">i32</span>, <span class="ident">i32</span>),
 
-    <span class="doccomment">/// The window has been closed.</span>
-    <span class="ident">Closed</span>,
+    <span class="doccomment">/// The window has been requested to close.</span>
+    <span class="ident">CloseRequested</span>,
+
+    <span class="doccomment">/// The window has been destroyed.</span>
+    <span class="ident">Destroyed</span>,
 
     <span class="doccomment">/// A file has been dropped into the window.</span>
     <span class="ident">DroppedFile</span>(<span class="ident">PathBuf</span>),
@@ -562,6 +573,7 @@
         <span class="doccomment">/// limited by the display area and it may have been transformed by the OS to implement effects such as cursor</span>
         <span class="doccomment">/// acceleration, it should not be used to implement non-cursor-like interactions such as 3D camera control.</span>
         <span class="ident">position</span>: (<span class="ident">f64</span>, <span class="ident">f64</span>),
+        <span class="ident">modifiers</span>: <span class="ident">ModifiersState</span>
     },
 
     <span class="doccomment">/// The cursor has entered the window.</span>
@@ -571,10 +583,11 @@
     <span class="ident">CursorLeft</span> { <span class="ident">device_id</span>: <span class="ident">DeviceId</span> },
 
     <span class="doccomment">/// A mouse wheel movement or touchpad scroll occurred.</span>
-    <span class="ident">MouseWheel</span> { <span class="ident">device_id</span>: <span class="ident">DeviceId</span>, <span class="ident">delta</span>: <span class="ident">MouseScrollDelta</span>, <span class="ident">phase</span>: <span class="ident">TouchPhase</span> },
+    <span class="ident">MouseWheel</span> { <span class="ident">device_id</span>: <span class="ident">DeviceId</span>, <span class="ident">delta</span>: <span class="ident">MouseScrollDelta</span>, <span class="ident">phase</span>: <span class="ident">TouchPhase</span>, <span class="ident">modifiers</span>: <span class="ident">ModifiersState</span> },
 
     <span class="doccomment">/// An mouse button press has been received.</span>
-    <span class="ident">MouseInput</span> { <span class="ident">device_id</span>: <span class="ident">DeviceId</span>, <span class="ident">state</span>: <span class="ident">ElementState</span>, <span class="ident">button</span>: <span class="ident">MouseButton</span> },
+    <span class="ident">MouseInput</span> { <span class="ident">device_id</span>: <span class="ident">DeviceId</span>, <span class="ident">state</span>: <span class="ident">ElementState</span>, <span class="ident">button</span>: <span class="ident">MouseButton</span>, <span class="ident">modifiers</span>: <span class="ident">ModifiersState</span> },
+
 
     <span class="doccomment">/// Touchpad pressure event.</span>
     <span class="doccomment">///</span>
@@ -843,6 +856,8 @@
     <span class="doccomment">/// The &quot;Compose&quot; key on Linux.</span>
     <span class="ident">Compose</span>,
 
+    <span class="ident">Caret</span>,
+
     <span class="ident">Numlock</span>,
     <span class="ident">Numpad0</span>,
     <span class="ident">Numpad1</span>,
@@ -930,7 +945,7 @@
 <span class="doccomment">/// Represents the current state of the keyboard modifiers</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Each field of this struct represents a modifier and is `true` if this modifier is active.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>, <span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>, <span class="ident">Debug</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ModifiersState</span> {
     <span class="doccomment">/// The &quot;shift&quot; key</span>
     <span class="kw">pub</span> <span class="ident">shift</span>: <span class="ident">bool</span>,

@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/glutin-0.11.0/src/headless.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/glutin-0.15.0/src/headless.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>headless.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -198,6 +199,9 @@
 <span id="142">142</span>
 <span id="143">143</span>
 <span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">Api</span>;
 <span class="kw">use</span> <span class="ident">ContextError</span>;
@@ -234,7 +238,10 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">HeadlessRendererBuilder</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="ident">HeadlessRendererBuilder</span> {
             <span class="ident">dimensions</span>: (<span class="ident">width</span>, <span class="ident">height</span>),
-            <span class="ident">pf_reqs</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
+            <span class="ident">pf_reqs</span>: <span class="ident">PixelFormatRequirements</span> {
+                <span class="ident">hardware_accelerated</span>: <span class="prelude-val">None</span>,
+                .. <span class="ident">Default</span>::<span class="ident">default</span>()
+            },
             <span class="ident">opengl</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
             <span class="ident">platform_specific</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
         }

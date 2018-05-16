@@ -10,10 +10,11 @@
     <title>synstructure::test_derive - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../dark.css">
-    <link rel="stylesheet" type="text/css" href="../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle">
     <script src="../storage.js"></script>
     
 
@@ -33,7 +34,7 @@
     <nav class="sidebar">
         <div class="sidebar-menu">&#9776;</div>
         
-        <p class='location'><a href='index.html'>synstructure</a></p><script>window.sidebarCurrent = {name: 'test_derive', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+        <div class="sidebar-elems"><p class='location'><a href='index.html'>synstructure</a></p><script>window.sidebarCurrent = {name: 'test_derive', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script></div>
     </nav>
 
     <div class="theme-picker">
@@ -54,18 +55,16 @@
         </form>
     </nav>
 
-    <section id='main' class="content">
-<h1 class='fqn'><span class='in-band'>Macro <a href='index.html'>synstructure</a>::<wbr><a class="macro" href=''>test_derive</a></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content"><h1 class='fqn'><span class='in-band'>Macro <a href='index.html'>synstructure</a>::<wbr><a class="macro" href=''>test_derive</a></span><span class='out-of-band'><span id='render-detail'>
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a class='srclink' href='../src/synstructure/macros.rs.html#101-146' title='goto source code'>[src]</a></span></h1>
-<pre class="rust macro">
+               </span><a class='srclink' href='../src/synstructure/macros.rs.html#101-146' title='goto source code'>[src]</a></span></h1><div class="docblock type-decl"><pre class="rust macro">
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">test_derive</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">path</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">i</span>:<span class="ident">tt</span>)<span class="op">*</span> } <span class="ident">expands</span> <span class="ident">to</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">o</span>:<span class="ident">tt</span>)<span class="op">*</span> }) <span class="op">=&gt;</span> { ... };
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">path</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">i</span>:<span class="ident">tt</span>)<span class="op">*</span> } <span class="ident">expands</span> <span class="ident">to</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">o</span>:<span class="ident">tt</span>)<span class="op">*</span> } <span class="ident">no_build</span>) <span class="op">=&gt;</span> { ... };
 }</pre>
-<div class='docblock'><p>Run a test on a custom derive. This macro expands both the original struct
+</div><div class='docblock'><p>Run a test on a custom derive. This macro expands both the original struct
 and the expansion to ensure that they compile correctly, and confirms that
 feeding the original struct into the named derive will produce the written
 output.</p>

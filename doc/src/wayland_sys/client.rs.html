@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-sys-0.9.10/src/client.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-sys-0.12.5/src/client.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>client.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle">
     <script src="../../storage.js"></script>
     
 
@@ -182,9 +183,9 @@
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">common</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>, <span class="ident">c_void</span>};
 
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">wl_proxy</span> { }
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">wl_display</span> { }
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">wl_event_queue</span> { }
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">wl_proxy</span> {}
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">wl_display</span> {}
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">wl_event_queue</span> {}
 
 <span class="macro">external_library</span><span class="macro">!</span>(<span class="ident">WaylandClient</span>, <span class="string">&quot;wayland-client&quot;</span>,
     <span class="ident">functions</span>:

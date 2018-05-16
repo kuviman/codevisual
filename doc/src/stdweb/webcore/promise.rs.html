@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webcore/promise.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.5/src/webcore/promise.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>promise.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle">
     <script src="../../../storage.js"></script>
     
 
@@ -346,6 +347,12 @@
 <span id="290">290</span>
 <span id="291">291</span>
 <span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>;
 <span class="kw">use</span> <span class="ident">discard</span>::<span class="ident">Discard</span>;
@@ -354,16 +361,19 @@
 <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">try_from</span>::{<span class="ident">TryInto</span>, <span class="ident">TryFrom</span>};
 <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">discard</span>::<span class="ident">DiscardOnDrop</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures-support&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">webcore</span>::<span class="ident">serialization</span>::<span class="ident">JsSerialize</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">unsync</span>::<span class="ident">oneshot</span>::<span class="ident">channel</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures-support&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">futures_channel</span>::<span class="ident">oneshot</span>::<span class="ident">channel</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">future</span>::<span class="ident">Future</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures-support&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">futures_core</span>::<span class="ident">IntoFuture</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures-support&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">futures_util</span>::<span class="ident">FutureExt</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures-support&quot;</span>)]</span>
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">promise_future</span>::<span class="ident">PromiseFuture</span>;
 
 
@@ -452,7 +462,7 @@
     <span class="doccomment">/// If you simply want to use a JavaScript Promise inside Rust, then you</span>
     <span class="doccomment">/// don&#39;t need to use this function: you should use</span>
     <span class="doccomment">/// [`PromiseFuture`](struct.PromiseFuture.html) and the</span>
-    <span class="doccomment">/// [`Future`](https://docs.rs/futures/0.1.*/futures/future/trait.Future.html)</span>
+    <span class="doccomment">/// [`FutureExt`](https://docs.rs/futures/0.2.*/futures/future/trait.FutureExt.html)</span>
     <span class="doccomment">/// methods instead.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Examples</span>
@@ -475,11 +485,14 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [(JavaScript docs)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise#Syntax)</span>
     <span class="comment">// https://www.ecma-international.org/ecma-262/6.0/#sec-promise-executor</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures-support&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_future</span><span class="op">&lt;</span> <span class="ident">A</span> <span class="op">&gt;</span>( <span class="ident">future</span>: <span class="ident">A</span> ) <span class="op">-&gt;</span> <span class="self">Self</span>
-        <span class="kw">where</span> <span class="ident">A</span>: <span class="ident">Future</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="kw">where</span> <span class="ident">A</span>: <span class="ident">IntoFuture</span>,
+              <span class="ident">A</span>::<span class="ident">Future</span>: <span class="lifetime">&#39;static</span>,
               <span class="ident">A</span>::<span class="ident">Item</span>: <span class="ident">JsSerialize</span>,
               <span class="ident">A</span>::<span class="ident">Error</span>: <span class="ident">JsSerialize</span> {
+
+        <span class="kw">let</span> <span class="ident">future</span> <span class="op">=</span> <span class="ident">future</span>.<span class="ident">into_future</span>();
 
         <span class="attribute">#[<span class="ident">inline</span>]</span>
         <span class="kw">fn</span> <span class="ident">call</span><span class="op">&lt;</span> <span class="ident">A</span>: <span class="ident">JsSerialize</span> <span class="op">&gt;</span>( <span class="ident">f</span>: <span class="ident">Reference</span>, <span class="ident">value</span>: <span class="ident">A</span> ) {
@@ -487,7 +500,7 @@
         }
 
         <span class="kw">let</span> <span class="ident">callback</span> <span class="op">=</span> <span class="kw">move</span> <span class="op">|</span><span class="ident">success</span>: <span class="ident">Reference</span>, <span class="ident">error</span>: <span class="ident">Reference</span><span class="op">|</span> {
-            <span class="ident">PromiseFuture</span>::<span class="ident">spawn</span>(
+            <span class="ident">PromiseFuture</span>::<span class="ident">spawn_local</span>(
                 <span class="ident">future</span>.<span class="ident">then</span>( <span class="kw">move</span> <span class="op">|</span><span class="ident">result</span><span class="op">|</span> {
                     <span class="kw">match</span> <span class="ident">result</span> {
                         <span class="prelude-val">Ok</span>( <span class="ident">a</span> ) <span class="op">=&gt;</span> <span class="ident">call</span>( <span class="ident">success</span>, <span class="ident">a</span> ),
@@ -606,9 +619,9 @@
         } )
     }
 
-    <span class="doccomment">/// This method should rarely be needed, instead use [`value.try_into()`](unstable/trait.TryInto.html) to convert directly from a [`Value`](enum.Value.html) into a [`PromiseFuture`](struct.PromiseFuture.html).</span>
+    <span class="doccomment">/// This method converts the `Promise` into a [`PromiseFuture`](struct.PromiseFuture.html), so that it can be used as a Rust [`Future`](https://docs.rs/futures/0.2.*/futures/future/trait.Future.html).</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// This method converts the `Promise` into a [`PromiseFuture`](struct.PromiseFuture.html), so that it can be used as a Rust [`Future`](https://docs.rs/futures/0.1.*/futures/future/trait.Future.html).</span>
+    <span class="doccomment">/// This method should rarely be needed, instead use [`value.try_into()`](unstable/trait.TryInto.html) to convert directly from a [`Value`](enum.Value.html) into a [`PromiseFuture`](struct.PromiseFuture.html).</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Examples</span>
     <span class="doccomment">///</span>
@@ -617,7 +630,7 @@
     <span class="doccomment">/// ```</span>
     <span class="comment">// We can&#39;t use the IntoFuture trait because Promise doesn&#39;t have a type argument</span>
     <span class="comment">// TODO explain more why we can&#39;t use the IntoFuture trait</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;futures-support&quot;</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_future</span><span class="op">&lt;</span> <span class="ident">A</span>, <span class="ident">B</span> <span class="op">&gt;</span>( <span class="kw-2">&amp;</span><span class="self">self</span> ) <span class="op">-&gt;</span> <span class="ident">PromiseFuture</span><span class="op">&lt;</span> <span class="ident">A</span>, <span class="ident">B</span> <span class="op">&gt;</span>
          <span class="kw">where</span> <span class="ident">A</span>: <span class="ident">TryFrom</span><span class="op">&lt;</span> <span class="ident">Value</span> <span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
                <span class="ident">B</span>: <span class="ident">TryFrom</span><span class="op">&lt;</span> <span class="ident">Value</span> <span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
@@ -632,8 +645,8 @@
             <span class="ident">_done_handle</span>: <span class="self">self</span>.<span class="ident">done</span>( <span class="op">|</span><span class="ident">value</span><span class="op">|</span> {
                 <span class="comment">// TODO is this correct ?</span>
                 <span class="kw">match</span> <span class="ident">sender</span>.<span class="ident">send</span>( <span class="ident">value</span> ) {
-                    <span class="prelude-val">Ok</span>( _ ) <span class="op">=&gt;</span> {},
-                    <span class="prelude-val">Err</span>( _ ) <span class="op">=&gt;</span> {},
+                    <span class="prelude-val">Ok</span>( <span class="kw">_</span> ) <span class="op">=&gt;</span> {},
+                    <span class="prelude-val">Err</span>( <span class="kw">_</span> ) <span class="op">=&gt;</span> {},
                 };
             } ),
         }

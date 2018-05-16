@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.4/src/webapi/file_reader.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/stdweb-0.4.5/src/webapi/file_reader.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>file_reader.rs.html -- source</title>
 
     <link rel="stylesheet" type="text/css" href="../../../normalize.css">
-    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css"
+          id="mainThemeStyle">
     
     <link rel="stylesheet" type="text/css" href="../../../dark.css">
-    <link rel="stylesheet" type="text/css" href="../../../main.css" id="themeStyle">
+    <link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle">
     <script src="../../../storage.js"></script>
     
 
@@ -249,7 +250,7 @@
             <span class="number">0</span> <span class="op">=&gt;</span> <span class="ident">FileReaderReadyState</span>::<span class="ident">Empty</span>,
             <span class="number">1</span> <span class="op">=&gt;</span> <span class="ident">FileReaderReadyState</span>::<span class="ident">Loading</span>,
             <span class="number">2</span> <span class="op">=&gt;</span> <span class="ident">FileReaderReadyState</span>::<span class="ident">Done</span>,
-            _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>( <span class="string">&quot;Unexpected value of FileReader::readyState: {}&quot;</span>, <span class="ident">state</span> )
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>( <span class="string">&quot;Unexpected value of FileReader::readyState: {}&quot;</span>, <span class="ident">state</span> )
         }
     }
 
@@ -265,7 +266,7 @@
             <span class="ident">Value</span>::<span class="ident">Undefined</span> <span class="op">|</span> <span class="ident">Value</span>::<span class="ident">Null</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
             <span class="ident">Value</span>::<span class="ident">String</span>( <span class="ident">text</span> ) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>( <span class="ident">FileReaderResult</span>::<span class="ident">String</span>( <span class="ident">text</span> ) ),
             <span class="ident">Value</span>::<span class="ident">Reference</span>( <span class="ident">reference</span> ) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>( <span class="ident">FileReaderResult</span>::<span class="ident">ArrayBuffer</span>( <span class="ident">reference</span>.<span class="ident">try_into</span>().<span class="ident">unwrap</span>() ) ),
-            _ <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>( <span class="string">&quot;Unexpected result of a FileReader: {:?}&quot;</span>, <span class="ident">result</span> )
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>( <span class="string">&quot;Unexpected result of a FileReader: {:?}&quot;</span>, <span class="ident">result</span> )
         }
     }
 }
