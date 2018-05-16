@@ -1,9 +1,11 @@
 #![deny(warnings)]
 
+extern crate color;
 #[cfg(target_os = "emscripten")]
 extern crate emscripten;
 #[macro_use]
 extern crate failure;
+extern crate geom;
 #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
 extern crate glutin;
 #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
@@ -13,6 +15,7 @@ extern crate image;
 extern crate lazy_static;
 #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
 extern crate num_cpus;
+extern crate prelude as external_prelude;
 #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
 extern crate rodio;
 extern crate rusttype;
@@ -22,12 +25,9 @@ extern crate serde;
 extern crate stdweb;
 #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
 extern crate threadpool;
+extern crate timer;
 #[macro_use]
 extern crate ugli;
-extern crate color;
-extern crate geom;
-extern crate prelude as external_prelude;
-extern crate timer;
 
 pub(crate) use failure::Error;
 

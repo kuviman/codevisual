@@ -26,10 +26,7 @@ impl Font {
         data: Vec<u8>,
     ) -> Result<Font, Error> {
         Ok(Font {
-            font: match rusttype::FontCollection::from_bytes(data).into_font() {
-                Some(font) => font,
-                None => bail!("Failed to load font"),
-            },
+            font: rusttype::FontCollection::from_bytes(data)?.into_font()?,
             cache: RefCell::new(rusttype::gpu_cache::Cache::new(
                 CACHE_SIZE as u32,
                 CACHE_SIZE as u32,

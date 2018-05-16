@@ -5,7 +5,7 @@ impl Window {
         let mut events = Vec::new();
         {
             let mut handle_event = |e| match e {
-                glutin::WindowEvent::Closed => self.should_close.set(true),
+                glutin::WindowEvent::CloseRequested => self.should_close.set(true),
                 glutin::WindowEvent::MouseWheel { delta, .. } => {
                     events.push(Event::Wheel {
                         delta: match delta {
