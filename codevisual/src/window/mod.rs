@@ -26,8 +26,16 @@ impl Window {
         let window = {
             let _ = title;
             use stdweb::unstable::TryInto;
-            let canvas = js! {
-                var canvas = Module.canvas;
+            use stdweb::web::IParentNode;
+            let canvas: stdweb::web::html_element::CanvasElement = stdweb::web::document()
+                .query_selector("#codevisual-canvas")
+                .unwrap()
+                .expect("#codevisual-canvas not found")
+                .try_into()
+                .unwrap();
+            js! {
+                @(no_return)
+                var canvas = @{&canvas};
                 canvas.tabIndex = -1;
                 function updateCanvasSize() {
                     canvas.width = canvas.clientWidth;
@@ -35,11 +43,8 @@ impl Window {
                 };
                 window.setInterval(updateCanvasSize, 300);
                 updateCanvasSize();
-                return canvas;
-            }.try_into()
-                .unwrap();
-            let ugli_context =
-                Rc::new(ugli::Context::create_webgl(emscripten::Selector::Canvas).unwrap());
+            }
+            let ugli_context = Rc::new(ugli::Context::create_webgl(canvas.clone()));
             let window = Self {
                 canvas,
                 event_handler: Rc::new(RefCell::new(None)),
@@ -128,9 +133,10 @@ impl Window {
     }
 
     pub fn get_size(&self) -> Vec2<usize> {
-        #[cfg(target_os = "emscripten")]
+        #[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
         return {
-            let (width, height) = emscripten::get_canvas_size();
+            let width = self.canvas.width() as usize;
+            let height = self.canvas.height() as usize;
             vec2(width, height)
         };
         #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]

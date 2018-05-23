@@ -1,7 +1,7 @@
 use ::*;
 
-use stdweb::web::event as we;
 use stdweb::traits::{IKeyboardEvent, IMouseEvent};
+use stdweb::web::event as we;
 
 trait Convert<T>: Sized {
     fn convert(value: T) -> Option<Self>;
@@ -130,7 +130,7 @@ impl Window {
         use stdweb::web::{IEventTarget, IHtmlElement};
         let handler = Rc::new(handler);
         macro_rules! setup_event {
-            ($canvas: expr, $handler: expr, $event: ty) => {
+            ($canvas:expr, $handler:expr, $event:ty) => {
                 let handler = handler.clone();
                 let canvas_clone = $canvas.clone();
                 $canvas.add_event_listener(move |event: $event| {

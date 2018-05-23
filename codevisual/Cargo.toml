@@ -23,6 +23,3 @@ glutin = "0.15"
 threadpool = "1"
 num_cpus = "1"
 rodio = "0.7"
-
-[target.'cfg(target_os = "emscripten")'.dependencies]
-emscripten = { git = "https://github.com/kuviman/emscripten" }

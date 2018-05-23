@@ -1,8 +1,6 @@
 #![deny(warnings)]
 
 extern crate color;
-#[cfg(target_os = "emscripten")]
-extern crate emscripten;
 #[macro_use]
 extern crate failure;
 extern crate geom;
@@ -32,22 +30,22 @@ extern crate ugli;
 pub(crate) use failure::Error;
 
 pub mod prelude {
+    pub use color::*;
     pub use external_prelude::*;
     pub use geom::*;
-    pub use color::*;
     pub use timer::*;
 }
 
 pub(crate) use prelude::*;
 
 mod app;
-mod game;
-mod window;
 mod font;
+mod game;
 mod shader_lib;
+mod window;
 
 pub use self::app::*;
-pub use self::game::*;
-pub use self::window::*;
 pub use self::font::*;
+pub use self::game::*;
 pub use self::shader_lib::*;
+pub use self::window::*;

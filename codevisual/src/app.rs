@@ -57,13 +57,13 @@ impl App {
                 game.borrow_mut().update(delta_time);
 
                 game.borrow_mut()
-                    .draw(&mut app.ugli_context().default_framebuffer());
+                    .draw(&mut ugli::Framebuffer::default(app.ugli_context()));
 
                 app.window.swap_buffers();
             }
         };
 
-        #[cfg(target_os = "emscripten")]
+        #[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
         js! {
             var main_loop = @{main_loop};
             function main_loop_wrapper() {
