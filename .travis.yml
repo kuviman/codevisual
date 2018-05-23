@@ -1,30 +1,36 @@
-language: rust
-cache:
-  cargo: true
-install:
-  - sudo apt install libasound2-dev
-  - rustup target add wasm32-unknown-emscripten
-  - cargo install cargo-update; true
-  - cargo install-update -i cargo-update
-  - cargo install-update -i cargo-web
-script:
-  - cargo test --package codevisual
-  - (cd codevisual && cargo web test)
-  - cargo test --package codevisual-demo
-  - (cd codevisual-demo && cargo web test)
-before_deploy:
-  - (cd codevisual-demo && cargo web deploy --release)
-  - cargo doc --package codevisual
-  - mv target/doc target/deploy
-  - echo '<meta http-equiv=refresh content=0;url=codevisual/index.html>' > target/deploy/doc/index.html
-deploy:
-  provider: pages
-  edge:
-    branch: pages-ivar-set
-  skip-cleanup: true
-  github-token: $TOKEN
-  keep-history: true
-  local-dir: target/deploy
-  fqdn: codevisual.kuviman.com
-  on:
-    branch: master
+stages:
+  - test
+  - name: deploy
+    if: branch = master
+jobs:
+  include:
+    - stage: test
+      language: rust
+      cache:
+        cargo: true
+      install:
+        - ./ci/install-native.sh
+      script:
+        - ./ci/test-native.sh
+    - language: rust
+      cache:
+        cargo: true
+      install:
+        - ./ci/install-web.sh
+      script:
+        - ./ci/test-web.sh
+    - stage: deploy
+      language: rust
+      cache:
+        cargo: true
+      install:
+        - ./ci/install-web.sh
+      script:
+        - ./ci/deploy-web.sh
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        github-token: $TOKEN
+        keep-history: true
+        local-dir: target/deploy
+        fqdn: codevisual.kuviman.com
