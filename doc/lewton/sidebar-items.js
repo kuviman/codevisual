@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["VorbisError","Errors that can occur during decoding"]],"mod":[["audio","Audio packet decoding"],["header","Header decoding"],["inside_ogg","Higher-level utilities for Ogg streams and files"]]});

@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["Source","ring axis source"]],"struct":[["Implementation",""],["ZwpTabletPadRingV2",""]]});

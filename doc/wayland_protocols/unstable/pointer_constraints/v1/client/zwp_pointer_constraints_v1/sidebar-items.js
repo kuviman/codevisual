@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["Error","wp_pointer_constraints error values"],["Lifetime","constraint lifetime"]],"struct":[["ZwpPointerConstraintsV1",""]]});

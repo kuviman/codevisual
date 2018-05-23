@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["Anchor",""],["Error",""],["Gravity",""]],"struct":[["ConstraintAdjustment","constraint adjustments"],["XdgPositioner",""]]});

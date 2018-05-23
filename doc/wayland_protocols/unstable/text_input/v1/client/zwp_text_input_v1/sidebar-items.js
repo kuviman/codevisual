@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["ContentHint","content hint"],["ContentPurpose","content purpose"],["PreeditStyle",""],["TextDirection",""]],"struct":[["Implementation",""],["ZwpTextInputV1",""]]});

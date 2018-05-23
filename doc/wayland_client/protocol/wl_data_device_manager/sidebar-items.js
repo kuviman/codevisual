@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["DndAction","drag and drop actions"],["WlDataDeviceManager",""]]});

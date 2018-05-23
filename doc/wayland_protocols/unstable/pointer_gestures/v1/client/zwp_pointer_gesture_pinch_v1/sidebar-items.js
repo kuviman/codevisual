@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["Implementation",""],["ZwpPointerGesturePinchV1",""]]});

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_derive-1.0.55/src/internals/mod.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/registry/src/github.com-1ecc6299db9ec823/serde_derive-1.0.59/src/internals/mod.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>mod.rs.html -- source</title>
@@ -71,6 +71,12 @@
 <span id="14">14</span>
 <span id="15">15</span>
 <span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
 </pre><pre class="rust ">
 <span class="comment">// Copyright 2017 Serde Developers</span>
 <span class="comment">//</span>
@@ -88,6 +94,12 @@
 
 <span class="kw">mod</span> <span class="ident">case</span>;
 <span class="kw">mod</span> <span class="ident">check</span>;
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Derive</span> {
+    <span class="ident">Serialize</span>,
+    <span class="ident">Deserialize</span>,
+}
 </pre>
 </section>
     <section id='search' class="content hidden"></section>

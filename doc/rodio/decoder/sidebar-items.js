@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["DecoderError","Error that can happen when creating a decoder."]],"struct":[["Decoder","Source of audio samples from decoding a file."]]});

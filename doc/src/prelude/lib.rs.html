@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/git/checkouts/commons-a4a8a77faeaf1810/6c7349d/prelude/src/lib.rs`.">
+    <meta name="description" content="Source to the Rust file `/home/travis/.cargo/git/checkouts/commons-a4a8a77faeaf1810/f47b119/prelude/src/lib.rs`.">
     <meta name="keywords" content="rust, rustlang, rust-lang">
 
     <title>lib.rs.html -- source</title>
@@ -160,40 +160,40 @@
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num_traits</span>;
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">rc</span>::<span class="ident">Rc</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">num_integer</span>::<span class="ident">Integer</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">num_traits</span>::{<span class="ident">clamp</span>, <span class="ident">Float</span>, <span class="ident">Num</span>};
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Cow</span>;
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cell</span>::{<span class="ident">Cell</span>, <span class="ident">Ref</span>, <span class="ident">RefCell</span>, <span class="ident">RefMut</span>};
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::{<span class="ident">Eq</span>, <span class="ident">Ord</span>, <span class="ident">PartialEq</span>, <span class="ident">PartialOrd</span>};
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::{<span class="ident">BTreeMap</span>, <span class="ident">BTreeSet</span>, <span class="ident">HashMap</span>, <span class="ident">HashSet</span>};
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::{<span class="ident">CStr</span>, <span class="ident">CString</span>};
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>::{<span class="ident">Debug</span>, <span class="ident">Display</span>, <span class="ident">Formatter</span>};
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">marker</span>::<span class="ident">PhantomData</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Add</span>, <span class="ident">AddAssign</span>, <span class="ident">Div</span>, <span class="ident">DivAssign</span>, <span class="ident">Mul</span>, <span class="ident">MulAssign</span>, <span class="ident">Neg</span>, <span class="ident">Sub</span>, <span class="ident">SubAssign</span>};
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Deref</span>, <span class="ident">DerefMut</span>, <span class="ident">Range</span>, <span class="ident">RangeFrom</span>, <span class="ident">RangeFull</span>, <span class="ident">RangeTo</span>};
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Index</span>, <span class="ident">IndexMut</span>};
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>::{<span class="ident">c_char</span>, <span class="ident">c_double</span>, <span class="ident">c_float</span>, <span class="ident">c_int</span>, <span class="ident">c_long</span>, <span class="ident">c_short</span>, <span class="ident">c_ulong</span>, <span class="ident">c_ushort</span>,
                        <span class="ident">c_void</span>};
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::{<span class="ident">CStr</span>, <span class="ident">CString</span>};
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Cow</span>;
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Deref</span>, <span class="ident">DerefMut</span>, <span class="ident">Range</span>, <span class="ident">RangeFrom</span>, <span class="ident">RangeFull</span>, <span class="ident">RangeTo</span>};
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Add</span>, <span class="ident">AddAssign</span>, <span class="ident">Div</span>, <span class="ident">DivAssign</span>, <span class="ident">Mul</span>, <span class="ident">MulAssign</span>, <span class="ident">Neg</span>, <span class="ident">Sub</span>, <span class="ident">SubAssign</span>};
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::{<span class="ident">Index</span>, <span class="ident">IndexMut</span>};
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">collections</span>::{<span class="ident">BTreeMap</span>, <span class="ident">BTreeSet</span>, <span class="ident">HashMap</span>, <span class="ident">HashSet</span>};
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>::{<span class="ident">Debug</span>, <span class="ident">Display</span>, <span class="ident">Formatter</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">rc</span>::<span class="ident">Rc</span>;
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Mutex</span>};
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::{<span class="ident">Eq</span>, <span class="ident">Ord</span>, <span class="ident">PartialEq</span>, <span class="ident">PartialOrd</span>};
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">mem</span>;
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">thread</span>;
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">num_traits</span>::{<span class="ident">clamp</span>, <span class="ident">Float</span>, <span class="ident">Num</span>};
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">num_integer</span>::<span class="ident">Integer</span>;
 
 <span class="doccomment">/// Sort two values.</span>
 <span class="doccomment">///</span>
@@ -232,12 +232,12 @@
     <span class="ident">min_max</span>(<span class="ident">a</span>, <span class="ident">b</span>).<span class="number">1</span>
 }
 
-<span class="kw">mod</span> <span class="ident">range</span>;
 <span class="kw">mod</span> <span class="ident">acell</span>;
+<span class="kw">mod</span> <span class="ident">range</span>;
 <span class="kw">mod</span> <span class="ident">stable_fn</span>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">range</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">acell</span>::<span class="kw-2">*</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">range</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">stable_fn</span>::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// Shortcut for Default::default.</span>

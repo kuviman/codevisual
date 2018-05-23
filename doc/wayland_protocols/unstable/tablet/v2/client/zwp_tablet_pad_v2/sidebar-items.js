@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["ButtonState","physical button state"]],"struct":[["Implementation",""],["ZwpTabletPadV2",""]]});

@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["CursorType",""],["Event",""],["Key",""],["MouseButton",""]],"mod":[["prelude",""]],"struct":[["App",""],["Font",""],["ShaderLib",""],["TouchPoint",""],["Window",""]],"trait":[["Game",""]]});
