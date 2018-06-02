@@ -41,7 +41,7 @@ impl Font {
             program: shader_lib.compile(include_str!("shader.glsl")).unwrap(),
         })
     }
-    pub fn measure_at(&self, text: &str, pos: Vec2<f32>, size: f32) -> Option<Rect<f32>> {
+    pub fn measure_at(&self, text: &str, pos: Vec2<f32>, size: f32) -> Rect<f32> {
         let scale = rusttype::Scale { x: size, y: size };
         let pos = rusttype::Point { x: pos.x, y: pos.y };
         let mut result: Option<Rect<f32>> = None;
@@ -66,9 +66,12 @@ impl Font {
                 }
             }
         }
-        result
+        result.unwrap_or(Rect {
+            bottom_left: vec2(0.0, 0.0),
+            top_right: vec2(0.0, 0.0),
+        })
     }
-    pub fn measure(&self, text: &str, size: f32) -> Option<Rect<f32>> {
+    pub fn measure(&self, text: &str, size: f32) -> Rect<f32> {
         self.measure_at(text, vec2(0.0, 0.0), size)
     }
     pub fn draw(
@@ -184,14 +187,12 @@ impl Font {
         size: f32,
         color: Color,
     ) {
-        if let Some(rect) = self.measure(text, size) {
-            self.draw(
-                framebuffer,
-                text,
-                vec2(pos.x - rect.width() * align, pos.y),
-                size,
-                color,
-            );
-        }
+        self.draw(
+            framebuffer,
+            text,
+            vec2(pos.x - self.measure(text, size).width() * align, pos.y),
+            size,
+            color,
+        );
     }
 }
