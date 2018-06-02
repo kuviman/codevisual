@@ -10,15 +10,15 @@ struct Demo {
     context: Rc<codevisual::Context>,
 }
 
-impl codevisual::App for Demo {
+impl Demo {
     fn new(context: &Rc<codevisual::Context>) -> Self {
         Demo {
             context: context.clone(),
         }
     }
-    fn title() -> String {
-        String::from("CodeVisual Demo")
-    }
+}
+
+impl codevisual::App for Demo {
     fn draw(&mut self, framebuffer: &mut ugli::Framebuffer) {
         ugli::clear(framebuffer, Some(Color::BLACK), None);
         let center = vec2(framebuffer.get_size().x as _, framebuffer.get_size().y as _) / 2.0;
@@ -34,5 +34,8 @@ impl codevisual::App for Demo {
 }
 
 fn main() {
-    codevisual_debug_overlay::run::<Demo>();
+    let context = Rc::new(codevisual::Context::new("CodeVisual Demo"));
+    let app = Demo::new(&context);
+    let app = codevisual_debug_overlay::App::new(&context, app);
+    codevisual::run(context, app);
 }

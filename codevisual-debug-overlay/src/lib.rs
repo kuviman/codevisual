@@ -13,13 +13,10 @@ pub struct App<T: codevisual::App> {
     last_event: Option<codevisual::Event>,
 }
 
-impl<T: codevisual::App> codevisual::App for App<T> {
-    fn title() -> String {
-        T::title() + " (debug overlay enabled)"
-    }
-    fn new(context: &Rc<codevisual::Context>) -> Self {
+impl<T: codevisual::App> App<T> {
+    pub fn new(context: &Rc<codevisual::Context>, app: T) -> Self {
         Self {
-            inner: T::new(context),
+            inner: app,
             context: context.clone(),
             time: 0.0,
             frames: 0,
@@ -27,6 +24,9 @@ impl<T: codevisual::App> codevisual::App for App<T> {
             last_event: None,
         }
     }
+}
+
+impl<T: codevisual::App> codevisual::App for App<T> {
     fn update(&mut self, delta_time: f64) {
         self.inner.update(delta_time);
         self.time += delta_time;
@@ -83,8 +83,4 @@ impl<T: codevisual::App> codevisual::App for App<T> {
         self.last_event = Some(event.clone());
         self.inner.handle_event(event);
     }
-}
-
-pub fn run<T: codevisual::App>() {
-    codevisual::run::<App<T>>();
 }

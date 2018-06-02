@@ -7,7 +7,7 @@ pub struct Context {
 }
 
 impl Context {
-    fn new(title: &str) -> Self {
+    pub fn new(title: &str) -> Self {
         let window = Window::new(title);
         let shader_lib = ShaderLib::new(window.ugli_context());
         let default_font = {
@@ -37,10 +37,8 @@ impl Context {
         &self.default_font
     }
 }
-
-pub fn run<G: App>() {
-    let context = Rc::new(Context::new(&G::title()));
-    let app = Rc::new(RefCell::new(G::new(&context)));
+pub fn run(context: Rc<Context>, app: impl App) {
+    let app = Rc::new(RefCell::new(app));
     context.window.set_event_handler(Box::new({
         let app = app.clone();
         move |event| {
