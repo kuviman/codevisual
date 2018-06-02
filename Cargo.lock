@@ -245,13 +245,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "codevisual-debug-overlay"
+version = "0.1.0"
+dependencies = [
+ "codevisual 0.1.0",
+ "ugli 0.1.0 (git+https://github.com/kuviman/ugli)",
+]
+
+[[package]]
 name = "codevisual-demo"
 version = "0.1.0"
 dependencies = [
  "codevisual 0.1.0",
- "color 0.1.0 (git+https://github.com/kuviman/commons)",
- "geom 0.1.0 (git+https://github.com/kuviman/commons)",
- "prelude 0.1.0 (git+https://github.com/kuviman/commons)",
+ "codevisual-debug-overlay 0.1.0",
  "ugli 0.1.0 (git+https://github.com/kuviman/ugli)",
 ]
 
