@@ -1,4 +1,4 @@
-use ::*;
+use *;
 
 mod cursor;
 mod events;

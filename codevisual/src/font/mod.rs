@@ -1,4 +1,4 @@
-use ::*;
+use *;
 
 #[derive(Vertex, Debug)]
 struct Vertex {

@@ -1,4 +1,4 @@
-use ::*;
+use *;
 
 pub enum CursorType {
     Default,

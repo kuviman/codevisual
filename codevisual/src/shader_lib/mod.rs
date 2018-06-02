@@ -1,4 +1,4 @@
-use ::*;
+use *;
 
 pub struct ShaderLib {
     context: Rc<ugli::Context>,

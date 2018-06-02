@@ -1,4 +1,4 @@
-use ::*;
+use *;
 
 use stdweb::traits::{IKeyboardEvent, IMouseEvent};
 use stdweb::web::event as we;

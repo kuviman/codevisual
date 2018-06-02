@@ -1,4 +1,4 @@
-use ::*;
+use *;
 
 pub trait Game: 'static {
     fn title() -> String {

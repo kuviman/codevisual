@@ -1,4 +1,4 @@
-use ::*;
+use *;
 
 #[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
 mod impl_web;
