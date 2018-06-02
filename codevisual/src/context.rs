@@ -39,26 +39,26 @@ impl Context {
 }
 
 pub fn run<G: App>() {
-    let app = Rc::new(Context::new(&G::title()));
-    let game = Rc::new(RefCell::new(G::new(&app)));
-    app.window.set_event_handler(Box::new({
-        let game = game.clone();
+    let context = Rc::new(Context::new(&G::title()));
+    let app = Rc::new(RefCell::new(G::new(&context)));
+    context.window.set_event_handler(Box::new({
+        let app = app.clone();
         move |event| {
-            game.borrow_mut().handle_event(event);
+            app.borrow_mut().handle_event(event);
         }
     }));
 
     let mut timer = Timer::new();
     let main_loop = {
-        let app = app.clone();
+        let context = context.clone();
         move || {
             let delta_time = timer.tick().min(0.1); // TODO: configure
-            game.borrow_mut().update(delta_time);
+            app.borrow_mut().update(delta_time);
 
-            game.borrow_mut()
-                .draw(&mut ugli::Framebuffer::default(app.ugli_context()));
+            app.borrow_mut()
+                .draw(&mut ugli::Framebuffer::default(context.ugli_context()));
 
-            app.window.swap_buffers();
+            context.window.swap_buffers();
         }
     };
 
@@ -75,7 +75,7 @@ pub fn run<G: App>() {
     #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
     {
         let mut main_loop = main_loop;
-        while !app.window.should_close() {
+        while !context.window.should_close() {
             main_loop();
         }
     }
