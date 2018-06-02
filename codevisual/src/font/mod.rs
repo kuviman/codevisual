@@ -17,8 +17,8 @@ pub struct Font {
 const CACHE_SIZE: usize = 1024;
 
 impl Font {
-    pub fn new(app: &Rc<Context>, data: Vec<u8>) -> Result<Font, Error> {
-        Self::new_with(app.ugli_context(), app.shader_lib(), data)
+    pub fn new(context: &Rc<Context>, data: Vec<u8>) -> Result<Font, Error> {
+        Self::new_with(context.ugli_context(), context.shader_lib(), data)
     }
     pub(crate) fn new_with(
         context: &Rc<ugli::Context>,
