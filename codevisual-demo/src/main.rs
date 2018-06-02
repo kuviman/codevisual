@@ -6,15 +6,15 @@ extern crate ugli;
 use codevisual::prelude::*;
 
 struct Demo {
-    app: Rc<codevisual::App>,
+    app: Rc<codevisual::Context>,
     time: f64,
     frames: usize,
     fps: usize,
     last_event: Option<codevisual::Event>,
 }
 
-impl codevisual::Game for Demo {
-    fn new(app: &Rc<codevisual::App>) -> Self {
+impl codevisual::App for Demo {
+    fn new(app: &Rc<codevisual::Context>) -> Self {
         Demo {
             app: app.clone(),
             time: 0.0,
@@ -92,5 +92,5 @@ impl codevisual::Game for Demo {
 }
 
 fn main() {
-    codevisual::App::run::<Demo>();
+    codevisual::Context::run::<Demo>();
 }

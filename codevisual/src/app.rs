@@ -1,12 +1,12 @@
 use *;
 
-pub struct App {
+pub struct Context {
     window: Window,
     shader_lib: ShaderLib,
     default_font: Font,
 }
 
-impl App {
+impl Context {
     fn new(title: &str) -> Self {
         let window = Window::new(title);
         let shader_lib = ShaderLib::new(window.ugli_context());
@@ -14,7 +14,7 @@ impl App {
             let data = include_bytes!("font/default.ttf") as &[u8];
             Font::new_with(window.ugli_context(), &shader_lib, data.to_owned()).unwrap()
         };
-        App {
+        Context {
             window,
             shader_lib,
             default_font,
@@ -38,9 +38,9 @@ impl App {
     }
 }
 
-impl App {
-    pub fn run<G: Game>() {
-        let app = Rc::new(App::new(&G::title()));
+impl Context {
+    pub fn run<G: App>() {
+        let app = Rc::new(Context::new(&G::title()));
         let game = Rc::new(RefCell::new(G::new(&app)));
         app.window.set_event_handler(Box::new({
             let game = game.clone();

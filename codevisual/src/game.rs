@@ -1,10 +1,10 @@
 use *;
 
-pub trait Game: 'static {
+pub trait App: 'static {
     fn title() -> String {
         String::from("CodeVisual application")
     }
-    fn new(app: &Rc<App>) -> Self;
+    fn new(app: &Rc<Context>) -> Self;
     #[allow(unused_variables)]
     fn update(&mut self, delta_time: f64) {}
     fn draw(&mut self, framebuffer: &mut ugli::Framebuffer);
