@@ -86,5 +86,5 @@ impl<T: codevisual::App> codevisual::App for App<T> {
 }
 
 pub fn run<T: codevisual::App>() {
-    codevisual::Context::run::<App<T>>();
+    codevisual::run::<App<T>>();
 }

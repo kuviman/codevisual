@@ -38,47 +38,45 @@ impl Context {
     }
 }
 
-impl Context {
-    pub fn run<G: App>() {
-        let app = Rc::new(Context::new(&G::title()));
-        let game = Rc::new(RefCell::new(G::new(&app)));
-        app.window.set_event_handler(Box::new({
-            let game = game.clone();
-            move |event| {
-                game.borrow_mut().handle_event(event);
-            }
-        }));
-
-        let mut timer = Timer::new();
-        let main_loop = {
-            let app = app.clone();
-            move || {
-                let delta_time = timer.tick().min(0.1); // TODO: configure
-                game.borrow_mut().update(delta_time);
-
-                game.borrow_mut()
-                    .draw(&mut ugli::Framebuffer::default(app.ugli_context()));
-
-                app.window.swap_buffers();
-            }
-        };
-
-        #[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
-        js! {
-            var main_loop = @{main_loop};
-            function main_loop_wrapper() {
-                main_loop();
-                window.requestAnimationFrame(main_loop_wrapper);
-            }
-            main_loop_wrapper();
+pub fn run<G: App>() {
+    let app = Rc::new(Context::new(&G::title()));
+    let game = Rc::new(RefCell::new(G::new(&app)));
+    app.window.set_event_handler(Box::new({
+        let game = game.clone();
+        move |event| {
+            game.borrow_mut().handle_event(event);
         }
+    }));
 
-        #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
-        {
-            let mut main_loop = main_loop;
-            while !app.window.should_close() {
-                main_loop();
-            }
+    let mut timer = Timer::new();
+    let main_loop = {
+        let app = app.clone();
+        move || {
+            let delta_time = timer.tick().min(0.1); // TODO: configure
+            game.borrow_mut().update(delta_time);
+
+            game.borrow_mut()
+                .draw(&mut ugli::Framebuffer::default(app.ugli_context()));
+
+            app.window.swap_buffers();
+        }
+    };
+
+    #[cfg(any(target_arch = "asmjs", target_arch = "wasm32"))]
+    js! {
+        var main_loop = @{main_loop};
+        function main_loop_wrapper() {
+            main_loop();
+            window.requestAnimationFrame(main_loop_wrapper);
+        }
+        main_loop_wrapper();
+    }
+
+    #[cfg(not(any(target_arch = "asmjs", target_arch = "wasm32")))]
+    {
+        let mut main_loop = main_loop;
+        while !app.window.should_close() {
+            main_loop();
         }
     }
 }
