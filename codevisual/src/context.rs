@@ -45,6 +45,8 @@ impl Context {
     }
 }
 pub fn run(context: Rc<Context>, app: impl App) {
+    // TODO: optional
+    let app = debug_overlay::AppWithDebugOverlay::new(&context, app);
     let app = Rc::new(RefCell::new(app));
     context.window.set_event_handler(Box::new({
         let app = app.clone();

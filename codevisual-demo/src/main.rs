@@ -1,6 +1,5 @@
 #[macro_use]
 extern crate codevisual;
-extern crate codevisual_debug_overlay;
 #[macro_use]
 extern crate ugli;
 
@@ -92,6 +91,5 @@ fn main() {
     }
     let context = Rc::new(codevisual::Context::new("CodeVisual Demo"));
     let app = Demo::new(&context);
-    let app = codevisual_debug_overlay::App::new(&context, app);
     codevisual::run(context, app);
 }

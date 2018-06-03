@@ -1,5 +1,4 @@
 [workspace]
 members = [
     "codevisual",
-    "codevisual-debug-overlay",
     "codevisual-demo"]

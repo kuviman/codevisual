@@ -1,20 +1,16 @@
-extern crate codevisual;
-#[macro_use]
-extern crate ugli;
+use *;
 
-use codevisual::prelude::*;
-
-pub struct App<T: codevisual::App> {
-    context: Rc<codevisual::Context>,
+pub struct AppWithDebugOverlay<T: App> {
+    context: Rc<Context>,
     inner: T,
     time: f64,
     frames: usize,
     fps: usize,
-    last_event: Option<codevisual::Event>,
+    last_event: Option<Event>,
 }
 
-impl<T: codevisual::App> App<T> {
-    pub fn new(context: &Rc<codevisual::Context>, app: T) -> Self {
+impl<T: App> AppWithDebugOverlay<T> {
+    pub fn new(context: &Rc<Context>, app: T) -> Self {
         Self {
             inner: app,
             context: context.clone(),
@@ -26,7 +22,7 @@ impl<T: codevisual::App> App<T> {
     }
 }
 
-impl<T: codevisual::App> codevisual::App for App<T> {
+impl<T: App> App for AppWithDebugOverlay<T> {
     fn update(&mut self, delta_time: f64) {
         self.inner.update(delta_time);
         self.time += delta_time;
@@ -79,7 +75,7 @@ impl<T: codevisual::App> codevisual::App for App<T> {
             Color::WHITE,
         );
     }
-    fn handle_event(&mut self, event: codevisual::Event) {
+    fn handle_event(&mut self, event: Event) {
         self.last_event = Some(event.clone());
         self.inner.handle_event(event);
     }

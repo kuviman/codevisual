@@ -5,5 +5,4 @@ authors = ["kuviman <kuviman@gmail.com>"]
 
 [dependencies]
 codevisual = { path = "../codevisual" }
-codevisual-debug-overlay = { path = "../codevisual-debug-overlay" }
 ugli = { git = "https://github.com/kuviman/ugli" }

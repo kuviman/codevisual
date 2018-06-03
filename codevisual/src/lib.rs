@@ -41,6 +41,7 @@ pub(crate) use prelude::*;
 mod app;
 mod asset;
 mod context;
+mod debug_overlay;
 mod font;
 mod shader_lib;
 mod window;
