@@ -64,16 +64,6 @@ impl codevisual::App for Demo {
             }
         }
         ugli::clear(framebuffer, Some(Color::BLUE), None);
-        let center = vec2(framebuffer.get_size().x as _, framebuffer.get_size().y as _) / 2.0;
-        self.context.default_font().draw_aligned(
-            framebuffer,
-            "CodeVisual Demo",
-            center,
-            0.5,
-            32.0,
-            Color::WHITE,
-        );
-
         if let Some(ref texture) = self.texture {
             ugli::draw(
                 framebuffer,
