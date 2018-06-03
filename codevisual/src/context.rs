@@ -3,12 +3,14 @@ use *;
 pub struct Context {
     window: Window,
     shader_lib: ShaderLib,
+    default_asset_manager: DefaultAssetManager,
     default_font: Font,
 }
 
 impl Context {
     pub fn new(title: &str) -> Self {
         let window = Window::new(title);
+        let ugli_context = window.ugli_context().clone();
         let shader_lib = ShaderLib::new(window.ugli_context());
         let default_font = {
             let data = include_bytes!("font/default.ttf") as &[u8];
@@ -17,6 +19,7 @@ impl Context {
         Context {
             window,
             shader_lib,
+            default_asset_manager: DefaultAssetManager::new(&ugli_context),
             default_font,
         }
     }
@@ -31,6 +34,10 @@ impl Context {
 
     pub fn shader_lib(&self) -> &ShaderLib {
         &self.shader_lib
+    }
+
+    pub fn default_asset_manager(&self) -> &DefaultAssetManager {
+        &self.default_asset_manager
     }
 
     pub fn default_font(&self) -> &Font {

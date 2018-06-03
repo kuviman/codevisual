@@ -39,12 +39,14 @@ pub mod prelude {
 pub(crate) use prelude::*;
 
 mod app;
+mod asset;
 mod context;
 mod font;
 mod shader_lib;
 mod window;
 
 pub use self::app::*;
+pub use self::asset::*;
 pub use self::context::*;
 pub use self::font::*;
 pub use self::shader_lib::*;
